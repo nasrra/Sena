@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://btaqimguynvp4"]
+
+[ext_resource type="Script" uid="uid://b8dhcd1bnniic" path="res://Entropek/Source/FunctionTracker.cs" id="1_3ixiy"]
+
+[node name="FunctionTracker" type="Control" node_paths=PackedStringArray("labelsContainer", "refreshInterval")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3ixiy")
+labelsContainer = NodePath("FrameTimes/LabelsContainer")
+refreshInterval = NodePath("Timer")
+
+[node name="FrameTimes" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Frame Time" type="PanelContainer" parent="FrameTimes"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -480.0
+offset_top = 75.0
+offset_bottom = 515.0
+grow_vertical = 2
+
+[node name="LabelsContainer" type="VBoxContainer" parent="FrameTimes"]
+layout_mode = 2
+offset_left = -456.0
+offset_top = 91.0
+offset_right = -31.0
+offset_bottom = 535.0
+
+[node name="Label" type="Label" parent="FrameTimes/LabelsContainer"]
+layout_mode = 2
+text = "(ms) [Function]"
+
+[node name="Label2" type="Label" parent="FrameTimes/LabelsContainer"]
+layout_mode = 2
+text = "(ms) [Function]"
+
+[node name="Label3" type="Label" parent="FrameTimes/LabelsContainer"]
+layout_mode = 2
+text = "(ms) [Function]"
+
+[node name="Header" type="Panel" parent="FrameTimes"]
+layout_mode = 0
+offset_left = -480.0
+offset_top = 29.0
+offset_bottom = 65.0
+
+[node name="Label2" type="Label" parent="FrameTimes/Header"]
+layout_mode = 2
+offset_left = 175.0
+offset_top = 4.0
+offset_right = 306.0
+offset_bottom = 27.0
+text = "Function Tracker"
+
+[node name="Timer" type="Timer" parent="."]
