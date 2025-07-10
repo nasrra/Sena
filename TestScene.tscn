@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://Player.tscn" id="1_mncer"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://Camera.tscn" id="2_cguwc"]
-[ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="3_wicfy"]
+[ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://Enemy.tscn" id="3_wicfy"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -12,6 +12,4 @@ camera = NodePath("../Camera")
 [node name="Camera" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("2_cguwc")]
 Target = NodePath("../Player")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-503, 0)
-texture = ExtResource("3_wicfy")
+[node name="Enemy" parent="." instance=ExtResource("3_wicfy")]

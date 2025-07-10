@@ -1,22 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=9 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="2_kpjcp"]
+[ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://Source/PlayerAimCursour.cs" id="4_e80uo"]
+[ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://Source/HitBoxHandler.cs" id="5_cxr5p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(73, 70)
+size = Vector2(76, 76)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
+size = Vector2(140, 90)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
+size = Vector2(90, 140)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "moveInputBlockTimer")]
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
+aimCursour = NodePath("PlayerAimCursour")
+hitBoxes = NodePath("HitBoxHandler")
+moveInputBlockTimer = NodePath("MoveInputBlock")
+swordSlashLungForce = 750.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_xhfnw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
@@ -28,3 +39,69 @@ BaseDeceleration = 8000.0
 gravityModifier = 6.0
 lockYAxis = false
 gravityAffected = false
+
+[node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("cursour")]
+script = ExtResource("4_e80uo")
+cursour = NodePath("Sprite2D")
+cursourDistance = 60.0
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerAimCursour"]
+position = Vector2(-1, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_xhfnw")
+
+[node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]
+script = ExtResource("5_cxr5p")
+hitBoxes = [NodePath("SlashUp/CollisionShape2D"), NodePath("SlashRight/CollisionShape2D"), NodePath("SlashDown/CollisionShape2D"), NodePath("SlashLeft/CollisionShape2D2")]
+timers = [NodePath("SlashUp/Timer"), NodePath("SlashRight/Timer"), NodePath("SlashDown/Timer"), NodePath("SlashLeft/Timer")]
+
+[node name="SlashUp" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(0, -83)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
+shape = SubResource("RectangleShape2D_tdg3f")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashUp"]
+one_shot = true
+
+[node name="SlashRight" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(-1, 0)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
+position = Vector2(84, 0)
+shape = SubResource("RectangleShape2D_cxr5p")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashRight"]
+one_shot = true
+
+[node name="SlashDown" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(0, 83)
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
+shape = SubResource("RectangleShape2D_tdg3f")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashDown"]
+one_shot = true
+
+[node name="SlashLeft" type="Area2D" parent="HitBoxHandler"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
+position = Vector2(-83, 0)
+shape = SubResource("RectangleShape2D_cxr5p")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashLeft"]
+one_shot = true
+
+[node name="MoveInputBlock" type="Timer" parent="."]
