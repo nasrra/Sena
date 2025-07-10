@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://doy8tr4xqoi1p"]
+
+[ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://Player.cs" id="1_kne1u"]
+[ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="2_kpjcp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
+size = Vector2(73, 70)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement")]
+script = ExtResource("1_kne1u")
+movement = NodePath("CharacterMovement")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_xhfnw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_xhfnw")
+
+[node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("2_kpjcp")
+character = NodePath("..")
+BaseTopSpeed = 400.0
+BaseAcceleration = 8000.0
+BaseDeceleration = 8000.0
+gravityModifier = 6.0
+lockYAxis = false
+gravityAffected = false
