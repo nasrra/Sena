@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Enemy : Node2D{
+public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
     [Export] Health health;
 
     public override void _EnterTree(){

@@ -7,7 +7,7 @@
 //     private Interactable current = null;
 //     [Export] private Array<Interactable> inRange;
 //     [Export] Area3D area;
-//     [Export(PropertyHint.Layers3DPhysics)]
+//     [Export(PropertyHint.Layers2DPhysics)]
 //     public uint ObstructionLayer;
 
 //     public override void _Ready(){

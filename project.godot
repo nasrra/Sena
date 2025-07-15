@@ -20,10 +20,16 @@ config/icon="res://icon.svg"
 AudioManager="*res://Entropek/Source/Globals/FMOD/AudioManager.cs"
 DebugDraw2D="*res://addons/debugdraw2d/DebugDraw2D.gd"
 SceneManager="*res://Entropek/Source/Globals/SceneManager.cs"
+PhysicsManager="*res://Entropek/Source/Globals/PhysicsManager.cs"
 
 [copy_files_on_export]
 
 files=Array[PackedStringArray]([PackedStringArray("res://fmod.dll", "fmod.dll", ""), PackedStringArray("res://fmodstudio.dll", "fmodstudio.dll", ""), PackedStringArray("res://fsbank.dll", "fsbank.dll", ""), PackedStringArray("res://libfsbvorbis64.dll", "libfsbvorbis64.dll", ""), PackedStringArray("res://Exports", "Exports", "")])
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [dotnet]
 
@@ -31,7 +37,7 @@ project/assembly_name="Cena"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/copy_files_on_export/plugin.cfg", "res://addons/debugdraw2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/codeandweb.texturepacker/plugin.cfg", "res://addons/copy_files_on_export/plugin.cfg", "res://addons/debugdraw2d/plugin.cfg")
 
 [input]
 
@@ -63,4 +69,6 @@ SwordSlash={
 
 [layer_names]
 
-2d_physics/layer_3="Enemy"
+2d_physics/layer_2="Environment"
+2d_physics/layer_3="HitInteractable"
+2d_physics/layer_4="Enemy"

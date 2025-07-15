@@ -1,0 +1,198 @@
+{
+	"textures": [
+		{
+			"image": "SenaAnimationIdle.png",
+			"size": {
+				"w": 318,
+				"h": 881
+			},
+			"sprites": [
+				{
+					"filename": "SenaIdleBack-4.png",
+					"region": {
+						"x": 1,
+						"y": 1,
+						"w": 107,
+						"h": 210
+					},
+					"margin": {
+						"x": 75,
+						"y": 28,
+						"w": 149,
+						"h": 46
+					}
+				},
+				{
+					"filename": "SenaIdleFront-4.png",
+					"region": {
+						"x": 110,
+						"y": 1,
+						"w": 107,
+						"h": 211
+					},
+					"margin": {
+						"x": 75,
+						"y": 25,
+						"w": 149,
+						"h": 45
+					}
+				},
+				{
+					"filename": "SenaIdleSide-4.png",
+					"region": {
+						"x": 219,
+						"y": 1,
+						"w": 97,
+						"h": 216
+					},
+					"margin": {
+						"x": 78,
+						"y": 23,
+						"w": 159,
+						"h": 40
+					}
+				},
+				{
+					"filename": "SenaIdleBack-2.png",
+					"region": {
+						"x": 1,
+						"y": 213,
+						"w": 103,
+						"h": 213
+					},
+					"margin": {
+						"x": 77,
+						"y": 25,
+						"w": 153,
+						"h": 43
+					}
+				},
+				{
+					"filename": "SenaIdleBack-3.png",
+					"region": {
+						"x": 106,
+						"y": 214,
+						"w": 106,
+						"h": 213
+					},
+					"margin": {
+						"x": 75,
+						"y": 25,
+						"w": 150,
+						"h": 43
+					}
+				},
+				{
+					"filename": "SenaIdleSide-3.png",
+					"region": {
+						"x": 214,
+						"y": 219,
+						"w": 103,
+						"h": 218
+					},
+					"margin": {
+						"x": 73,
+						"y": 21,
+						"w": 153,
+						"h": 38
+					}
+				},
+				{
+					"filename": "SenaIdleFront-3.png",
+					"region": {
+						"x": 1,
+						"y": 429,
+						"w": 107,
+						"h": 214
+					},
+					"margin": {
+						"x": 75,
+						"y": 23,
+						"w": 149,
+						"h": 42
+					}
+				},
+				{
+					"filename": "SenaIdleSide-1.png",
+					"region": {
+						"x": 110,
+						"y": 429,
+						"w": 100,
+						"h": 222
+					},
+					"margin": {
+						"x": 78,
+						"y": 17,
+						"w": 156,
+						"h": 34
+					}
+				},
+				{
+					"filename": "SenaIdleBack-1.png",
+					"region": {
+						"x": 212,
+						"y": 439,
+						"w": 103,
+						"h": 219
+					},
+					"margin": {
+						"x": 77,
+						"y": 19,
+						"w": 153,
+						"h": 37
+					}
+				},
+				{
+					"filename": "SenaIdleFront-2.png",
+					"region": {
+						"x": 1,
+						"y": 645,
+						"w": 104,
+						"h": 220
+					},
+					"margin": {
+						"x": 76,
+						"y": 22,
+						"w": 152,
+						"h": 36
+					}
+				},
+				{
+					"filename": "SenaIdleFront-1.png",
+					"region": {
+						"x": 107,
+						"y": 653,
+						"w": 103,
+						"h": 221
+					},
+					"margin": {
+						"x": 77,
+						"y": 17,
+						"w": 153,
+						"h": 35
+					}
+				},
+				{
+					"filename": "SenaIdleSide-2.png",
+					"region": {
+						"x": 212,
+						"y": 660,
+						"w": 105,
+						"h": 220
+					},
+					"margin": {
+						"x": 78,
+						"y": 19,
+						"w": 151,
+						"h": 36
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:9259357239d5f60cb05b904030aa0e02:816f900930ae2a1a924fbc1485ec7f82:03cd66510bfaabf4152727430e2ced36$"
+	}
+}

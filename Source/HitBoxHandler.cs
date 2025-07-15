@@ -6,7 +6,8 @@ public partial class HitBoxHandler : Node2D{
     [Export] Timer[] timers;
     private Action[] timeouts;
     private Area2D.BodyEnteredEventHandler[] bodyEnters;
-    public Action<Node, int> OnHit;
+    private Area2D.AreaEnteredEventHandler[] areaEnters;
+    public Action<Node2D, int> OnHit;
 
     public override void _EnterTree(){
         base._EnterTree();
@@ -56,10 +57,14 @@ public partial class HitBoxHandler : Node2D{
         }
 
         bodyEnters = new Area2D.BodyEnteredEventHandler[hitBoxes.Length];
+        areaEnters = new Area2D.AreaEnteredEventHandler[hitBoxes.Length];
         for(int i = 0; i < hitBoxes.Length; i++){
             int id = i;
             bodyEnters[i] = (Node2D node) => OnHit?.Invoke(node, id);
-            ((Area2D)hitBoxes[i].GetParent()).BodyEntered += bodyEnters[i];
+            areaEnters[i] = (Area2D node) => OnHit?.Invoke(node, id);
+            Area2D colliderArea = (Area2D)hitBoxes[i].GetParent();
+            colliderArea.BodyEntered += bodyEnters[i];
+            colliderArea.AreaEntered += areaEnters[i];
         }
     }
 
@@ -68,9 +73,13 @@ public partial class HitBoxHandler : Node2D{
             timers[i].Timeout -= timeouts[i];
         }
         for(int i = 0; i < hitBoxes.Length; i++){
-            ((Area2D)hitBoxes[i].GetParent()).BodyEntered -= bodyEnters[i];
+            Area2D colliderArea = (Area2D)hitBoxes[i].GetParent();
+            colliderArea.BodyEntered -= bodyEnters[i];
+            colliderArea.AreaEntered -= areaEnters[i];
         }
-        timeouts = null;
-        bodyEnters = null;
+        timeouts    = null;
+        bodyEnters  = null;
+        areaEnters  = null;
+        OnHit       = null;
     }
 }

@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D{
     [Export] private Timer moveInputBlockTimer;
     private Vector2 moveInput = Vector2.Zero;
     [Export] private float swordSlashLungForce = 5f;
+    [Export] private AnimatedSprite2D animator;
     private bool blockMoveInput = false;
 
     public override void _Ready(){
@@ -16,6 +17,7 @@ public partial class Player : CharacterBody2D{
         #if DEBUG
         Entropek.Util.Node.VerifyName(this, nameof(Player));
         #endif
+        animator.Play("IdleForward");
     }
 
     public override void _EnterTree(){
@@ -60,6 +62,7 @@ public partial class Player : CharacterBody2D{
             hitBoxes.EnableHitBox(hitBoxId, 0.167f);
         }
         movement.Move(moveInput);
+        UpdateAnimation();
     }
 
     private void HandleMovementInput(){
@@ -83,6 +86,29 @@ public partial class Player : CharacterBody2D{
         }
     }
 
+    public void UpdateAnimation(){
+        if(moveInput.Y < 0){
+            animator.Play("IdleForward");
+            animator.FlipH = false;
+            return;
+        }
+        else if(moveInput.Y > 0){
+            animator.Play("IdleBackward");
+            animator.FlipH = false;
+            return;
+        }
+        else{
+            if(moveInput.X < 0){
+                animator.Play("IdleSide");
+                animator.FlipH = false;
+            }
+            else if(moveInput.X > 0){
+                animator.Play("IdleSide");
+                animator.FlipH = true;
+            }
+        }
+    }
+
     public void BlockMoveInput(){
         blockMoveInput = true;
     }
@@ -91,21 +117,28 @@ public partial class Player : CharacterBody2D{
         blockMoveInput = false;
     }
 
-    private void HitEnemy(Node node, int id){
-        GD.Print($"Hit! {id}");
-        Health health = (Health)node.GetNode(Health.NodeName);
-        if(health != null){
-            health.Damage(1);
+    private void HitBoxHit(Node2D node, int id){
+        string hitLayer = PhysicsManager.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
+        GD.Print(node.Name);
+        switch(hitLayer){
+            case "Enemy":
+                Health health = (Health)node.GetNode(Health.NodeName);
+                health.Damage(1);
+            break;
+            case "HitInteractable":
+                Interactable interactable = (Interactable)node;
+                interactable.Interact();
+            break;
         }
     }
 
     private void LinkEvents(){
-        hitBoxes.OnHit += HitEnemy;
+        hitBoxes.OnHit += HitBoxHit;
         moveInputBlockTimer.Timeout += UnblockMoveInput;
     }
 
     private void UnlinkEvents(){
-        hitBoxes.OnHit -= HitEnemy;
+        hitBoxes.OnHit -= HitBoxHit;
         moveInputBlockTimer.Timeout -= UnblockMoveInput;
     }
 }
