@@ -1,6 +1,6 @@
 [gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://kiojmm4vycx5"]
 
-[ext_resource type="Texture2D" uid="uid://d2jalu4h4olgc" path="res://assets/Sena/Animations/SenaAnimationIdle.png" id="1_krund"]
+[ext_resource type="Texture2D" uid="uid://d2jalu4h4olgc" path="res://assets/sena/Animations/SenaAnimationIdle.png" id="1_krund"]
 
 [resource]
 atlas = ExtResource("1_krund")

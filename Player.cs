@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D{
     [Export] private PlayerAimCursour aimCursour;
     [Export] private HitBoxHandler hitBoxes;
     [Export] private Health health;
+    [Export] private EmberStorage emberStorage;
     [Export] private Timer moveInputBlockTimer;
     
     [ExportGroup("Variables")]
@@ -65,6 +66,12 @@ public partial class Player : CharacterBody2D{
             moveInputBlockTimer.Start();
             BlockMoveInput();
             hitBoxes.EnableHitBox(hitBoxId, 0.167f);
+        }
+        if(Input.IsActionJustPressed("Debug1")){
+            emberStorage.Add(2, out int remainder);
+        }
+        if(Input.IsActionJustPressed("Debug2")){
+            emberStorage.Remove(2, out int remainder);
         }
         movement.Move(moveInput);
         UpdateAnimation();
@@ -140,13 +147,16 @@ public partial class Player : CharacterBody2D{
     private void LinkEvents(){
         hitBoxes.OnHit += HitBoxHit;
         moveInputBlockTimer.Timeout += UnblockMoveInput;
-        GD.Print(GetNode("/root/Main/GUI/GameplayUI/HealthHud").GetType());
-        ((HealthHud)GetNode("/root/Main/GUI/GameplayUI/HealthHud")).LinkEvents(health);
+        Node ui = GetNode("/root/Main/GUI/GameplayUI");
+        ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
+        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(emberStorage);
     }
 
     private void UnlinkEvents(){
         hitBoxes.OnHit -= HitBoxHit;
         moveInputBlockTimer.Timeout -= UnblockMoveInput;
-        ((HealthHud)GetNode("/root/Main/GUI/GameplayUI/HealthHud")).UnlinkEvents();
+        Node ui = GetNode("/root/Main/GUI/GameplayUI");
+        ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
+        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
     }
 }

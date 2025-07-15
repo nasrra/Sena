@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3urc5o6fag7l"]
+
+[ext_resource type="Script" uid="uid://buag3rnsx2vh" path="res://source/ui/EmberBarHud.cs" id="1_xfdw7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iybtp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iybtp"]
+bg_color = Color(0.977248, 0.695935, 3.85046e-07, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfdw7"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnw8l"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[node name="EmberBar" type="ProgressBar" node_paths=PackedStringArray("valueBar", "trailBar", "trailBarCatchUpDelay")]
+z_index = 1
+offset_right = 240.0
+offset_bottom = 4.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_iybtp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_iybtp")
+value = 60.0
+show_percentage = false
+script = ExtResource("1_xfdw7")
+valueBar = NodePath(".")
+trailBar = NodePath("TrailBar")
+trailBarCatchUpDelay = NodePath("Timer")
+
+[node name="TrailBar" type="ProgressBar" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xfdw7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lnw8l")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true

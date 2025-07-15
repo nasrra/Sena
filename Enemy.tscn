@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cnmwj8dlikh2o"]
 
-[ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://Source/Enemy.cs" id="1_s7bn3"]
+[ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="3_2hac7"]
 
