@@ -2,11 +2,16 @@ using Godot;
 using System;
 
 public partial class Player : CharacterBody2D{
+    
+    [ExportGroup("Nodes")]
     [Export] private CameraController camera;
     [Export] private CharacterMovement movement;
     [Export] private PlayerAimCursour aimCursour;
     [Export] private HitBoxHandler hitBoxes;
+    [Export] private Health health;
     [Export] private Timer moveInputBlockTimer;
+    
+    [ExportGroup("Variables")]
     private Vector2 moveInput = Vector2.Zero;
     [Export] private float swordSlashLungForce = 5f;
     [Export] private AnimatedSprite2D animator;
@@ -135,10 +140,13 @@ public partial class Player : CharacterBody2D{
     private void LinkEvents(){
         hitBoxes.OnHit += HitBoxHit;
         moveInputBlockTimer.Timeout += UnblockMoveInput;
+        GD.Print(GetNode("/root/Main/GUI/GameplayUI/HealthHud").GetType());
+        ((HealthHud)GetNode("/root/Main/GUI/GameplayUI/HealthHud")).LinkEvents(health);
     }
 
     private void UnlinkEvents(){
         hitBoxes.OnHit -= HitBoxHit;
         moveInputBlockTimer.Timeout -= UnblockMoveInput;
+        ((HealthHud)GetNode("/root/Main/GUI/GameplayUI/HealthHud")).UnlinkEvents();
     }
 }

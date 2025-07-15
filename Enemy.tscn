@@ -22,5 +22,5 @@ shape = SubResource("RectangleShape2D_tt7e2")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("3_2hac7")
-Max = 4.0
-Current = 4.0
+Max = 4
+Value = 4

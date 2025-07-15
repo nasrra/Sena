@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=11 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://Source/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://Source/HitBoxHandler.cs" id="5_cxr5p"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/Sena/Animations/Sena.tres" id="6_tdg3f"]
+[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="7_dtqjt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(76, 76)
@@ -16,12 +17,13 @@ size = Vector2(140, 90)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
 size = Vector2(90, 140)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "moveInputBlockTimer", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "moveInputBlockTimer", "animator")]
 collision_mask = 3
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
+health = NodePath("Health")
 moveInputBlockTimer = NodePath("MoveInputBlock")
 swordSlashLungForce = 750.0
 animator = NodePath("AnimatedSprite2D")
@@ -114,3 +116,8 @@ scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("6_tdg3f")
 animation = &"IdleBackward"
 frame_progress = 0.532616
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_dtqjt")
+Max = 6
+Value = 6

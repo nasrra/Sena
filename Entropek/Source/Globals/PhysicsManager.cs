@@ -22,7 +22,6 @@ public partial class PhysicsManager : Node{
             string key = $"layer_names/2d_physics/layer_{i}";
             if(ProjectSettings.HasSetting(key)){
                 LayerNames2D[i] = (string)ProjectSettings.GetSetting(key);
-                GD.Print($"init {i} {LayerNames2D[i]}");
             }
         }
     }

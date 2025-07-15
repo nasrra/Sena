@@ -6,7 +6,7 @@ public partial class SceneManager : Node{
     public static SceneManager Instance{get; private set;}
 
     [Export] private Node2D world2D;
-    [Export] private Control gui;
+    [Export] private CanvasLayer gui;
 
     [Export] public Node2D current2DScene {get; private set;}
     [Export] public Control currentGuiScene {get; private set;}

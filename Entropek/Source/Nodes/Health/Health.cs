@@ -3,24 +3,24 @@ using System;
 
 public partial class Health : Node{
     public const string NodeName = "Health";
-    [Export] public float Max {get; private set;}
-    [Export] public float Current {get; private set;}
+    [Export] public int Max {get; private set;}
+    [Export] public int Value {get; private set;}
     public event Action OnDeath;
     public event Action OnDamage;
     public event Action OnHeal;
 
-    public void Heal(float amount){
-        Current += amount;
-        if(Current > Max){
-            Current = Max;
+    public void Heal(int amount){
+        Value += amount;
+        if(Value > Max){
+            Value = Max;
         }
         OnHeal?.Invoke();
     } 
 
-    public void Damage(float amount){
-        Current -= amount;
+    public void Damage(int amount){
+        Value -= amount;
         OnDamage?.Invoke();
-        if(Current <= 0){
+        if(Value <= 0){
             OnDeath?.Invoke();
         }
     }
