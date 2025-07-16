@@ -13,11 +13,12 @@ public partial class Player : CharacterBody2D{
     [Export] public Interactor Interactor {get; private set;}
     [Export] private CameraController camera;
     [Export] private Timer moveInputBlockTimer;
+    [Export] private Timer emberDecayTimer;
     
     [ExportGroup("Variables")]
+    [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
     [Export] private float swordSlashLungForce = 5f;
-    [Export] private AnimatedSprite2D animator;
     private bool blockMoveInput = false;
 
     public override void _Ready(){
@@ -87,7 +88,9 @@ public partial class Player : CharacterBody2D{
         if(Input.IsActionJustPressed("Interact")){
             Interactor.Interact();
         }
+
         movement.Move(moveInput);
+        
         UpdateAnimation();
     }
 
@@ -112,7 +115,7 @@ public partial class Player : CharacterBody2D{
         }
     }
 
-    public void UpdateAnimation(){
+    private void UpdateAnimation(){
         if(moveInput.Y < 0){
             animator.Play("IdleForward");
             animator.FlipH = false;
@@ -133,6 +136,19 @@ public partial class Player : CharacterBody2D{
                 animator.FlipH = true;
             }
         }
+    }
+
+    private void DecayEmberStorage(){
+        EmberStorage.Remove(1, out int remainder);
+        GD.Print($"remainder {remainder}");
+        if(remainder == 0){
+            StartEmberDecayTimer();
+        }
+    }
+
+    private void StartEmberDecayTimer(){
+        emberDecayTimer.Start();
+        GD.Print("start decay timer");
     }
 
     public void BlockMoveInput(){
@@ -159,8 +175,13 @@ public partial class Player : CharacterBody2D{
     }
 
     private void LinkEvents(){
+        
         hitBoxes.OnHit += HitBoxHit;
+        
         moveInputBlockTimer.Timeout += UnblockMoveInput;
+        emberDecayTimer.Timeout += DecayEmberStorage;
+        EmberStorage.OnAdd += StartEmberDecayTimer;
+
         Node ui = GetNode("/root/Main/GUI/GameplayUI");
         ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
         ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
@@ -168,7 +189,11 @@ public partial class Player : CharacterBody2D{
 
     private void UnlinkEvents(){
         hitBoxes.OnHit -= HitBoxHit;
+        
         moveInputBlockTimer.Timeout -= UnblockMoveInput;
+        emberDecayTimer.Timeout -= DecayEmberStorage;
+        EmberStorage.OnAdd -= StartEmberDecayTimer;
+
         Node ui = GetNode("/root/Main/GUI/GameplayUI");
         ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
         ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();

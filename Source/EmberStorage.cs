@@ -23,9 +23,12 @@ public partial class EmberStorage : Node{
         remainder = amount;
         if(Value > 0){
             Value -= amount;
-            if(Value <= 0){
+            if(Value < 0){
                 remainder = -Value; // send back.
                 Value = 0;
+            }
+            else{
+                remainder = 0;
             }
         }
         OnRemove?.Invoke();

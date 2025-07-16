@@ -7,6 +7,7 @@ public partial class EmberBarHud : ProgressBar{
     [Export] private ProgressBar valueBar;
     [Export] private ProgressBar trailBar;
     [Export] private Timer trailBarCatchUpDelay;
+    const float trailBarThreshold = 2; 
 
     public override void _EnterTree(){
         base._EnterTree();
@@ -22,9 +23,13 @@ public partial class EmberBarHud : ProgressBar{
     }
 
     public void UpdateValueBar(){
+        GD.Print(emberStorage.Value);
+        if(valueBar.Value - emberStorage.Value > trailBarThreshold){
+            trailBarCatchUpDelay.Start();
+        }else{
+            trailBar.Value = valueBar.Value;
+        }
         valueBar.Value = emberStorage.Value;
-        trailBarCatchUpDelay.Start();
-        GD.Print("update value");
     }
 
     public void UpdateTrailBar(){
@@ -32,7 +37,7 @@ public partial class EmberBarHud : ProgressBar{
     }
 
     public void LinkToEmberStorage(EmberStorage emberStorage){
-        this.emberStorage = emberStorage;
+        this.emberStorage       = emberStorage;
         emberStorage.OnAdd      += UpdateValueBar;
         emberStorage.OnAdd      += UpdateTrailBar;
         emberStorage.OnRemove   += UpdateValueBar;

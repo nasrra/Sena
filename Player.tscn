@@ -22,7 +22,7 @@ size = Vector2(90, 140)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
 size = Vector2(100, 120)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "emberDecayTimer", "animator")]
 collision_mask = 3
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
@@ -32,8 +32,9 @@ health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
 moveInputBlockTimer = NodePath("MoveInputBlock")
-swordSlashLungForce = 750.0
+emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
+swordSlashLungForce = 750.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xhfnw")
@@ -116,8 +117,6 @@ disabled = true
 [node name="Timer" type="Timer" parent="HitBoxHandler/SlashLeft"]
 one_shot = true
 
-[node name="MoveInputBlock" type="Timer" parent="."]
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("6_tdg3f")
@@ -143,3 +142,9 @@ ObstructionLayer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
 shape = SubResource("RectangleShape2D_5ncpa")
+
+[node name="MoveInputBlock" type="Timer" parent="."]
+
+[node name="EmberDecayTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
