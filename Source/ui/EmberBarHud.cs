@@ -24,6 +24,7 @@ public partial class EmberBarHud : ProgressBar{
     public void UpdateValueBar(){
         valueBar.Value = emberStorage.Value;
         trailBarCatchUpDelay.Start();
+        GD.Print("update value");
     }
 
     public void UpdateTrailBar(){

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c36b1r6hn7yvw"]
+[gd_scene load_steps=6 format=3 uid="uid://c36b1r6hn7yvw"]
 
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://Player.tscn" id="1_mncer"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://Camera.tscn" id="2_cguwc"]
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://Enemy.tscn" id="3_wicfy"]
 [ext_resource type="PackedScene" uid="uid://tpx5rax7c0nj" path="res://BrazierDoor.tscn" id="4_go42g"]
+[ext_resource type="PackedScene" uid="uid://bsgesvasya5np" path="res://Chimney.tscn" id="5_sreuk"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -18,3 +19,6 @@ Target = NodePath("../Player")
 
 [node name="BrazierDoor" parent="." instance=ExtResource("4_go42g")]
 position = Vector2(-165, 188)
+
+[node name="Chimney" parent="." instance=ExtResource("5_sreuk")]
+position = Vector2(-259, -228)

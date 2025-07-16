@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvhjgg3tpsy7j"]
+
+[ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/Source/Nodes/Interaction/Interactable.cs" id="1_msfch"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_prvul"]
+size = Vector2(1, 1)
+
+[node name="Interactable" type="Area2D"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource("1_msfch")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.75, 0)
+shape = SubResource("RectangleShape2D_prvul")

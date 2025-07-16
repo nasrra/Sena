@@ -2,14 +2,16 @@ using Godot;
 using System;
 
 public partial class Player : CharacterBody2D{
-    
+    public static Player Instance {get;private set;}
+
     [ExportGroup("Nodes")]
+    [Export] public CharacterMovement movement {get; private set;}
+    [Export] public PlayerAimCursour aimCursour {get; private set;}
+    [Export] public HitBoxHandler hitBoxes {get; private set;}
+    [Export] public Health health {get; private set;}
+    [Export] public EmberStorage EmberStorage {get; private set;}
+    [Export] public Interactor Interactor {get; private set;}
     [Export] private CameraController camera;
-    [Export] private CharacterMovement movement;
-    [Export] private PlayerAimCursour aimCursour;
-    [Export] private HitBoxHandler hitBoxes;
-    [Export] private Health health;
-    [Export] private EmberStorage emberStorage;
     [Export] private Timer moveInputBlockTimer;
     
     [ExportGroup("Variables")]
@@ -29,6 +31,7 @@ public partial class Player : CharacterBody2D{
     public override void _EnterTree(){
         base._EnterTree();
         LinkEvents();
+        Instance = this;
     }
 
     public override void _ExitTree(){
@@ -68,10 +71,21 @@ public partial class Player : CharacterBody2D{
             hitBoxes.EnableHitBox(hitBoxId, 0.167f);
         }
         if(Input.IsActionJustPressed("Debug1")){
-            emberStorage.Add(2, out int remainder);
+            EmberStorage.Add(2, out int remainder);
         }
         if(Input.IsActionJustPressed("Debug2")){
-            emberStorage.Remove(2, out int remainder);
+            health.Damage(1);
+            GD.Print("damage");
+        }
+
+        if(Input.IsActionJustPressed("Heal")){
+            if(EmberStorage.Value >= 20){
+                EmberStorage.Remove(20, out int remainder);
+                health.Heal(1);
+            }
+        }
+        if(Input.IsActionJustPressed("Interact")){
+            Interactor.Interact();
         }
         movement.Move(moveInput);
         UpdateAnimation();
@@ -149,7 +163,7 @@ public partial class Player : CharacterBody2D{
         moveInputBlockTimer.Timeout += UnblockMoveInput;
         Node ui = GetNode("/root/Main/GUI/GameplayUI");
         ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
-        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(emberStorage);
+        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
     }
 
     private void UnlinkEvents(){

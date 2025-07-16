@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=14 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -8,6 +8,7 @@
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="7_dtqjt"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="8_5ncpa"]
+[ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/Source/Nodes/Interaction/Interactor.cs" id="9_wi0c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(76, 76)
@@ -18,14 +19,18 @@ size = Vector2(140, 90)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
 size = Vector2(90, 140)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "emberStorage", "moveInputBlockTimer", "animator")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
+size = Vector2(100, 120)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "animator")]
 collision_mask = 3
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
 health = NodePath("Health")
-emberStorage = NodePath("EmberStorage")
+EmberStorage = NodePath("EmberStorage")
+Interactor = NodePath("Interactor")
 moveInputBlockTimer = NodePath("MoveInputBlock")
 swordSlashLungForce = 750.0
 animator = NodePath("AnimatedSprite2D")
@@ -128,3 +133,13 @@ Value = 6
 script = ExtResource("8_5ncpa")
 Max = 100
 Value = 100
+
+[node name="Interactor" type="Area2D" parent="." node_paths=PackedStringArray("inRange")]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("9_wi0c6")
+inRange = []
+ObstructionLayer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
+shape = SubResource("RectangleShape2D_5ncpa")

@@ -1,111 +1,101 @@
-// using Godot;
-// using System;
-// using Godot.Collections;
+using Godot;
+using System;
+using Godot.Collections;
 
-// public partial class Interactor : Node3D{
-//     private Interactable previous = null;
-//     private Interactable current = null;
-//     [Export] private Array<Interactable> inRange;
-//     [Export] Area3D area;
-//     [Export(PropertyHint.Layers2DPhysics)]
-//     public uint ObstructionLayer;
+public partial class Interactor : Area2D{
+    private Interactable previous = null;
+    private Interactable current = null;
+    [Export] private Array<Interactable> inRange;
+    [Export(PropertyHint.Layers2DPhysics)]
+    public uint ObstructionLayer;
 
-//     public override void _Ready(){
-//         base._Ready();
-//         LinkEvents();
-//     }
+    public override void _Ready(){
+        base._Ready();
+        LinkEvents();
+    }
 
-//     public override void _ExitTree(){
-//         base._ExitTree();
-//         UnlinkEvents();
-//     }
+    public override void _ExitTree(){
+        base._ExitTree();
+        UnlinkEvents();
+    }
 
-//     public void Interact(){
-//         if(previous != null){
-//             previous.Interact();
-//     }
-//     }
+    public void Interact(){
+        if(previous != null){
+            previous.Interact();
+        }
+    }
 
-//     private void OnAreaEnter(Node3D other){
-//         Interactable interactable = (Interactable)other;
-//         if(interactable != null){
-//             inRange.Add(interactable);
-//         }
-//     } 
+    private void OnAreaEnter(Node2D other){
+        Interactable interactable = (Interactable)other;
+        if(interactable != null){
+            inRange.Add(interactable);
+        }
+    } 
 
-//     private void OnAreaExit(Node3D other){
-//         Interactable interactable = (Interactable)other;
-//         if(interactable != null){
-//             inRange.Remove(interactable);
-//         }
-//     }
+    private void OnAreaExit(Node2D other){
+        Interactable interactable = (Interactable)other;
+        if(interactable != null){
+            inRange.Remove(interactable);
+        }
+    }
 
-//     public override void _PhysicsProcess(double delta)
-//     {
-//         base._PhysicsProcess(delta);
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
 
-//         if (inRange.Count > 0)
-//         {
-//             Camera3D camera = Player.Camera;
-//             Interactable closestValid = null;
-//             float minDistance = float.MaxValue;
+        if (inRange.Count > 0)
+        {
+            Interactable closestValid = null;
+            float minDistance = float.MaxValue;
 
-//             foreach (Interactable other in inRange)
-//             {
-//                 Vector3 direction = other.GlobalPosition - camera.GlobalPosition;
-//                 float dot = -camera.GlobalBasis.Z.Normalized().Dot(direction.Normalized());
+            foreach (Interactable other in inRange){
+                Vector2 direction = other.GlobalPosition - Player.Instance.GlobalPosition;
 
-//                 // check if the camera is pointing at the interactable.
+                // check if there is an obstruction.
+                var result = GetViewport().World2D.DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters2D
+                {
+                    From = Player.Instance.GlobalPosition,
+                    To = other.GlobalPosition,
+                    CollisionMask = ObstructionLayer,
+                    HitFromInside = true
+                });
 
-//                 if (dot < other.cameraDotThreshold)
-//                     continue;
+                if (result.Count > 0)
+                    continue;
 
-//                 // check if there is an obstruction.
+                // check if the distance to the item is less than the previous iteration.
 
-//                 var result = GetWorld3D().DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters3D
-//                 {
-//                     From = camera.GlobalPosition,
-//                     To = other.GlobalPosition,
-//                     CollisionMask = ObstructionLayer,
-//                     HitFromInside = true
-//                 });
+                float distSquared = direction.LengthSquared();
+                if (distSquared < minDistance){
+                    minDistance = distSquared;
+                    closestValid = other;
+                }
+            }
 
-//                 if (result.Count > 0)
-//                     continue;
+            // Handle state transition
 
-//                 // check if the distance to the item is less than the previous iteration.
+            if (closestValid != previous){
+                // previous?.IdleState();
+                // closestValid?.HoveredState();
+                previous = closestValid;
+            }
+        }
 
-//                 float distSquared = direction.LengthSquared();
-//                 if (distSquared < minDistance){
-//                     minDistance = distSquared;
-//                     closestValid = other;
-//                 }
-//             }
+        // if we have left all interactables.
 
-//             // Handle state transition
+        else if (previous != null){
+            // previous.IdleState();
+            previous = null;
+        }
+    }
 
-//             if (closestValid != previous){
-//                 previous?.IdleState();
-//                 closestValid?.HoveredState();
-//                 previous = closestValid;
-//             }
-//         }
+    private void LinkEvents(){
+        AreaEntered    += OnAreaEnter;
+        AreaExited     += OnAreaExit;
+    }
 
-//         // if we have left all interactables.
-
-//         else if (previous != null){
-//             previous.IdleState();
-//             previous = null;
-//         }
-//     }
-
-//     private void LinkEvents(){
-//         area.AreaEntered    += OnAreaEnter;
-//         area.AreaExited     += OnAreaExit;
-//     }
-
-//     private void UnlinkEvents(){
-//         area.AreaEntered    -= OnAreaEnter;
-//         area.AreaExited     -= OnAreaExit;
-//     }
-// }
+    private void UnlinkEvents(){
+        AreaEntered    -= OnAreaEnter;
+        AreaExited     -= OnAreaExit;
+    }
+}

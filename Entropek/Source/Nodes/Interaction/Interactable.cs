@@ -4,7 +4,7 @@ using System;
 public partial class Interactable : Area2D{
     public const string NodeName = nameof(Interactable); 
     public event Action OnInteract;
-    private bool interactable = true;
+    public bool IsInteractable = true;
 
     public override void _Ready(){
         #if TOOLS
@@ -17,6 +17,8 @@ public partial class Interactable : Area2D{
     }
 
     public void Interact(){
-        OnInteract?.Invoke();
+        if(IsInteractable == true){
+            OnInteract?.Invoke();
+        }
     }
 }

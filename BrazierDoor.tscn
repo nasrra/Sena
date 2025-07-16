@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://tpx5rax7c0nj"]
 
-[ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://BrazierDoor.cs" id="1_r0a7e"]
+[ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/BrazierDoor.cs" id="1_r0a7e"]
 [ext_resource type="Script" uid="uid://bwrloxjoma42c" path="res://Door.cs" id="2_4f3mn"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/Source/Nodes/Interaction/Interactable.cs" id="3_dw4h2"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="4_gnajc"]

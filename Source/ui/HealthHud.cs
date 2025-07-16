@@ -23,6 +23,7 @@ public partial class HealthHud : HBoxContainer{
         }
         for(int i = 0; i < health.Value; i++){
             heartSprites[i].Visible = true;
+            GD.Print("true");
         }   
     }
 
@@ -36,7 +37,7 @@ public partial class HealthHud : HBoxContainer{
         
         for(int i = 0; i < health.Max; i++){
             TextureRect sprite = (TextureRect)heartSprite.Instantiate();
-            AddChild(heartSprite.Instantiate());
+            AddChild(sprite);
             sprite.Visible = false;
             heartSprites[i] = sprite;
         }
