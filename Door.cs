@@ -6,6 +6,8 @@ public partial class Door : Node{
     [Export]
     private CollisionObject2D collider;
     [Export]
+    private AStarAgent aStarAgent;
+    [Export]
     public bool Locked {get;private set;} = false;
     [Export]
     public bool Opened {get;private set;} = false;
@@ -27,6 +29,7 @@ public partial class Door : Node{
         Opened = true;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", true);
+        aStarAgent.Disable();
         OnOpen?.Invoke();
     }
 
@@ -34,6 +37,7 @@ public partial class Door : Node{
         Opened = false;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", false);
+        aStarAgent.Enable();
         OnClose?.Invoke();
     }
 

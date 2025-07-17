@@ -18,7 +18,7 @@ public partial class Player : CharacterBody2D{
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
-    [Export] private float swordSlashLungForce = 5f;
+    [Export] private float swordSlashLungForce = 0.00f;
     private bool blockMoveInput = false;
 
     public override void _Ready(){
@@ -76,7 +76,6 @@ public partial class Player : CharacterBody2D{
         }
         if(Input.IsActionJustPressed("Debug2")){
             health.Damage(1);
-            GD.Print("damage");
         }
 
         if(Input.IsActionJustPressed("Heal")){
@@ -140,7 +139,6 @@ public partial class Player : CharacterBody2D{
 
     private void DecayEmberStorage(){
         EmberStorage.Remove(1, out int remainder);
-        GD.Print($"remainder {remainder}");
         if(remainder == 0){
             StartEmberDecayTimer();
         }
@@ -148,7 +146,6 @@ public partial class Player : CharacterBody2D{
 
     private void StartEmberDecayTimer(){
         emberDecayTimer.Start();
-        GD.Print("start decay timer");
     }
 
     public void BlockMoveInput(){
@@ -161,7 +158,6 @@ public partial class Player : CharacterBody2D{
 
     private void HitBoxHit(Node2D node, int id){
         string hitLayer = PhysicsManager.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-        GD.Print(node.Name);
         switch(hitLayer){
             case "Enemy":
                 Health health = (Health)node.GetNode(Health.NodeName);

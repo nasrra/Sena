@@ -11,16 +11,16 @@
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/Source/Nodes/Interaction/Interactor.cs" id="9_wi0c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(76, 76)
+size = Vector2(7, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
-size = Vector2(140, 90)
+size = Vector2(14, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
-size = Vector2(90, 140)
+size = Vector2(9, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
-size = Vector2(100, 120)
+size = Vector2(10, 12)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "emberDecayTimer", "animator")]
 collision_mask = 3
@@ -34,7 +34,7 @@ Interactor = NodePath("Interactor")
 moveInputBlockTimer = NodePath("MoveInputBlock")
 emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
-swordSlashLungForce = 750.0
+swordSlashLungForce = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xhfnw")
@@ -42,9 +42,9 @@ shape = SubResource("RectangleShape2D_xhfnw")
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 400.0
-BaseAcceleration = 8000.0
-BaseDeceleration = 8000.0
+BaseTopSpeed = 100.0
+BaseAcceleration = 800.0
+BaseDeceleration = 800.0
 gravityModifier = 6.0
 lockYAxis = false
 gravityAffected = false
@@ -52,11 +52,11 @@ gravityAffected = false
 [node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("cursour")]
 script = ExtResource("4_e80uo")
 cursour = NodePath("Sprite2D")
-cursourDistance = 60.0
+cursourDistance = 16.0
 
 [node name="Sprite2D" type="Sprite2D" parent="PlayerAimCursour"]
-position = Vector2(-1, 1)
-scale = Vector2(0.1, 0.1)
+position = Vector2(5, 1)
+scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_xhfnw")
 
 [node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]
@@ -71,6 +71,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
+position = Vector2(0, 72.1829)
 shape = SubResource("RectangleShape2D_tdg3f")
 disabled = true
 
@@ -84,7 +85,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
-position = Vector2(84, 0)
+position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_cxr5p")
 disabled = true
 
@@ -98,6 +99,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
+position = Vector2(0, -72.1829)
 shape = SubResource("RectangleShape2D_tdg3f")
 disabled = true
 
@@ -110,7 +112,7 @@ collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
-position = Vector2(-83, 0)
+position = Vector2(-9, 0)
 shape = SubResource("RectangleShape2D_cxr5p")
 disabled = true
 
@@ -118,7 +120,7 @@ disabled = true
 one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.1, 0.1)
 sprite_frames = ExtResource("6_tdg3f")
 animation = &"IdleBackward"
 frame_progress = 0.532616
@@ -131,7 +133,6 @@ Value = 6
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")
 Max = 100
-Value = 100
 
 [node name="Interactor" type="Area2D" parent="." node_paths=PackedStringArray("inRange")]
 collision_layer = 0

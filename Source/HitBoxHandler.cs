@@ -37,7 +37,7 @@ public partial class HitBoxHandler : Node2D{
             if(collider.Disabled == false){
                 if (collider.Shape is RectangleShape2D rectShape){
                     GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-                    debugDraw.Call("rect",collider.GlobalPosition, rectShape.Size, new Color(1, 1, 1), 2.0, 0.0167f);
+                    debugDraw.Call("rect",collider.GlobalPosition, rectShape.Size, new Color(1, 1, 1), 0.1f, 0.0167f);
                 }
             }
         }

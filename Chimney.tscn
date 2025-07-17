@@ -6,16 +6,15 @@
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="4_ebept"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prvul"]
-size = Vector2(130, 130)
+size = Vector2(14, 14)
 
-[node name="Chimney" type="Node2D" node_paths=PackedStringArray("emberStorage", "interactable", "rechargeTimer")]
+[node name="Chimney" type="Node2D" node_paths=PackedStringArray("interactable")]
 script = ExtResource("1_prvul")
-emberStorage = NodePath("EmberStorage")
 interactable = NodePath("Interactable")
-rechargeTimer = NodePath("ReachargeTimer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.633333, 1, 1)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_oye58")
 
 [node name="Interactable" type="Area2D" parent="."]

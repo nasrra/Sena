@@ -1,15 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://tpx5rax7c0nj"]
+[gd_scene load_steps=9 format=3 uid="uid://tpx5rax7c0nj"]
 
 [ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/BrazierDoor.cs" id="1_r0a7e"]
 [ext_resource type="Script" uid="uid://bwrloxjoma42c" path="res://Door.cs" id="2_4f3mn"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/Source/Nodes/Interaction/Interactable.cs" id="3_dw4h2"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="4_gnajc"]
+[ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/Pathfinding/AStarAgent.cs" id="5_liqgx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw4h2"]
-size = Vector2(129, 128)
+size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gnajc"]
-size = Vector2(129, 128)
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_liqgx"]
+size = Vector2(32, 34)
 
 [node name="BrazierDoor" type="Node2D" node_paths=PackedStringArray("door", "sprite", "interactable")]
 script = ExtResource("1_r0a7e")
@@ -17,9 +21,10 @@ door = NodePath("Door")
 sprite = NodePath("Sprite2D")
 interactable = NodePath("Interactable")
 
-[node name="Door" type="Node" parent="." node_paths=PackedStringArray("collider")]
+[node name="Door" type="Node" parent="." node_paths=PackedStringArray("collider", "aStarAgent")]
 script = ExtResource("2_4f3mn")
 collider = NodePath("../StaticBody2D")
+aStarAgent = NodePath("../AStarAgent")
 
 [node name="Interactable" type="Area2D" parent="."]
 collision_layer = 4
@@ -27,11 +32,11 @@ collision_mask = 4
 script = ExtResource("3_dw4h2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
-position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_dw4h2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.416518, 0.507009, 0, 1)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("4_gnajc")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -39,5 +44,12 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_gnajc")
+
+[node name="AStarAgent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("5_liqgx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AStarAgent"]
+shape = SubResource("RectangleShape2D_liqgx")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dl4kccjhbcmux"]
+
+[ext_resource type="Script" uid="uid://cdynmk3lqx27l" path="res://source/Firepit.cs" id="1_w14fp"]
+[ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="2_xhpog"]
+[ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="3_gd46t"]
+[ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/Source/Nodes/Interaction/Interactable.cs" id="4_oqeja"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gd46t"]
+size = Vector2(58, 74)
+
+[node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite")]
+script = ExtResource("1_w14fp")
+interactable = NodePath("Interactable")
+litSprite = ExtResource("2_xhpog")
+unlitSprite = ExtResource("3_gd46t")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_gd46t")
+
+[node name="Interactable" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("4_oqeja")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_gd46t")

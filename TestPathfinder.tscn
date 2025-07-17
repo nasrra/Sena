@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://baxvlrh8k6u1o"]
+
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="1_b5or6"]
+[ext_resource type="Script" uid="uid://gpkvsnqv0xr5" path="res://TestPathinder.cs" id="1_sx5no"]
+[ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="3_x2p1e"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4g4cy"]
+
+[node name="Node2D" type="CharacterBody2D" node_paths=PackedStringArray("characterMovement")]
+script = ExtResource("1_sx5no")
+characterMovement = NodePath("CharacterMovement")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4g4cy")
+
+[node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("1_b5or6")
+character = NodePath("..")
+BaseTopSpeed = 100.0
+BaseAcceleration = 800.0
+BaseDeceleration = 800.0
+lockYAxis = false
+gravityAffected = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("3_x2p1e")

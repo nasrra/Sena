@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="3_2hac7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
-size = Vector2(128, 128)
+size = Vector2(14, 14)
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health")]
 collision_layer = 8
@@ -15,6 +15,7 @@ health = NodePath("Health")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.941205, 0.217265, 0, 1)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_tt7e2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
