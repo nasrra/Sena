@@ -33,6 +33,18 @@ public partial class PathfindingGrid : Node2D{
         InitialiseTileDataFromTileMap();
     }
 
+    public override void _PhysicsProcess(double delta){
+        base._PhysicsProcess(delta);
+        UpdateModifiedTiles();
+    }
+
+    public override void _Process(double delta){
+        base._Process(delta);
+        if(Input.IsActionJustPressed("DebugPathfinding")){
+            tileMap.Visible = !tileMap.Visible;
+        }
+    }
+
     public Vector2I GlobalToIdPosition(Vector2 globalPosition){
         return tileMap.LocalToMap(globalPosition);
     }
@@ -103,11 +115,6 @@ public partial class PathfindingGrid : Node2D{
             }
         }
 
-    }
-
-    public override void _PhysicsProcess(double delta){
-        base._PhysicsProcess(delta);
-        UpdateModifiedTiles();
     }
 
     public override void _Draw(){

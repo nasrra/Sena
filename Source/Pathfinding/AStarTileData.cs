@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+// may want to change this to struct and ref it for perf reasons.
+
 public partial class AStarTileData{
     public bool Locked {get;private set;} = false;
     public int PassInhabitants      {get;private set;} = 0; 

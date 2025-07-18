@@ -47,6 +47,10 @@ public partial class AStarAgent : Area2D{
         GD.Print("insert door");
     }
 
+    public Queue<Vector2> GetPathToPosition(Vector2 targetGlobalPosition){
+        return PathfindingGrid.Instance.GetPathToPoint(GlobalPosition, targetGlobalPosition);
+    }
+
     public void Update(){
         Remove();
         
@@ -57,9 +61,9 @@ public partial class AStarAgent : Area2D{
 
     public override void _Draw(){
         base._Draw();
-        GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-        debugDraw.Call("rect",globalAABB.Position, globalAABB.Size, new Color(0, 1, 1), 2f, 20f);
-        GD.Print("draw");
+        // GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+        // debugDraw.Call("rect",globalAABB.Position, globalAABB.Size, new Color(0, 1, 1), 2f, 20f);
+        // GD.Print("draw");
     }
 
 }

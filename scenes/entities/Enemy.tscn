@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnmwj8dlikh2o"]
+
+[ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
+[ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
+[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="3_2hac7"]
+[ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="4_78qrw"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="5_306ko"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7q"]
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement")]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_s7bn3")
+health = NodePath("Health")
+aStarAgent = NodePath("AStarAgent")
+characterMovement = NodePath("CharacterMovement")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.941205, 0.217265, 0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_tt7e2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tt7e2")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_2hac7")
+Max = 4
+Value = 4
+
+[node name="AStarAgent" type="Area2D" parent="."]
+script = ExtResource("4_78qrw")
+agentType = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AStarAgent"]
+shape = SubResource("RectangleShape2D_2dc7q")
+
+[node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("5_306ko")
+character = NodePath("..")
+BaseTopSpeed = 50.0
+BaseAcceleration = 200.0
+BaseDeceleration = 200.0
+lockYAxis = false
+gravityAffected = false

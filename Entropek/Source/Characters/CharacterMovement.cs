@@ -4,7 +4,7 @@ using Godot;
 public partial class CharacterMovement : Node{
     [Export] CharacterBody2D character;
     public const string NodeName = nameof(CharacterMovement);
-    [Export] public Vector2 Velocity {
+    public Vector2 Velocity {
         get => character.Velocity;
         private set{
             character.Velocity = value;

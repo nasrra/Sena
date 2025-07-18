@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D{
 
     public override void _Ready(){
         base._Ready();
-        #if DEBUG
+        #if TOOLS
         Entropek.Util.Node.VerifyName(this, nameof(Player));
         #endif
         animator.Play("IdleForward");

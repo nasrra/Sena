@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dyshyxa5ysn7v"]
 
 [ext_resource type="Script" uid="uid://dg4h4toplh4i0" path="res://Entropek/Source/Globals/SceneManager.cs" id="1_00bwg"]
-[ext_resource type="PackedScene" uid="uid://c36b1r6hn7yvw" path="res://TestScene.tscn" id="2_tu2wc"]
+[ext_resource type="PackedScene" uid="uid://c36b1r6hn7yvw" path="res://scenes/levels/TestScene.tscn" id="2_tu2wc"]
 [ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://ui/GameplayUI.tscn" id="3_qksjg"]
 
 [node name="Main" type="Node"]
