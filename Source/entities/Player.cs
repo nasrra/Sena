@@ -18,7 +18,9 @@ public partial class Player : CharacterBody2D{
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
-    [Export] private float swordSlashLungForce = 0.00f;
+    private float attackLungeForce = 100f;
+    private float attackEnemyKnockback = 100f;
+    private float attackPlayerKnockback = 80f;
     private bool blockMoveInput = false;
 
     public override void _Ready(){
@@ -51,7 +53,7 @@ public partial class Player : CharacterBody2D{
     public override void _Process(double delta){
         base._Process(delta);
         if(Input.IsActionJustPressed("SwordSlash")){
-            movement.Impulse(aimCursour.aimDirection * swordSlashLungForce);
+            movement.Impulse(aimCursour.aimDirection * attackLungeForce);
             int hitBoxId;
             float angle = aimCursour.aimAngle;
             if(angle >= -135 && angle <= -45){
@@ -66,8 +68,6 @@ public partial class Player : CharacterBody2D{
             else{
                 hitBoxId = 3;
             }
-            moveInputBlockTimer.WaitTime = 0.167f;
-            moveInputBlockTimer.Start();
             BlockMoveInput();
             hitBoxes.EnableHitBox(hitBoxId, 0.167f);
         }
@@ -150,6 +150,8 @@ public partial class Player : CharacterBody2D{
 
     public void BlockMoveInput(){
         blockMoveInput = true;
+        moveInputBlockTimer.WaitTime = 0.167f;
+        moveInputBlockTimer.Start();
     }
 
     public void UnblockMoveInput(){
@@ -158,10 +160,18 @@ public partial class Player : CharacterBody2D{
 
     private void HitBoxHit(Node2D node, int id){
         string hitLayer = PhysicsManager.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
+        
+        Vector2 directionToHit = (node.GlobalPosition - GlobalPosition).Normalized();
+        
         switch(hitLayer){
             case "Enemy":
-                Health health = (Health)node.GetNode(Health.NodeName);
-                health.Damage(1);
+                ((Enemy)node).StunState(0.33f);
+                node.GetNode<Health>(Health.NodeName).Damage(1);
+                CharacterMovement enemyMovement = node.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+                enemyMovement.ZeroVelocity();
+                enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
+                movement.Impulse(-directionToHit * attackPlayerKnockback);
+                GD.Print("hit enemy");        
             break;
             case "HitInteractable":
                 Interactable interactable = (Interactable)node;

@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3 uid="uid://cldsmxeoqjn1p"]
 
-[ext_resource type="Script" uid="uid://uxxa13yn77n3" path="res://Entropek/Source/ai/AiAttack.cs" id="1_1ak4v"]
+[ext_resource type="Script" uid="uid://uxxa13yn77n3" path="res://Entropek/source/ai/AiAttack.cs" id="1_1ak4v"]
 
 [resource]
 script = ExtResource("1_1ak4v")

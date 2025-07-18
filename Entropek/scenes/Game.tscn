@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyshyxa5ysn7v"]
+
+[ext_resource type="Script" uid="uid://dg4h4toplh4i0" path="res://Entropek/source/globals/SceneManager.cs" id="1_3ypkp"]
+[ext_resource type="PackedScene" uid="uid://qj5f5cs56kn0" path="res://scenes/levels/TestLevel.tscn" id="2_v58fe"]
+[ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://ui/GameplayUI.tscn" id="3_da12t"]
+
+[node name="Main" type="Node"]
+
+[node name="World2D" type="Node2D" parent="."]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "gui")]
+script = ExtResource("1_3ypkp")
+world2D = NodePath("../World2D")
+gui = NodePath("../GUI")
+scene2DStart = ExtResource("2_v58fe")
+guiStart = ExtResource("3_da12t")

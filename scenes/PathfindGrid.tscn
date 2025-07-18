@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c01h80m6psa0x"]
+
+[ext_resource type="TileSet" uid="uid://cngxibluwqs2j" path="res://assets/test/NavTileset.tres" id="1_8w53b"]
+[ext_resource type="Script" uid="uid://8l1pglbogmsk" path="res://source/pathfinding/PathfindingGrid.cs" id="2_bx7qn"]
+
+[node name="PathfindGrid" type="TileMapLayer"]
+tile_set = ExtResource("1_8w53b")
+
+[node name="Debug" type="Node2D" parent="." node_paths=PackedStringArray("tileMap")]
+script = ExtResource("2_bx7qn")
+tileMap = NodePath("..")

@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
-[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/characters/CharacterMovement.cs" id="2_kpjcp"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_kpjcp"]
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
-[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="7_dtqjt"]
+[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="7_dtqjt"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
-[ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/Source/Nodes/Interaction/Interactor.cs" id="9_wi0c6"]
+[ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(7, 7)
@@ -34,7 +34,6 @@ Interactor = NodePath("Interactor")
 moveInputBlockTimer = NodePath("MoveInputBlock")
 emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
-swordSlashLungForce = 100.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xhfnw")

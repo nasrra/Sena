@@ -1,7 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://r2rfoy8wkomk"]
 
-[ext_resource type="Script" uid="uid://dckuxqbpspism" path="res://Entropek/Source/CameraController.cs" id="1_e6e23"]
+[ext_resource type="Script" uid="uid://dckuxqbpspism" path="res://Entropek/source/CameraController.cs" id="1_e6e23"]
 
 [node name="Camera" type="Camera2D"]
+zoom = Vector2(5, 5)
 script = ExtResource("1_e6e23")
 followSpeed = 6.0

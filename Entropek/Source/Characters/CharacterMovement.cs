@@ -106,6 +106,10 @@ public partial class CharacterMovement : Node{
         character.Velocity += velocity;
     }
 
+    public void ZeroVelocity(){
+        character.Velocity = Vector2.Zero;
+    }
+
     public void ScaleSpeed(float amount){
         SpeedModifier += amount;
         Acceleration = Mathf.Clamp(BaseAcceleration * SpeedModifier, 0, float.MaxValue);

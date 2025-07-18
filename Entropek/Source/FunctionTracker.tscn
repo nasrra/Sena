@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btaqimguynvp4"]
 
-[ext_resource type="Script" uid="uid://b8dhcd1bnniic" path="res://Entropek/Source/FunctionTracker.cs" id="1_3ixiy"]
+[ext_resource type="Script" uid="uid://b8dhcd1bnniic" path="res://Entropek/source/FunctionTracker.cs" id="1_3ixiy"]
 
 [node name="FunctionTracker" type="Control" node_paths=PackedStringArray("labelsContainer", "refreshInterval")]
 layout_mode = 3

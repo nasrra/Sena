@@ -1,22 +1,30 @@
-[gd_scene load_steps=13 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=16 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
-[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="3_2hac7"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="2_1jhey"]
+[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="3_2hac7"]
 [ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="4_78qrw"]
-[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/characters/CharacterMovement.cs" id="5_306ko"]
-[ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/Source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
+[ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttackDown.tres" id="7_8rhtt"]
 [ext_resource type="Resource" uid="uid://hotqdbhetssb" path="res://resources/ai/EnemyAttackLeft.tres" id="8_iqkod"]
 [ext_resource type="Resource" uid="uid://ci3gg3jm1fud0" path="res://resources/ai/EnemyAttackRight.tres" id="9_bfkeh"]
 [ext_resource type="Resource" uid="uid://cldsmxeoqjn1p" path="res://resources/ai/EnemyAttackUp.tres" id="10_m80fk"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashController.tscn" id="12_v8ssa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v8ssa"]
+resource_local_to_scene = true
+shader = ExtResource("2_1jhey")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7q"]
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement", "attackHandler")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement", "attackHandler", "hitFlash", "stunTimer")]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("1_s7bn3")
@@ -24,9 +32,12 @@ health = NodePath("Health")
 aStarAgent = NodePath("AStarAgent")
 characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
+hitFlash = NodePath("HitFlashController")
+stunTimer = NodePath("StunTimer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.941205, 0.217265, 0, 1)
+material = SubResource("ShaderMaterial_v8ssa")
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_tt7e2")
 
@@ -35,8 +46,8 @@ shape = SubResource("RectangleShape2D_tt7e2")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("3_2hac7")
-Max = 4
-Value = 4
+Max = 3
+Value = 3
 
 [node name="AStarAgent" type="Area2D" parent="."]
 script = ExtResource("4_78qrw")
@@ -60,3 +71,9 @@ rightAttacks = Array[Resource]([ExtResource("9_bfkeh")])
 downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 leftAttacks = Array[Resource]([ExtResource("8_iqkod")])
 omniDirectionalAttacks = Array[Resource]([])
+
+[node name="StunTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HitFlashController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
+sprite = NodePath("../Sprite2D")

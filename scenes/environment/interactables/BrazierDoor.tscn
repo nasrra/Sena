@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/environment/interactables/BrazierDoor.cs" id="1_r0a7e"]
 [ext_resource type="Script" uid="uid://bwrloxjoma42c" path="res://source/nodes/Door.cs" id="2_4f3mn"]
-[ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/Source/Nodes/Interaction/Interactable.cs" id="3_dw4h2"]
+[ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="3_dw4h2"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="4_gnajc"]
 [ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="5_liqgx"]
 

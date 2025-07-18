@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ch4eus05salg0"]
 
-[ext_resource type="Script" uid="uid://dci573lp5pnto" path="res://Entropek/Source/ai/AiAttackHandler.cs" id="1_w8nbf"]
+[ext_resource type="Script" uid="uid://dci573lp5pnto" path="res://Entropek/source/ai/AiAttackHandler.cs" id="1_w8nbf"]
 
 [node name="AiAttackHandler" type="Node" node_paths=PackedStringArray("cooldown")]
 script = ExtResource("1_w8nbf")
