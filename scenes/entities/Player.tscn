@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
-[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="2_kpjcp"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/characters/CharacterMovement.cs" id="2_kpjcp"]
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://hotqdbhetssb"]
+
+[ext_resource type="Script" uid="uid://uxxa13yn77n3" path="res://Entropek/Source/ai/AiAttack.cs" id="1_o5kf6"]
+
+[resource]
+script = ExtResource("1_o5kf6")
+Id = 1
+Cooldown = 1.0
+Range = 100.0

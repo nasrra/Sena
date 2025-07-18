@@ -1,23 +1,29 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=13 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/Source/Nodes/Health/Health.cs" id="3_2hac7"]
 [ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="4_78qrw"]
-[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="5_306ko"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/characters/CharacterMovement.cs" id="5_306ko"]
+[ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/Source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
+[ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttackDown.tres" id="7_8rhtt"]
+[ext_resource type="Resource" uid="uid://hotqdbhetssb" path="res://resources/ai/EnemyAttackLeft.tres" id="8_iqkod"]
+[ext_resource type="Resource" uid="uid://ci3gg3jm1fud0" path="res://resources/ai/EnemyAttackRight.tres" id="9_bfkeh"]
+[ext_resource type="Resource" uid="uid://cldsmxeoqjn1p" path="res://resources/ai/EnemyAttackUp.tres" id="10_m80fk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7q"]
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement", "attackHandler")]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("1_s7bn3")
 health = NodePath("Health")
 aStarAgent = NodePath("AStarAgent")
 characterMovement = NodePath("CharacterMovement")
+attackHandler = NodePath("AiAttackHandler")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.941205, 0.217265, 0, 1)
@@ -47,3 +53,10 @@ BaseAcceleration = 200.0
 BaseDeceleration = 200.0
 lockYAxis = false
 gravityAffected = false
+
+[node name="AiAttackHandler" parent="." instance=ExtResource("6_mj3ic")]
+upAttacks = Array[Resource]([ExtResource("10_m80fk")])
+rightAttacks = Array[Resource]([ExtResource("9_bfkeh")])
+downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
+leftAttacks = Array[Resource]([ExtResource("8_iqkod")])
+omniDirectionalAttacks = Array[Resource]([])
