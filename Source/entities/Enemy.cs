@@ -13,6 +13,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     private EnemyState state = EnemyState.Chase;
 
     private Vector2 directionToTarget = Vector2.Zero;
+    private Vector2 normalDirectionToTarget = Vector2.Zero;
     private float distanceToTarget = float.MaxValue;
 
     private event Action stateProcess = null;
@@ -101,6 +102,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         stunTimer.Start();
     }
 
+    private void AttackingState(){
+        stateProcess = null;
+        statePhysicProcess = null;
+    }
+
 
     /// 
     /// Shared State Function
@@ -120,6 +126,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void CalculateRelationshipToTarget(){
         directionToTarget = Target.GlobalPosition- GlobalPosition;
+        normalDirectionToTarget = directionToTarget.Normalized();
         distanceToTarget = directionToTarget.Length();
     }
 
@@ -134,33 +141,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
 
-    /// 
-    /// Functions.
-    /// 
-
-
-    private void Attack(byte attack){
-        switch(attack){
-            case (byte)AttackId.Down:
-                GD.Print("down");
-            break;
-            case (byte)AttackId.Left:
-                GD.Print("left");
-            break;
-            case (byte)AttackId.Right:
-                GD.Print("Right");
-            break;
-            case (byte)AttackId.Up:
-                GD.Print("Up");
-            break;
-        }
-    }
-
-    public void Kill(){
-        EnemyManager.Instance.RemoveEnemy(this);
-        QueueFree();
-    }
-
 
     /// 
     /// Linkage
@@ -168,16 +148,49 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
     private void LinkEvents(){
-        health.OnDeath += Kill;
+        health.OnDeath  += Kill;
         health.OnDamage += hitFlash.Flash;
-        attackHandler.OnAttackChosen += Attack;
+        
+        attackHandler.OnAttack          += OnAttack;
+        attackHandler.OnAttackStarted   += OnStartAttack;
+        attackHandler.OnAttackEnded     += OnAttackEnded;
+
         stunTimer.Timeout += EvaluateState;
     }
 
     private void UnlinkEvents(){
-        health.OnDeath -= Kill;
+        health.OnDeath  -= Kill;
         health.OnDamage -= hitFlash.Flash;
-        attackHandler.OnAttackChosen -= Attack;
+
+        attackHandler.OnAttack          -= OnAttack;
+        attackHandler.OnAttackStarted   -= OnStartAttack;
+        attackHandler.OnAttackEnded     -= OnAttackEnded;
+
         stunTimer.Timeout -= EvaluateState;
     }
+
+    private void OnStartAttack(byte attack){
+        AttackingState();
+    }
+
+    private void OnAttack(byte attack){
+        switch(attack){
+            case (byte)AttackId.Down:
+            case (byte)AttackId.Left:
+            case (byte)AttackId.Right:
+            case (byte)AttackId.Up:
+                characterMovement.Impulse(normalDirectionToTarget * 100f);
+            break;
+        }
+    }
+
+    private void OnAttackEnded(){
+        EvaluateState();
+    }
+
+    public void Kill(){
+        EnemyManager.Instance.RemoveEnemy(this);
+        QueueFree();
+    }
+
 }

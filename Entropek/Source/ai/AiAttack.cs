@@ -2,7 +2,12 @@ using Godot;
 using System;
 
 public partial class AiAttack : Resource{
-    [Export] public byte Id {get; private set;}
-    [Export] public double Cooldown {get; private set;}
-    [Export] public float Range {get; private set;}
+    [Export] public float Cooldown              {get; private set;}
+    [Export] public float LeadInTime            {get; private set;}
+    [Export] public float AttackTime            {get; private set;}
+    [Export] public float FollowThroughTime     {get; private set;}
+    [Export] public float MinTargetDistance     {get; private set;}
+    [Export] public int HitBoxId                {get; private set;}
+    [Export] public int Damage                  {get; private set;}
+    [Export] public byte Id                     {get; private set;}
 }

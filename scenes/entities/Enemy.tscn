@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=19 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://ci3gg3jm1fud0" path="res://resources/ai/EnemyAttackRight.tres" id="9_bfkeh"]
 [ext_resource type="Resource" uid="uid://cldsmxeoqjn1p" path="res://resources/ai/EnemyAttackUp.tres" id="10_m80fk"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashController.tscn" id="12_v8ssa"]
+[ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v8ssa"]
 resource_local_to_scene = true
@@ -23,6 +24,12 @@ shader_parameter/flash_value = 0.0
 size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qwpog"]
+size = Vector2(14, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_esdid"]
+size = Vector2(9, 14)
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement", "attackHandler", "hitFlash", "stunTimer")]
 collision_layer = 8
@@ -65,15 +72,76 @@ BaseDeceleration = 200.0
 lockYAxis = false
 gravityAffected = false
 
-[node name="AiAttackHandler" parent="." instance=ExtResource("6_mj3ic")]
+[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("hitBoxHandler") instance=ExtResource("6_mj3ic")]
 upAttacks = Array[Resource]([ExtResource("10_m80fk")])
 rightAttacks = Array[Resource]([ExtResource("9_bfkeh")])
 downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 leftAttacks = Array[Resource]([ExtResource("8_iqkod")])
 omniDirectionalAttacks = Array[Resource]([])
+hitBoxHandler = NodePath("../HitBoxHandler")
 
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="HitFlashController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
 sprite = NodePath("../Sprite2D")
+
+[node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]
+script = ExtResource("13_qwpog")
+hitBoxes = [NodePath("SlashDown/CollisionShape2D"), NodePath("SlashLeft/CollisionShape2D2"), NodePath("SlashRight/CollisionShape2D"), NodePath("SlashUp/CollisionShape2D")]
+timers = [NodePath("SlashDown/Timer"), NodePath("SlashLeft/Timer"), NodePath("SlashRight/Timer"), NodePath("SlashUp/Timer")]
+
+[node name="SlashDown" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(0, 83)
+scale = Vector2(1, 1.01132)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
+position = Vector2(0, -72.1829)
+shape = SubResource("RectangleShape2D_qwpog")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashDown"]
+one_shot = true
+
+[node name="SlashLeft" type="Area2D" parent="HitBoxHandler"]
+scale = Vector2(1, 1.01132)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
+position = Vector2(-9, 0)
+shape = SubResource("RectangleShape2D_esdid")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashLeft"]
+one_shot = true
+
+[node name="SlashRight" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(-1, 0)
+scale = Vector2(1, 1.01132)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_esdid")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashRight"]
+one_shot = true
+
+[node name="SlashUp" type="Area2D" parent="HitBoxHandler"]
+position = Vector2(0, -83)
+scale = Vector2(1, 1.01132)
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
+position = Vector2(0, 72.1829)
+shape = SubResource("RectangleShape2D_qwpog")
+disabled = true
+
+[node name="Timer" type="Timer" parent="HitBoxHandler/SlashUp"]
+one_shot = true

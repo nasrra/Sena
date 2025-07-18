@@ -4,6 +4,11 @@
 
 [resource]
 script = ExtResource("1_mwdh1")
-Id = 2
 Cooldown = 1.0
-Range = 100.0
+LeadInTime = 0.2
+AttackTime = 0.05
+FollowThroughTime = 0.2
+MinTargetDistance = 50.0
+HitBoxId = 2
+Damage = 1
+Id = 2
