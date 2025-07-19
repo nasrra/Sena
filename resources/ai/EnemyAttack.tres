@@ -5,9 +5,10 @@
 [resource]
 script = ExtResource("1_gjf5t")
 Cooldown = 1.0
-LeadInTime = 0.2
+HandlerCooldown = 2.0
+LeadInTime = 0.33
 AttackTime = 0.05
-FollowThroughTime = 0.2
+FollowThroughTime = 0.66
 MinTargetDistance = 50.0
 Damage = 1
 Id = 0

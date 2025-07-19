@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dci573lp5pnto" path="res://Entropek/source/ai/AiAttackHandler.cs" id="1_w8nbf"]
 
-[node name="AiAttackHandler" type="Node" node_paths=PackedStringArray("leadInStateTimer", "attackStateTimer", "followThroughStateTimer", "cooldown")]
+[node name="AiAttackHandler" type="Node" node_paths=PackedStringArray("attackCooldowns", "leadInStateTimer", "attackStateTimer", "followThroughStateTimer", "standByCooldown")]
 script = ExtResource("1_w8nbf")
+attackCooldowns = []
 leadInStateTimer = NodePath("LeadInTimer")
 attackStateTimer = NodePath("AttackTimer")
 followThroughStateTimer = NodePath("FollowThroughTimer")
-cooldown = NodePath("CooldownTimer")
+standByCooldown = NodePath("StandByCooldownTimer")
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="StandByCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="LeadInTimer" type="Timer" parent="."]

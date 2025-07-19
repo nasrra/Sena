@@ -24,7 +24,8 @@ public partial class AiAttackHandler : Node{
     private Array<AiAttack> availableDownAttacks = new Array<AiAttack>();
     private Array<AiAttack> availableLeftAttacks = new Array<AiAttack>();
     private Array<AiAttack> availableOmniAttacks = new Array<AiAttack>();
-    
+    [Export] private Array<Timer> attackCooldowns; // <-- one timer per unique attack.
+
     public event Action<byte, AttackDirection> OnAttackStarted;
     public event Action<byte, AttackDirection> OnLeadIn;
     public event Action<byte, AttackDirection> OnAttack;
@@ -36,7 +37,7 @@ public partial class AiAttackHandler : Node{
     [Export] private Timer leadInStateTimer;
     [Export] private Timer attackStateTimer;
     [Export] private Timer followThroughStateTimer;
-    [Export] private Timer cooldown;
+    [Export] private Timer standByCooldown;
     
     private RandomNumberGenerator rng = new RandomNumberGenerator();
     private TargetDirection targetDirection = TargetDirection.Right;
@@ -47,6 +48,7 @@ public partial class AiAttackHandler : Node{
     private float angleToTarget     = 0;
     private float distanceToTarget  = float.MaxValue;
     private float maxMinTargetDistanceAttack = float.MinValue;
+
 
     /// 
     /// Base.
@@ -167,8 +169,16 @@ public partial class AiAttackHandler : Node{
         statePhysicsProcess = null;
     }
 
+    public void HaltState(float time){
+        HaltState();
+        standByCooldown.WaitTime = time;
+        standByCooldown.Start();
+    } 
+
     public void ResumeState(){
-        StandbyState();
+        if(standByCooldown.TimeLeft <= 0){
+            StandbyState();
+        }
     }
 
 
@@ -180,6 +190,7 @@ public partial class AiAttackHandler : Node{
     private void DetermineAvailableAttacks(){
 
         ClearAvailableAttacks();
+        chosenAttack = null;
 
         // return if we are not in the max range attack.
 
@@ -303,7 +314,6 @@ public partial class AiAttackHandler : Node{
 
     private void GetRandomAttack(Array<AiAttack> availableAttackOptions, out AiAttack chosen){
         int r = rng.RandiRange(0,availableAttackOptions.Count-1);
-        GD.Print(r);
         chosen = availableAttackOptions[r];
     }
 
@@ -328,6 +338,7 @@ public partial class AiAttackHandler : Node{
             targetDirection = TargetDirection.Left;
         }
     }
+
 
 
     /// 
@@ -360,7 +371,8 @@ public partial class AiAttackHandler : Node{
     }
 
     private void AttackEnded(){
-        StandbyState();
+        standByCooldown.WaitTime = chosenAttack.HandlerCooldown;
+        standByCooldown.Start();
         OnAttackEnded?.Invoke();
     }
 
@@ -371,14 +383,16 @@ public partial class AiAttackHandler : Node{
 
 
     public void LinkEvents(){
-        leadInStateTimer.Timeout    += StartAttackStateTimer;
-        attackStateTimer.Timeout    += StartFollowThroughStateTimer;
-        followThroughStateTimer.Timeout  += AttackEnded; 
+        leadInStateTimer.Timeout            += StartAttackStateTimer;
+        attackStateTimer.Timeout            += StartFollowThroughStateTimer;
+        followThroughStateTimer.Timeout     += AttackEnded; 
+        standByCooldown.Timeout             += StandbyState;
     }
 
     private void UnlinkEvents(){
-        leadInStateTimer.Timeout    -= StartAttackStateTimer;
-        attackStateTimer.Timeout    -= StartFollowThroughStateTimer;
-        followThroughStateTimer.Timeout  -= AttackEnded; 
+        leadInStateTimer.Timeout            -= StartAttackStateTimer;
+        attackStateTimer.Timeout            -= StartFollowThroughStateTimer;
+        followThroughStateTimer.Timeout     -= AttackEnded; 
+        standByCooldown.Timeout             -= StandbyState;
     }
 }

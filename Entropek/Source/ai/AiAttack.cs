@@ -2,7 +2,8 @@ using Godot;
 using System;
 
 public partial class AiAttack : Resource{
-    [Export] public float Cooldown              {get; private set;}
+    [Export] public float Cooldown              {get; private set;} // <-- cooldown for this specific attack.
+    [Export] public float HandlerCooldown       {get; private set;} // <-- cooldown before a new attack can be chosen.
     [Export] public float LeadInTime            {get; private set;}
     [Export] public float AttackTime            {get; private set;}
     [Export] public float FollowThroughTime     {get; private set;}

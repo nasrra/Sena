@@ -70,12 +70,13 @@ BaseDeceleration = 200.0
 lockYAxis = false
 gravityAffected = false
 
-[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("hitBoxHandler") instance=ExtResource("6_mj3ic")]
+[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("attackCooldowns", "hitBoxHandler") instance=ExtResource("6_mj3ic")]
 upAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 rightAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 leftAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 omniAttacks = Array[Resource]([])
+attackCooldowns = Array[Resource]([])
 hitBoxHandler = NodePath("../HitBoxHandler")
 
 [node name="StunTimer" type="Timer" parent="."]

@@ -17,6 +17,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     private Vector2 directionToTarget = Vector2.Zero;
     private Vector2 normalDirectionToTarget = Vector2.Zero;
     private float distanceToTarget = float.MaxValue;
+    [Export] public float stunStateAttackHandlerStandbyAdditiveTime = 1.0f;
     [Export] public bool stunOnHit = true;
 
     private event Action stateProcess = null;
@@ -106,7 +107,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         state = EnemyState.Stunned;
         stateProcess        = null;
         statePhysicProcess  = null;
-        attackHandler.HaltState();
+        attackHandler.HaltState(time+stunStateAttackHandlerStandbyAdditiveTime);
         stunTimer.WaitTime = time;
         stunTimer.Start();
     }
