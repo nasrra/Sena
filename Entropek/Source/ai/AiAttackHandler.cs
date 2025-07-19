@@ -154,6 +154,18 @@ public partial class AiAttackHandler : Node{
         statePhysicsProcess = null;
     }
 
+    public void HaltState(){
+        leadInStateTimer.Stop();
+        attackStateTimer.Stop();
+        followThroughStateTimer.Stop();
+        hitBoxHandler.DisableAllHitBoxes();
+        statePhysicsProcess = null;
+    }
+
+    public void ResumeState(){
+        StandbyState();
+    }
+
 
     /// 
     /// Functions.
@@ -242,9 +254,27 @@ public partial class AiAttackHandler : Node{
         this.distanceToTarget = distanceToTarget;
     }
 
+    public void SetDirectionToTarget(Vector2 directionToTarget){
+        angleToTarget = Mathf.Atan2(directionToTarget.Y, directionToTarget.X);
+        angleToTarget = Mathf.RadToDeg(angleToTarget);
+    
+        if(angleToTarget >= -135 && angleToTarget <= -45){
+            targetDirection = TargetDirection.Up;
+        }
+        else if(angleToTarget >= -45 && angleToTarget <= 45){
+            targetDirection = TargetDirection.Right;
+        }
+        else if(angleToTarget >= 45 && angleToTarget <= 135){
+            targetDirection = TargetDirection.Down;
+        }
+        else{
+            targetDirection = TargetDirection.Left;
+        }
+    }
+
 
     /// 
-    /// Timers.
+    /// Attacking States.
     /// 
 
 
@@ -276,24 +306,6 @@ public partial class AiAttackHandler : Node{
     private void AttackEnded(){
         StandbyState();
         OnAttackEnded?.Invoke();
-    }
-
-    public void SetDirectionToTarget(Vector2 directionToTarget){
-        angleToTarget = Mathf.Atan2(directionToTarget.Y, directionToTarget.X);
-        angleToTarget = Mathf.RadToDeg(angleToTarget);
-    
-        if(angleToTarget >= -135 && angleToTarget <= -45){
-            targetDirection = TargetDirection.Up;
-        }
-        else if(angleToTarget >= -45 && angleToTarget <= 45){
-            targetDirection = TargetDirection.Right;
-        }
-        else if(angleToTarget >= 45 && angleToTarget <= 135){
-            targetDirection = TargetDirection.Down;
-        }
-        else{
-            targetDirection = TargetDirection.Left;
-        }
     }
 
 

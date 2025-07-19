@@ -15,6 +15,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     private Vector2 directionToTarget = Vector2.Zero;
     private Vector2 normalDirectionToTarget = Vector2.Zero;
     private float distanceToTarget = float.MaxValue;
+    [Export] public bool stunOnHit = true;
 
     private event Action stateProcess = null;
     private event Action statePhysicProcess = null;
@@ -82,6 +83,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         GD.Print(state = EnemyState.Chase);
         stateProcess        = ChaseStateProcess;
         statePhysicProcess  = ChaseStatePhysicsProcess;
+        attackHandler.ResumeState();
     }
 
     private void ChaseStateProcess(){
@@ -98,6 +100,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         state = EnemyState.Stunned;
         stateProcess        = null;
         statePhysicProcess  = null;
+        attackHandler.HaltState();
         stunTimer.WaitTime = time;
         stunTimer.Start();
     }

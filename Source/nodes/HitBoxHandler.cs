@@ -48,6 +48,15 @@ public partial class HitBoxHandler : Node2D{
         hitBoxes[id].Disabled = true;
     }
 
+    public void DisableAllHitBoxes(){
+        for(int i = 0; i < hitBoxes.Length; i++){
+            hitBoxes[i].CallDeferred("set_disabled",true);
+        }
+        for(int i = 0; i < timers.Length; i++){
+            timers[i].Stop();
+        }
+    }
+
     private void LinkEvents(){
         timeouts = new Action[timers.Length];
         for(int i = 0; i < timers.Length; i++){
