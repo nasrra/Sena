@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Godot.Collections;
+using System.Collections.Generic;
 
 public partial class AiAttackHandler : Node{
 
@@ -17,13 +18,17 @@ public partial class AiAttackHandler : Node{
     [Export] private Array<AiAttack> rightAttacks;
     [Export] private Array<AiAttack> downAttacks;
     [Export] private Array<AiAttack> leftAttacks;
-    [Export] private Array<AiAttack> omniDirectionalAttacks;
-    private Array<AiAttack> availableAttacks = new Array<AiAttack>(); // available attacks to use in a given frame.
+    [Export] private Array<AiAttack> omniAttacks;
+    private Array<AiAttack> availableUpAttacks = new Array<AiAttack>();
+    private Array<AiAttack> availableRightAttacks = new Array<AiAttack>();
+    private Array<AiAttack> availableDownAttacks = new Array<AiAttack>();
+    private Array<AiAttack> availableLeftAttacks = new Array<AiAttack>();
+    private Array<AiAttack> availableOmniAttacks = new Array<AiAttack>();
     
-    public event Action<byte> OnAttackStarted;
-    public event Action<byte> OnLeadIn;
-    public event Action<byte> OnAttack;
-    public event Action<byte> OnFollowThrough;
+    public event Action<byte, AttackDirection> OnAttackStarted;
+    public event Action<byte, AttackDirection> OnLeadIn;
+    public event Action<byte, AttackDirection> OnAttack;
+    public event Action<byte, AttackDirection> OnFollowThrough;
     public event Action OnAttackEnded;
     private event Action statePhysicsProcess = null;
 
@@ -32,15 +37,16 @@ public partial class AiAttackHandler : Node{
     [Export] private Timer attackStateTimer;
     [Export] private Timer followThroughStateTimer;
     [Export] private Timer cooldown;
-    private AiAttack chosenAttack = null;
+    
     private RandomNumberGenerator rng = new RandomNumberGenerator();
     private TargetDirection targetDirection = TargetDirection.Right;
-
+    
+    private AiAttack chosenAttack = null;
+    private AttackDirection chosenAttackDirection;
 
     private float angleToTarget     = 0;
     private float distanceToTarget  = float.MaxValue;
     private float maxMinTargetDistanceAttack = float.MinValue;
-
 
     /// 
     /// Base.
@@ -127,14 +133,13 @@ public partial class AiAttackHandler : Node{
 
         // omni directional attacks.
 
-        for(int i = 0; i < omniDirectionalAttacks.Count; i++){
-            AiAttack attack = omniDirectionalAttacks[i];
+        for(int i = 0; i < omniAttacks.Count; i++){
+            AiAttack attack = omniAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
             }
         }
     }
-
 
     ///
     /// State Machine.
@@ -173,8 +178,9 @@ public partial class AiAttackHandler : Node{
 
 
     private void DetermineAvailableAttacks(){
-        availableAttacks.Clear();
-        
+
+        ClearAvailableAttacks();
+
         // return if we are not in the max range attack.
 
         if(distanceToTarget > maxMinTargetDistanceAttack){
@@ -186,68 +192,119 @@ public partial class AiAttackHandler : Node{
 
         switch(targetDirection){
             case TargetDirection.Up:
-                for(int i = 0; i < upAttacks.Count; i++){
-                    AiAttack attack = upAttacks[i];
-                    if(attack.MinTargetDistance < distanceToTarget){
-                        continue;
-                    }
-                    availableAttacks.Add(attack);
-                }
+                GetAvailableAttacks(upAttacks, availableUpAttacks);
             break;
             case TargetDirection.Right:
-                for(int i = 0; i < rightAttacks.Count; i++){
-                    AiAttack attack = rightAttacks[i];
-                    if(attack.MinTargetDistance < distanceToTarget){
-                        continue;
-                    }
-                    availableAttacks.Add(attack);
-                }
+                GetAvailableAttacks(rightAttacks, availableRightAttacks);
             break;
             case TargetDirection.Down:
-                for(int i = 0; i < downAttacks.Count; i++){
-                    AiAttack attack = downAttacks[i];
-                    if(attack.MinTargetDistance < distanceToTarget){
-                        continue;
-                    }
-                    availableAttacks.Add(attack);
-                }
+                GetAvailableAttacks(downAttacks, availableDownAttacks);
             break;
             case TargetDirection.Left:
-                for(int i = 0; i < leftAttacks.Count; i++){
-                    AiAttack attack = leftAttacks[i];
-                    if(attack.MinTargetDistance < distanceToTarget){
-                        continue;
-                    }
-                    availableAttacks.Add(attack);
-                }
+                GetAvailableAttacks(leftAttacks, availableLeftAttacks);
             break;
         }
 
         // omni directional attacks
 
-        for(int i = 0; i < omniDirectionalAttacks.Count; i++){
-            AiAttack attack = omniDirectionalAttacks[i];
+        GetAvailableAttacks(omniAttacks, availableOmniAttacks);
+    }
+
+    private void ClearAvailableAttacks(){
+        availableDownAttacks.Clear();
+        availableLeftAttacks.Clear();
+        availableOmniAttacks.Clear();
+        availableRightAttacks.Clear();
+        availableUpAttacks.Clear();
+    }
+
+    private void GetAvailableAttacks(Array<AiAttack> attackOptions, Array<AiAttack> availableAttackOptions){
+        for(int i = 0; i < attackOptions.Count; i++){
+            AiAttack attack = attackOptions[i];
             if(attack.MinTargetDistance < distanceToTarget){
                 continue;
             }
-            availableAttacks.Add(attack);
+            availableAttackOptions.Add(attack);
         }
+        // if(availableAttackOptions.Count > 0){
+        //     availableAttacks.Add(availableAttackOptions);
+        // }
     }
 
     private void ExecuteRandomAvailableAttack(){
         
         // return if there are no available attacks.
-        
-        if(availableAttacks.Count <= 0){
+        if(availableDownAttacks.Count == 0 
+        && availableLeftAttacks.Count == 0
+        && availableOmniAttacks.Count == 0
+        && availableRightAttacks.Count == 0
+        && availableUpAttacks.Count == 0){
             return;
+        }
+
+        bool isAlternate = false;
+
+        switch(targetDirection){
+            case TargetDirection.Up:
+                if(availableOmniAttacks.Count > 0){
+                    GetRandomAttack(availableUpAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                }
+                else{
+                    GetRandomAttack(availableUpAttacks, out chosenAttack);
+                }
+                chosenAttackDirection = isAlternate == false? AttackDirection.Up : AttackDirection.Omni;
+                break;
+            case TargetDirection.Right:
+                if(availableOmniAttacks.Count > 0){
+                    GetRandomAttack(availableRightAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                }
+                else{
+                    GetRandomAttack(availableRightAttacks, out chosenAttack);
+                }
+                chosenAttackDirection = isAlternate == false? AttackDirection.Right : AttackDirection.Omni;
+                break;
+            case TargetDirection.Down:
+                if(availableOmniAttacks.Count > 0){
+                    GetRandomAttack(availableDownAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                }
+                else{
+                    GetRandomAttack(availableDownAttacks, out chosenAttack);
+                }
+                chosenAttackDirection = isAlternate == false? AttackDirection.Down : AttackDirection.Omni;
+                break;
+            case TargetDirection.Left:
+                if(availableOmniAttacks.Count > 0){
+                    GetRandomAttack(availableLeftAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                }
+                else{
+                    GetRandomAttack(availableLeftAttacks, out chosenAttack);                    
+                }
+                chosenAttackDirection = isAlternate == false? AttackDirection.Left : AttackDirection.Omni;
+                break;
         }
 
         // choose a random attack.
 
-        int r = rng.RandiRange(0,availableAttacks.Count-1);
-        chosenAttack = availableAttacks[r];
         
         StartAttacking();
+    }
+
+    private void GetRandomAttack(Array<AiAttack> availableAttackOptions, Array<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
+        int r = rng.RandiRange(0,1);
+        if(r==0){
+            GetRandomAttack(availableAttackOptions, out chosen);
+            isAlternate = false;
+        }
+        else{
+            GetRandomAttack(alternateAvailableAttackOptions, out chosen);
+            isAlternate = true;
+        }
+    }
+
+    private void GetRandomAttack(Array<AiAttack> availableAttackOptions, out AiAttack chosen){
+        int r = rng.RandiRange(0,availableAttackOptions.Count-1);
+        GD.Print(r);
+        chosen = availableAttackOptions[r];
     }
 
     public void SetDistanceToTarget(float distanceToTarget){
@@ -280,27 +337,26 @@ public partial class AiAttackHandler : Node{
 
     private void StartAttacking(){
         AttackingState();
-        OnAttackStarted?.Invoke(chosenAttack.Id);
+        OnAttackStarted?.Invoke(chosenAttack.Id, chosenAttackDirection);
         StartLeadInTimer();
     }
 
     private void StartLeadInTimer(){
         leadInStateTimer.WaitTime = chosenAttack.LeadInTime;
         leadInStateTimer.Start();
-        OnLeadIn?.Invoke(chosenAttack.Id);
+        OnLeadIn?.Invoke(chosenAttack.Id, chosenAttackDirection);
     }
 
     private void StartAttackStateTimer(){
         attackStateTimer.WaitTime = chosenAttack.AttackTime;
-        hitBoxHandler.EnableHitBox(chosenAttack.HitBoxId, chosenAttack.AttackTime);
         attackStateTimer.Start();
-        OnAttack?.Invoke(chosenAttack.Id);
+        OnAttack?.Invoke(chosenAttack.Id, chosenAttackDirection);
     }
 
     private void StartFollowThroughStateTimer(){
         followThroughStateTimer.WaitTime = chosenAttack.FollowThroughTime;
         followThroughStateTimer.Start();
-        OnFollowThrough?.Invoke(chosenAttack.Id);
+        OnFollowThrough?.Invoke(chosenAttack.Id, chosenAttackDirection);
     }
 
     private void AttackEnded(){

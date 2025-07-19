@@ -1,12 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization.Metadata;
 
 public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
     [Export] private Health health;
     [Export] private AStarAgent aStarAgent;
     [Export] private CharacterMovement characterMovement;
     [Export] private AiAttackHandler attackHandler;
+    [Export] private HitBoxHandler hitBoxHandler;
     [Export] private HitFlashShaderController hitFlash;
     [Export] private Timer stunTimer;
     [Export] public Node2D Target;
@@ -26,12 +28,16 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private enum AttackId : byte{
-        Down    = 0,
-        Left    = 1,
-        Right   = 2,
-        Up      = 3,
+        Slash    = 0,
     }
-    
+
+    private enum AttackHitBoxId{
+        SlashDown = 0,
+        SlashLeft = 1,
+        SlashRight = 2,
+        SlashUp = 3,
+    }
+
     private Queue<Vector2> pathToTarget;
 
 
@@ -172,18 +178,31 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         stunTimer.Timeout -= EvaluateState;
     }
 
-    private void OnStartAttack(byte attack){
+    private void OnStartAttack(byte attackId, AttackDirection attackDirection){
         AttackingState();
     }
 
-    private void OnAttack(byte attack){
-        switch(attack){
-            case (byte)AttackId.Down:
-            case (byte)AttackId.Left:
-            case (byte)AttackId.Right:
-            case (byte)AttackId.Up:
+    private void OnAttack(byte attackId, AttackDirection attackDirection){
+        switch(attackId){
+            case (byte)AttackId.Slash:
+                switch(attackDirection){
+                    case AttackDirection.Down:
+                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashDown, 0.33f);
+                    break;
+                    case AttackDirection.Left:
+                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashLeft, 0.33f);
+                    break;
+                    case AttackDirection.Right:
+                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashRight, 0.33f);
+                    break;
+                    case AttackDirection.Up:
+                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);                    
+                    break;
+                }
                 characterMovement.Impulse(normalDirectionToTarget * 100f);
             break;
+            default:
+            throw new Exception($"Attack id[{attackId}] has not been implemented!");
         }
     }
 
