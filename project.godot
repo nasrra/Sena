@@ -39,6 +39,11 @@ project/assembly_name="Cena"
 
 enabled=PackedStringArray("res://addons/codeandweb.texturepacker/plugin.cfg", "res://addons/copy_files_on_export/plugin.cfg", "res://addons/debugdraw2d/plugin.cfg")
 
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
+
 [input]
 
 Heal={

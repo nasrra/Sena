@@ -4,15 +4,17 @@ using System;
 namespace Entropek.Ai;
 
 public partial class NavigationGrid2D : Node2D{
-    [Export] TileMapLayer tileMap;
+
     CellData[,] cells;
+
+    [Export] private TileMapLayer tileMap;
+    [Export] private Font debugFont;
+    private Color debugBlockedColour        = new Color(1,0,0,0.5f);
+    private Color debugTraversableColour    = new Color(0.5f,0.5f,1,0.5f);
+    private Vector2 debugSquareSize         = new Vector2(4,4);
+
     private bool drawDebug = true;
     private bool hideTiles = true;
-
-    private Color debugBlockedColour        = new Color(1,0,0);
-    private Color debugTraversableColour    = new Color(1,1,1);
-    private Color debugPassableColour       = new Color(0.5f,0.5f,0);
-    private Vector2 debugSquareSize         = new Vector2(4,4);
 
     public override void _Ready(){
         base._Ready();
@@ -24,6 +26,7 @@ public partial class NavigationGrid2D : Node2D{
             tileMap.Material = material;
         }
         InitialiseCells();
+        InitialiseGridClearance();
     }
 
 
@@ -66,6 +69,63 @@ public partial class NavigationGrid2D : Node2D{
         }
     }
 
+    public override void _Process(double delta){
+        base._Process(delta);
+    }
+
+    public void InitialiseGridClearance(){
+        int rows = cells.GetLength(0);
+        int cols = cells.GetLength(1);
+
+        for(int x = 0; x < rows; x++){
+            for(int y = 0; y < cols; y++){
+                CalculateClearance(x,y);
+            }
+        }
+    }
+
+    public void CalculateClearance(int cellX, int cellY){
+        ref CellData cell = ref cells[cellX, cellY];
+        
+        if (cell.Blocked){
+            cell.SetClearance(0);
+            return;
+        }
+
+        byte clearance = 1;
+        bool foundBlocked = false;
+
+        while (clearance < 255){
+
+            // Check bounds before checking the square
+            
+            if (cellX + clearance >= cells.GetLength(0) || cellY + clearance >= cells.GetLength(1))
+                break;
+
+            // Check new border row and column of the square
+            
+            for (int i = 0; i <= clearance; i++){
+
+                ref CellData bottomRowNeighbour = ref cells[cellX + i, cellY + clearance];
+                ref CellData rightColumnNeighbour = ref cells[cellX + clearance, cellY + i]; 
+
+                if (bottomRowNeighbour.Blocked ||
+                    rightColumnNeighbour.Blocked){
+                    foundBlocked = true;
+                    break;
+                }
+            }
+
+            if (foundBlocked)
+                break;
+
+            clearance++;
+        }
+
+        cell.SetClearance(clearance);
+    }
+
+
     public override void _Draw(){
         base._Draw();
         if(drawDebug == false){
@@ -86,10 +146,13 @@ public partial class NavigationGrid2D : Node2D{
                 ref CellData cell = ref cells[x,y];
 
                 if(cell.Blocked==true){
-                    DrawRect(new Rect2(tileMap.MapToLocal(index), debugSquareSize), debugBlockedColour);
+                    Vector2 globalPosition = tileMap.MapToLocal(index);
+                    DrawRect(new Rect2(globalPosition-debugSquareSize*0.5f, debugSquareSize), debugBlockedColour);
                 }
                 else{
-                    DrawRect(new Rect2(tileMap.MapToLocal(index), debugSquareSize), debugTraversableColour);
+                    Vector2 globalPosition = tileMap.MapToLocal(index);
+                    DrawRect(new Rect2(globalPosition, debugSquareSize*0.5f), debugTraversableColour);
+                    DrawString(debugFont, globalPosition, cell.Clearance.ToString(), HorizontalAlignment.Left, -1, 4);
                 }
             }
         }            
