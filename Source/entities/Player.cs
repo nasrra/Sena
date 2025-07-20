@@ -159,25 +159,35 @@ public partial class Player : CharacterBody2D{
     }
 
     private void HitBoxHit(Node2D node, int id){
-        string hitLayer = PhysicsManager.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-        
-        Vector2 directionToHit = (node.GlobalPosition - GlobalPosition).Normalized();
+        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string hitLayer)==false){
+            return;
+        }
         
         switch(hitLayer){
             case "Enemy":
-                ((Enemy)node).StunState(0.33f);
-                node.GetNode<Health>(Health.NodeName).Damage(1);
-                CharacterMovement enemyMovement = node.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-                enemyMovement.ZeroVelocity();
-                enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
-                movement.Impulse(-directionToHit * attackPlayerKnockback);
-                GD.Print("hit enemy");        
+                HandleOnHitEnemy((Enemy)node);
             break;
             case "HitInteractable":
                 Interactable interactable = (Interactable)node;
                 interactable.Interact();
             break;
         }
+    }
+
+    private void HandleOnHitEnemy(Enemy enemy){
+        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+        
+        float stunTime = 0.33f;
+        enemy.StunState(stunTime);
+        enemy.IgnoreEnemyCollisionMask(stunTime);
+        
+        enemy.GetNode<Health>(Health.NodeName).Damage(1);
+        
+        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+        enemyMovement.ZeroVelocity();
+        enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
+        
+        movement.Impulse(-directionToHit * attackPlayerKnockback);
     }
 
     private void LinkEvents(){

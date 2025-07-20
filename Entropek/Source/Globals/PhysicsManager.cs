@@ -1,8 +1,11 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class PhysicsManager : Node{
-    private static string[] LayerNames2D;
+    private string[] LayerNames2D;
+    private Dictionary<string, int> NameToLayerIDMap = new Dictionary<string, int>();  
     public Vector3 GravityDirection {get;private set;}
     public float Gravity {get;private set;}
     public static PhysicsManager Instance {get;private set;}
@@ -21,20 +24,43 @@ public partial class PhysicsManager : Node{
         for(int i = 0; i < 32; ++i){
             string key = $"layer_names/2d_physics/layer_{i}";
             if(ProjectSettings.HasSetting(key)){
-                LayerNames2D[i] = (string)ProjectSettings.GetSetting(key);
+                string layerName = (string)ProjectSettings.GetSetting(key);
+                if(layerName!=""){
+                    LayerNames2D[i] = layerName;
+                    NameToLayerIDMap.Add(layerName, i);
+                }
             }
         }
     }
 
-    public static string GetPhysics2DLayerName(uint collisionObjectLayer){
+    public bool GetPhysics2DLayerName(uint collisionObjectLayerBit, out string layerName){
+        
+        layerName = "";
         
         // convert the nodes layer bitmask to layer index. 
         
-        int layerIndex = System.Numerics.BitOperations.TrailingZeroCount(collisionObjectLayer) + 1;
+        int layerIndex = System.Numerics.BitOperations.TrailingZeroCount(collisionObjectLayerBit) + 1;
         
         // GD.Print($"bitmask[{collisionObjectLayer}] index[{layerIndex}]");
         
-        return LayerNames2D[layerIndex];
+        if(LayerNames2D.Length < layerIndex){
+            return false;
+        }
+
+        layerName = LayerNames2D[layerIndex];
+
+        return true;
+    }
+
+    public bool GetPhysics2DLayerId(string layerName, out int layerId){
+        layerId = -1;
+
+        if(NameToLayerIDMap.ContainsKey(layerName)){
+            layerId = NameToLayerIDMap[layerName];
+            return true;
+        }
+
+        return false;
     }
 
     public void SetGravity(float gravity){
@@ -46,4 +72,5 @@ public partial class PhysicsManager : Node{
         ProjectSettings.SetSetting("physics/2d/default_gravity_vector", direction);
         GravityDirection = direction;
     }
+
 }

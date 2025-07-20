@@ -23,7 +23,8 @@ size = Vector2(9, 14)
 size = Vector2(10, 12)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "emberDecayTimer", "animator")]
-collision_mask = 3
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")

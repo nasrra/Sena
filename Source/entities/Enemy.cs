@@ -11,6 +11,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     [Export] private HitBoxHandler hitBoxHandler;
     [Export] private HitFlashShaderController hitFlash;
     [Export] private Timer stunTimer;
+    [Export] private Timer ignoreEnemyTimer;
     [Export] public Node2D Target;
     private EnemyState state = EnemyState.Chase;
 
@@ -117,6 +118,28 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         statePhysicProcess = null;
     }
 
+    public void IgnoreEnemyCollisionMask(float time){
+        
+        ignoreEnemyTimer.WaitTime = time;
+        
+        if(PhysicsManager.Instance.GetPhysics2DLayerId("Enemy", out int layerid)==true){
+            SetCollisionMaskValue(layerid, false);
+        }
+        else{
+            throw new Exception("Enemy physics layer not found!");
+        }
+
+        ignoreEnemyTimer.Start();
+    }
+
+    private void RespondToEnemyCollisionMask(){
+        if(PhysicsManager.Instance.GetPhysics2DLayerId("Enemy", out int layerid)==true){
+            SetCollisionMaskValue(layerid, true);
+        }
+        else{
+            throw new Exception("Enemy physics layer not found!");
+        }
+    }
 
     /// 
     /// Shared State Function
@@ -166,6 +189,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         attackHandler.OnAttackEnded     += OnAttackEnded;
 
         stunTimer.Timeout += EvaluateState;
+        ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
     }
 
     private void UnlinkEvents(){
@@ -177,7 +201,14 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         attackHandler.OnAttackEnded     -= OnAttackEnded;
 
         stunTimer.Timeout -= EvaluateState;
+        ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
     }
+
+
+    ///
+    /// Linkage Functions.
+    /// 
+
 
     private void OnStartAttack(byte attackId, AttackDirection attackDirection){
         AttackingState();

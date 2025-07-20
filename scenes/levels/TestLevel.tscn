@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=4 uid="uid://qj5f5cs56kn0"]
+[gd_scene load_steps=6 format=4 uid="uid://qj5f5cs56kn0"]
 
 [ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_86d4f"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_w20ko"]
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/Enemy.tscn" id="3_3wv3p"]
 [ext_resource type="PackedScene" uid="uid://cdi8yyivdgfh7" path="res://scenes/environment/TimedEnemySpawner.tscn" id="4_timdk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_timdk"]
+size = Vector2(1, 1)
 
 [node name="GameplayLevel" instance=ExtResource("1_86d4f")]
 
@@ -23,3 +26,17 @@ position = Vector2(-48, 1)
 [node name="TimedEnemySpawner" parent="." index="5" instance=ExtResource("4_timdk")]
 position = Vector2(-48, -61)
 packedScene = ExtResource("3_3wv3p")
+
+[node name="StaticCollisions" type="StaticBody2D" parent="." index="6"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticCollisions" index="0"]
+position = Vector2(-108, 40)
+scale = Vector2(72, 16)
+shape = SubResource("RectangleShape2D_timdk")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticCollisions" index="1"]
+position = Vector2(108, 4)
+scale = Vector2(56, 56)
+shape = SubResource("RectangleShape2D_timdk")
