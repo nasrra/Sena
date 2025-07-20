@@ -146,3 +146,4 @@ one_shot = true
 scale = Vector2(122.225, 7.59879)
 script = ExtResource("10_m80fk")
 size = 2
+endPathPointTolerance = 1

@@ -175,8 +175,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
 
-
-
     /// 
     /// Linkage
     /// 

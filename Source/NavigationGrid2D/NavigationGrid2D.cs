@@ -23,12 +23,31 @@ public partial class NavigationGrid2D : Node2D{
     private bool drawDebug = true;
     private bool hideTiles = true;
 
+    // orthogonal (Manhattan)
+
+    // private Vector2I[] directions = new Vector2I[]{
+    //     new Vector2I(1, 0),     // left 
+    //     new Vector2I(-1, 0),    // right
+    //     new Vector2I(0, 1),     // up
+    //     new Vector2I(0, -1)     // down
+    // };
+
+    // diagonal (Ocitile)
+
     private Vector2I[] directions = new Vector2I[]{
         new Vector2I(1, 0),     // left 
+        new Vector2I(1, 1),     // top left 
+        new Vector2I(1, -1),    // bot left
+
         new Vector2I(-1, 0),    // right
+        new Vector2I(-1, 1),    // top right
+        new Vector2I(-1, -1),   // bot right
+
         new Vector2I(0, 1),     // up
+        
         new Vector2I(0, -1)     // down
     };
+
 
     public override void _Ready(){
         base._Ready();
@@ -99,10 +118,54 @@ public partial class NavigationGrid2D : Node2D{
         }
     }
 
-    public void CalculateClearance(int cellX, int cellY){
-        ref CellData cell = ref cells[cellX, cellY];
+    // Calculates clearance from top left to bottom right.
+    // for bottom right alignment.
+
+    // public void CalculateClearance(int cellX, int cellY){
+    //     ref CellData cell = ref cells[cellX, cellY];
         
-        if (cell.Blocked){
+    //     if (cell.Blocked){
+    //         cell.SetClearance(0);
+    //         return;
+    //     }
+
+    //     byte clearance = 1;
+    //     bool foundBlocked = false;
+
+    //     while (clearance < 255){
+
+    //         // Check bounds before checking the square
+            
+    //         if (cellX + clearance >= cells.GetLength(0) || cellY + clearance >= cells.GetLength(1))
+    //             break;
+
+    //         // Check new border row and column of the square
+            
+    //         for (int i = 0; i <= clearance; i++){
+
+    //             ref CellData bottomRowNeighbour = ref cells[cellX + i, cellY + clearance];
+    //             ref CellData rightColumnNeighbour = ref cells[cellX + clearance, cellY + i]; 
+
+    //             if (bottomRowNeighbour.Blocked ||
+    //                 rightColumnNeighbour.Blocked){
+    //                 foundBlocked = true;
+    //                 break;
+    //             }
+    //         }
+
+    //         if (foundBlocked)
+    //             break;
+
+    //         clearance++;
+    //     }
+
+    //     cell.SetClearance(clearance);
+    // }
+
+    public void CalculateClearance(int cx, int cy) {
+        ref CellData cell = ref cells[cx, cy];
+
+        if(cell.Blocked==true){
             cell.SetClearance(0);
             return;
         }
@@ -110,29 +173,47 @@ public partial class NavigationGrid2D : Node2D{
         byte clearance = 1;
         bool foundBlocked = false;
 
-        while (clearance < 255){
+        while(true){
+            // define the square bounds to check.
+            int left = cx - clearance;
+            int right = cx + clearance;
+            int top = cy - clearance;
+            int bot = cy + clearance;
 
-            // Check bounds before checking the square
-            
-            if (cellX + clearance >= cells.GetLength(0) || cellY + clearance >= cells.GetLength(1))
+            // stop if we are out of the grid.
+            if(left < 0 
+            || top < 0
+            || right >= SizeX 
+            || bot >= SizeY){
                 break;
-
-            // Check new border row and column of the square
+            }
             
-            for (int i = 0; i <= clearance; i++){
-
-                ref CellData bottomRowNeighbour = ref cells[cellX + i, cellY + clearance];
-                ref CellData rightColumnNeighbour = ref cells[cellX + clearance, cellY + i]; 
-
-                if (bottomRowNeighbour.Blocked ||
-                    rightColumnNeighbour.Blocked){
+            // analyse border of square at current clearance radius.
+            // to find a cell that is blocked.
+            for(int i = -clearance; i <= clearance; i++){
+                
+                // top and bottom rows.
+            
+                if(cells[cx + i, top].Blocked == true
+                || cells[cx +i, bot].Blocked == true){
                     foundBlocked = true;
                     break;
                 }
+
+                // left and right columns 
+                // <-- (< not <=) skip corners as they are already checked.
+
+                if(cells[left, cy + i].Blocked == true
+                || cells[right, cy + i].Blocked == true){
+                    foundBlocked = true;
+                    break;
+                }
+
             }
 
-            if (foundBlocked)
+            if(foundBlocked == true){
                 break;
+            }
 
             clearance++;
         }
@@ -140,15 +221,33 @@ public partial class NavigationGrid2D : Node2D{
         cell.SetClearance(clearance);
     }
 
-    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize){
+
+    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize, byte tolerance = 0){ //<-- tolerance is the amount of leeway given for the end point check.
         return GetPath(
             GlobalToIdPosition(startGlobalPosition), 
             GlobalToIdPosition(endGlobalPosition), 
-            agentSize
+            agentSize,
+            tolerance
         );
     }  
 
-    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize){
+    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize, byte tolerance = 0){ //<-- tolerance is the amount of leeway given for the end point check.
+
+        // if either point is out of bounds.
+
+        if(start.X >= SizeX || start.Y >= SizeY || start.X < 0 || start.Y < 0
+        || end.X >= SizeX || end.Y >= SizeY || end.X < 0 || end.Y < 0){
+            return new();
+        }
+
+        // if either point is within a blocked cell.
+
+        ref CellData startCell = ref cells[start.X, start.Y];
+        ref CellData endCell = ref cells[end.X, end.Y];
+        if(startCell.Blocked == true || endCell.Blocked == true){
+            return new();
+        }
+
         List<Vector2I> openList = new List<Vector2I>();
         HashSet<Vector2I> closedSet = new HashSet<Vector2I>();
         
@@ -162,10 +261,29 @@ public partial class NavigationGrid2D : Node2D{
         openList.Add(start);
         closedSet.Add(start);
 
+        int lowerXBound = 0;
+        int upperXBound = 0;
+        int lowerYBound = 0;
+        int upperYBound = 0;
+
+        if(tolerance > 0){
+            lowerXBound = end.X - tolerance;
+            upperXBound = end.X + tolerance;
+            lowerYBound = end.Y - tolerance;
+            upperYBound = end.Y + tolerance;
+        }
+
+
         while(openList.Count > 0){
             PathCell current = GetLowestTotalCostPathCell(openList);
 
-            if(current.Id == end){
+            if(tolerance > 0){
+                if(current.Id.X >= lowerXBound && current.Id.X <= upperXBound
+                && current.Id.Y >= lowerYBound && current.Id.Y <= upperYBound){
+                    return ReconstructPath(current, agentSize);
+                }
+            }
+            else if(current.Id == end){
                 return ReconstructPath(current, agentSize);
             }
 
@@ -252,8 +370,17 @@ public partial class NavigationGrid2D : Node2D{
     }
 
     private int CalculateHeuristic(Vector2I a, Vector2I b){
-        // Manhattan distance.
-        return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+        // Manhattan distance (orthogonal).
+        // return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+    
+        // ocitile distance (diagonal)
+        int dx = Math.Abs(a.X - b.X);
+        int dy = Math.Abs(a.Y - b.Y);
+
+        int D = 10;     // Cost for straight (orthogonal) movement
+        int D2 = 14;    // Approx. sqrt(2) * 10 for diagonal movement
+
+        return D * (dx + dy) + (D2 - 2 * D) * Math.Min(dx, dy);
     }
 
     public override void _Draw(){
