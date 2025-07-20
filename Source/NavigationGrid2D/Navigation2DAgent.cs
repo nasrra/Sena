@@ -1,0 +1,33 @@
+using Entropek.Ai;
+using Godot;
+using System;
+using System.Collections.Generic;
+
+public partial class Navigation2DAgent : Node2D{
+    public Stack<Vector2> Path {get; private set;}
+    [Export] byte size = 1;
+    
+    public override void _PhysicsProcess(double delta){
+        base._PhysicsProcess(delta);
+    }
+
+    public void CalculatePathToGlobalPosition(Vector2 endGlobalPosition){
+        Path = NavigationGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, size);
+    }
+
+    public override void _Process(double delta){
+        base._Process(delta);
+        QueueRedraw();
+    }
+
+
+    public override void _Draw(){
+        base._Draw();
+        foreach(Vector2 point in Path){
+            GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+            debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
+        }
+        GD.Print("draw");
+    }
+
+}

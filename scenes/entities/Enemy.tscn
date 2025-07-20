@@ -1,13 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
 [ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="2_1jhey"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="3_2hac7"]
-[ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="4_78qrw"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttack.tres" id="7_8rhtt"]
+[ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/NavigationGrid2D/Navigation2DAgent.cs" id="10_m80fk"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
 
@@ -20,20 +20,18 @@ shader_parameter/flash_value = 0.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(14, 14)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dc7q"]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwpog"]
 size = Vector2(14, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_esdid"]
 size = Vector2(9, 14)
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "aStarAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer")]
 collision_layer = 8
 collision_mask = 14
 script = ExtResource("1_s7bn3")
 health = NodePath("Health")
-aStarAgent = NodePath("AStarAgent")
+navAgent = NodePath("Navigation2DAgent")
 characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
 hitBoxHandler = NodePath("HitBoxHandler")
@@ -54,13 +52,6 @@ shape = SubResource("RectangleShape2D_tt7e2")
 script = ExtResource("3_2hac7")
 Max = 3
 Value = 3
-
-[node name="AStarAgent" type="Area2D" parent="."]
-script = ExtResource("4_78qrw")
-agentType = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AStarAgent"]
-shape = SubResource("RectangleShape2D_2dc7q")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("5_306ko")
@@ -150,3 +141,8 @@ disabled = true
 
 [node name="Timer" type="Timer" parent="HitBoxHandler/SlashUp"]
 one_shot = true
+
+[node name="Navigation2DAgent" type="Node2D" parent="."]
+scale = Vector2(122.225, 7.59879)
+script = ExtResource("10_m80fk")
+size = 2

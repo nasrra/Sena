@@ -5,7 +5,7 @@ using System.Text.Json.Serialization.Metadata;
 
 public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
     [Export] private Health health;
-    [Export] private AStarAgent aStarAgent;
+    [Export] private Navigation2DAgent navAgent;
     [Export] private CharacterMovement characterMovement;
     [Export] private AiAttackHandler attackHandler;
     [Export] private HitBoxHandler hitBoxHandler;
@@ -40,7 +40,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         SlashUp = 3,
     }
 
-    private Queue<Vector2> pathToTarget;
+    private Stack<Vector2> pathToTarget;
 
 
     ///
@@ -68,6 +68,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     public override void _Process(double delta){
         base._Process(delta);
         stateProcess?.Invoke();
+        // GD.Print(pathToTarget.Count);
     }
 
     public override void _PhysicsProcess(double delta){
@@ -151,7 +152,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
             Vector2 distance = pathToTarget.Peek() - GlobalPosition;
             characterMovement.Move(pathToTarget.Peek() - GlobalPosition);
             if(distance.LengthSquared() <= 100){
-                pathToTarget.Dequeue();
+                pathToTarget.Pop();
             }
             // GD.Print(distance.LengthSquared());
         }
@@ -169,7 +170,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private void GetPathToTarget(){
-        pathToTarget = aStarAgent.GetPathToPosition(Target.GlobalPosition);
+        navAgent.CalculatePathToGlobalPosition(Target.GlobalPosition);
+        pathToTarget = navAgent.Path; 
     }
 
 

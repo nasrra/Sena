@@ -1,20 +1,34 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace Entropek.Ai;
 
 public partial class NavigationGrid2D : Node2D{
 
+    public static NavigationGrid2D Instance {get;private set;}
+
     CellData[,] cells;
+    PathCell[,] paths;
 
     [Export] private TileMapLayer tileMap;
     [Export] private Font debugFont;
     private Color debugBlockedColour        = new Color(1,0,0,0.5f);
     private Color debugTraversableColour    = new Color(0.5f,0.5f,1,0.5f);
     private Vector2 debugSquareSize         = new Vector2(4,4);
+    
+    public int SizeX {get;private set;}
+    public int SizeY {get;private set;}
 
     private bool drawDebug = true;
     private bool hideTiles = true;
+
+    private Vector2I[] directions = new Vector2I[]{
+        new Vector2I(1, 0),     // left 
+        new Vector2I(-1, 0),    // right
+        new Vector2I(0, 1),     // up
+        new Vector2I(0, -1)     // down
+    };
 
     public override void _Ready(){
         base._Ready();
@@ -25,25 +39,26 @@ public partial class NavigationGrid2D : Node2D{
             material.Shader = shader;
             tileMap.Material = material;
         }
-        InitialiseCells();
+        Initialise();
         InitialiseGridClearance();
+        Instance=this;
     }
 
+    private void Initialise(){ // <-- inits static environment.
 
-    private void InitialiseCells(){ // <-- inits static environment.
+        SizeX = tileMap.GetUsedRect().Size.X;
+        SizeY = tileMap.GetUsedRect().Size.Y;
 
-        int tileMapSizeX = tileMap.GetUsedRect().Size.X;
-        int tileMapSizeY = tileMap.GetUsedRect().Size.Y;
-
-        cells = new CellData[tileMapSizeX, tileMapSizeY];
+        cells = new CellData[SizeX, SizeY];
+        paths = new PathCell[SizeX, SizeY];
 
         // offset to the top left of the grid.
         // so that we scan from to left to right on each row for each column.
         // starting from the top left of the grid and ending at the bottom right.
 
-        for(int x = 0; x < tileMapSizeX; x++){
+        for(int x = 0; x < SizeX; x++){
             int globalX = x + tileMap.GetUsedRect().Position.X;
-            for(int y = 0; y < tileMapSizeY; y++){
+            for(int y = 0; y < SizeY; y++){
                 int globalY = y + tileMap.GetUsedRect().Position.Y;
 
                 Vector2I index = new Vector2I(globalX, globalY);
@@ -125,6 +140,121 @@ public partial class NavigationGrid2D : Node2D{
         cell.SetClearance(clearance);
     }
 
+    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize){
+        return GetPath(
+            GlobalToIdPosition(startGlobalPosition), 
+            GlobalToIdPosition(endGlobalPosition), 
+            agentSize
+        );
+    }  
+
+    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize){
+        List<Vector2I> openList = new List<Vector2I>();
+        HashSet<Vector2I> closedSet = new HashSet<Vector2I>();
+        
+        ref PathCell startPathCell = ref paths[start.X, start.Y];
+        startPathCell = new PathCell(
+            id: start,
+            cost: 0, 
+            heuristic: CalculateHeuristic(start, end)
+        );
+
+        openList.Add(start);
+        closedSet.Add(start);
+
+        while(openList.Count > 0){
+            PathCell current = GetLowestTotalCostPathCell(openList);
+
+            if(current.Id == end){
+                return ReconstructPath(current, agentSize);
+            }
+
+            openList.Remove(current.Id);
+            closedSet.Add(current.Id);
+
+            foreach(Vector2I direction in directions){
+                Vector2I neighbourId = current.Id + direction;
+
+                // check bounds.
+                
+                if(closedSet.Contains(neighbourId) || neighbourId.X >= SizeX  || neighbourId.Y >= SizeY){
+                    continue;
+                }
+
+                ref CellData neighbourCellData = ref cells[neighbourId.X,neighbourId.Y];
+
+                // // Check if terrain is in agent's capability
+                // if (!capability.Contains(neighborCell.TerrainType))
+                //     continue;
+
+                // check clearance.
+
+                if(neighbourCellData.Clearance < agentSize){
+                    continue;
+                }
+
+                // ref PathCell neighbourPathCell = ref paths[neighbourId.X, neighbourId.Y]; 
+
+                PathCell neighbourPathCell  = new PathCell(
+                    id: neighbourId,
+                    parentId: current.Id,
+                    cost: current.Cost + 1,
+                    heuristic: CalculateHeuristic(neighbourId, end)
+                );
+
+                // if already in open list with lower total cost.
+
+                ref PathCell existing = ref paths[neighbourId.X, neighbourId.Y];
+                
+                if(openList.Contains(neighbourId) && neighbourPathCell.Total >= neighbourPathCell.Total){    
+                    continue;
+                }
+
+                // assign the neighbour data.
+
+                existing = neighbourPathCell;
+
+                openList.Add(neighbourId);
+            }
+        }
+        return new();
+    }
+
+    private Stack<Vector2> ReconstructPath(PathCell endPathCell, byte agentSize){
+        Stack<Vector2> path = new Stack<Vector2>();
+        PathCell current = endPathCell;
+        while(true){
+            // current.Id + (Vector2I.One * (agentSize-1));
+            path.Push(IdToGlobalPosition(current.Id));    
+            if(current.ParentId == new Vector2I(-1,-1)){
+                break;
+            }
+            else{
+                current = paths[current.ParentId.X, current.ParentId.Y];
+            }
+        }
+        return path;
+    }
+
+    private PathCell GetLowestTotalCostPathCell(List<Vector2I> indexes){
+        Vector2I index = indexes[0];
+        PathCell best = paths[index.X, index.Y];
+    
+        for(int i = 1; i < indexes.Count; i++){
+            index = indexes[i];
+            PathCell other = paths[index.X, index.Y];
+            if(other.Total < best.Total){
+                best = other;
+            }
+        }
+
+        return best;
+    }
+
+    private int CalculateHeuristic(Vector2I a, Vector2I b){
+        // Manhattan distance.
+        return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+    }
 
     public override void _Draw(){
         base._Draw();
