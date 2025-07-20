@@ -76,8 +76,11 @@ rightAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 leftAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 omniAttacks = Array[Resource]([])
-attackCooldowns = Array[Resource]([])
+attackCooldowns = [NodePath("SlashCooldown")]
 hitBoxHandler = NodePath("../HitBoxHandler")
+
+[node name="SlashCooldown" type="Timer" parent="AiAttackHandler"]
+one_shot = true
 
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true

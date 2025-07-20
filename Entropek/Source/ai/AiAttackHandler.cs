@@ -167,6 +167,7 @@ public partial class AiAttackHandler : Node{
         followThroughStateTimer.Stop();
         hitBoxHandler.DisableAllHitBoxes();
         statePhysicsProcess = null;
+        StartChoseAttackCooldown();
     }
 
     public void HaltState(float time){
@@ -232,14 +233,12 @@ public partial class AiAttackHandler : Node{
     private void GetAvailableAttacks(Array<AiAttack> attackOptions, Array<AiAttack> availableAttackOptions){
         for(int i = 0; i < attackOptions.Count; i++){
             AiAttack attack = attackOptions[i];
-            if(attack.MinTargetDistance < distanceToTarget){
+            if(attack.MinTargetDistance < distanceToTarget
+            || attackCooldowns[attack.Id].TimeLeft > 0){
                 continue;
             }
             availableAttackOptions.Add(attack);
         }
-        // if(availableAttackOptions.Count > 0){
-        //     availableAttacks.Add(availableAttackOptions);
-        // }
     }
 
     private void ExecuteRandomAvailableAttack(){
@@ -258,37 +257,37 @@ public partial class AiAttackHandler : Node{
         switch(targetDirection){
             case TargetDirection.Up:
                 if(availableOmniAttacks.Count > 0){
-                    GetRandomAttack(availableUpAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                    ChooseRandomAttack(availableUpAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
                 }
                 else{
-                    GetRandomAttack(availableUpAttacks, out chosenAttack);
+                    ChooseRandomAttack(availableUpAttacks, out chosenAttack);
                 }
                 chosenAttackDirection = isAlternate == false? AttackDirection.Up : AttackDirection.Omni;
                 break;
             case TargetDirection.Right:
                 if(availableOmniAttacks.Count > 0){
-                    GetRandomAttack(availableRightAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                    ChooseRandomAttack(availableRightAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
                 }
                 else{
-                    GetRandomAttack(availableRightAttacks, out chosenAttack);
+                    ChooseRandomAttack(availableRightAttacks, out chosenAttack);
                 }
                 chosenAttackDirection = isAlternate == false? AttackDirection.Right : AttackDirection.Omni;
                 break;
             case TargetDirection.Down:
                 if(availableOmniAttacks.Count > 0){
-                    GetRandomAttack(availableDownAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                    ChooseRandomAttack(availableDownAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
                 }
                 else{
-                    GetRandomAttack(availableDownAttacks, out chosenAttack);
+                    ChooseRandomAttack(availableDownAttacks, out chosenAttack);
                 }
                 chosenAttackDirection = isAlternate == false? AttackDirection.Down : AttackDirection.Omni;
                 break;
             case TargetDirection.Left:
                 if(availableOmniAttacks.Count > 0){
-                    GetRandomAttack(availableLeftAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
+                    ChooseRandomAttack(availableLeftAttacks, availableOmniAttacks, out chosenAttack, out isAlternate);
                 }
                 else{
-                    GetRandomAttack(availableLeftAttacks, out chosenAttack);                    
+                    ChooseRandomAttack(availableLeftAttacks, out chosenAttack);                    
                 }
                 chosenAttackDirection = isAlternate == false? AttackDirection.Left : AttackDirection.Omni;
                 break;
@@ -300,19 +299,19 @@ public partial class AiAttackHandler : Node{
         StartAttacking();
     }
 
-    private void GetRandomAttack(Array<AiAttack> availableAttackOptions, Array<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
+    private void ChooseRandomAttack(Array<AiAttack> availableAttackOptions, Array<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
         int r = rng.RandiRange(0,1);
         if(r==0){
-            GetRandomAttack(availableAttackOptions, out chosen);
+            ChooseRandomAttack(availableAttackOptions, out chosen);
             isAlternate = false;
         }
         else{
-            GetRandomAttack(alternateAvailableAttackOptions, out chosen);
+            ChooseRandomAttack(alternateAvailableAttackOptions, out chosen);
             isAlternate = true;
         }
     }
 
-    private void GetRandomAttack(Array<AiAttack> availableAttackOptions, out AiAttack chosen){
+    private void ChooseRandomAttack(Array<AiAttack> availableAttackOptions, out AiAttack chosen){
         int r = rng.RandiRange(0,availableAttackOptions.Count-1);
         chosen = availableAttackOptions[r];
     }
@@ -336,6 +335,14 @@ public partial class AiAttackHandler : Node{
         }
         else{
             targetDirection = TargetDirection.Left;
+        }
+    }
+
+    private void StartChoseAttackCooldown(){
+        if(chosenAttack != null){
+            Timer cooldownTimer = attackCooldowns[chosenAttack.Id]; 
+            cooldownTimer.WaitTime = chosenAttack.Cooldown;
+            cooldownTimer.Start();
         }
     }
 
@@ -373,6 +380,7 @@ public partial class AiAttackHandler : Node{
     private void AttackEnded(){
         standByCooldown.WaitTime = chosenAttack.HandlerCooldown;
         standByCooldown.Start();
+        StartChoseAttackCooldown();
         OnAttackEnded?.Invoke();
     }
 
