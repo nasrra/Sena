@@ -52,6 +52,8 @@ public partial class Player : CharacterBody2D{
 
     public override void _Process(double delta){
         base._Process(delta);
+        // GD.Print(PathfindingGrid.Instance.GlobalToIdPosition(GlobalPosition));
+
         if(Input.IsActionJustPressed("SwordSlash")){
             movement.Impulse(aimCursour.aimDirection * attackLungeForce);
             int hitBoxId;
