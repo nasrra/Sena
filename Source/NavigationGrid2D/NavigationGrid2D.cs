@@ -16,11 +16,10 @@ public partial class NavigationGrid2D : Node2D{
     private Color debugBlockedColour        = new Color(1,0,0,0.5f);
     private Color debugTraversableColour    = new Color(0.5f,0.5f,1,0.5f);
     private Vector2 debugSquareSize         = new Vector2(4,4);
-    
-    public int SizeX {get;private set;}
-    public int SizeY {get;private set;}
-    public int CellSizeX {get;private set;}
-    public int CellSizeY {get;private set;}
+    private Vector2I gridSize = Vector2I.Zero;
+    public Vector2I GridSize {get => gridSize;}
+    private Vector2I cellSize = Vector2I.Zero;
+    public Vector2I CellSize {get => cellSize;}
 
     private bool drawDebug = true;
     private bool hideTiles = true;
@@ -67,21 +66,21 @@ public partial class NavigationGrid2D : Node2D{
 
     private void Initialise(){ // <-- inits static environment.
 
-        SizeX = tileMap.GetUsedRect().Size.X;
-        SizeY = tileMap.GetUsedRect().Size.Y;
-        CellSizeX = tileMap.TileSet.TileSize.X;
-        CellSizeY = tileMap.TileSet.TileSize.Y;
+        gridSize.X = tileMap.GetUsedRect().Size.X;
+        gridSize.Y = tileMap.GetUsedRect().Size.Y;
+        cellSize.X = tileMap.TileSet.TileSize.X;
+        cellSize.Y = tileMap.TileSet.TileSize.Y;
 
-        cells = new CellData[SizeX, SizeY];
-        paths = new PathCell[SizeX, SizeY];
+        cells = new CellData[gridSize.X, gridSize.Y];
+        paths = new PathCell[gridSize.X, gridSize.Y];
 
         // offset to the top left of the grid.
         // so that we scan from to left to right on each row for each column.
         // starting from the top left of the grid and ending at the bottom right.
 
-        for(int x = 0; x < SizeX; x++){
+        for(int x = 0; x < gridSize.X; x++){
             int globalX = x + tileMap.GetUsedRect().Position.X;
-            for(int y = 0; y < SizeY; y++){
+            for(int y = 0; y < gridSize.Y; y++){
                 int globalY = y + tileMap.GetUsedRect().Position.Y;
 
                 Vector2I index = new Vector2I(globalX, globalY);
@@ -187,8 +186,8 @@ public partial class NavigationGrid2D : Node2D{
             // stop if we are out of the grid.
             if(left < 0 
             || top < 0
-            || right >= SizeX 
-            || bot >= SizeY){
+            || right >= gridSize.X 
+            || bot >= gridSize.Y){
                 break;
             }
             
@@ -225,8 +224,16 @@ public partial class NavigationGrid2D : Node2D{
         cell.SetClearance(clearance);
     }
 
+    /// <summary>
+    /// Gets a path along the grid towards a given end point.
+    /// </summary>
+    /// <param name="startGlobalPosition"></param>
+    /// <param name="endGlobalPosition"></param>
+    /// <param name="agentSize"></param>
+    /// <param name="tolerance">tolerance is the amount of leeway given for the end point check.</param>
+    /// <returns></returns>
 
-    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize, byte tolerance = 0){ //<-- tolerance is the amount of leeway given for the end point check.
+    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize, byte tolerance = 0){
         return GetPath(
             GlobalToIdPosition(startGlobalPosition), 
             GlobalToIdPosition(endGlobalPosition), 
@@ -235,12 +242,21 @@ public partial class NavigationGrid2D : Node2D{
         );
     }  
 
-    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize, byte tolerance = 0){ //<-- tolerance is the amount of leeway given for the end point check.
+    /// <summary>
+    /// Gets a path along the grid towards a given end point.
+    /// </summary>
+    /// <param name="start"></param>
+    /// <param name="end"></param>
+    /// <param name="agentSize"></param>
+    /// <param name="tolerance">the amount of leeway given for the end point check.</param>
+    /// <returns></returns>
+
+    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize, byte tolerance = 0){
 
         // if either point is out of bounds.
 
-        if(start.X >= SizeX || start.Y >= SizeY || start.X < 0 || start.Y < 0
-        || end.X >= SizeX || end.Y >= SizeY || end.X < 0 || end.Y < 0){
+        if(start.X >= gridSize.X || start.Y >= gridSize.Y || start.X < 0 || start.Y < 0
+        || end.X >= gridSize.X || end.Y >= gridSize.Y || end.X < 0 || end.Y < 0){
             return new();
         }
 
@@ -282,12 +298,12 @@ public partial class NavigationGrid2D : Node2D{
 
             if(tolerance > 0){
                 if(WithinTolerance(toleranceLowerBound, toleranceUpperBound, ref current) == true
-                && CalcToleranceBetweenPathCells(current.Id, new Vector2I(end.X, end.Y)) == true){
-                    return ReconstructPath(current, agentSize);
+                && CalcToleranceBetweenPathCells(current.Id, end) == true){
+                    return ReconstructPath(current);
                 }
             }
             else if(current.Id == end){
-                return ReconstructPath(current, agentSize);
+                return ReconstructPath(current);
             }
 
             openList.Remove(current.Id);
@@ -298,7 +314,7 @@ public partial class NavigationGrid2D : Node2D{
 
                 // check bounds.
                 
-                if(closedSet.Contains(neighbourId) || neighbourId.X >= SizeX  || neighbourId.Y >= SizeY){
+                if(closedSet.Contains(neighbourId) || neighbourId.X >= gridSize.X  || neighbourId.Y >= gridSize.Y){
                     continue;
                 }
 
@@ -349,15 +365,28 @@ public partial class NavigationGrid2D : Node2D{
         return tileMap.MapToLocal(gridIdPosition);
     }
 
+    /// <summary>
+    /// Check if a path cell is within a given tolerance radius in the grid.
+    /// </summary>
+    /// <param name="lowerBound"></param>
+    /// <param name="upperBound"></param>
+    /// <param name="currentPathCell"></param>
+    /// <returns></returns>
+
     private bool WithinTolerance(Vector2 lowerBound, Vector2 upperBound, ref PathCell currentPathCell){
         return
         currentPathCell.Id.X >= lowerBound.X && currentPathCell.Id.X <= upperBound.X
         && currentPathCell.Id.Y >= lowerBound.Y && currentPathCell.Id.Y <= upperBound.Y;
     }
 
-    // line-of-sight style check that determines if there's and unobstructed straight line between two cells.
-    // where every cell in that line must have at least agentSize clearance.
-    // Note: modified Bresenham's line algorithm.
+    /// <summary>
+    /// line-of-sight style check that determines if there's and unobstructed straight line between two cells.
+    /// where every cell in that line must have at least agentSize clearance.
+    /// Note: modified Bresenham's line algorithm.
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <returns></returns>
 
     private bool CalcToleranceBetweenPathCells(Vector2I from, Vector2I to){
         int x0 = from.X;
@@ -382,7 +411,7 @@ public partial class NavigationGrid2D : Node2D{
 
         while (true){
             // Bounds check
-            if (x0 < 0 || x0 >= SizeX || y0 < 0 || y0 >= SizeY){
+            if (x0 < 0 || x0 >= gridSize.X || y0 < 0 || y0 >= gridSize.Y){
                 return false;
             }
 
@@ -415,8 +444,13 @@ public partial class NavigationGrid2D : Node2D{
         return true;
     }
 
+    /// <summary>
+    /// Constructs a path from a given path cell after a path has been found using GetPath().
+    /// </summary>
+    /// <param name="endPathCell"></param>
+    /// <returns></returns>
 
-    private Stack<Vector2> ReconstructPath(PathCell endPathCell, byte agentSize){
+    private Stack<Vector2> ReconstructPath(PathCell endPathCell){
         Stack<Vector2> path = new Stack<Vector2>();
         PathCell current = endPathCell;
         while(true){
