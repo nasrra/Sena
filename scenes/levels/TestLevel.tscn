@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://qj5f5cs56kn0"]
+[gd_scene load_steps=9 format=4 uid="uid://qj5f5cs56kn0"]
 
 [ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_86d4f"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_w20ko"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cdi8yyivdgfh7" path="res://scenes/environment/TimedEnemySpawner.tscn" id="4_timdk"]
 [ext_resource type="PackedScene" uid="uid://dl4kccjhbcmux" path="res://scenes/environment/interactables/Firepit.tscn" id="5_j0sv7"]
 [ext_resource type="PackedScene" uid="uid://bsgesvasya5np" path="res://scenes/environment/interactables/Chimney.tscn" id="6_buy1m"]
+[ext_resource type="PackedScene" uid="uid://tpx5rax7c0nj" path="res://scenes/environment/interactables/BrazierDoor.tscn" id="7_4unv2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_timdk"]
 size = Vector2(1, 1)
@@ -71,3 +72,6 @@ position = Vector2(173, 110)
 [node name="Enemy" parent="." index="6" node_paths=PackedStringArray("Target") instance=ExtResource("3_3wv3p")]
 position = Vector2(231, 91)
 Target = NodePath("../Player")
+
+[node name="BrazierDoor" parent="." index="7" instance=ExtResource("7_4unv2")]
+position = Vector2(266, 158)

@@ -2,9 +2,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class AStarAgent : Area2D{
-    private const string NodeName = nameof(AStarAgent);
-    [Export] AStarTileType agentType;
+namespace Entropek.Ai;
+
+public partial class WayfindingStaticObstacle2D : Node2D{
+    private const string NodeName = nameof(WayfindingStaticObstacle2D);
+    [Export] NavigationType navigationType;
     private List<Vector2I> occupiedTiles = new List<Vector2I>();
     public bool Enabled {get;private set;} = true;
     private Rect2 globalAABB;
@@ -29,7 +31,7 @@ public partial class AStarAgent : Area2D{
 
     private void Remove(){
         if(occupiedTiles.Count>0){
-            PathfindingGrid.Instance.Remove(occupiedTiles, agentType);
+            WayfindingGrid2D.Instance.Remove(occupiedTiles, navigationType);
             GD.Print("remove door");
         }
     }
@@ -43,12 +45,8 @@ public partial class AStarAgent : Area2D{
 
         globalAABB = new Rect2(center - extents, rectShape.Size);
 
-        PathfindingGrid.Instance.Insert(globalAABB, agentType, out occupiedTiles);
+        WayfindingGrid2D.Instance.Insert(globalAABB, navigationType, out occupiedTiles);
         GD.Print("insert door");
-    }
-
-    public Queue<Vector2> GetPathToPosition(Vector2 targetGlobalPosition){
-        return PathfindingGrid.Instance.GetPathToPoint(GlobalPosition, targetGlobalPosition);
     }
 
     public void Update(){
@@ -65,5 +63,4 @@ public partial class AStarAgent : Area2D{
         // debugDraw.Call("rect",globalAABB.Position, globalAABB.Size, new Color(0, 1, 1), 2f, 20f);
         // GD.Print("draw");
     }
-
 }

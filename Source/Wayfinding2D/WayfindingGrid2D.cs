@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Entropek.Ai;
 
-public partial class NavigationGrid2D : Node2D{
+public partial class WayfindingGrid2D : Node2D{
 
-    public static NavigationGrid2D Instance {get;private set;}
+    public static WayfindingGrid2D Instance {get;private set;}
 
     CellData[,] cells;
     PathCell[,] paths;
@@ -89,16 +89,16 @@ public partial class NavigationGrid2D : Node2D{
                     continue;
                 }
 
-                AStarTileType navigation = (AStarTileType)(int)sharedTileData.GetCustomData("NavigationType");
+                NavigationType navigation = (NavigationType)(int)sharedTileData.GetCustomData("NavigationType");
 
                 ref CellData cell = ref cells[x,y];
                 
                 switch(navigation){
-                    case AStarTileType.Block:
+                    case NavigationType.Block:
                         cell.SetBlocked(true);
                         cell.LockData(); // <-- lock for statics.
                         break;
-                    case AStarTileType.Open:
+                    case NavigationType.Open:
                         cell.SetBlocked(false);
                         break;
                 }
@@ -108,6 +108,7 @@ public partial class NavigationGrid2D : Node2D{
 
     public override void _Process(double delta){
         base._Process(delta);
+        QueueRedraw();
     }
 
     public void InitialiseGridClearance(){
@@ -527,6 +528,74 @@ public partial class NavigationGrid2D : Node2D{
         }            
     }
 
+    public void Insert(Rect2 globalAABB,  NavigationType navigationType, out List<Vector2I> currentFrameIndices){
+        currentFrameIndices = new List<Vector2I>();
+
+        Vector2I minGridPosition = tileMap.LocalToMap(globalAABB.Position - (globalAABB.Size *0.5f));
+        Vector2I maxGridPosition = tileMap.LocalToMap(globalAABB.Position + (globalAABB.Size *0.5f));
+
+        for (int y = minGridPosition.Y; y <= maxGridPosition.Y; y++) {
+            for (int x = minGridPosition.X; x <= maxGridPosition.X; x++) {
+
+                Vector2I index = new Vector2I(x,y);
+                
+                currentFrameIndices.Add(index);
+
+                if(TileIsInUse(index.X, index.Y, out TileData sharedTileData)==false){
+                    continue;
+                }
+                
+                ref CellData cellData = ref cells[index.X, index.Y];
+
+                if(cellData.Locked==true){
+                    continue;
+                }
+
+                switch(navigationType){
+                    case NavigationType.Block:
+                        cellData.SetBlocked(true);
+                        break;
+                    case NavigationType.Pass:
+                        throw new Exception($"{NavigationType.Pass} not implmeneted!");
+                    case NavigationType.Open:
+                        cellData.SetBlocked(false);
+                        break;
+                }
+            }
+        }
+
+        InitialiseGridClearance();
+    }
+
+    public void Remove(List<Vector2I> indices, NavigationType navigationType){
+        for(int i = 0 ; i < indices.Count; i++){
+            
+            Vector2I index = indices[i];
+
+            if(TileIsInUse(index.X, index.Y, out TileData sharedTileData)==false){
+                continue;
+            }
+            
+            ref CellData cellData = ref cells[index.X, index.Y];
+
+            if(cellData.Locked==true){
+                continue;
+            }
+
+            switch(navigationType){
+                case NavigationType.Block:
+                    cellData.SetBlocked(false);
+                    break;
+                case NavigationType.Pass:
+                    throw new Exception($"{NavigationType.Pass} not implmeneted!");
+                case NavigationType.Open:
+                    cellData.SetBlocked(false);
+                    break;
+            }
+        }
+
+        InitialiseGridClearance();
+    }
 
     private bool TileIsInUse(int x, int y, out TileData sharedTileData){
         Vector2I index = new(x,y);

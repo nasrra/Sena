@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttack.tres" id="7_8rhtt"]
-[ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/NavigationGrid2D/Navigation2DAgent.cs" id="10_m80fk"]
+[ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
 

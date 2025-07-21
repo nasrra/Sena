@@ -1,3 +1,4 @@
+using Entropek.Ai;
 using Godot;
 using System;
 
@@ -6,7 +7,7 @@ public partial class Door : Node{
     [Export]
     private CollisionObject2D collider;
     [Export]
-    private AStarAgent aStarAgent;
+    private WayfindingStaticObstacle2D wayfindingObstacle;
     [Export]
     public bool Locked {get;private set;} = false;
     [Export]
@@ -29,7 +30,7 @@ public partial class Door : Node{
         Opened = true;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", true);
-        aStarAgent.Disable();
+        wayfindingObstacle.Disable();
         OnOpen?.Invoke();
     }
 
@@ -37,7 +38,7 @@ public partial class Door : Node{
         Opened = false;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", false);
-        aStarAgent.Enable();
+        wayfindingObstacle.Enable();
         OnClose?.Invoke();
     }
 

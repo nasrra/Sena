@@ -5,7 +5,7 @@ using System.Text.Json.Serialization.Metadata;
 
 public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
     [Export] private Health health;
-    [Export] private Navigation2DAgent navAgent;
+    [Export] private WayfindingAgent2D navAgent;
     [Export] private CharacterMovement characterMovement;
     [Export] private AiAttackHandler attackHandler;
     [Export] private HitBoxHandler hitBoxHandler;

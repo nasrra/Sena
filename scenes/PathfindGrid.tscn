@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c01h80m6psa0x"]
 
 [ext_resource type="TileSet" uid="uid://cngxibluwqs2j" path="res://assets/test/NavTileset.tres" id="1_8w53b"]
-[ext_resource type="Script" uid="uid://dka2ltnyfgycf" path="res://source/NavigationGrid2D/NavigationGrid2D.cs" id="2_m4tvu"]
+[ext_resource type="Script" uid="uid://dka2ltnyfgycf" path="res://source/Wayfinding2D/WayfindingGrid2D.cs" id="2_m4tvu"]
 
 [sub_resource type="SystemFont" id="SystemFont_m4tvu"]
 font_weight = 100

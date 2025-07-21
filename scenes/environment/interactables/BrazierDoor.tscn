@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bwrloxjoma42c" path="res://source/nodes/Door.cs" id="2_4f3mn"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="3_dw4h2"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="4_gnajc"]
-[ext_resource type="Script" uid="uid://eyyq8v53l0kf" path="res://source/pathfinding/AStarAgent.cs" id="5_liqgx"]
+[ext_resource type="Script" uid="uid://e3soyiq4dm1p" path="res://source/Wayfinding2D/WayfindingStaticObstacle2D.cs" id="5_rg168"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw4h2"]
 size = Vector2(14, 14)
@@ -21,10 +21,10 @@ door = NodePath("Door")
 sprite = NodePath("Sprite2D")
 interactable = NodePath("Interactable")
 
-[node name="Door" type="Node" parent="." node_paths=PackedStringArray("collider", "aStarAgent")]
+[node name="Door" type="Node" parent="." node_paths=PackedStringArray("collider", "wayfindingObstacle")]
 script = ExtResource("2_4f3mn")
 collider = NodePath("../StaticBody2D")
-aStarAgent = NodePath("../AStarAgent")
+wayfindingObstacle = NodePath("../WayfindingStaticObstacle2D")
 
 [node name="Interactable" type="Area2D" parent="."]
 collision_layer = 4
@@ -46,10 +46,10 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_gnajc")
 
-[node name="AStarAgent" type="Area2D" parent="."]
+[node name="WayfindingStaticObstacle2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
-script = ExtResource("5_liqgx")
+script = ExtResource("5_rg168")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AStarAgent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WayfindingStaticObstacle2D"]
 shape = SubResource("RectangleShape2D_liqgx")

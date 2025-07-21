@@ -3,7 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Navigation2DAgent : Node2D{
+public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
@@ -13,7 +13,7 @@ public partial class Navigation2DAgent : Node2D{
     }
 
     public void CalculatePathToGlobalPosition(Vector2 endGlobalPosition){
-        Path = NavigationGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, size, endPathPointTolerance);
+        Path = WayfindingGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, size, endPathPointTolerance);
     }
 
     public override void _Process(double delta){
