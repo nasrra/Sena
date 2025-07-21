@@ -19,6 +19,8 @@ public partial class NavigationGrid2D : Node2D{
     
     public int SizeX {get;private set;}
     public int SizeY {get;private set;}
+    public int CellSizeX {get;private set;}
+    public int CellSizeY {get;private set;}
 
     private bool drawDebug = true;
     private bool hideTiles = true;
@@ -67,6 +69,8 @@ public partial class NavigationGrid2D : Node2D{
 
         SizeX = tileMap.GetUsedRect().Size.X;
         SizeY = tileMap.GetUsedRect().Size.Y;
+        CellSizeX = tileMap.TileSet.TileSize.X;
+        CellSizeY = tileMap.TileSet.TileSize.Y;
 
         cells = new CellData[SizeX, SizeY];
         paths = new PathCell[SizeX, SizeY];
@@ -251,6 +255,7 @@ public partial class NavigationGrid2D : Node2D{
         List<Vector2I> openList = new List<Vector2I>();
         HashSet<Vector2I> closedSet = new HashSet<Vector2I>();
         
+        ref PathCell endPathCell = ref paths[end.X, end.Y];
         ref PathCell startPathCell = ref paths[start.X, start.Y];
         startPathCell = new PathCell(
             id: start,
@@ -261,16 +266,14 @@ public partial class NavigationGrid2D : Node2D{
         openList.Add(start);
         closedSet.Add(start);
 
-        int lowerXBound = 0;
-        int upperXBound = 0;
-        int lowerYBound = 0;
-        int upperYBound = 0;
+        Vector2 toleranceLowerBound = Vector2.Zero;
+        Vector2 toleranceUpperBound = Vector2.Zero;
 
         if(tolerance > 0){
-            lowerXBound = end.X - tolerance;
-            upperXBound = end.X + tolerance;
-            lowerYBound = end.Y - tolerance;
-            upperYBound = end.Y + tolerance;
+            toleranceLowerBound.X = end.X - tolerance;
+            toleranceUpperBound.X = end.X + tolerance;
+            toleranceLowerBound.Y = end.Y - tolerance;
+            toleranceUpperBound.Y = end.Y + tolerance;
         }
 
 
@@ -278,8 +281,8 @@ public partial class NavigationGrid2D : Node2D{
             PathCell current = GetLowestTotalCostPathCell(openList);
 
             if(tolerance > 0){
-                if(current.Id.X >= lowerXBound && current.Id.X <= upperXBound
-                && current.Id.Y >= lowerYBound && current.Id.Y <= upperYBound){
+                if(WithinTolerance(toleranceLowerBound, toleranceUpperBound, ref current) == true
+                && CalcToleranceBetweenPathCells(current.Id, new Vector2I(end.X, end.Y)) == true){
                     return ReconstructPath(current, agentSize);
                 }
             }
@@ -337,6 +340,81 @@ public partial class NavigationGrid2D : Node2D{
         }
         return new();
     }
+
+    public Vector2I GlobalToIdPosition(Vector2 globalPosition){
+        return tileMap.LocalToMap(globalPosition);
+    }
+
+    public Vector2 IdToGlobalPosition(Vector2I gridIdPosition){
+        return tileMap.MapToLocal(gridIdPosition);
+    }
+
+    private bool WithinTolerance(Vector2 lowerBound, Vector2 upperBound, ref PathCell currentPathCell){
+        return
+        currentPathCell.Id.X >= lowerBound.X && currentPathCell.Id.X <= upperBound.X
+        && currentPathCell.Id.Y >= lowerBound.Y && currentPathCell.Id.Y <= upperBound.Y;
+    }
+
+    // line-of-sight style check that determines if there's and unobstructed straight line between two cells.
+    // where every cell in that line must have at least agentSize clearance.
+    // Note: modified Bresenham's line algorithm.
+
+    private bool CalcToleranceBetweenPathCells(Vector2I from, Vector2I to){
+        int x0 = from.X;
+        int y0 = from.Y;
+        int x1 = to.X;
+        int y1 = to.Y;
+
+        // distance between cells.
+
+        int dx = Mathf.Abs(x1 - x0);
+        int dy = Mathf.Abs(y1 - y0);
+
+        // direction to step in.
+
+        int sx = x0 < x1 ? 1 : -1;
+        int sy = y0 < y1 ? 1 : -1;
+
+        // error term used by Bresenham's algorithm to determine when to step Y in addition to X.
+        // (or vice versa), keeping the line straight even when slope is not 1.
+
+        int err = dx - dy;
+
+        while (true){
+            // Bounds check
+            if (x0 < 0 || x0 >= SizeX || y0 < 0 || y0 >= SizeY){
+                return false;
+            }
+
+
+            // Blocked check
+            ref CellData cellData = ref cells[x0, y0];
+            if (cellData.Blocked){
+                // GD.Print($"end! {to.X} {to.Y}");
+                // GD.Print($"blocked! {x0} {y0}");
+                return false;
+            }
+
+            // Reached destination
+            if (x0 == x1 && y0 == y1){
+                break;
+            }
+
+            // step.
+            int e2 = 2 * err;
+            if (e2 > -dy){
+                err -= dy;
+                x0 += sx;
+            }
+            if (e2 < dx){
+                err += dx;
+                y0 += sy;
+            }
+        }
+
+        return true;
+    }
+
 
     private Stack<Vector2> ReconstructPath(PathCell endPathCell, byte agentSize){
         Stack<Vector2> path = new Stack<Vector2>();
@@ -415,13 +493,6 @@ public partial class NavigationGrid2D : Node2D{
         }            
     }
 
-    public Vector2I GlobalToIdPosition(Vector2 globalPosition){
-        return tileMap.LocalToMap(globalPosition);
-    }
-
-    public Vector2 IdToGlobalPosition(Vector2I gridIdPosition){
-        return tileMap.MapToLocal(gridIdPosition);
-    }
 
     private bool TileIsInUse(int x, int y, out TileData sharedTileData){
         Vector2I index = new(x,y);

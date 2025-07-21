@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(7, 7)
+size = Vector2(9, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
 size = Vector2(14, 9)
@@ -37,6 +37,9 @@ emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xhfnw")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
