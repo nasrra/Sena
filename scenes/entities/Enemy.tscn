@@ -91,7 +91,7 @@ timers = [NodePath("SlashDown/Timer"), NodePath("SlashLeft/Timer"), NodePath("Sl
 position = Vector2(0, 83)
 scale = Vector2(1, 1.01132)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
 position = Vector2(0, -72.1829)
@@ -104,7 +104,7 @@ one_shot = true
 [node name="SlashLeft" type="Area2D" parent="HitBoxHandler"]
 scale = Vector2(1, 1.01132)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 32
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
 position = Vector2(-9, 0)
@@ -118,7 +118,7 @@ one_shot = true
 position = Vector2(-1, 0)
 scale = Vector2(1, 1.01132)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
 position = Vector2(10, 0)
@@ -132,7 +132,7 @@ one_shot = true
 position = Vector2(0, -83)
 scale = Vector2(1, 1.01132)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
 position = Vector2(0, 72.1829)

@@ -34,10 +34,10 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private enum AttackHitBoxId{
-        SlashDown = 0,
-        SlashLeft = 1,
-        SlashRight = 2,
-        SlashUp = 3,
+        SlashDown   = 0,
+        SlashLeft   = 1,
+        SlashRight  = 2,
+        SlashUp     = 3,
     }
 
     private Stack<Vector2> pathToTarget;
@@ -188,6 +188,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         attackHandler.OnAttackStarted   += OnStartAttack;
         attackHandler.OnAttackEnded     += OnAttackEnded;
 
+        hitBoxHandler.OnHit += OnAttackHit;
+
         stunTimer.Timeout += EvaluateState;
         ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
     }
@@ -199,6 +201,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         attackHandler.OnAttack          -= OnAttack;
         attackHandler.OnAttackStarted   -= OnStartAttack;
         attackHandler.OnAttackEnded     -= OnAttackEnded;
+
+        hitBoxHandler.OnHit -= OnAttackHit;
 
         stunTimer.Timeout -= EvaluateState;
         ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
@@ -237,6 +241,22 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
             throw new Exception($"Attack id[{attackId}] has not been implemented!");
         }
     }
+
+    private void OnAttackHit(Node other, int hitboxId){
+        if(PhysicsManager.Instance.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer, out string hitLayer) == false){
+            return;
+        }
+
+        switch (hitLayer){
+            case "Player":
+                Health playerHealth = other.GetNode<Health>(Health.NodeName);
+                playerHealth.Damage(1);
+            break;
+            default:
+            throw new Exception($"{hitLayer} not implemented.");
+        }
+    }
+
 
     private void OnAttackEnded(){
         EvaluateState();

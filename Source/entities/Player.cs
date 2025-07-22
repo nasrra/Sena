@@ -173,6 +173,8 @@ public partial class Player : CharacterBody2D{
                 Interactable interactable = (Interactable)node;
                 interactable.Interact();
             break;
+            default:
+            throw new Exception($"{hitLayer} not implemented.");
         }
     }
 

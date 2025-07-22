@@ -1,9 +1,12 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public partial class HitBoxHandler : Node2D{
-    [Export] CollisionShape2D[] hitBoxes;
-    [Export] Timer[] timers;
+    [Export] private CollisionShape2D[] hitBoxes;
+    [Export] private Timer[] timers;
+    private HashSet<ulong>[] hits;
     private Action[] timeouts;
     private Area2D.BodyEnteredEventHandler[] bodyEnters;
     private Area2D.AreaEnteredEventHandler[] areaEnters;
@@ -23,6 +26,7 @@ public partial class HitBoxHandler : Node2D{
         // enable the collider.
 
         hitBoxes[id].Disabled = false;
+        hits[id].Clear();
 
         // start the timer for it to disable.
         Timer timer = timers[id];
@@ -65,16 +69,34 @@ public partial class HitBoxHandler : Node2D{
             timers[i].Timeout += timeouts[i];
         }
 
+        hits = new HashSet<ulong>[hitBoxes.Length];
         bodyEnters = new Area2D.BodyEnteredEventHandler[hitBoxes.Length];
         areaEnters = new Area2D.AreaEnteredEventHandler[hitBoxes.Length];
         for(int i = 0; i < hitBoxes.Length; i++){
+            
             int id = i;
-            bodyEnters[i] = (Node2D node) => OnHit?.Invoke(node, id);
-            areaEnters[i] = (Area2D node) => OnHit?.Invoke(node, id);
+            
+            hits[i] = new HashSet<ulong>();
+
+            bodyEnters[i] = (Node2D node) => {
+                if(hits[id].Contains(node.GetInstanceId())==false){
+                    hits[id].Add(node.GetInstanceId());
+                    OnHit?.Invoke(node, id);
+                }
+            };
+
+            areaEnters[i] = (Area2D node) => {
+                if(hits[id].Contains(node.GetInstanceId())==false){
+                    hits[id].Add(node.GetInstanceId());
+                    OnHit?.Invoke(node, id);
+                }
+            };
+
             Area2D colliderArea = (Area2D)hitBoxes[i].GetParent();
             colliderArea.BodyEntered += bodyEnters[i];
             colliderArea.AreaEntered += areaEnters[i];
         }
+
     }
 
     private void UnlinkEvents(){
@@ -89,6 +111,7 @@ public partial class HitBoxHandler : Node2D{
         timeouts    = null;
         bodyEnters  = null;
         areaEnters  = null;
+        hits        = null;
         OnHit       = null;
     }
 }

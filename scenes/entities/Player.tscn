@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(9, 9)
+size = Vector2(8, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
 size = Vector2(14, 9)
@@ -23,7 +23,7 @@ size = Vector2(9, 14)
 size = Vector2(10, 12)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "emberDecayTimer", "animator")]
-collision_layer = 0
+collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
 movement = NodePath("CharacterMovement")
@@ -37,9 +37,6 @@ emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_xhfnw")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
@@ -138,6 +135,7 @@ script = ExtResource("8_5ncpa")
 Max = 100
 
 [node name="Interactor" type="Area2D" parent="." node_paths=PackedStringArray("inRange")]
+visible = false
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("9_wi0c6")

@@ -74,4 +74,4 @@ position = Vector2(231, 91)
 Target = NodePath("../Player")
 
 [node name="BrazierDoor" parent="." index="7" instance=ExtResource("7_4unv2")]
-position = Vector2(266, 158)
+position = Vector2(260, 157)

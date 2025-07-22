@@ -13,7 +13,7 @@ size = Vector2(14, 14)
 size = Vector2(12, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_liqgx"]
-size = Vector2(32, 34)
+size = Vector2(16, 16)
 
 [node name="BrazierDoor" type="Node2D" node_paths=PackedStringArray("door", "sprite", "interactable")]
 script = ExtResource("1_r0a7e")
