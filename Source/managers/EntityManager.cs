@@ -113,11 +113,11 @@ public partial class EntityManager : Node{
     /// 
 
 
-    public void LinkEvents(){
+    private void LinkEvents(){
         pausedTimer.Timeout += ResumeEntityProcesses;
     }
 
-    public void UnlinkEvents(){
+    private void UnlinkEvents(){
         pausedTimer.Timeout -= ResumeEntityProcesses;
     }
 }

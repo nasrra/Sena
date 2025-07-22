@@ -48,26 +48,11 @@ public partial class Player : CharacterBody2D{
         UnlinkEvents();
     }
 
-    public override void _PhysicsProcess(double delta){
-        base._PhysicsProcess(delta);
+    public void PhysicsProcess(double delta){
         HandleMovementInput();
-        // if(movementInput.LengthSquared() >= 1){
-            // camera.FollowOffset = movementInput*50;
-        // }
     }
 
-    public override void _Process(double delta){
-        base._Process(delta);
-        // GD.Print(PathfindingGrid.Instance.GlobalToIdPosition(GlobalPosition));
-
-
-        // if(Input.IsActionJustPressed("Debug1")){
-        //     EmberStorage.Add(2, out int remainder);
-        // }
-        // if(Input.IsActionJustPressed("Debug2")){
-        //     health.Damage(1);
-        // }
-
+    private void Process(double delta){
         HandleAttackInput();
         HandleHealInput();
         HandleInteractInput();
@@ -229,6 +214,11 @@ public partial class Player : CharacterBody2D{
         Node ui = GetNode("/root/Main/GUI/GameplayUI");
         ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
         ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
+
+        EntityManager.Instance.LinkToPause(OnPaused);
+        EntityManager.Instance.LinkToResume(OnResume);
+        EntityManager.Instance.LinkToProcess(Process);
+        EntityManager.Instance.LinkToPhysicsProcess(PhysicsProcess);
     }
 
     private void UnlinkEvents(){
@@ -244,6 +234,9 @@ public partial class Player : CharacterBody2D{
         Node ui = GetNode("/root/Main/GUI/GameplayUI");
         ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
         ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
+        
+        EntityManager.Instance.UnlinkFromProcess(Process);
+        EntityManager.Instance.UnlinkFromPhysicsProcess(PhysicsProcess);
     }
 
 
@@ -272,5 +265,15 @@ public partial class Player : CharacterBody2D{
 
     private void OnDamaged(){
         EntityManager.Instance.PauseEntityProcesses(time:0.2f);
+    }
+
+    private void OnPaused(){
+        hitBoxes.PauseState();
+        movement.PauseState();
+    }
+
+    private void OnResume(){
+        hitBoxes.ResumeState();
+        movement.ResumeState();
     }
 }
