@@ -12,6 +12,12 @@ public partial class HitBoxHandler : Node2D{
     private Area2D.AreaEnteredEventHandler[] areaEnters;
     public Action<Node2D, int> OnHit;
 
+
+    ///
+    /// Base.
+    ///
+
+
     public override void _EnterTree(){
         base._EnterTree();
         LinkEvents();
@@ -20,18 +26,6 @@ public partial class HitBoxHandler : Node2D{
     public override void _ExitTree(){
         base._ExitTree();
         UnlinkEvents();
-    }
-
-    public void EnableHitBox(int id, float time){
-        // enable the collider.
-
-        hitBoxes[id].Disabled = false;
-        hits[id].Clear();
-
-        // start the timer for it to disable.
-        Timer timer = timers[id];
-        timer.WaitTime = time;
-        timer.Start();        
     }
 
     public override void _PhysicsProcess(double delta){
@@ -48,6 +42,24 @@ public partial class HitBoxHandler : Node2D{
 
     }
 
+
+    /// 
+    /// Functions.
+    /// 
+
+
+    public void EnableHitBox(int id, float time){
+        // enable the collider.
+
+        hitBoxes[id].Disabled = false;
+        hits[id].Clear();
+
+        // start the timer for it to disable.
+        Timer timer = timers[id];
+        timer.WaitTime = time;
+        timer.Start();        
+    }
+
     public void DisableHitBox(int id){
         hitBoxes[id].Disabled = true;
     }
@@ -60,6 +72,30 @@ public partial class HitBoxHandler : Node2D{
             timers[i].Stop();
         }
     }
+
+
+    /// 
+    /// State Machine.
+    /// 
+
+
+    public void PauseState(){
+        for(int i = 0; i < timers.Length; i++){
+            timers[i].Paused = true;
+        }
+    }
+
+    public void ResumeState(){
+        for(int i = 0; i < timers.Length; i++){
+            timers[i].Paused = false;
+        }
+    }
+
+
+    /// 
+    /// Linkage.
+    /// 
+
 
     private void LinkEvents(){
         timeouts = new Action[timers.Length];

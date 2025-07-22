@@ -4,17 +4,19 @@ using Godot;
 public partial class CharacterMovement : Node{
     [Export] CharacterBody2D character;
     public const string NodeName = nameof(CharacterMovement);
-    public Vector2 Velocity {
-        get => character.Velocity;
-        private set{
-            character.Velocity = value;
-        }
-    }
+    private Vector2 pausedVelocity = Vector2.Zero;
+    private Vector2 pausedDirection = Vector2.Zero;
     private Vector2 direction  = Vector2.Zero;
     public Vector2 Direction {
         get => direction;
         private set{
             direction = value;
+        }
+    }
+    public Vector2 Velocity {
+        get => character.Velocity;
+        private set{
+            character.Velocity = value;
         }
     }
     [Export] public float BaseTopSpeed {get; private set;}
@@ -30,6 +32,7 @@ public partial class CharacterMovement : Node{
     [Export] public float gravityModifier = 1f;
     [Export] private bool lockYAxis = true;
     [Export] private bool gravityAffected = true;
+    private bool paused = false;
 
     public override void _Ready(){
         base._Ready();
@@ -46,6 +49,10 @@ public partial class CharacterMovement : Node{
 
     public override void _Process(double delta){
         base._Process(delta);
+
+        if(paused == true){
+            return;
+        }
 
         Vector2 trueDirection = direction;
 
@@ -92,18 +99,16 @@ public partial class CharacterMovement : Node{
         character.MoveAndSlide();
     }
 
-    public override void _PhysicsProcess(double delta){
-        base._PhysicsProcess(delta);
-        direction = Vector2.Zero;
-    }
-
-
     public void Move(Vector2 direction){
         this.direction = direction;
     }
 
     public void Impulse(Vector2 velocity){
         character.Velocity += velocity;
+    }
+
+    public void ZeroDirection(){
+        direction = Vector2.Zero;
     }
 
     public void ZeroVelocity(){
@@ -115,5 +120,21 @@ public partial class CharacterMovement : Node{
         Acceleration = Mathf.Clamp(BaseAcceleration * SpeedModifier, 0, float.MaxValue);
         Deceleration = Mathf.Clamp(BaseDeceleration * SpeedModifier, 0, float.MaxValue);
         TopSpeed     = Mathf.Clamp(BaseTopSpeed     * SpeedModifier, 0, float.MaxValue);
+    }
+
+    public void PauseState(){
+        paused = true;
+        pausedDirection = Direction;
+        pausedVelocity  = Velocity;
+        Direction       = Vector2.Zero;
+        Velocity        = Vector2.Zero;
+    }
+
+    public void ResumeState(){
+        paused = false;
+        Direction       = pausedDirection;
+        Velocity        = pausedVelocity;
+        pausedDirection = Vector2.Zero;
+        pausedVelocity  = Vector2.Zero;
     }
 }

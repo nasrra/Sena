@@ -49,6 +49,8 @@ public partial class AiAttackHandler : Node{
     private float distanceToTarget  = float.MaxValue;
     private float maxMinTargetDistanceAttack = float.MinValue;
 
+    private AiAttackHandlerState state;
+
 
     /// 
     /// Base.
@@ -148,8 +150,13 @@ public partial class AiAttackHandler : Node{
     ///
 
     
-    private void StandbyState(){
-        statePhysicsProcess = StandByStatePhysicsProccess;
+    public void StandbyState(){
+        if(standByCooldown.TimeLeft <= 0){
+            
+            state = AiAttackHandlerState.StandBy;
+
+            statePhysicsProcess = StandByStatePhysicsProccess;
+        }
     }
 
     private void StandByStatePhysicsProccess(){
@@ -157,16 +164,18 @@ public partial class AiAttackHandler : Node{
         ExecuteRandomAvailableAttack();
     }
 
-    private void AttackingState(){
-        statePhysicsProcess = null;
-    }
-
     public void HaltState(){
+        
+        state = AiAttackHandlerState.Halted;
+        
         leadInStateTimer.Stop();
         attackStateTimer.Stop();
         followThroughStateTimer.Stop();
+        
         hitBoxHandler.DisableAllHitBoxes();
+        
         statePhysicsProcess = null;
+        
         StartChoseAttackCooldown();
     }
 
@@ -176,10 +185,73 @@ public partial class AiAttackHandler : Node{
         standByCooldown.Start();
     } 
 
+    public void PauseState(){
+
+        state = AiAttackHandlerState.Paused;
+
+        leadInStateTimer.Paused         = true;
+        attackStateTimer.Paused         = true;
+        followThroughStateTimer.Paused  = true;
+        standByCooldown.Paused          = true;
+        statePhysicsProcess = null;
+        hitBoxHandler.PauseState();
+    }
+
     public void ResumeState(){
-        if(standByCooldown.TimeLeft <= 0){
+        leadInStateTimer.Paused         = false;
+        attackStateTimer.Paused         = false;
+        followThroughStateTimer.Paused  = false;
+        standByCooldown.Paused          = false;
+        hitBoxHandler.ResumeState();
+    }
+
+    public void EvaluateState(){
+        // go into standby if we are not currently attacking.
+
+        if(leadInStateTimer.TimeLeft == 0
+        && attackStateTimer.TimeLeft == 0
+        && followThroughStateTimer.TimeLeft == 0){
             StandbyState();
         }
+    }
+
+    private void LeadInState(){
+        
+        state = AiAttackHandlerState.LeadIn;
+
+        leadInStateTimer.WaitTime = chosenAttack.LeadInTime;
+        leadInStateTimer.Start();
+        
+        OnLeadIn?.Invoke(chosenAttack.Id, chosenAttackDirection);
+    }
+
+    private void AttackState(){
+        
+        state = AiAttackHandlerState.Attack;
+
+        attackStateTimer.WaitTime = chosenAttack.AttackTime;
+        attackStateTimer.Start();
+        
+        OnAttack?.Invoke(chosenAttack.Id, chosenAttackDirection);
+    }
+
+    private void FollowThroughState(){
+        
+        state = AiAttackHandlerState.FollowThrough;
+
+        followThroughStateTimer.WaitTime = chosenAttack.FollowThroughTime;
+        followThroughStateTimer.Start();
+        
+        OnFollowThrough?.Invoke(chosenAttack.Id, chosenAttackDirection);
+    }
+
+    private void CooldownState(){
+        state = AiAttackHandlerState.Cooldown;
+
+        standByCooldown.WaitTime = chosenAttack.HandlerCooldown;
+        standByCooldown.Start();
+        StartChoseAttackCooldown();
+        OnAttackEnded?.Invoke();
     }
 
 
@@ -346,44 +418,11 @@ public partial class AiAttackHandler : Node{
         }
     }
 
-
-
-    /// 
-    /// Attacking States.
-    /// 
-
-
     private void StartAttacking(){
-        AttackingState();
+        statePhysicsProcess = null;
         OnAttackStarted?.Invoke(chosenAttack.Id, chosenAttackDirection);
-        StartLeadInTimer();
+        LeadInState();
     }
-
-    private void StartLeadInTimer(){
-        leadInStateTimer.WaitTime = chosenAttack.LeadInTime;
-        leadInStateTimer.Start();
-        OnLeadIn?.Invoke(chosenAttack.Id, chosenAttackDirection);
-    }
-
-    private void StartAttackStateTimer(){
-        attackStateTimer.WaitTime = chosenAttack.AttackTime;
-        attackStateTimer.Start();
-        OnAttack?.Invoke(chosenAttack.Id, chosenAttackDirection);
-    }
-
-    private void StartFollowThroughStateTimer(){
-        followThroughStateTimer.WaitTime = chosenAttack.FollowThroughTime;
-        followThroughStateTimer.Start();
-        OnFollowThrough?.Invoke(chosenAttack.Id, chosenAttackDirection);
-    }
-
-    private void AttackEnded(){
-        standByCooldown.WaitTime = chosenAttack.HandlerCooldown;
-        standByCooldown.Start();
-        StartChoseAttackCooldown();
-        OnAttackEnded?.Invoke();
-    }
-
 
     /// 
     /// Linkage
@@ -391,16 +430,26 @@ public partial class AiAttackHandler : Node{
 
 
     public void LinkEvents(){
-        leadInStateTimer.Timeout            += StartAttackStateTimer;
-        attackStateTimer.Timeout            += StartFollowThroughStateTimer;
-        followThroughStateTimer.Timeout     += AttackEnded; 
+        leadInStateTimer.Timeout            += AttackState;
+        attackStateTimer.Timeout            += FollowThroughState;
+        followThroughStateTimer.Timeout     += CooldownState; 
         standByCooldown.Timeout             += StandbyState;
     }
 
     private void UnlinkEvents(){
-        leadInStateTimer.Timeout            -= StartAttackStateTimer;
-        attackStateTimer.Timeout            -= StartFollowThroughStateTimer;
-        followThroughStateTimer.Timeout     -= AttackEnded; 
+        leadInStateTimer.Timeout            -= AttackState;
+        attackStateTimer.Timeout            -= FollowThroughState;
+        followThroughStateTimer.Timeout     -= CooldownState; 
         standByCooldown.Timeout             -= StandbyState;
+    }
+
+    private enum AiAttackHandlerState : byte{
+        Paused,
+        StandBy,
+        LeadIn,
+        Attack,
+        FollowThrough,
+        Cooldown,
+        Halted
     }
 }

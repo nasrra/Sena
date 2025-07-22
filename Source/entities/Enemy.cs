@@ -65,14 +65,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         UnlinkEvents();
     }
 
-    public override void _Process(double delta){
-        base._Process(delta);
+    private void Process(double delta){
         stateProcess?.Invoke();
-        // GD.Print(pathToTarget.Count);
     }
 
-    public override void _PhysicsProcess(double delta){
-        base._PhysicsProcess(delta);
+    private void PhysicsProcess(double delta){
         statePhysicProcess?.Invoke();
     }
 
@@ -85,14 +82,13 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     private void EvaluateState(){
 
         // TODO: do some recovery state code when needed.
-        ChaseState();        
+        ChaseState();
+        attackHandler.EvaluateState();
     }
 
     public void ChaseState(){
-        GD.Print(state = EnemyState.Chase);
         stateProcess        = ChaseStateProcess;
         statePhysicProcess  = ChaseStatePhysicsProcess;
-        attackHandler.ResumeState();
     }
 
     private void ChaseStateProcess(){
@@ -119,6 +115,51 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         statePhysicProcess = null;
     }
 
+    private void PauseState(){
+        stateProcess = null;
+        statePhysicProcess = null;
+        attackHandler.PauseState();
+        characterMovement.PauseState();
+    }
+
+    private void ResumeState(){
+        attackHandler.ResumeState();
+        characterMovement.ResumeState();
+        EvaluateState();
+    }
+
+
+    /// 
+    /// Shared State Function
+    /// 
+
+
+    private void MoveAlongPathToTarget(){
+        if(pathToTarget != null && pathToTarget.Count > 0){
+            Vector2 distance = pathToTarget.Peek() - GlobalPosition;
+            characterMovement.Move(pathToTarget.Peek() - GlobalPosition);
+            if(distance.LengthSquared() <= 100){
+                pathToTarget.Pop();
+            }
+        }
+    }
+
+    private void CalculateRelationshipToTarget(){
+        directionToTarget = Target.GlobalPosition- GlobalPosition;
+        normalDirectionToTarget = directionToTarget.Normalized();
+        distanceToTarget = directionToTarget.Length();
+    }
+
+    private void UpdateAttackHandler(){
+        attackHandler.SetDirectionToTarget(directionToTarget);
+        attackHandler.SetDistanceToTarget(distanceToTarget);
+    }
+
+    private void GetPathToTarget(){
+        navAgent.CalculatePathToGlobalPosition(Target.GlobalPosition);
+        pathToTarget = navAgent.Path; 
+    }
+
     public void IgnoreEnemyCollisionMask(float time){
         
         ignoreEnemyTimer.WaitTime = time;
@@ -142,38 +183,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         }
     }
 
-    /// 
-    /// Shared State Function
-    /// 
-
-
-    private void MoveAlongPathToTarget(){
-        if(pathToTarget != null && pathToTarget.Count > 0){
-            Vector2 distance = pathToTarget.Peek() - GlobalPosition;
-            characterMovement.Move(pathToTarget.Peek() - GlobalPosition);
-            if(distance.LengthSquared() <= 100){
-                pathToTarget.Pop();
-            }
-            // GD.Print(distance.LengthSquared());
-        }
-    }
-
-    private void CalculateRelationshipToTarget(){
-        directionToTarget = Target.GlobalPosition- GlobalPosition;
-        normalDirectionToTarget = directionToTarget.Normalized();
-        distanceToTarget = directionToTarget.Length();
-    }
-
-    private void UpdateAttackHandler(){
-        attackHandler.SetDirectionToTarget(directionToTarget);
-        attackHandler.SetDistanceToTarget(distanceToTarget);
-    }
-
-    private void GetPathToTarget(){
-        navAgent.CalculatePathToGlobalPosition(Target.GlobalPosition);
-        pathToTarget = navAgent.Path; 
-    }
-
 
     /// 
     /// Linkage
@@ -192,6 +201,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
         stunTimer.Timeout += EvaluateState;
         ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
+
+        EntityManager.Instance.LinkToProcess(Process);
+        EntityManager.Instance.LinkToPhysicsProcess(PhysicsProcess);
+        EntityManager.Instance.LinkToPause(PauseState);
+        EntityManager.Instance.LinkToResume(ResumeState);
     }
 
     private void UnlinkEvents(){
@@ -206,6 +220,10 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
         stunTimer.Timeout -= EvaluateState;
         ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
+        EntityManager.Instance.UnlinkFromProcess(Process);
+        EntityManager.Instance.UnlinkFromPhysicsProcess(PhysicsProcess);
+        EntityManager.Instance.UnlinkFromPause(PauseState);
+        EntityManager.Instance.UnlinkFromResume(ResumeState);
     }
 
 
@@ -235,7 +253,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
                         hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);                    
                     break;
                 }
-                characterMovement.Impulse(normalDirectionToTarget * 100f);
+                characterMovement.Impulse(normalDirectionToTarget * 50f);
+                characterMovement.ZeroDirection();
             break;
             default:
             throw new Exception($"Attack id[{attackId}] has not been implemented!");

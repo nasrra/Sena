@@ -23,6 +23,12 @@ public partial class Player : CharacterBody2D{
     private float attackPlayerKnockback = 80f;
     private bool blockMoveInput = false;
 
+
+    /// 
+    /// Base.
+    /// 
+
+
     public override void _Ready(){
         base._Ready();
         #if TOOLS
@@ -54,67 +60,25 @@ public partial class Player : CharacterBody2D{
         base._Process(delta);
         // GD.Print(PathfindingGrid.Instance.GlobalToIdPosition(GlobalPosition));
 
-        if(Input.IsActionJustPressed("SwordSlash")){
-            movement.Impulse(aimCursour.aimDirection * attackLungeForce);
-            int hitBoxId;
-            float angle = aimCursour.aimAngle;
-            if(angle >= -135 && angle <= -45){
-                hitBoxId = 0;
-            }
-            else if(angle >= -45 && angle <= 45){
-                hitBoxId = 1;
-            }
-            else if(angle >= 45 && angle <= 135){
-                hitBoxId = 2;
-            }
-            else{
-                hitBoxId = 3;
-            }
-            BlockMoveInput();
-            hitBoxes.EnableHitBox(hitBoxId, 0.167f);
-        }
-        if(Input.IsActionJustPressed("Debug1")){
-            EmberStorage.Add(2, out int remainder);
-        }
-        if(Input.IsActionJustPressed("Debug2")){
-            health.Damage(1);
-        }
 
-        if(Input.IsActionJustPressed("Heal")){
-            if(EmberStorage.Value >= 20){
-                EmberStorage.Remove(20, out int remainder);
-                health.Heal(1);
-            }
-        }
-        if(Input.IsActionJustPressed("Interact")){
-            Interactor.Interact();
-        }
+        // if(Input.IsActionJustPressed("Debug1")){
+        //     EmberStorage.Add(2, out int remainder);
+        // }
+        // if(Input.IsActionJustPressed("Debug2")){
+        //     health.Damage(1);
+        // }
 
+        HandleAttackInput();
+        HandleHealInput();
+        HandleInteractInput();
         movement.Move(moveInput);
-        
         UpdateAnimation();
     }
 
-    private void HandleMovementInput(){
-        moveInput = Vector2.Zero;
-        
-        if(blockMoveInput == true){
-            return;
-        }
 
-        if(Input.IsActionPressed("MoveUp")){
-            moveInput.Y -= 1;
-        }
-        if(Input.IsActionPressed("MoveDown")){
-            moveInput.Y += 1;
-        }
-        if(Input.IsActionPressed("MoveLeft")){
-            moveInput.X -= 1;
-        }
-        if(Input.IsActionPressed("MoveRight")){
-            moveInput.X += 1;
-        }
-    }
+    /// <summary>
+    /// Miscellaneous
+    /// </summary>
 
     private void UpdateAnimation(){
         if(moveInput.Y < 0){
@@ -150,6 +114,74 @@ public partial class Player : CharacterBody2D{
         emberDecayTimer.Start();
     }
 
+
+    /// 
+    /// Input
+    /// 
+
+
+    private void HandleAttackInput(){
+
+        if(Input.IsActionJustPressed("SwordSlash") == false){
+            return;
+        }
+
+        int hitBoxId;
+        float angle = aimCursour.aimAngle;
+        if(angle >= -135 && angle <= -45){
+            hitBoxId = 0;
+        }
+        else if(angle >= -45 && angle <= 45){
+            hitBoxId = 1;
+        }
+        else if(angle >= 45 && angle <= 135){
+            hitBoxId = 2;
+        }
+        else{
+            hitBoxId = 3;
+        }
+        BlockMoveInput();
+        hitBoxes.EnableHitBox(hitBoxId, 0.167f);
+        movement.Impulse(aimCursour.aimDirection * attackLungeForce);
+        movement.ZeroDirection();
+    }
+
+    private void HandleMovementInput(){
+        moveInput = Vector2.Zero;
+        
+        if(blockMoveInput == true){
+            return;
+        }
+
+        if(Input.IsActionPressed("MoveUp")){
+            moveInput.Y -= 1;
+        }
+        if(Input.IsActionPressed("MoveDown")){
+            moveInput.Y += 1;
+        }
+        if(Input.IsActionPressed("MoveLeft")){
+            moveInput.X -= 1;
+        }
+        if(Input.IsActionPressed("MoveRight")){
+            moveInput.X += 1;
+        }
+    }
+
+    private void HandleHealInput(){
+        if(Input.IsActionJustPressed("Heal")){
+            if(EmberStorage.Value >= 20){
+                EmberStorage.Remove(20, out int remainder);
+                health.Heal(1);
+            }
+        }
+    }
+
+    private void HandleInteractInput(){
+        if(Input.IsActionJustPressed("Interact")){
+            Interactor.Interact();
+        }
+    }
+
     public void BlockMoveInput(){
         blockMoveInput = true;
         moveInputBlockTimer.WaitTime = 0.167f;
@@ -160,7 +192,67 @@ public partial class Player : CharacterBody2D{
         blockMoveInput = false;
     }
 
-    private void HitBoxHit(Node2D node, int id){
+    private void HandleOnHitEnemy(Enemy enemy){
+        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+        
+        float stunTime = 0.33f;
+        enemy.StunState(stunTime);
+        enemy.IgnoreEnemyCollisionMask(stunTime);
+        
+        enemy.GetNode<Health>(Health.NodeName).Damage(1);
+        
+        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+        enemyMovement.ZeroVelocity();
+        enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
+        
+        movement.Impulse(-directionToHit * attackPlayerKnockback);
+
+        EmberStorage.Add(10, out int remainder);
+    }
+
+
+    /// 
+    /// Linkage
+    /// 
+
+
+    private void LinkEvents(){
+        
+        hitBoxes.OnHit += OnHitBoxHit;
+        
+        moveInputBlockTimer.Timeout += UnblockMoveInput;
+        emberDecayTimer.Timeout += DecayEmberStorage;
+        EmberStorage.OnAdd += StartEmberDecayTimer;
+
+        health.OnDamage += OnDamaged; 
+
+        Node ui = GetNode("/root/Main/GUI/GameplayUI");
+        ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
+        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
+    }
+
+    private void UnlinkEvents(){
+        
+        hitBoxes.OnHit -= OnHitBoxHit;
+        
+        moveInputBlockTimer.Timeout -= UnblockMoveInput;
+        emberDecayTimer.Timeout -= DecayEmberStorage;
+        EmberStorage.OnAdd -= StartEmberDecayTimer;
+
+        health.OnDamage -= OnDamaged; 
+
+        Node ui = GetNode("/root/Main/GUI/GameplayUI");
+        ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
+        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
+    }
+
+
+    ///
+    /// Linkage functions.
+    /// 
+
+
+    private void OnHitBoxHit(Node2D node, int id){
         if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string hitLayer)==false){
             return;
         }
@@ -178,44 +270,7 @@ public partial class Player : CharacterBody2D{
         }
     }
 
-    private void HandleOnHitEnemy(Enemy enemy){
-        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-        
-        float stunTime = 0.33f;
-        enemy.StunState(stunTime);
-        enemy.IgnoreEnemyCollisionMask(stunTime);
-        
-        enemy.GetNode<Health>(Health.NodeName).Damage(1);
-        
-        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-        enemyMovement.ZeroVelocity();
-        enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
-        
-        movement.Impulse(-directionToHit * attackPlayerKnockback);
-    }
-
-    private void LinkEvents(){
-        
-        hitBoxes.OnHit += HitBoxHit;
-        
-        moveInputBlockTimer.Timeout += UnblockMoveInput;
-        emberDecayTimer.Timeout += DecayEmberStorage;
-        EmberStorage.OnAdd += StartEmberDecayTimer;
-
-        Node ui = GetNode("/root/Main/GUI/GameplayUI");
-        ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
-        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
-    }
-
-    private void UnlinkEvents(){
-        hitBoxes.OnHit -= HitBoxHit;
-        
-        moveInputBlockTimer.Timeout -= UnblockMoveInput;
-        emberDecayTimer.Timeout -= DecayEmberStorage;
-        EmberStorage.OnAdd -= StartEmberDecayTimer;
-
-        Node ui = GetNode("/root/Main/GUI/GameplayUI");
-        ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
-        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
+    private void OnDamaged(){
+        EntityManager.Instance.PauseEntityProcesses(time:0.2f);
     }
 }

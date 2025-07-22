@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://j1150ggfsu65"]
+[gd_scene load_steps=5 format=3 uid="uid://j1150ggfsu65"]
 
 [ext_resource type="PackedScene" uid="uid://c01h80m6psa0x" path="res://scenes/PathfindGrid.tscn" id="1_0pdpo"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="2_i0qjc"]
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="3_ekaam"]
+[ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="4_i7qc5"]
 
 [node name="GameplayLevelTemplate" type="Node2D"]
 
@@ -12,3 +13,10 @@
 
 [node name="EnemyManager" type="Node" parent="."]
 script = ExtResource("3_ekaam")
+
+[node name="EntityManager" type="Node" parent="." node_paths=PackedStringArray("pausedTimer")]
+script = ExtResource("4_i7qc5")
+pausedTimer = NodePath("PausedTimer")
+
+[node name="PausedTimer" type="Timer" parent="EntityManager"]
+one_shot = true
