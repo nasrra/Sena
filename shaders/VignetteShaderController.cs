@@ -51,29 +51,39 @@ public partial class VignetteShaderController : Node{
     /// 
 
 
-    public void Update(float targetIntensity, float targetOpacity, float step){
-        intensityStep = (targetIntensity > this.targetIntensity)? step : -step;
-        opacityStep = (targetOpacity > this.targetOpacity)? step : -step;
-        this.targetIntensity = targetIntensity;
-        this.targetOpacity = targetOpacity; 
-        intensityStateProcess = IntensityStateProcessSingle;
-        opacityStateProcess = OpacityStateProcessSingle;
-    }
+public void Update(float targetIntensity, float targetOpacity, float step){
+    float currentIntensity = (float)shaderMaterial.GetShaderParameter("vignette_intensity");
+    float currentOpacity = (float)shaderMaterial.GetShaderParameter("vignette_opacity");
+
+    intensityStep = (targetIntensity > currentIntensity) ? step : -step;
+    opacityStep   = (targetOpacity > currentOpacity) ? step : -step;
+
+    this.targetIntensity = targetIntensity;
+    this.targetOpacity = targetOpacity;
+
+    intensityStateProcess = IntensityStateProcessSingle;
+    opacityStateProcess   = OpacityStateProcessSingle;
+}
+
 
     private void IntensityStateProcessSingle(){
-        float value = (float)shaderMaterial.GetShaderParameter("vignette_intensity") + intensityStep;
-        if(Mathf.Abs(value-targetIntensity) <= intensityStep){
+        float value = (float)shaderMaterial.GetShaderParameter("vignette_intensity");
+        if(Mathf.Abs(value-targetIntensity) <= Mathf.Abs(intensityStep * 2)){
             value = targetIntensity;
             intensityStateProcess = null;
+        }else{
+            value += intensityStep;
         }
         shaderMaterial.SetShaderParameter("vignette_intensity", value);
     }
 
     private void OpacityStateProcessSingle(){
-        float value = (float)shaderMaterial.GetShaderParameter("vignette_opacity") + opacityStep;
-        if(Mathf.Abs(value-targetOpacity) <= opacityStep){
+        float value = (float)shaderMaterial.GetShaderParameter("vignette_opacity");
+        if(Mathf.Abs(value-targetOpacity) <= Mathf.Abs(opacityStep * 2)){
             value = targetOpacity;
             opacityStateProcess = null;
+        }else{
+            value += opacityStep;
         }
         shaderMaterial.SetShaderParameter("vignette_opacity", value);
     }
@@ -83,7 +93,8 @@ public partial class VignetteShaderController : Node{
         queuedIntensity = targetIntensity;
         queuedOpacity = targetOpacity;
         queuedStep = speed;
-        
+
+        queuedTimer.Stop();
         queuedTimer.WaitTime = timeDelay;
         queuedTimer.Start();
     }

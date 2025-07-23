@@ -267,7 +267,7 @@ public partial class Player : CharacterBody2D{
     private void OnDamaged(){
         hitFlash.Flash();
         camera.StartShake(20.0f, 0.33f);
-        camera.Vignette.Update(0.33f,0.5f,0.005f);
+        camera.Vignette.Update(0.33f,1f,0.01f);
         camera.Vignette.QueueUpdate(0,0,0.005f,1f);
         EntityManager.Instance.PauseEntityProcesses(time:0.25f);
     }
