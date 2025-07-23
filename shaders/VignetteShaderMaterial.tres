@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bl3iri7pcg4xo"]
+
+[ext_resource type="Shader" uid="uid://jr8pm3opx4ak" path="res://shaders/VignetteShader.gdshader" id="1_g1t51"]
+
+[resource]
+shader = ExtResource("1_g1t51")
+shader_parameter/vignette_intensity = 0.0
+shader_parameter/vignette_opacity = 0.0
+shader_parameter/vignette_rgb = Vector4(0, 0, 0, 1)

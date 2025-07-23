@@ -7,8 +7,6 @@
 
 [node name="GameplayLevelTemplate" type="Node2D"]
 
-[node name="Camera" parent="." instance=ExtResource("2_i0qjc")]
-
 [node name="PathfindGrid" parent="." instance=ExtResource("1_0pdpo")]
 
 [node name="EnemyManager" type="Node" parent="."]
@@ -20,3 +18,5 @@ pausedTimer = NodePath("PausedTimer")
 
 [node name="PausedTimer" type="Timer" parent="EntityManager"]
 one_shot = true
+
+[node name="Camera" parent="." instance=ExtResource("2_i0qjc")]

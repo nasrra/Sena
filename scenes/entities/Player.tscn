@@ -1,14 +1,16 @@
-[gd_scene load_steps=14 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=16 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_kpjcp"]
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
+[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="7_dtqjt"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(8, 16)
@@ -22,18 +24,19 @@ size = Vector2(9, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
 size = Vector2(10, 12)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("movement", "aimCursour", "hitBoxes", "health", "EmberStorage", "Interactor", "moveInputBlockTimer", "emberDecayTimer", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveInputBlockTimer", "emberDecayTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
+moveInputBlockTimer = NodePath("MoveInputBlock")
+emberDecayTimer = NodePath("EmberDecayTimer")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
+hitFlash = NodePath("HitFlashShaderController")
 health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
-moveInputBlockTimer = NodePath("MoveInputBlock")
-emberDecayTimer = NodePath("EmberDecayTimer")
 animator = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -120,6 +123,7 @@ disabled = true
 one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = ExtResource("6_boxie")
 scale = Vector2(0.1, 0.1)
 sprite_frames = ExtResource("6_tdg3f")
 animation = &"IdleBackward"
@@ -150,3 +154,6 @@ shape = SubResource("RectangleShape2D_5ncpa")
 [node name="EmberDecayTimer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
+
+[node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
+sprite = NodePath("../AnimatedSprite2D")

@@ -5,15 +5,16 @@ public partial class Player : CharacterBody2D{
     public static Player Instance {get;private set;}
 
     [ExportGroup("Nodes")]
+    [Export] private Timer moveInputBlockTimer;
+    [Export] private Timer emberDecayTimer;
+    [Export] private CameraController camera;
     [Export] public CharacterMovement movement {get; private set;}
     [Export] public PlayerAimCursour aimCursour {get; private set;}
     [Export] public HitBoxHandler hitBoxes {get; private set;}
+    [Export] public HitFlashShaderController hitFlash {get;private set;} 
     [Export] public Health health {get; private set;}
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
-    [Export] private CameraController camera;
-    [Export] private Timer moveInputBlockTimer;
-    [Export] private Timer emberDecayTimer;
     
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
@@ -264,7 +265,11 @@ public partial class Player : CharacterBody2D{
     }
 
     private void OnDamaged(){
-        EntityManager.Instance.PauseEntityProcesses(time:0.2f);
+        hitFlash.Flash();
+        camera.StartShake(20.0f, 0.33f);
+        camera.Vignette.Update(0.33f,0.5f,0.005f);
+        camera.Vignette.QueueUpdate(0,0,0.005f,1f);
+        EntityManager.Instance.PauseEntityProcesses(time:0.25f);
     }
 
     private void OnPaused(){

@@ -1,21 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=14 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_tt7e2"]
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="2_1jhey"]
+[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
 [ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="3_2hac7"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttack.tres" id="7_8rhtt"]
 [ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
-[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashController.tscn" id="12_v8ssa"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v8ssa"]
-resource_local_to_scene = true
-shader = ExtResource("2_1jhey")
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_value = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(14, 14)
@@ -35,13 +29,13 @@ navAgent = NodePath("Navigation2DAgent")
 characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
 hitBoxHandler = NodePath("HitBoxHandler")
-hitFlash = NodePath("HitFlashController")
+hitFlash = NodePath("HitFlashShaderController")
 stunTimer = NodePath("StunTimer")
 ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.941205, 0.217265, 0, 1)
-material = SubResource("ShaderMaterial_v8ssa")
+material = ExtResource("2_m80fk")
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_tt7e2")
 
@@ -79,7 +73,7 @@ one_shot = true
 
 [node name="IgnoreEnemyTimer" type="Timer" parent="."]
 
-[node name="HitFlashController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
+[node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
 sprite = NodePath("../Sprite2D")
 
 [node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]

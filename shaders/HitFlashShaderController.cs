@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class HitFlashShaderController : Node{
-    [Export] private Sprite2D sprite;
+    [Export] private CanvasItem sprite;
     private ShaderMaterial shaderMaterial;
     [Export] private Timer timer;
     private event Action stateProccess;
