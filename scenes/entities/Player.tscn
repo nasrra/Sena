@@ -7,10 +7,10 @@
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
-[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="7_dtqjt"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
+[ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(8, 16)
@@ -129,11 +129,6 @@ sprite_frames = ExtResource("6_tdg3f")
 animation = &"IdleBackward"
 frame_progress = 0.532616
 
-[node name="Health" type="Node" parent="."]
-script = ExtResource("7_dtqjt")
-Max = 6
-Value = 6
-
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")
 Max = 100
@@ -157,3 +152,7 @@ one_shot = true
 
 [node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
 sprite = NodePath("../AnimatedSprite2D")
+
+[node name="Health" parent="." instance=ExtResource("11_boxie")]
+Max = 6
+Value = 6

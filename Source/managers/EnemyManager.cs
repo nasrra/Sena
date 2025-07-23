@@ -14,7 +14,6 @@ public partial class EnemyManager : Node{
 
     public override void _ExitTree(){
         base._ExitTree();
-        Instance = null;
     }
 
     public void AddEnemy(Enemy enemy){

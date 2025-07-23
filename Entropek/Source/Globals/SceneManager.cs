@@ -13,6 +13,8 @@ public partial class SceneManager : Node{
 
     [Export] public PackedScene scene2DStart;
     [Export] public PackedScene guiStart;
+    private PackedScene current2DPackedScene;
+    private PackedScene currentGuiPackedScene;
 
     public override void _Ready(){
         base._Ready();
@@ -51,7 +53,8 @@ public partial class SceneManager : Node{
             }
         }
 
-        Control newGui = (Control)scene.Instantiate();
+        currentGuiPackedScene = scene;
+        Control newGui = (Control)currentGuiPackedScene.Instantiate();
         gui.AddChild(newGui);
         currentGuiScene = newGui;
     }
@@ -71,9 +74,14 @@ public partial class SceneManager : Node{
             }
         }
         
-        Node2D newWorld = (Node2D)scene.Instantiate();
+        current2DPackedScene = scene;
+        Node2D newWorld = (Node2D)current2DPackedScene.Instantiate();
         world2D.AddChild(newWorld);
         current2DScene = newWorld;
+    }
+
+    public void ReloadScene2D(){
+        LoadScene2D(current2DPackedScene, SceneLoadType.DELETE);
     }
 }
 

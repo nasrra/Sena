@@ -63,7 +63,9 @@ public partial class CameraController : Camera2D{
 
 
     private void UpdateCamera(float delta){
-        GlobalPosition = GlobalPosition.Lerp(Target.GlobalPosition + Offset + FollowOffset + shakeOffset, followSpeed * delta);
+        if(IsInstanceValid(Target) && Target.IsInsideTree()){
+            GlobalPosition = GlobalPosition.Lerp(Target.GlobalPosition + Offset + FollowOffset + shakeOffset, followSpeed * delta);
+        }
     }
 
     public void StartShake(float strength){

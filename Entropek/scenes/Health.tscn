@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://qjsxrhg00wny"]
+
+[ext_resource type="Script" uid="uid://c75dnwlbw6fm" path="res://Entropek/source/nodes/health/Health.cs" id="1_8gcxu"]
+
+[node name="Health" type="Node" node_paths=PackedStringArray("invincibleTimer")]
+script = ExtResource("1_8gcxu")
+invincibleTimer = NodePath("InvincibleTimer")
+
+[node name="InvincibleTimer" type="Timer" parent="."]
+one_shot = true

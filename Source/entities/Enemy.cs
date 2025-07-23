@@ -92,13 +92,17 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private void ChaseStateProcess(){
-        MoveAlongPathToTarget();
+        if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
+            MoveAlongPathToTarget();
+        }
     }
 
     private void ChaseStatePhysicsProcess(){
-        CalculateRelationshipToTarget();
-        GetPathToTarget();
-        UpdateAttackHandler();
+        if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
+            CalculateRelationshipToTarget();
+            GetPathToTarget();
+            UpdateAttackHandler();
+        }
     }
 
     public void StunState(float time){

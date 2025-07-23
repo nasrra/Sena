@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D{
     public static Player Instance {get;private set;}
@@ -210,11 +211,13 @@ public partial class Player : CharacterBody2D{
         emberDecayTimer.Timeout += DecayEmberStorage;
         EmberStorage.OnAdd += StartEmberDecayTimer;
 
-        health.OnDamage += OnDamaged; 
+        health.OnDamage += OnDamaged;
+        health.OnDeath += OnDeath;
 
-        Node ui = GetNode("/root/Main/GUI/GameplayUI");
-        ui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
-        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        Control hudGui = ui.HudGui;
+        hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
+        hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
 
         EntityManager.Instance.LinkToPause(OnPaused);
         EntityManager.Instance.LinkToResume(OnResume);
@@ -231,11 +234,15 @@ public partial class Player : CharacterBody2D{
         EmberStorage.OnAdd -= StartEmberDecayTimer;
 
         health.OnDamage -= OnDamaged; 
+        health.OnDeath -= OnDeath;
 
-        Node ui = GetNode("/root/Main/GUI/GameplayUI");
-        ui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
-        ui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        Control hudGui = ui.HudGui;
+        hudGui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
+        hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
         
+        EntityManager.Instance.UnlinkFromPause(OnPaused);
+        EntityManager.Instance.UnlinkFromResume(OnResume);
         EntityManager.Instance.UnlinkFromProcess(Process);
         EntityManager.Instance.UnlinkFromPhysicsProcess(PhysicsProcess);
     }
@@ -270,6 +277,13 @@ public partial class Player : CharacterBody2D{
         camera.Vignette.Update(0.33f,1f,0.01f);
         camera.Vignette.QueueUpdate(0,0,0.005f,1f);
         EntityManager.Instance.PauseEntityProcesses(time:0.25f);
+        health.SetInvincible(time:1f);
+    }
+
+    private void OnDeath(){
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        ui.EnableDeathGui();
+        QueueFree();
     }
 
     private void OnPaused(){
