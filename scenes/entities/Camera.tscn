@@ -4,31 +4,43 @@
 [ext_resource type="Material" uid="uid://bl3iri7pcg4xo" path="res://shaders/VignetteShaderMaterial.tres" id="2_6oj6j"]
 [ext_resource type="Script" uid="uid://cm22hkw5lvyyu" path="res://shaders/VignetteShaderController.cs" id="3_mhmh1"]
 
-[node name="Camera" type="Camera2D" node_paths=PackedStringArray("Vignette", "shakeTimer")]
+[node name="Camera" type="Camera2D" node_paths=PackedStringArray("Vignette", "fadeTransition", "fadeTimer", "shakeTimer")]
 zoom = Vector2(5, 5)
 script = ExtResource("1_e6e23")
 Vignette = NodePath("VignetteShaderController")
+fadeTransition = NodePath("CameraEffects/FadeTransition")
+fadeTimer = NodePath("FadeTimer")
 shakeTimer = NodePath("ShakeTimer")
 followSpeed = 6.0
 
 [node name="ShakeTimer" type="Timer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="."]
-material = ExtResource("2_6oj6j")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -192.0
-offset_top = -108.0
-offset_right = 192.0
-offset_bottom = 108.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="VignetteShaderController" type="Node" parent="." node_paths=PackedStringArray("canvasItem", "queuedTimer")]
 script = ExtResource("3_mhmh1")
-canvasItem = NodePath("../ColorRect")
+canvasItem = NodePath("../CameraEffects/Vignette")
 queuedTimer = NodePath("QueuedTimer")
 
 [node name="QueuedTimer" type="Timer" parent="VignetteShaderController"]
 one_shot = true
+
+[node name="FadeTimer" type="Timer" parent="."]
+
+[node name="CameraEffects" type="CanvasLayer" parent="."]
+
+[node name="FadeTransition" type="ColorRect" parent="CameraEffects"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0)
+
+[node name="Vignette" type="ColorRect" parent="CameraEffects"]
+material = ExtResource("2_6oj6j")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

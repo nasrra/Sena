@@ -8,9 +8,17 @@
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "gui")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "gui", "loadScene2DDelayTimer", "loadGuiDelayTimer")]
 script = ExtResource("1_3ypkp")
 world2D = NodePath("../World2D")
 gui = NodePath("../GUI")
+loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
+loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
 scene2DStart = "Level0"
 guiStart = "GameplayGui"
+
+[node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true
+
+[node name="LoadScene2DDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true

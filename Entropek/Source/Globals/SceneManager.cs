@@ -7,9 +7,14 @@ public partial class SceneManager : Node{
     private const string guiResourcePath = "res://scenes/gui/";
     public static SceneManager Instance{get; private set;}
 
+    private event Action loadGuiDelayed;
+    private event Action loadScene2DDelayed;
+
     [Export] private Node2D world2D;
     [Export] private CanvasLayer gui;
 
+    [Export] private Timer loadScene2DDelayTimer;
+    [Export] private Timer loadGuiDelayTimer;
     [Export] public Node2D current2DScene {get; private set;}
     [Export] public Control currentGuiScene {get; private set;}
 
@@ -19,12 +24,17 @@ public partial class SceneManager : Node{
     public override void _Ready(){
         base._Ready();
         if(guiStart != null){
-            LoadGUI(guiStart, SceneLoadType.DELETE);
+            LoadGui(guiStart, SceneLoadType.DELETE);
         }
         if(scene2DStart != null){
             LoadScene2D(scene2DStart, SceneLoadType.DELETE);
         }
     }
+
+
+    /// 
+    /// Base.
+    /// 
 
 
     public override void _EnterTree(){
@@ -37,7 +47,25 @@ public partial class SceneManager : Node{
         Instance = null;
     }
 
-    public async void LoadGUI(string sceneName, SceneLoadType loadType){
+
+    /// 
+    /// Functions.
+    /// 
+
+
+    public void LoadGui(string sceneName, SceneLoadType loadType, float delayTime){
+        loadGuiDelayed = () => {
+            LoadGui(sceneName, loadType);
+            loadGuiDelayTimer.Timeout -= loadGuiDelayed;
+            loadGuiDelayed = null;
+        };
+
+        loadGuiDelayTimer.Timeout += loadGuiDelayed;
+        loadGuiDelayTimer.WaitTime = delayTime;
+        loadGuiDelayTimer.Start();
+    }
+
+    public async void LoadGui(string sceneName, SceneLoadType loadType){
         
         if(currentGuiScene != null){
             switch(loadType){
@@ -61,6 +89,18 @@ public partial class SceneManager : Node{
         Control newGui = (Control)packedScene.Instantiate();
         gui.AddChild(newGui);
         currentGuiScene = newGui;
+    }
+
+    public void LoadScene2D(string sceneName, SceneLoadType loadType, float delayTime){
+        loadScene2DDelayed = () => {
+            LoadScene2D(sceneName, loadType);
+            loadScene2DDelayTimer.Timeout -= loadScene2DDelayed;
+            loadScene2DDelayed = null;
+        };
+        
+        loadScene2DDelayTimer.Timeout += loadScene2DDelayed;
+        loadScene2DDelayTimer.WaitTime = delayTime;
+        loadScene2DDelayTimer.Start();
     }
 
     public async void LoadScene2D(string sceneName, SceneLoadType loadType){
@@ -92,6 +132,12 @@ public partial class SceneManager : Node{
         LoadScene2D(current2DScene.Name, SceneLoadType.DELETE);
     }
 }
+
+
+/// 
+/// Definitions.
+/// 
+
 
 public enum SceneLoadType{
     DELETE, // No memory or data.

@@ -33,12 +33,15 @@ public partial class LevelSwapDoor : Door{
 
     public void Enter(){
         LevelSwapDoorManager.Instance.SetExitDoorId(doorToLoadTo);
-        SceneManager.Instance.LoadScene2D(levelToLoad, SceneLoadType.DELETE);
+        SceneManager.Instance.LoadScene2D(levelToLoad, SceneLoadType.DELETE, 0.5f);
+        CameraController.Instance.FadeToBlack(0.33f);
+        EntityManager.Instance.PauseEntityProcesses();
     }
 
     public void Exit(float exitTime){
         enterZoneDisableTimer.WaitTime = exitTime;
         enterZoneDisableTimer.Start();
+        CameraController.Instance.FadeFromBlack(0.33f);
         DisableEnterZone();
     }
 
