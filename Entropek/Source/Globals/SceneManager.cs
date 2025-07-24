@@ -18,6 +18,7 @@ public partial class SceneManager : Node{
     [Export] private Timer loadScene2DDelayTimer;
     [Export] private Timer loadGuiDelayTimer;
     [Export] public Node2D Current2DScene {get; private set;}
+    [Export] public string Current2DSceneName {get;private set;}
     [Export] public Control CurrentGuiScene {get; private set;}
 
     [Export] public string scene2DStart;
@@ -130,6 +131,7 @@ public partial class SceneManager : Node{
         // world2D.CallDeferred("add_child", newWorld);
         world2D.AddChild(newWorld);
         Current2DScene = newWorld;
+        Current2DSceneName = sceneName;
 
         CallDeferred(nameof(InvokeScene2DLoaded));
     }

@@ -47,7 +47,6 @@ public partial class LevelSwapDoor : Door{
     }
 
     private void EnableEnterZone(){
-        GD.Print("enable enter zone!");
         enterZone.Monitorable = true;
         enterZone.Monitoring = true;
         enterZone.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;

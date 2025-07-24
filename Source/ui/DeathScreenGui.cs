@@ -3,7 +3,7 @@ using System;
 
 public partial class DeathScreenGui : Control{
     
-    [Export] private Button respawnButton;
+    [Export] public Button respawnButton;
 
 
     /// 
@@ -28,17 +28,9 @@ public partial class DeathScreenGui : Control{
 
 
     private void RespawnButtonPressed(){
-        GD.Print("respawn!");
-        SceneManager.Instance.ReloadScene2D();
+        RespawnPoint.Respawn();
     }
 
-    public void LinkToRespawnButtonPressed(Action callback){
-        respawnButton.Pressed += callback;
-    }
-
-    public void UnlinkFromRespawnButtonPressed(Action callback){
-        respawnButton.Pressed -= callback;
-    }
 
     /// 
     /// Linkage.

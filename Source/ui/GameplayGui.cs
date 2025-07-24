@@ -96,11 +96,12 @@ public partial class GameplayGui : Control{
     /// Linkage.
     /// 
 
+
     private void LinkEvents(){
-        DeathGui.LinkToRespawnButtonPressed(EnableHudGui);
+        // DeathGui.respawnButton.Pressed += EnableHudGui;
     }
 
     private void UnlinkEvents(){
-        DeathGui.UnlinkFromRespawnButtonPressed(EnableHudGui);
+        // DeathGui.respawnButton.Pressed -= EnableHudGui;
     }
 }

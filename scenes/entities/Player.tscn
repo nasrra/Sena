@@ -154,5 +154,5 @@ one_shot = true
 sprite = NodePath("../AnimatedSprite2D")
 
 [node name="Health" parent="." instance=ExtResource("11_boxie")]
-Max = 6
-Value = 6
+Max = 3
+Value = 1

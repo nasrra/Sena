@@ -31,10 +31,14 @@ public partial class GameManager : Node{
 
     public void DeathState(){
         State = GameState.Death;
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        ui.EnableDeathGui();
     }
 
     public void GameplayState(){
         State = GameState.Gameplay;
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        ui.EnableHudGui();
     }
 
 

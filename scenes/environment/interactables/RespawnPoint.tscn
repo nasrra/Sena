@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmy0scf5vha1n"]
+
+[ext_resource type="Texture2D" uid="uid://c8n4ry1c3sun5" path="res://assets/test/RespawnPoint.jpg" id="1_a1jvh"]
+[ext_resource type="Script" uid="uid://loq3eyrbsihb" path="res://scenes/RespawnPoint.cs" id="1_u05v7"]
+[ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="2_1vnsk"]
+
+[node name="RespawnPoint" type="Node2D" node_paths=PackedStringArray("interactable")]
+script = ExtResource("1_u05v7")
+interactable = NodePath("Interactable")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("1_a1jvh")
+
+[node name="Interactable" parent="." instance=ExtResource("2_1vnsk")]
+scale = Vector2(16, 16)

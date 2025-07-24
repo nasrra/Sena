@@ -120,7 +120,10 @@ public partial class Player : CharacterBody2D{
                 break;
             case GameState.Death:
                 // spawn at respawn point.
-                GlobalPosition = RespawnPoint.Instance.GlobalPosition;
+                if(RespawnPoint.Instance != null){
+                    GlobalPosition = RespawnPoint.Instance.GlobalPosition;
+                }
+                GameManager.Instance.GameplayState();
                 break;
         }
     }
@@ -309,8 +312,7 @@ public partial class Player : CharacterBody2D{
     }
 
     private void HandleDeath(){
-        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-        ui.EnableDeathGui();
+        GameManager.Instance.DeathState();
         QueueFree();
     }
 

@@ -11,5 +11,4 @@ collision_mask = 16
 script = ExtResource("1_msfch")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.75, 0)
 shape = SubResource("RectangleShape2D_prvul")
