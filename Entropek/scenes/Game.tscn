@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyshyxa5ysn7v"]
+[gd_scene load_steps=3 format=3 uid="uid://dyshyxa5ysn7v"]
 
 [ext_resource type="Script" uid="uid://dg4h4toplh4i0" path="res://Entropek/source/globals/SceneManager.cs" id="1_3ypkp"]
+[ext_resource type="Script" uid="uid://dlxuuf8pcvm7v" path="res://source/GameManager.cs" id="2_y3xkw"]
 
 [node name="Main" type="Node"]
 
@@ -22,3 +23,6 @@ one_shot = true
 
 [node name="LoadScene2DDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("2_y3xkw")

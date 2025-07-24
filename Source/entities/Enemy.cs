@@ -206,10 +206,10 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         stunTimer.Timeout += EvaluateState;
         ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
 
-        EntityManager.Instance.LinkToProcess(Process);
-        EntityManager.Instance.LinkToPhysicsProcess(PhysicsProcess);
-        EntityManager.Instance.LinkToPause(PauseState);
-        EntityManager.Instance.LinkToResume(ResumeState);
+        EntityManager.Instance.OnProcess += Process;
+        EntityManager.Instance.OnPhysicsProcess += PhysicsProcess;
+        EntityManager.Instance.OnPause += PauseState;
+        EntityManager.Instance.OnResume += ResumeState;
     }
 
     private void UnlinkEvents(){
@@ -224,10 +224,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
         stunTimer.Timeout -= EvaluateState;
         ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
-        EntityManager.Instance.UnlinkFromProcess(Process);
-        EntityManager.Instance.UnlinkFromPhysicsProcess(PhysicsProcess);
-        EntityManager.Instance.UnlinkFromPause(PauseState);
-        EntityManager.Instance.UnlinkFromResume(ResumeState);
+
+        EntityManager.Instance.OnProcess -= Process;
+        EntityManager.Instance.OnPhysicsProcess -= PhysicsProcess;
+        EntityManager.Instance.OnPause -= PauseState;
+        EntityManager.Instance.OnResume -= ResumeState;
     }
 
 

@@ -13,10 +13,13 @@ public partial class Player : CharacterBody2D{
     [Export] public PlayerAimCursour aimCursour {get; private set;}
     [Export] public HitBoxHandler hitBoxes {get; private set;}
     [Export] public HitFlashShaderController hitFlash {get;private set;} 
-    [Export] public Health health {get; private set;}
+    [Export] public Health Health {get; private set;}
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
     
+    public event Action OnDeath;
+    public event Action OnPause;
+
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
@@ -24,7 +27,7 @@ public partial class Player : CharacterBody2D{
     private float attackEnemyKnockback = 100f;
     private float attackPlayerKnockback = 80f;
     private bool blockMoveInput = false;
-
+     
 
     /// 
     /// Base.
@@ -36,6 +39,7 @@ public partial class Player : CharacterBody2D{
         #if TOOLS
         Entropek.Util.Node.VerifyName(this, nameof(Player));
         #endif
+        
         animator.Play("IdleForward");
         HandleLevelEnter();
     }
@@ -67,6 +71,7 @@ public partial class Player : CharacterBody2D{
     /// <summary>
     /// Miscellaneous
     /// </summary>
+
 
     private void UpdateAnimation(){
         if(moveInput.Y < 0){
@@ -105,10 +110,18 @@ public partial class Player : CharacterBody2D{
     private void HandleLevelEnter(){
         
         // spawn at the exit point from the last door we entered.
-
-        if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
-            door.Exit(1f);
-            GlobalPosition = door.ExitPoint.GlobalPosition;
+        switch(GameManager.Instance.State){
+            case GameState.Gameplay:
+                // spawn at door.
+                if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
+                    EntityManager.Instance.PauseEntityProcesses(0.33f);
+                    GlobalPosition = door.ExitPoint.GlobalPosition;
+                }                
+                break;
+            case GameState.Death:
+                // spawn at respawn point.
+                GlobalPosition = RespawnPoint.Instance.GlobalPosition;
+                break;
         }
     }
 
@@ -169,7 +182,7 @@ public partial class Player : CharacterBody2D{
         if(Input.IsActionJustPressed("Heal")){
             if(EmberStorage.Value >= 20){
                 EmberStorage.Remove(20, out int remainder);
-                health.Heal(1);
+                Health.Heal(1);
             }
         }
     }
@@ -222,18 +235,19 @@ public partial class Player : CharacterBody2D{
         emberDecayTimer.Timeout += DecayEmberStorage;
         EmberStorage.OnAdd += StartEmberDecayTimer;
 
-        health.OnDamage += OnDamaged;
-        health.OnDeath += OnDeath;
+        Health.OnDamage += HandleDamaged;
+        Health.OnDeath += HandleDeath;
 
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         Control hudGui = ui.HudGui;
-        hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(health);
+        hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(Health);
         hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
 
-        EntityManager.Instance.LinkToPause(OnPaused);
-        EntityManager.Instance.LinkToResume(OnResume);
-        EntityManager.Instance.LinkToProcess(Process);
-        EntityManager.Instance.LinkToPhysicsProcess(PhysicsProcess);
+        EntityManager.Instance.OnPause += HandlePause;
+        EntityManager.Instance.OnResume += HandleResume;
+        EntityManager.Instance.OnProcess += Process;
+        EntityManager.Instance.OnPhysicsProcess += PhysicsProcess;
+
     }
 
     private void UnlinkEvents(){
@@ -244,18 +258,18 @@ public partial class Player : CharacterBody2D{
         emberDecayTimer.Timeout -= DecayEmberStorage;
         EmberStorage.OnAdd -= StartEmberDecayTimer;
 
-        health.OnDamage -= OnDamaged; 
-        health.OnDeath -= OnDeath;
+        Health.OnDamage -= HandleDamaged; 
+        Health.OnDeath -= HandleDeath;
 
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         Control hudGui = ui.HudGui;
         hudGui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
         hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
         
-        EntityManager.Instance.UnlinkFromPause(OnPaused);
-        EntityManager.Instance.UnlinkFromResume(OnResume);
-        EntityManager.Instance.UnlinkFromProcess(Process);
-        EntityManager.Instance.UnlinkFromPhysicsProcess(PhysicsProcess);
+        EntityManager.Instance.OnPause -= HandlePause;
+        EntityManager.Instance.OnResume -= HandleResume;
+        EntityManager.Instance.OnProcess -= Process;
+        EntityManager.Instance.OnPhysicsProcess -= PhysicsProcess;
     }
 
 
@@ -285,27 +299,27 @@ public partial class Player : CharacterBody2D{
         }
     }
 
-    private void OnDamaged(){
+    private void HandleDamaged(){
         hitFlash.Flash();
         camera.StartShake(20.0f, 0.33f);
         camera.Vignette.Update(0.33f,1f,0.01f);
         camera.Vignette.QueueUpdate(0,0,0.005f,1f);
         EntityManager.Instance.PauseEntityProcesses(time:0.25f);
-        health.SetInvincible(time:1f);
+        Health.SetInvincible(time:1f);
     }
 
-    private void OnDeath(){
+    private void HandleDeath(){
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         ui.EnableDeathGui();
         QueueFree();
     }
 
-    private void OnPaused(){
+    private void HandlePause(){
         hitBoxes.PauseState();
         movement.PauseState();
     }
 
-    private void OnResume(){
+    private void HandleResume(){
         hitBoxes.ResumeState();
         movement.ResumeState();
     }

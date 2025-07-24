@@ -6,3 +6,6 @@
 
 [node name="Container" parent="." index="0"]
 rotation = 3.14159
+
+[node name="ExitPoint" parent="Container" index="0"]
+position = Vector2(0, 16)

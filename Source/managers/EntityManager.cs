@@ -4,10 +4,10 @@ using System;
 public partial class EntityManager : Node{
     public static EntityManager Instance {get;private set;}
     [Export] private Timer pausedTimer;
-    private event Action<double> OnProcess;
-    private event Action<double> OnPhysicsProcess;
-    private event Action OnPause;
-    private event Action OnResume;
+    public event Action<double> OnProcess;
+    public event Action<double> OnPhysicsProcess;
+    public event Action OnPause;
+    public event Action OnResume;
     private bool paused = false;
 
 
@@ -57,39 +57,6 @@ public partial class EntityManager : Node{
     ///
     /// Linkage Functions. 
     /// 
-
-
-    public void LinkToProcess(Action<double> callback){
-        OnProcess += callback;
-    } 
-
-    public void UnlinkFromProcess(Action<double> callback){
-        OnProcess -= callback;
-    }
-
-    public void LinkToPhysicsProcess(Action<double> callback){
-        OnPhysicsProcess += callback;
-    }
-
-    public void UnlinkFromPhysicsProcess(Action<double> callback){
-        OnPhysicsProcess -= callback;
-    }
-
-    public void LinkToPause(Action callback){
-        OnPause += callback;
-    }
-
-    public void UnlinkFromPause(Action callback){
-        OnPause -= callback;
-    }
-
-    public void LinkToResume(Action callback){
-        OnResume += callback;
-    }
-
-    public void UnlinkFromResume(Action callback){
-        OnResume -= callback;
-    }
 
     public void PauseEntityProcesses(){
         paused = true;

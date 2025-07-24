@@ -31,6 +31,9 @@ public partial class CameraController : Camera2D{
     public override void _Ready(){
         base._Ready();
         rng = new RandomNumberGenerator();
+
+        // set alpha to full for one frame rule in SceneManager when loading new scene with transition.
+        
     }
 
     public override void _EnterTree(){
@@ -123,6 +126,20 @@ public partial class CameraController : Camera2D{
         }
     }
 
+    public void SnapToTarget(){
+        GlobalPosition = Target.GlobalPosition;
+    }
+
+    private void LevelEnterTransition(){
+        FadeFromBlack(0.33f);
+        SnapToTarget();
+    }
+
+    private void LevelExitTransition(){
+        FadeToBlack(0.33f);
+    }
+
+
     ///
     /// Linkage.
     /// 
@@ -131,10 +148,14 @@ public partial class CameraController : Camera2D{
     private void LinkEvents(){
         shakeTimer.Timeout += StopShake;
         fadeTimer.Timeout += StopFadeTransition;
+        SceneManager.Instance.OnScene2DLoaded += LevelEnterTransition;
+        SceneManager.Instance.OnScene2DDelayedLoadSet += LevelExitTransition;
     }
 
     private void UnlinkEvents(){
         shakeTimer.Timeout -= StopShake;
         fadeTimer.Timeout -= StopFadeTransition;
+        SceneManager.Instance.OnScene2DLoaded -= LevelEnterTransition;
+        SceneManager.Instance.OnScene2DDelayedLoadSet -= LevelExitTransition;
     }
 }

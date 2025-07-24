@@ -24,7 +24,7 @@ size = Vector2(9, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
 size = Vector2(10, 12)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveInputBlockTimer", "emberDecayTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "health", "EmberStorage", "Interactor", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveInputBlockTimer", "emberDecayTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
@@ -34,7 +34,7 @@ movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
-health = NodePath("Health")
+Health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
 animator = NodePath("AnimatedSprite2D")

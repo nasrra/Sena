@@ -41,6 +41,11 @@ public partial class Health : Node{
         OnHeal?.Invoke();
     } 
 
+    public void HealToMax(){
+        Value = Max;
+        OnHeal?.Invoke();
+    }
+
     public void Damage(int amount){
         if(Invincible==true){
             return;

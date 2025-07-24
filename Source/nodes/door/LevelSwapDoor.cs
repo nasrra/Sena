@@ -5,7 +5,6 @@ public partial class LevelSwapDoor : Door{
 
     [Export] private Area2D enterZone;
     [Export] public Node2D ExitPoint {get; private set;}
-    [Export] Timer enterZoneDisableTimer;
     [Export] private string levelToLoad;
     [Export] private int doorToLoadTo; // <-- id in the door manager array. 
 
@@ -33,23 +32,12 @@ public partial class LevelSwapDoor : Door{
 
     public void Enter(){
         LevelSwapDoorManager.Instance.SetExitDoorId(doorToLoadTo);
-        SceneManager.Instance.LoadScene2D(levelToLoad, SceneLoadType.DELETE, 0.5f);
-        CameraController.Instance.FadeToBlack(0.33f);
+        SceneManager.Instance.LoadScene2D(levelToLoad, SceneLoadType.Delete, 0.5f);
         EntityManager.Instance.PauseEntityProcesses();
     }
 
-    public void Exit(float exitTime){
-        enterZoneDisableTimer.WaitTime = exitTime;
-        enterZoneDisableTimer.Start();
-        CameraController.Instance.FadeFromBlack(0.33f);
-        DisableEnterZone();
-    }
-
     public override void Open(){
-        GD.Print(enterZoneDisableTimer.TimeLeft);
-        if(enterZoneDisableTimer.TimeLeft <= 0){
-            EnableEnterZone();
-        }
+        EnableEnterZone();
         base.Open();
     }
 
@@ -79,12 +67,10 @@ public partial class LevelSwapDoor : Door{
 
     private void LinkEvents(){
         enterZone.BodyEntered += OnEnterZone;
-        enterZoneDisableTimer.Timeout += EnableEnterZone;
     }
 
     private void UnlinkEvents(){
         enterZone.BodyEntered -= OnEnterZone;        
-        enterZoneDisableTimer.Timeout -= EnableEnterZone;
     }
 
 
