@@ -56,8 +56,9 @@ rotation = 1.5708
 scale = Vector2(2, 8)
 shape = SubResource("RectangleShape2D_xh834")
 
-[node name="Player" parent="." index="5" instance=ExtResource("2_twycr")]
+[node name="Player" parent="." index="5" node_paths=PackedStringArray("camera") instance=ExtResource("2_twycr")]
 position = Vector2(256, 108)
+camera = NodePath("../Camera")
 
 [node name="TestlevelSwapDoorRight" parent="." index="6" instance=ExtResource("3_inlfm")]
 position = Vector2(496, 128)
@@ -83,5 +84,4 @@ doorToLoadTo = 2
 Opened = true
 
 [node name="Camera" parent="." index="10" node_paths=PackedStringArray("Target")]
-visible = false
 Target = NodePath("../Player")

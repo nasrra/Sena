@@ -37,12 +37,16 @@ public partial class SceneManager : Node{
         Instance = null;
     }
 
-    public void LoadGUI(string sceneName, SceneLoadType loadType){
+    public async void LoadGUI(string sceneName, SceneLoadType loadType){
         
         if(currentGuiScene != null){
             switch(loadType){
                 case SceneLoadType.DELETE:
-                    currentGuiScene.QueueFree();
+                    // shift hard reference so it goes out of scope for GC.
+                    Node sceneToDelete  = currentGuiScene;
+                    currentGuiScene     = null;
+                    sceneToDelete.QueueFree();
+                    await ToSignal(sceneToDelete, "tree_exited");
                 break;
                 case SceneLoadType.HIDE:
                     currentGuiScene.Visible = false;
@@ -59,11 +63,15 @@ public partial class SceneManager : Node{
         currentGuiScene = newGui;
     }
 
-    public void LoadScene2D(string sceneName, SceneLoadType loadType){
+    public async void LoadScene2D(string sceneName, SceneLoadType loadType){
         if(current2DScene != null){
             switch(loadType){
                 case SceneLoadType.DELETE:
-                    current2DScene.QueueFree();
+                    // shift hard reference so it goes out of scope for GC.
+                    Node sceneToDelete  = current2DScene;
+                    current2DScene      = null;
+                    sceneToDelete.QueueFree();
+                    await ToSignal(sceneToDelete, "tree_exited");
                 break;
                 case SceneLoadType.HIDE:
                     current2DScene.Visible = false;
