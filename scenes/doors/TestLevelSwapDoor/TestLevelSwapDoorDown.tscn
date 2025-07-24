@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwcck5jdqi6k3"]
+
+[ext_resource type="PackedScene" uid="uid://drpinhpgmnmkw" path="res://scenes/doors/TestLevelSwapDoor/TemplateTestLevelSwapDoor.tscn" id="1_85ijo"]
+
+[node name="TestlevelSwapDoorDown" instance=ExtResource("1_85ijo")]
+
+[node name="Container" parent="." index="0"]
+rotation = 3.14159

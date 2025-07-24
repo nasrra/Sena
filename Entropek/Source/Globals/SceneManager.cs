@@ -3,6 +3,8 @@ using System;
 
 public partial class SceneManager : Node{
 
+    private const string levelsResourcePath = "res://scenes/levels/";
+    private const string guiResourcePath = "res://scenes/gui/";
     public static SceneManager Instance{get; private set;}
 
     [Export] private Node2D world2D;
@@ -11,10 +13,8 @@ public partial class SceneManager : Node{
     [Export] public Node2D current2DScene {get; private set;}
     [Export] public Control currentGuiScene {get; private set;}
 
-    [Export] public PackedScene scene2DStart;
-    [Export] public PackedScene guiStart;
-    private PackedScene current2DPackedScene;
-    private PackedScene currentGuiPackedScene;
+    [Export] public string scene2DStart;
+    [Export] public string guiStart;
 
     public override void _Ready(){
         base._Ready();
@@ -37,7 +37,7 @@ public partial class SceneManager : Node{
         Instance = null;
     }
 
-    public void LoadGUI(PackedScene scene, SceneLoadType loadType){
+    public void LoadGUI(string sceneName, SceneLoadType loadType){
         
         if(currentGuiScene != null){
             switch(loadType){
@@ -53,13 +53,13 @@ public partial class SceneManager : Node{
             }
         }
 
-        currentGuiPackedScene = scene;
-        Control newGui = (Control)currentGuiPackedScene.Instantiate();
+        PackedScene packedScene = GD.Load<PackedScene>(guiResourcePath+sceneName+".tscn");
+        Control newGui = (Control)packedScene.Instantiate();
         gui.AddChild(newGui);
         currentGuiScene = newGui;
     }
 
-    public void LoadScene2D(PackedScene scene, SceneLoadType loadType){
+    public void LoadScene2D(string sceneName, SceneLoadType loadType){
         if(current2DScene != null){
             switch(loadType){
                 case SceneLoadType.DELETE:
@@ -74,14 +74,14 @@ public partial class SceneManager : Node{
             }
         }
         
-        current2DPackedScene = scene;
-        Node2D newWorld = (Node2D)current2DPackedScene.Instantiate();
-        world2D.AddChild(newWorld);
+        PackedScene packedScene = GD.Load<PackedScene>(levelsResourcePath+sceneName+".tscn");
+        Node2D newWorld = (Node2D)packedScene.Instantiate();
+        world2D.CallDeferred("add_child", newWorld);
         current2DScene = newWorld;
     }
 
     public void ReloadScene2D(){
-        LoadScene2D(current2DPackedScene, SceneLoadType.DELETE);
+        LoadScene2D(current2DScene.Name, SceneLoadType.DELETE);
     }
 }
 

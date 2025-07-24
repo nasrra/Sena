@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://ge883ir7y6gs"]
 
 [ext_resource type="Script" uid="uid://busapvemmrelg" path="res://source/ui/HealthHud.cs" id="1_nyl7x"]
-[ext_resource type="PackedScene" uid="uid://b8kvttpk1lnmc" path="res://scenes/ui/HudGui/HealthHudHeart.tscn" id="2_y3y48"]
-[ext_resource type="PackedScene" uid="uid://d3urc5o6fag7l" path="res://scenes/ui/HudGui/EmberBarHud.tscn" id="3_bqein"]
+[ext_resource type="PackedScene" uid="uid://b8kvttpk1lnmc" path="res://scenes/gui/HudGui/HealthHudHeart.tscn" id="2_y3y48"]
+[ext_resource type="PackedScene" uid="uid://d3urc5o6fag7l" path="res://scenes/gui/HudGui/EmberBarHud.tscn" id="3_bqein"]
 
 [node name="HudGui" type="Control"]
 layout_mode = 3

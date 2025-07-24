@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://tpx5rax7c0nj"]
 
-[ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/environment/interactables/BrazierDoor.cs" id="1_r0a7e"]
-[ext_resource type="Script" uid="uid://bwrloxjoma42c" path="res://source/nodes/Door.cs" id="2_4f3mn"]
+[ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/nodes/interactables/BrazierDoor.cs" id="1_r0a7e"]
+[ext_resource type="Script" uid="uid://cbdppbywqv20a" path="res://source/nodes/door/EnvironmentDoor.cs" id="2_rg168"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="3_dw4h2"]
-[ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="4_gnajc"]
+[ext_resource type="Texture2D" uid="uid://bx5ipxy1786fq" path="res://assets/test/EnvironmentDoor.png" id="4_rg168"]
 [ext_resource type="Script" uid="uid://e3soyiq4dm1p" path="res://source/Wayfinding2D/WayfindingStaticObstacle2D.cs" id="5_rg168"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dw4h2"]
@@ -21,10 +21,10 @@ door = NodePath("Door")
 sprite = NodePath("Sprite2D")
 interactable = NodePath("Interactable")
 
-[node name="Door" type="Node" parent="." node_paths=PackedStringArray("collider", "wayfindingObstacle")]
-script = ExtResource("2_4f3mn")
-collider = NodePath("../StaticBody2D")
+[node name="Door" type="Node" parent="." node_paths=PackedStringArray("wayfindingObstacle", "collider")]
+script = ExtResource("2_rg168")
 wayfindingObstacle = NodePath("../WayfindingStaticObstacle2D")
+collider = NodePath("../StaticBody2D")
 
 [node name="Interactable" type="Area2D" parent="."]
 collision_layer = 4
@@ -35,9 +35,8 @@ script = ExtResource("3_dw4h2")
 shape = SubResource("RectangleShape2D_dw4h2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.416518, 0.507009, 0, 1)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("4_gnajc")
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("4_rg168")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2

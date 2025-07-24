@@ -37,6 +37,7 @@ public partial class Player : CharacterBody2D{
         Entropek.Util.Node.VerifyName(this, nameof(Player));
         #endif
         animator.Play("IdleForward");
+        HandleLevelEnter();
     }
 
     public override void _EnterTree(){
@@ -99,6 +100,16 @@ public partial class Player : CharacterBody2D{
 
     private void StartEmberDecayTimer(){
         emberDecayTimer.Start();
+    }
+
+    private void HandleLevelEnter(){
+        
+        // spawn at the exit point from the last door we entered.
+
+        if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
+            door.Exit(1f);
+            GlobalPosition = door.ExitPoint.GlobalPosition;
+        }
     }
 
 
@@ -254,6 +265,9 @@ public partial class Player : CharacterBody2D{
 
 
     private void OnHitBoxHit(Node2D node, int id){
+
+        // validate physics layer name.
+
         if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string hitLayer)==false){
             return;
         }

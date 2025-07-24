@@ -2,12 +2,12 @@ using Entropek.Ai;
 using Godot;
 using System;
 
-public partial class Door : Node{
-    public const string NodeName = nameof(Door);
+// // seperate into scene transition and environmental doors.
+
+public abstract partial class Door : Node{
+    // public const string NodeName = nameof(Door);
     [Export]
     private CollisionObject2D collider;
-    [Export]
-    private WayfindingStaticObstacle2D wayfindingObstacle;
     [Export]
     public bool Locked {get;private set;} = false;
     [Export]
@@ -20,34 +20,42 @@ public partial class Door : Node{
 
     public override void _Ready(){
         base._Ready();
-        #if TOOLS
-        Entropek.Util.Node.VerifyName(this, NodeName);
-        #endif
+        // #if TOOLS
+        //     Entropek.Util.Node.VerifyName(this, NodeName);
+        // #endif
+        if(Opened==true){
+            Open();
+        }
+        else{
+            Close();
+        }
+    }
+
+    public override void _EnterTree(){
+        base._EnterTree();
     }
 
 
-    public void Open(){
+    public virtual void Open(){
         Opened = true;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", true);
-        wayfindingObstacle.Disable();
         OnOpen?.Invoke();
     }
 
-    public void Close(){
+    public virtual void Close(){
         Opened = false;
         CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
         shape.CallDeferred("set_disabled", false);
-        wayfindingObstacle.Enable();
         OnClose?.Invoke();
     }
 
-    public void Unlock(){
+    public virtual void Unlock(){
         Locked = false;
         OnUnlock?.Invoke();
     }
 
-    public void Lock(){
+    public virtual void Lock(){
         Locked = true;
         OnLock?.Invoke();
     }

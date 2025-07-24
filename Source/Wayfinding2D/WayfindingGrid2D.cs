@@ -505,8 +505,8 @@ public partial class WayfindingGrid2D : Node2D{
             for(int y = 0; y < tileMap.GetUsedRect().Size.Y; y++){                    
 
                 Vector2I index = new Vector2I(
-                    x + tileMap.GetUsedRect().Position.X,
-                    y + tileMap.GetUsedRect().Position.Y
+                    x,
+                    y
                 );
 
                 if(TileIsInUse(x, y, out TileData sharedTileData)==false){
@@ -517,11 +517,11 @@ public partial class WayfindingGrid2D : Node2D{
 
                 if(cell.Blocked==true){
                     Vector2 globalPosition = tileMap.MapToLocal(index);
-                    DrawRect(new Rect2(globalPosition-debugSquareSize*0.5f, debugSquareSize), debugBlockedColour);
+                    DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
                 }
                 else{
                     Vector2 globalPosition = tileMap.MapToLocal(index);
-                    DrawRect(new Rect2(globalPosition, debugSquareSize*0.5f), debugTraversableColour);
+                    DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugTraversableColour);
                     DrawString(debugFont, globalPosition, cell.Clearance.ToString(), HorizontalAlignment.Left, -1, 4);
                 }
             }

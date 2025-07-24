@@ -23,7 +23,6 @@ public partial class HealthHud : HBoxContainer{
         }
         for(int i = 0; i < health.Value; i++){
             heartSprites[i].Visible = true;
-            GD.Print("true");
         }   
     }
 

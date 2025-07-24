@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://drpinhpgmnmkw"]
+
+[ext_resource type="PackedScene" uid="uid://dokaqxml1glsl" path="res://scenes/doors/templates/LevelSwapDoor.tscn" id="1_jjq1m"]
+[ext_resource type="Texture2D" uid="uid://dx01xblpp8dj8" path="res://assets/test/LevelSwapDoor.png" id="2_eflrg"]
+
+[node name="TestlevelSwapDoor" instance=ExtResource("1_jjq1m")]
+
+[node name="ExitPoint" parent="Container" index="0"]
+position = Vector2(0, 10)
+
+[node name="EnterZone" parent="Container" index="1"]
+scale = Vector2(2, 1)
+
+[node name="StaticBody2D" parent="Container" index="2"]
+scale = Vector2(2, 1)
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" parent="." index="2"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("2_eflrg")
