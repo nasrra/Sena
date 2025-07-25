@@ -9,6 +9,8 @@ public partial class Health : Node{
     public event Action OnDeath;
     public event Action OnDamage;
     public event Action OnHeal;
+    public event Action OnInvincible;
+    public event Action OnVincible;
     public bool Invincible {get;private set;} = false;
 
 
@@ -58,17 +60,19 @@ public partial class Health : Node{
     }
 
     public void SetInvincible(float time){
-        SetInvincible();
         invincibleTimer.WaitTime = time;
         invincibleTimer.Start();
+        SetInvincible();
     }
 
     public void SetInvincible(){
         Invincible = true;
+        OnInvincible?.Invoke();
     }
 
     public void SetVincible(){
         Invincible = false;
+        OnVincible?.Invoke();
     }
 
     public void Initialise(int maxValue,int currentValue){

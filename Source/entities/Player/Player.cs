@@ -14,6 +14,7 @@ public partial class Player : CharacterBody2D{
     [Export] private Timer moveInputBlockTimer;
     
     [Export] private CameraController camera;
+    [Export] private Area2D hurtBox;
     [Export] public CharacterMovement movement {get; private set;}
     [Export] public PlayerAimCursour aimCursour {get; private set;}
     [Export] public HitBoxHandler hitBoxes {get; private set;}
@@ -21,7 +22,7 @@ public partial class Player : CharacterBody2D{
     [Export] public Health Health {get; private set;}
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
-    
+
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
@@ -36,21 +37,22 @@ public partial class Player : CharacterBody2D{
     /// 
 
 
-    public override void _Ready(){
-        base._Ready();
-        #if TOOLS
-        Entropek.Util.Node.VerifyName(this, nameof(Player));
-        #endif
-        
-        animator.Play("IdleForward");
-        HandleLevelEnter();
-    }
 
     public override void _EnterTree(){
         base._EnterTree();
+        #if TOOLS
+        Entropek.Util.Node.VerifyName(this, nameof(Player));
+        #endif        
         LoadPersistentData();
         LinkEvents();
         Instance = this;
+    }
+
+    public override void _Ready(){
+        base._Ready();
+        animator.Play("IdleForward");
+        HandleLevelEnter();
+        StartEmberDecayTimer();
     }
 
     public override void _ExitTree(){
@@ -259,43 +261,85 @@ public partial class Player : CharacterBody2D{
     private void LinkEvents(){
         
         hitBoxes.OnHit += OnHitBoxHit;
-        
-        moveInputBlockTimer.Timeout += UnblockMoveInput;
-        emberDecayTimer.Timeout += DecayEmberStorage;
-
-        EmberStorage.OnAdd += StartEmberDecayTimer;
-
-        Health.OnDamage += HandleDamaged;
-        Health.OnDeath += HandleDeath;
-
-        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-        Control hudGui = ui.HudGui;
-        hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(Health);
-        hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).LinkToEmberStorage(EmberStorage);
-
-        EntityManager.Instance.OnPause += HandlePause;
-        EntityManager.Instance.OnResume += HandleResume;
-        EntityManager.Instance.OnProcess += Process;
-        EntityManager.Instance.OnPhysicsProcess += PhysicsProcess;
-
+        LinkHurtBox();
+        LinkMovement();
+        LinkEmberStorage();
+        LinkHealth();
+        LinkGui();
+        LinkEntityManager();
     }
 
     private void UnlinkEvents(){
         
         hitBoxes.OnHit -= OnHitBoxHit;
-        
+        UnlinkHurtBox();
+        UnlinkMovement();
+        UnlinkEmberStorage();
+        UnlinkHealth();
+        UnlinkGui();
+        UnlinkEntityManager();
+    }
+
+    private void LinkHurtBox(){
+        hurtBox.BodyEntered += HandleHurtBoxCollision;
+        hurtBox.AreaEntered += HandleHurtBoxCollision;
+    }
+
+    private void UnlinkHurtBox(){
+        hurtBox.BodyEntered -= HandleHurtBoxCollision;
+        hurtBox.AreaEntered -= HandleHurtBoxCollision;
+    }
+
+    private void LinkMovement(){
+        moveInputBlockTimer.Timeout += UnblockMoveInput;
+    }
+
+    private void UnlinkMovement(){
         moveInputBlockTimer.Timeout -= UnblockMoveInput;
+    }
+
+    private void LinkEmberStorage(){
+        emberDecayTimer.Timeout += DecayEmberStorage;
+        EmberStorage.OnAdd += StartEmberDecayTimer;
+    }
+
+    private void UnlinkEmberStorage(){
         emberDecayTimer.Timeout -= DecayEmberStorage;
         EmberStorage.OnAdd -= StartEmberDecayTimer;
+    }
 
+    private void LinkHealth(){
+        Health.OnDamage += HandleDamaged;
+        Health.OnDeath += HandleDeath;
+    }
+
+    private void UnlinkHealth(){
         Health.OnDamage -= HandleDamaged; 
         Health.OnDeath -= HandleDeath;
+    }
 
+    private void LinkGui(){
+        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
+        Control hudGui = ui.HudGui;
+        hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(Health);
+        hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).LinkToEmberStorage(EmberStorage);
+    }
+
+    private void UnlinkGui(){
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         Control hudGui = ui.HudGui;
         hudGui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
         hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).UnlinkFromEmberStorage(EmberStorage);
-        
+    }
+
+    private void LinkEntityManager(){
+        EntityManager.Instance.OnPause += HandlePause;
+        EntityManager.Instance.OnResume += HandleResume;
+        EntityManager.Instance.OnProcess += Process;
+        EntityManager.Instance.OnPhysicsProcess += PhysicsProcess;
+    }
+
+    private void UnlinkEntityManager(){
         EntityManager.Instance.OnPause -= HandlePause;
         EntityManager.Instance.OnResume -= HandleResume;
         EntityManager.Instance.OnProcess -= Process;
@@ -351,5 +395,16 @@ public partial class Player : CharacterBody2D{
     private void HandleResume(){
         hitBoxes.ResumeState();
         movement.ResumeState();
+    }
+
+    private void HandleHurtBoxCollision(Node2D node){
+        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string layerName) == false){
+            return;
+        }
+        switch(layerName){
+            case "Enemy":
+                Health.Damage(1);
+            break;
+        }
     }
 }

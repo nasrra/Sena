@@ -29,6 +29,8 @@ public partial class EmberStorage : Node{
     public override void _Ready(){
         base._Ready();
         MaxEmberValue   = MaxNotchAmount * NotchMaxEmberValue;
+        NotchAmount = EmberValue / NotchMaxEmberValue;
+        RemainderNotchEmberValue = EmberValue % NotchMaxEmberValue;
     }
 
 

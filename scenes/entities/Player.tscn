@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=17 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -24,12 +24,17 @@ size = Vector2(9, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
 size = Vector2(1, 1)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayTimer", "moveInputBlockTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boxie"]
+radius = 5.0
+height = 22.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayTimer", "moveInputBlockTimer", "hurtBox", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
 emberDecayTimer = NodePath("EmberDecayTimer")
 moveInputBlockTimer = NodePath("MoveInputBlock")
+hurtBox = NodePath("HurtBox")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
@@ -63,6 +68,7 @@ scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_xhfnw")
 
 [node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]
+visible = false
 script = ExtResource("5_cxr5p")
 hitBoxes = [NodePath("SlashUp/CollisionShape2D"), NodePath("SlashRight/CollisionShape2D"), NodePath("SlashDown/CollisionShape2D"), NodePath("SlashLeft/CollisionShape2D2")]
 timers = [NodePath("SlashUp/Timer"), NodePath("SlashRight/Timer"), NodePath("SlashDown/Timer"), NodePath("SlashLeft/Timer")]
@@ -134,6 +140,7 @@ script = ExtResource("8_5ncpa")
 MaxNotchAmount = 3
 
 [node name="Interactor" type="Area2D" parent="." node_paths=PackedStringArray("inRange")]
+visible = false
 scale = Vector2(24, 32)
 collision_layer = 0
 collision_mask = 16
@@ -155,3 +162,10 @@ sprite = NodePath("../AnimatedSprite2D")
 [node name="Health" parent="." instance=ExtResource("11_boxie")]
 Max = 3
 Value = 3
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("CapsuleShape2D_boxie")

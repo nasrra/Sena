@@ -1,13 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class CharacterMovement : Node{
     [Export] CharacterBody2D character;
+        
     public const string NodeName = nameof(CharacterMovement);
     private Vector2 pausedVelocity = Vector2.Zero;
     private Vector2 pausedDirection = Vector2.Zero;
     private Vector2 direction  = Vector2.Zero;
-    public Vector2 Direction {
+    public  Vector2 Direction {
         get => direction;
         private set{
             direction = value;
@@ -96,6 +98,7 @@ public partial class CharacterMovement : Node{
 
             Velocity = newVelocity;
         }
+
         character.MoveAndSlide();
     }
 
@@ -137,4 +140,21 @@ public partial class CharacterMovement : Node{
         pausedDirection = Vector2.Zero;
         pausedVelocity  = Vector2.Zero;
     }
+
+    // private void CheckCollisions(){
+    //     int collisionCount = character.GetSlideCollisionCount();
+
+    //     if(collisionCount <= 0){
+    //         return;
+    //     }
+        
+    //     collisions.Clear();
+
+    //     for(int i = 0; i < collisionCount; i++){
+    //         KinematicCollision2D collision = character.GetSlideCollision(i);
+    //         collisions.Add(collision);
+    //     }
+
+    //     OnCollision?.Invoke(collisions);
+    // }
 }
