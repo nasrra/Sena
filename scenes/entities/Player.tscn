@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://doy8tr4xqoi1p"]
 
-[ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player.cs" id="1_kne1u"]
+[ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_kpjcp"]
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
-[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
+[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
@@ -22,14 +22,14 @@ size = Vector2(14, 9)
 size = Vector2(9, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
-size = Vector2(10, 12)
+size = Vector2(1, 1)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveInputBlockTimer", "emberDecayTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayTimer", "moveInputBlockTimer", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
-moveInputBlockTimer = NodePath("MoveInputBlock")
 emberDecayTimer = NodePath("EmberDecayTimer")
+moveInputBlockTimer = NodePath("MoveInputBlock")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
 hitBoxes = NodePath("HitBoxHandler")
@@ -131,10 +131,10 @@ frame_progress = 0.532616
 
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")
-Max = 100
+MaxNotchAmount = 3
 
 [node name="Interactor" type="Area2D" parent="." node_paths=PackedStringArray("inRange")]
-visible = false
+scale = Vector2(24, 32)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("9_wi0c6")
@@ -148,11 +148,10 @@ shape = SubResource("RectangleShape2D_5ncpa")
 
 [node name="EmberDecayTimer" type="Timer" parent="."]
 wait_time = 0.15
-one_shot = true
 
 [node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
 sprite = NodePath("../AnimatedSprite2D")
 
 [node name="Health" parent="." instance=ExtResource("11_boxie")]
 Max = 3
-Value = 1
+Value = 3

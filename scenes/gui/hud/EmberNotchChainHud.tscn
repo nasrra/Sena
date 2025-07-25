@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg20aopqvr8bh"]
+
+[ext_resource type="Script" uid="uid://b34ote15kwthk" path="res://source/gui/EmberNotchChainHud.cs" id="1_4mgk4"]
+[ext_resource type="PackedScene" uid="uid://c2qqes5obn3oe" path="res://scenes/gui/hud/EmberNotch.tscn" id="2_1w36w"]
+
+[node name="EmberNotchChainHud" type="HBoxContainer"]
+custom_minimum_size = Vector2(1, 1)
+offset_left = 38.0
+offset_top = 41.0
+offset_right = 866.0
+offset_bottom = 245.0
+scale = Vector2(0.5, 0.5)
+theme_override_constants/separation = 225
+script = ExtResource("1_4mgk4")
+notchPackedScene = ExtResource("2_1w36w")

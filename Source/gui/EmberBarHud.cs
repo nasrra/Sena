@@ -23,13 +23,12 @@ public partial class EmberBarHud : ProgressBar{
     }
 
     public void UpdateValueBar(){
-        GD.Print(emberStorage.Value);
-        if(valueBar.Value - emberStorage.Value > trailBarThreshold){
+        if(valueBar.Value - emberStorage.EmberValue > trailBarThreshold){
             trailBarCatchUpDelay.Start();
         }else{
             trailBar.Value = valueBar.Value;
         }
-        valueBar.Value = emberStorage.Value;
+        valueBar.Value = emberStorage.EmberValue;
     }
 
     public void UpdateTrailBar(){

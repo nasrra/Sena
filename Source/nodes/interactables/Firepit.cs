@@ -26,22 +26,26 @@ public partial class Firepit : Node{
         UnlinkEvents();
     }
 
-    private void Interacted(){
-        bool playerHasEmbers = Player.Instance.EmberStorage.Value > 0;
-        if(playerHasEmbers==true){
-            Player.Instance.EmberStorage.Remove(Player.Instance.EmberStorage.Max, out int remainder);
-            LitState();
-        }
-        else{
-            Player.Instance.EmberStorage.Add(Player.Instance.EmberStorage.Max, out int remainder);
-            UnlitState();
+    private void Interacted(Interactor interactor){
+        EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
+        if(embers != null){
+            GD.Print(embers.EmptyNotches);
+            if(embers.EmptyNotches > 0 && ContainsEmbers == true){
+                embers.Add(EmberStorage.NotchMaxEmberValue);
+                GD.Print("pass.");
+                UnlitState();
+            }
+            else if(embers.EmptyNotches > 0 && ContainsEmbers == false){
+                embers.Remove(EmberStorage.NotchMaxEmberValue);
+                GD.Print("pass.");
+                LitState();
+            }
         }
     }
 
     private void LitState(){
         ContainsEmbers = true;
         sprite.Texture = litSprite;
-        GD.Print("lit state");
     }
 
     private void UnlitState(){

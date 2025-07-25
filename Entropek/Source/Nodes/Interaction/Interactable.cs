@@ -3,7 +3,7 @@ using System;
 
 public partial class Interactable : Area2D{
     public const string NodeName = nameof(Interactable); 
-    public event Action OnInteract;
+    public event Action<Interactor> OnInteract;
     public bool IsInteractable = true;
 
     public override void _Ready(){
@@ -16,9 +16,9 @@ public partial class Interactable : Area2D{
         base._PhysicsProcess(delta);
     }
 
-    public void Interact(){
+    public void Interact(Interactor interactor){
         if(IsInteractable == true){
-            OnInteract?.Invoke();
+            OnInteract?.Invoke(interactor);
         }
     }
 }

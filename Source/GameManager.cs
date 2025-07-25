@@ -40,20 +40,6 @@ public partial class GameManager : Node{
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         ui.EnableHudGui();
     }
-
-
-    /// 
-    /// Linkage.
-    /// 
-
-
-    public void LinkToPlayer(){
-        Player.Instance.OnDeath += DeathState;
-    }
-
-    public void UnlinkFromPlayer(){
-        Player.Instance.OnDeath -= DeathState;
-    }
 }
 
 public enum GameState : byte{

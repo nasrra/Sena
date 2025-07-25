@@ -71,6 +71,11 @@ public partial class Health : Node{
         Invincible = false;
     }
 
+    public void Initialise(int maxValue,int currentValue){
+        Max = maxValue;
+        Value = currentValue;
+    }
+
 
     /// 
     /// Linkage.

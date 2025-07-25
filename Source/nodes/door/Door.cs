@@ -5,13 +5,13 @@ using System;
 // // seperate into scene transition and environmental doors.
 
 public abstract partial class Door : Node{
-    // public const string NodeName = nameof(Door);
-    [Export]
-    private CollisionObject2D collider;
-    [Export]
-    public bool Locked {get;private set;} = false;
-    [Export]
-    public bool Opened {get;private set;} = false;
+    [ExportGroup("Door")]
+    [Export] protected CollisionObject2D collider;
+    [Export] protected Sprite2D sprite;
+    [Export] protected Texture2D openedSprite;
+    [Export] protected Texture2D closedSprite;
+    [Export] public bool Locked {get;private set;} = false;
+    [Export] public bool Opened {get;private set;} = false;
 
     public event Action OnOpen;
     public event Action OnClose;

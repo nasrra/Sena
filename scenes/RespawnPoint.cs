@@ -43,15 +43,22 @@ public partial class RespawnPoint : Node2D{
         SceneManager.Instance.LoadScene2D(RespawnScene, SceneLoadType.Delete, 0.5f);
     }
 
+
     ///
     /// Linkage.
     /// 
 
+
     private void LinkEvents(){
-        interactable.OnInteract += Rest;
+        interactable.OnInteract += OnInteract;
     }
 
     private void UnlinkEvents(){
-        interactable.OnInteract -= Rest;
+        interactable.OnInteract -= OnInteract;
     }
+
+    private void OnInteract(Interactor interactor){
+        Rest();
+    }
+
 }

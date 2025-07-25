@@ -15,11 +15,10 @@ public partial class Chimney : Node{
     }
 
 
-    private void Interacted(){
-        bool playerHasEmbers = Player.Instance.EmberStorage.Value > 0;
-        if(playerHasEmbers==false){
-            Player.Instance.EmberStorage.Add(Player.Instance.EmberStorage.Max, out int remainder);
-            GD.Print("Interacted with chimney.");
+    private void Interacted(Interactor interactor){
+        EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
+        if(embers != null){
+            embers.Add(EmberStorage.NotchMaxEmberValue);
         }
     }
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://loedt6suho5"]
 
-[ext_resource type="Script" uid="uid://dstbxyesb2jxn" path="res://source/ui/GameplayGui.cs" id="1_fk06d"]
+[ext_resource type="Script" uid="uid://dstbxyesb2jxn" path="res://source/gui/GameplayGui.cs" id="1_fk06d"]
 [ext_resource type="PackedScene" uid="uid://b6itbgcgwb6f3" path="res://scenes/gui/DeathScreenUi.tscn" id="2_jtajr"]
-[ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://scenes/gui/HudGui/HudGui.tscn" id="3_ci30k"]
+[ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://scenes/gui/hud/HudGui.tscn" id="3_ci30k"]
 
 [node name="GameplayGui" type="Control" node_paths=PackedStringArray("DeathGui", "HudGui")]
 layout_mode = 3
@@ -21,4 +21,3 @@ visible = false
 layout_mode = 1
 
 [node name="HudGui" parent="." instance=ExtResource("3_ci30k")]
-visible = false

@@ -3,6 +3,7 @@ using System;
 
 public partial class LevelSwapDoor : Door{
 
+    [ExportGroup("LevelSwapDoor")]
     [Export] private Area2D enterZone;
     [Export] public Node2D ExitPoint {get; private set;}
     [Export] private string levelToLoad;
@@ -37,12 +38,12 @@ public partial class LevelSwapDoor : Door{
     }
 
     public override void Open(){
-        EnableEnterZone();
+        CallDeferred(nameof(EnableEnterZone));
         base.Open();
     }
 
     public override void Close(){
-        DisableEnterZone();
+        CallDeferred(nameof(DisableEnterZone));
         base.Close();
     }
 

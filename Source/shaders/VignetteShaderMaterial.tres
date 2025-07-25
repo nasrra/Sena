@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bl3iri7pcg4xo"]
 
-[ext_resource type="Shader" uid="uid://jr8pm3opx4ak" path="res://shaders/VignetteShader.gdshader" id="1_g1t51"]
+[ext_resource type="Shader" uid="uid://jr8pm3opx4ak" path="res://source/shaders/VignetteShader.gdshader" id="1_g1t51"]
 
 [resource]
 resource_local_to_scene = true

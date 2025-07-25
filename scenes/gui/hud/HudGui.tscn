@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://ge883ir7y6gs"]
+
+[ext_resource type="PackedScene" uid="uid://dg20aopqvr8bh" path="res://scenes/gui/hud/EmberNotchChainHud.tscn" id="1_fx7nb"]
+[ext_resource type="Script" uid="uid://busapvemmrelg" path="res://source/gui/HealthHud.cs" id="1_nyl7x"]
+[ext_resource type="PackedScene" uid="uid://b8kvttpk1lnmc" path="res://scenes/gui/hud/HealthHudHeart.tscn" id="2_y3y48"]
+[ext_resource type="PackedScene" uid="uid://d3urc5o6fag7l" path="res://scenes/gui/hud/EmberBarHud.tscn" id="3_bqein"]
+
+[node name="HudGui" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="EmberNotchChainHud" parent="." instance=ExtResource("1_fx7nb")]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 175.0
+offset_right = 902.0
+offset_bottom = 379.0
+
+[node name="HealthHud" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 41.0
+offset_right = 866.0
+offset_bottom = 245.0
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_nyl7x")
+heartSprite = ExtResource("2_y3y48")
+
+[node name="EmberBarHud" parent="." instance=ExtResource("3_bqein")]
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 216.0
+offset_right = 260.0
+offset_bottom = 220.0

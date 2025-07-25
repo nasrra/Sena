@@ -21,7 +21,7 @@ public partial class Interactor : Area2D{
 
     public void Interact(){
         if(previous != null){
-            previous.Interact();
+            previous.Interact(this);
         }
     }
 

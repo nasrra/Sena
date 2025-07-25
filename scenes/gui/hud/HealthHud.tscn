@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv0fvnshyn1el"]
+
+[ext_resource type="Script" uid="uid://busapvemmrelg" path="res://source/gui/HealthHud.cs" id="1_msjpl"]
+[ext_resource type="PackedScene" uid="uid://b8kvttpk1lnmc" path="res://scenes/gui/hud/HealthHudHeart.tscn" id="2_sfqgm"]
+
+[node name="HealthHud" type="HBoxContainer"]
+offset_left = 38.0
+offset_top = 41.0
+offset_right = 866.0
+offset_bottom = 245.0
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_msjpl")
+heartSprite = ExtResource("2_sfqgm")

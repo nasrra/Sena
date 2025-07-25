@@ -8,12 +8,13 @@ size = Vector2(8, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ybpd"]
 size = Vector2(8, 8)
 
-[node name="LevelSwapDoorTemplate" type="Node2D" node_paths=PackedStringArray("enterZone", "ExitPoint", "enterZoneDisableTimer", "collider")]
+[node name="LevelSwapDoorTemplate" type="Node2D" node_paths=PackedStringArray("enterZone", "ExitPoint", "collider")]
 script = ExtResource("1_2blwh")
 enterZone = NodePath("Container/EnterZone")
 ExitPoint = NodePath("Container/ExitPoint")
-enterZoneDisableTimer = NodePath("Timer")
 collider = NodePath("Container/StaticBody2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="Container" type="Node2D" parent="."]
 
@@ -33,5 +34,3 @@ shape = SubResource("RectangleShape2D_5ybpd")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

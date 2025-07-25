@@ -6,8 +6,13 @@ public partial class Player : CharacterBody2D{
     public static Player Instance {get;private set;}
 
     [ExportGroup("Nodes")]
-    [Export] private Timer moveInputBlockTimer;
+        
+        // note: decay timer should be left on autostart in the editor.
+        // do not change this.
+
     [Export] private Timer emberDecayTimer;
+    [Export] private Timer moveInputBlockTimer;
+    
     [Export] private CameraController camera;
     [Export] public CharacterMovement movement {get; private set;}
     [Export] public PlayerAimCursour aimCursour {get; private set;}
@@ -17,9 +22,6 @@ public partial class Player : CharacterBody2D{
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
     
-    public event Action OnDeath;
-    public event Action OnPause;
-
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
     private Vector2 moveInput = Vector2.Zero;
@@ -46,6 +48,7 @@ public partial class Player : CharacterBody2D{
 
     public override void _EnterTree(){
         base._EnterTree();
+        LoadPersistentData();
         LinkEvents();
         Instance = this;
     }
@@ -53,6 +56,7 @@ public partial class Player : CharacterBody2D{
     public override void _ExitTree(){
         base._ExitTree();
         UnlinkEvents();
+        StorePersistentData();
     }
 
     public void PhysicsProcess(double delta){
@@ -97,8 +101,7 @@ public partial class Player : CharacterBody2D{
     }
 
     private void DecayEmberStorage(){
-        EmberStorage.Remove(1, out int remainder);
-        if(remainder == 0){
+        if(EmberStorage.RemoveRemainder(2)==true){
             StartEmberDecayTimer();
         }
     }
@@ -183,8 +186,8 @@ public partial class Player : CharacterBody2D{
 
     private void HandleHealInput(){
         if(Input.IsActionJustPressed("Heal")){
-            if(EmberStorage.Value >= 20){
-                EmberStorage.Remove(20, out int remainder);
+            if(EmberStorage.EmberValue >= 20){
+                EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
                 Health.Heal(1);
             }
         }
@@ -221,7 +224,30 @@ public partial class Player : CharacterBody2D{
         
         movement.Impulse(-directionToHit * attackPlayerKnockback);
 
-        EmberStorage.Add(10, out int remainder);
+        EmberStorage.Add(50);
+    }
+
+    private void LoadPersistentData(){        
+        if(PlayerPersistence.Initialised == false || GameManager.Instance.State == GameState.Death){
+            return;
+        }
+
+        Health.Initialise(
+            PlayerPersistence.MaxHealthValue, 
+            PlayerPersistence.HealthValue
+        );
+        EmberStorage.Initialise(
+            PlayerPersistence.MaxNotchAmount,
+            PlayerPersistence.EmberValue
+        );
+    }
+
+    private void StorePersistentData(){
+        PlayerPersistence.Initialised       = true;
+        PlayerPersistence.MaxHealthValue    = Health.Max;
+        PlayerPersistence.HealthValue       = Health.Value;
+        PlayerPersistence.EmberValue        = EmberStorage.EmberValue;
+        PlayerPersistence.MaxNotchAmount    = EmberStorage.MaxNotchAmount;
     }
 
 
@@ -236,6 +262,7 @@ public partial class Player : CharacterBody2D{
         
         moveInputBlockTimer.Timeout += UnblockMoveInput;
         emberDecayTimer.Timeout += DecayEmberStorage;
+
         EmberStorage.OnAdd += StartEmberDecayTimer;
 
         Health.OnDamage += HandleDamaged;
@@ -244,7 +271,7 @@ public partial class Player : CharacterBody2D{
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         Control hudGui = ui.HudGui;
         hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(Health);
-        hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).LinkToEmberStorage(EmberStorage);
+        hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).LinkToEmberStorage(EmberStorage);
 
         EntityManager.Instance.OnPause += HandlePause;
         EntityManager.Instance.OnResume += HandleResume;
@@ -267,7 +294,7 @@ public partial class Player : CharacterBody2D{
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         Control hudGui = ui.HudGui;
         hudGui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
-        hudGui.GetNode<EmberBarHud>(EmberBarHud.NodeName).UnlinkFromEmberStorage();
+        hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).UnlinkFromEmberStorage(EmberStorage);
         
         EntityManager.Instance.OnPause -= HandlePause;
         EntityManager.Instance.OnResume -= HandleResume;
@@ -295,7 +322,7 @@ public partial class Player : CharacterBody2D{
             break;
             case "HitInteractable":
                 Interactable interactable = (Interactable)node;
-                interactable.Interact();
+                interactable.Interact(Interactor);
             break;
             default:
             throw new Exception($"{hitLayer} not implemented.");
