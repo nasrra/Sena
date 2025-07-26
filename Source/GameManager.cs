@@ -39,6 +39,7 @@ public partial class GameManager : Node{
         State = GameState.Gameplay;
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
         ui.EnableHudGui();
+        InputManager.Instance.ResumeState();
     }
 }
 

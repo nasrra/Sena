@@ -7,7 +7,7 @@ public partial class TimedEnemySpawner : EnemySpawner{
 
     public override void _EnterTree(){
         base._EnterTree();
-        // LinkEvents();
+        LinkEvents();
     }
 
     public override void _ExitTree(){
