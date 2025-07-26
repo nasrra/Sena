@@ -25,17 +25,15 @@ public partial class Player : CharacterBody2D{
 
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
-    private Vector2 moveInput = Vector2.Zero;
     private float attackLungeForce = 100f;
     private float attackEnemyKnockback = 100f;
     private float attackPlayerKnockback = 80f;
     private bool blockMoveInput = false;
-     
+    
 
     /// 
     /// Base.
     /// 
-
 
 
     public override void _EnterTree(){
@@ -61,15 +59,7 @@ public partial class Player : CharacterBody2D{
         StorePersistentData();
     }
 
-    public void PhysicsProcess(double delta){
-        HandleMovementInput();
-    }
-
     private void Process(double delta){
-        HandleAttackInput();
-        HandleHealInput();
-        HandleInteractInput();
-        movement.Move(moveInput);
         UpdateAnimation();
     }
 
@@ -80,22 +70,22 @@ public partial class Player : CharacterBody2D{
 
 
     private void UpdateAnimation(){
-        if(moveInput.Y < 0){
+        if(movement.Direction.Y < 0){
             animator.Play("IdleForward");
             animator.FlipH = false;
             return;
         }
-        else if(moveInput.Y > 0){
+        else if(movement.Direction.Y > 0){
             animator.Play("IdleBackward");
             animator.FlipH = false;
             return;
         }
         else{
-            if(moveInput.X < 0){
+            if(movement.Direction.X < 0){
                 animator.Play("IdleSide");
                 animator.FlipH = false;
             }
-            else if(moveInput.X > 0){
+            else if(movement.Direction.X > 0){
                 animator.Play("IdleSide");
                 animator.FlipH = true;
             }
@@ -135,16 +125,11 @@ public partial class Player : CharacterBody2D{
 
 
     /// 
-    /// Input
+    /// Functions.
     /// 
 
 
     private void HandleAttackInput(){
-
-        if(Input.IsActionJustPressed("SwordSlash") == false){
-            return;
-        }
-
         int hitBoxId;
         float angle = aimCursour.aimAngle;
         if(angle >= -135 && angle <= -45){
@@ -159,45 +144,16 @@ public partial class Player : CharacterBody2D{
         else{
             hitBoxId = 3;
         }
-        BlockMoveInput();
         hitBoxes.EnableHitBox(hitBoxId, 0.167f);
         movement.Impulse(aimCursour.aimDirection * attackLungeForce);
         movement.ZeroDirection();
+        BlockMoveInput();
     }
 
-    private void HandleMovementInput(){
-        moveInput = Vector2.Zero;
-        
-        if(blockMoveInput == true){
-            return;
-        }
 
-        if(Input.IsActionPressed("MoveUp")){
-            moveInput.Y -= 1;
-        }
-        if(Input.IsActionPressed("MoveDown")){
-            moveInput.Y += 1;
-        }
-        if(Input.IsActionPressed("MoveLeft")){
-            moveInput.X -= 1;
-        }
-        if(Input.IsActionPressed("MoveRight")){
-            moveInput.X += 1;
-        }
-    }
-
-    private void HandleHealInput(){
-        if(Input.IsActionJustPressed("Heal")){
-            if(EmberStorage.EmberValue >= 20){
-                EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
-                Health.Heal(1);
-            }
-        }
-    }
-
-    private void HandleInteractInput(){
-        if(Input.IsActionJustPressed("Interact")){
-            Interactor.Interact();
+    private void HandleMovementInput(Vector2 input){
+        if(blockMoveInput == false){
+            movement.Move(input);
         }
     }
 
@@ -205,10 +161,18 @@ public partial class Player : CharacterBody2D{
         blockMoveInput = true;
         moveInputBlockTimer.WaitTime = 0.167f;
         moveInputBlockTimer.Start();
+        movement.ZeroDirection();
     }
 
     public void UnblockMoveInput(){
         blockMoveInput = false;
+    }
+
+    private void HandleHealInput(){
+        if(EmberStorage.EmberValue >= 20){
+            EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
+            Health.Heal(1);
+        }
     }
 
     private void HandleOnHitEnemy(Enemy enemy){
@@ -261,6 +225,7 @@ public partial class Player : CharacterBody2D{
     private void LinkEvents(){
         
         hitBoxes.OnHit += OnHitBoxHit;
+        LinkInput();
         LinkHurtBox();
         LinkMovement();
         LinkEmberStorage();
@@ -272,12 +237,27 @@ public partial class Player : CharacterBody2D{
     private void UnlinkEvents(){
         
         hitBoxes.OnHit -= OnHitBoxHit;
+        UnlinkInput();
         UnlinkHurtBox();
         UnlinkMovement();
         UnlinkEmberStorage();
         UnlinkHealth();
         UnlinkGui();
         UnlinkEntityManager();
+    }
+
+    private void LinkInput(){
+        InputManager.Instance.OnAttackInput     += HandleAttackInput;
+        InputManager.Instance.OnMovementInput   += HandleMovementInput;
+        InputManager.Instance.OnHealInput       += HandleHealInput;
+        InputManager.Instance.OnInteractInput   += Interactor.Interact;
+    }
+
+    private void UnlinkInput(){
+        InputManager.Instance.OnAttackInput     -= HandleAttackInput;
+        InputManager.Instance.OnMovementInput   -= HandleMovementInput;
+        InputManager.Instance.OnHealInput       -= HandleHealInput;
+        InputManager.Instance.OnInteractInput   -= Interactor.Interact;
     }
 
     private void LinkHurtBox(){
@@ -336,14 +316,12 @@ public partial class Player : CharacterBody2D{
         EntityManager.Instance.OnPause += HandlePause;
         EntityManager.Instance.OnResume += HandleResume;
         EntityManager.Instance.OnProcess += Process;
-        EntityManager.Instance.OnPhysicsProcess += PhysicsProcess;
     }
 
     private void UnlinkEntityManager(){
         EntityManager.Instance.OnPause -= HandlePause;
         EntityManager.Instance.OnResume -= HandleResume;
         EntityManager.Instance.OnProcess -= Process;
-        EntityManager.Instance.OnPhysicsProcess -= PhysicsProcess;
     }
 
 
@@ -390,11 +368,13 @@ public partial class Player : CharacterBody2D{
     private void HandlePause(){
         hitBoxes.PauseState();
         movement.PauseState();
+        InputManager.Instance.PauseState();
     }
 
     private void HandleResume(){
         hitBoxes.ResumeState();
         movement.ResumeState();
+        InputManager.Instance.ResumeState();
     }
 
     private void HandleHurtBoxCollision(Node2D node){
@@ -407,4 +387,5 @@ public partial class Player : CharacterBody2D{
             break;
         }
     }
+
 }
