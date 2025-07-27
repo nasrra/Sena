@@ -15,10 +15,10 @@
 size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qwpog"]
-size = Vector2(14, 9)
+size = Vector2(18, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_esdid"]
-size = Vector2(9, 14)
+size = Vector2(13, 18)
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer")]
 collision_layer = 8
@@ -83,7 +83,7 @@ collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
-position = Vector2(0, -72.1829)
+position = Vector2(0, -70.2053)
 shape = SubResource("RectangleShape2D_qwpog")
 disabled = true
 
@@ -97,7 +97,7 @@ collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
-position = Vector2(-9, 0)
+position = Vector2(-11, 0)
 shape = SubResource("RectangleShape2D_esdid")
 disabled = true
 
@@ -111,7 +111,7 @@ collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
-position = Vector2(10, 0)
+position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_esdid")
 disabled = true
 
@@ -125,7 +125,7 @@ collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
-position = Vector2(0, 72.1829)
+position = Vector2(0, 70.2053)
 shape = SubResource("RectangleShape2D_qwpog")
 disabled = true
 

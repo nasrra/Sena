@@ -8,11 +8,11 @@ public partial class CharacterMovement : Node{
     public const string NodeName = nameof(CharacterMovement);
     private Vector2 pausedVelocity = Vector2.Zero;
     private Vector2 pausedDirection = Vector2.Zero;
-    private Vector2 direction  = Vector2.Zero;
-    public  Vector2 Direction {
-        get => direction;
+    private Vector2 moveDirection  = Vector2.Zero;
+    public  Vector2 MoveDirection {
+        get => moveDirection;
         private set{
-            direction = value;
+            moveDirection = value;
         }
     }
     public Vector2 Velocity {
@@ -36,6 +36,12 @@ public partial class CharacterMovement : Node{
     [Export] private bool gravityAffected = true;
     private bool paused = false;
 
+
+    /// 
+    /// Base.
+    /// 
+
+
     public override void _Ready(){
         base._Ready();
     
@@ -56,11 +62,11 @@ public partial class CharacterMovement : Node{
             return;
         }
 
-        Vector2 trueDirection = direction;
+        Vector2 trueDirection = moveDirection;
 
         // if there is movement.
 
-        if (direction.Length() > 0f){
+        if (moveDirection.Length() > 0f){
             if (lockYAxis==true){
                 trueDirection.Y = 0.0f;
             }
@@ -102,8 +108,14 @@ public partial class CharacterMovement : Node{
         character.MoveAndSlide();
     }
 
+
+    /// 
+    /// Functions.
+    /// 
+
+
     public void Move(Vector2 direction){
-        this.direction = direction;
+        moveDirection = direction.Normalized();
     }
 
     public void Impulse(Vector2 velocity){
@@ -111,7 +123,7 @@ public partial class CharacterMovement : Node{
     }
 
     public void ZeroDirection(){
-        direction = Vector2.Zero;
+        moveDirection = Vector2.Zero;
     }
 
     public void ZeroVelocity(){
@@ -125,17 +137,29 @@ public partial class CharacterMovement : Node{
         TopSpeed     = Mathf.Clamp(BaseTopSpeed     * SpeedModifier, 0, float.MaxValue);
     }
 
+    public float GetMoveAngle(){
+        float angle = Mathf.Atan2(moveDirection.Y, moveDirection.X);
+        angle = Mathf.RadToDeg(angle);
+        return angle;
+    }
+
+
+    /// 
+    /// States.
+    /// 
+
+
     public void PauseState(){
         paused = true;
-        pausedDirection = Direction;
+        pausedDirection = moveDirection;
         pausedVelocity  = Velocity;
-        Direction       = Vector2.Zero;
+        moveDirection   = Vector2.Zero;
         Velocity        = Vector2.Zero;
     }
 
     public void ResumeState(){
         paused = false;
-        Direction       = pausedDirection;
+        moveDirection   = pausedDirection;
         Velocity        = pausedVelocity;
         pausedDirection = Vector2.Zero;
         pausedVelocity  = Vector2.Zero;

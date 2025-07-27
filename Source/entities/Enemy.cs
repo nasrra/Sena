@@ -239,6 +239,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void OnStartAttack(byte attackId, AttackDirection attackDirection){
         AttackingState();
+        characterMovement.ZeroDirection();
     }
 
     private void OnAttack(byte attackId, AttackDirection attackDirection){
@@ -258,8 +259,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
                         hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);                    
                     break;
                 }
-                characterMovement.Impulse(normalDirectionToTarget * 50f);
-                characterMovement.ZeroDirection();
+                characterMovement.Impulse(normalDirectionToTarget * 100f);
             break;
             default:
             throw new Exception($"Attack id[{attackId}] has not been implemented!");

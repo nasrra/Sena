@@ -3,10 +3,10 @@ using System;
 
 public partial class PlayerAimCursour : Node2D{
 
-    [Export] public Node2D cursour {get;private set;}
-    [Export] public Vector2 aimDirection {get;private set;} = Vector2.Zero;
-    [Export] public float cursourDistance {get; private set;} = 2;
-    [Export] public float aimAngle {get; private set;} = 0f;
+    [Export] public Node2D Cursour {get;private set;}
+    [Export] public Vector2 AimDirection {get;private set;} = Vector2.Zero;
+    [Export] public float CursourDistance {get; private set;} = 2;
+    [Export] public float AimAngle {get; private set;} = 0f;
 
 
     /// 
@@ -32,16 +32,16 @@ public partial class PlayerAimCursour : Node2D{
 
     public override void _Process(double delta){
         base._PhysicsProcess(delta);
-        aimAngle = Mathf.Atan2(aimDirection.Y, aimDirection.X);
-        aimAngle = Mathf.RadToDeg(aimAngle);
-        cursour.GlobalPosition = GlobalPosition+aimDirection * cursourDistance;
+        AimAngle = Mathf.Atan2(AimDirection.Y, AimDirection.X);
+        AimAngle = Mathf.RadToDeg(AimAngle);
+        Cursour.GlobalPosition = GlobalPosition+AimDirection * CursourDistance;
     }
 
     private void HandleAimDirection(Vector2 direction){
         if(InputManager.Instance.IsGamepad == true){
-            aimDirection = direction.Normalized();
+            AimDirection = direction.Normalized();
         }else{
-            aimDirection = (direction-GlobalPosition).Normalized();
+            AimDirection = (direction-GlobalPosition).Normalized();
         }
     }
 

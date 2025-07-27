@@ -16,10 +16,10 @@
 size = Vector2(8, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
-size = Vector2(14, 9)
+size = Vector2(28, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cxr5p"]
-size = Vector2(9, 14)
+size = Vector2(14, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
 size = Vector2(1, 1)
@@ -28,12 +28,14 @@ size = Vector2(1, 1)
 radius = 5.0
 height = 22.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayTimer", "moveInputBlockTimer", "hurtBox", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "moveInputCooldown", "dashCooldown", "attackCooldown", "hurtBox", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
-emberDecayTimer = NodePath("EmberDecayTimer")
-moveInputBlockTimer = NodePath("MoveInputBlock")
+emberDecayRate = NodePath("EmberDecayRate")
+moveInputCooldown = NodePath("MoveInputCooldown")
+dashCooldown = NodePath("DashCooldown")
+attackCooldown = NodePath("AttackCooldown")
 hurtBox = NodePath("HurtBox")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
@@ -57,10 +59,10 @@ gravityModifier = 6.0
 lockYAxis = false
 gravityAffected = false
 
-[node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("cursour")]
+[node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
 script = ExtResource("4_e80uo")
-cursour = NodePath("Sprite2D")
-cursourDistance = 16.0
+Cursour = NodePath("Sprite2D")
+CursourDistance = 12.0
 
 [node name="Sprite2D" type="Sprite2D" parent="PlayerAimCursour"]
 position = Vector2(5, 1)
@@ -75,12 +77,12 @@ timers = [NodePath("SlashUp/Timer"), NodePath("SlashRight/Timer"), NodePath("Sla
 
 [node name="SlashUp" type="Area2D" parent="HitBoxHandler"]
 position = Vector2(0, -83)
-scale = Vector2(1, 1.01132)
+scale = Vector2(0.989, 1)
 collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashUp"]
-position = Vector2(0, 72.1829)
+position = Vector2(0, 67)
 shape = SubResource("RectangleShape2D_tdg3f")
 disabled = true
 
@@ -89,12 +91,12 @@ one_shot = true
 
 [node name="SlashRight" type="Area2D" parent="HitBoxHandler"]
 position = Vector2(-1, 0)
-scale = Vector2(1, 1.01132)
+scale = Vector2(0.989, 1)
 collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashRight"]
-position = Vector2(10, 0)
+position = Vector2(13.1446, 0)
 shape = SubResource("RectangleShape2D_cxr5p")
 disabled = true
 
@@ -103,12 +105,12 @@ one_shot = true
 
 [node name="SlashDown" type="Area2D" parent="HitBoxHandler"]
 position = Vector2(0, 83)
-scale = Vector2(1, 1.01132)
+scale = Vector2(0.989, 1)
 collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxHandler/SlashDown"]
-position = Vector2(0, -72.1829)
+position = Vector2(0, -67)
 shape = SubResource("RectangleShape2D_tdg3f")
 disabled = true
 
@@ -116,12 +118,12 @@ disabled = true
 one_shot = true
 
 [node name="SlashLeft" type="Area2D" parent="HitBoxHandler"]
-scale = Vector2(1, 1.01132)
+scale = Vector2(0.989, 1)
 collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBoxHandler/SlashLeft"]
-position = Vector2(-9, 0)
+position = Vector2(-11.1223, 0)
 shape = SubResource("RectangleShape2D_cxr5p")
 disabled = true
 
@@ -151,11 +153,6 @@ ObstructionLayer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
 shape = SubResource("RectangleShape2D_5ncpa")
 
-[node name="MoveInputBlock" type="Timer" parent="."]
-
-[node name="EmberDecayTimer" type="Timer" parent="."]
-wait_time = 0.15
-
 [node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
 sprite = NodePath("../AnimatedSprite2D")
 
@@ -169,3 +166,16 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 shape = SubResource("CapsuleShape2D_boxie")
+
+[node name="EmberDecayRate" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="MoveInputCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="."]
+one_shot = true

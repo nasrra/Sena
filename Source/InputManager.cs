@@ -21,6 +21,7 @@ public partial class InputManager : Node2D{
     private event Action AttackInputProcess;
     private event Action InteractInputProcess;
     private event Action HealInputProcess;
+    private event Action DashInputProcess;
 
     /// 
     /// Callbacks.
@@ -31,6 +32,8 @@ public partial class InputManager : Node2D{
     public event Action OnAttackInput;
     public event Action OnHealInput;
     public event Action OnInteractInput;
+    public event Action OnDashInput;
+
     public event Action OnGamepadState;
     public event Action OnKeyboardState;
 
@@ -68,6 +71,7 @@ public partial class InputManager : Node2D{
         AttackInputProcess();
         AimInputProcess();
         HealInputProcess();
+        DashInputProcess();
     }
 
 
@@ -81,6 +85,8 @@ public partial class InputManager : Node2D{
         AimInputProcess         = null;
         AttackInputProcess      = null;
         HealInputProcess        = null;
+        InteractInputProcess    = null;
+        DashInputProcess        = null;
     }
 
     private void KeyboardState(){
@@ -96,6 +102,7 @@ public partial class InputManager : Node2D{
         AttackInputProcess      = AttackInputKeyboard;
         HealInputProcess        = HealInputKeyboard;
         InteractInputProcess    = InteractInputKeyboard;
+        DashInputProcess        = DashInputKeyboard;
         
         OnKeyboardState?.Invoke();
     }
@@ -113,6 +120,7 @@ public partial class InputManager : Node2D{
         AttackInputProcess      = AttackInputGamepad;
         HealInputProcess        = HealInputGamepad;
         InteractInputProcess    = InteractInputGamepad;
+        DashInputProcess        = DashInputGamepad;
 
         OnGamepadState?.Invoke();
     }
@@ -206,6 +214,18 @@ public partial class InputManager : Node2D{
     private void InteractInputGamepad(){
         if(Input.IsActionJustPressed("InteractGP")){
             OnInteractInput?.Invoke();
+        }
+    }
+
+    private void DashInputKeyboard(){
+        if(Input.IsActionJustPressed("DashKB")){
+            OnDashInput?.Invoke();
+        }
+    }
+
+    private void DashInputGamepad(){
+        if(Input.IsActionJustPressed("DashGP")){
+            OnDashInput?.Invoke();
         }
     }
 

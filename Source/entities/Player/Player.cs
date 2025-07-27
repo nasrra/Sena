@@ -10,8 +10,10 @@ public partial class Player : CharacterBody2D{
         // note: decay timer should be left on autostart in the editor.
         // do not change this.
 
-    [Export] private Timer emberDecayTimer;
-    [Export] private Timer moveInputBlockTimer;
+    [Export] private Timer emberDecayRate;
+    [Export] private Timer moveInputCooldown;
+    [Export] private Timer dashCooldown;
+    [Export] private Timer attackCooldown;
     
     [Export] private CameraController camera;
     [Export] private Area2D hurtBox;
@@ -25,11 +27,15 @@ public partial class Player : CharacterBody2D{
 
     [ExportGroup("Variables")]
     [Export] private AnimatedSprite2D animator;
-    private float attackLungeForce = 100f;
-    private float attackEnemyKnockback = 100f;
-    private float attackPlayerKnockback = 80f;
-    private bool blockMoveInput = false;
+    private const float AttackLungeForce = 100f;
+    private const float AttackEnemyKnockback = 100f;
+    private const float AttackPlayerKnockback = 80f;
+    private const float DashForce = 200f;
     
+    private bool blockAttackInput = false;
+    private bool blockMoveInput = false;
+    private bool blockDashInput = false;
+
 
     /// 
     /// Base.
@@ -64,42 +70,36 @@ public partial class Player : CharacterBody2D{
     }
 
 
-    /// <summary>
-    /// Miscellaneous
-    /// </summary>
+    /// 
+    /// Functions.
+    /// 
 
 
     private void UpdateAnimation(){
-        if(movement.Direction.Y < 0){
+        float angle = movement.GetMoveAngle();
+        if(movement.MoveDirection == Vector2.Zero){
+            return;
+        }
+        if(angle >= -135 && angle <= -45){
             animator.Play("IdleForward");
             animator.FlipH = false;
             return;
         }
-        else if(movement.Direction.Y > 0){
+        else if(angle >= 45 && angle <= 135){
             animator.Play("IdleBackward");
             animator.FlipH = false;
             return;
         }
+        else if(angle >= -45 && angle <= 45){
+            animator.Play("IdleSide");
+            animator.FlipH = true;
+            return;
+        }
         else{
-            if(movement.Direction.X < 0){
-                animator.Play("IdleSide");
-                animator.FlipH = false;
-            }
-            else if(movement.Direction.X > 0){
-                animator.Play("IdleSide");
-                animator.FlipH = true;
-            }
+            animator.Play("IdleSide");
+            animator.FlipH = false;
+            return;
         }
-    }
-
-    private void DecayEmberStorage(){
-        if(EmberStorage.RemoveRemainder(2)==true){
-            StartEmberDecayTimer();
-        }
-    }
-
-    private void StartEmberDecayTimer(){
-        emberDecayTimer.Start();
     }
 
     private void HandleLevelEnter(){
@@ -121,76 +121,6 @@ public partial class Player : CharacterBody2D{
                 GameManager.Instance.GameplayState();
                 break;
         }
-    }
-
-
-    /// 
-    /// Functions.
-    /// 
-
-
-    private void HandleAttackInput(){
-        int hitBoxId;
-        float angle = aimCursour.aimAngle;
-        if(angle >= -135 && angle <= -45){
-            hitBoxId = 0;
-        }
-        else if(angle >= -45 && angle <= 45){
-            hitBoxId = 1;
-        }
-        else if(angle >= 45 && angle <= 135){
-            hitBoxId = 2;
-        }
-        else{
-            hitBoxId = 3;
-        }
-        hitBoxes.EnableHitBox(hitBoxId, 0.167f);
-        movement.Impulse(aimCursour.aimDirection * attackLungeForce);
-        movement.ZeroDirection();
-        BlockMoveInput();
-    }
-
-
-    private void HandleMovementInput(Vector2 input){
-        if(blockMoveInput == false){
-            movement.Move(input);
-        }
-    }
-
-    public void BlockMoveInput(){
-        blockMoveInput = true;
-        moveInputBlockTimer.WaitTime = 0.167f;
-        moveInputBlockTimer.Start();
-        movement.ZeroDirection();
-    }
-
-    public void UnblockMoveInput(){
-        blockMoveInput = false;
-    }
-
-    private void HandleHealInput(){
-        if(EmberStorage.EmberValue >= 20){
-            EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
-            Health.Heal(1);
-        }
-    }
-
-    private void HandleOnHitEnemy(Enemy enemy){
-        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-        
-        float stunTime = 0.33f;
-        enemy.StunState(stunTime);
-        enemy.IgnoreEnemyCollisionMask(stunTime);
-        
-        enemy.GetNode<Health>(Health.NodeName).Damage(1);
-        
-        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-        enemyMovement.ZeroVelocity();
-        enemyMovement.Impulse(directionToHit * attackEnemyKnockback);
-        
-        movement.Impulse(-directionToHit * attackPlayerKnockback);
-
-        EmberStorage.Add(50);
     }
 
     private void LoadPersistentData(){        
@@ -223,11 +153,9 @@ public partial class Player : CharacterBody2D{
 
 
     private void LinkEvents(){
-        
-        hitBoxes.OnHit += OnHitBoxHit;
+        LinkHitbox();        
         LinkInput();
         LinkHurtBox();
-        LinkMovement();
         LinkEmberStorage();
         LinkHealth();
         LinkGui();
@@ -235,30 +163,134 @@ public partial class Player : CharacterBody2D{
     }
 
     private void UnlinkEvents(){
-        
-        hitBoxes.OnHit -= OnHitBoxHit;
+        UnlinkHitBox();        
         UnlinkInput();
         UnlinkHurtBox();
-        UnlinkMovement();
         UnlinkEmberStorage();
         UnlinkHealth();
         UnlinkGui();
         UnlinkEntityManager();
     }
 
+
+    /// 
+    /// Input Linkage.
+    /// 
+
+
     private void LinkInput(){
         InputManager.Instance.OnAttackInput     += HandleAttackInput;
         InputManager.Instance.OnMovementInput   += HandleMovementInput;
         InputManager.Instance.OnHealInput       += HandleHealInput;
+        InputManager.Instance.OnDashInput       += HandleDashInput;
         InputManager.Instance.OnInteractInput   += Interactor.Interact;
+        moveInputCooldown.Timeout               += UnblockMoveInput;
+        dashCooldown.Timeout                    += UnblockDashInput;
+        attackCooldown.Timeout                  += UnblockAttackInput;
     }
 
     private void UnlinkInput(){
         InputManager.Instance.OnAttackInput     -= HandleAttackInput;
         InputManager.Instance.OnMovementInput   -= HandleMovementInput;
         InputManager.Instance.OnHealInput       -= HandleHealInput;
+        InputManager.Instance.OnDashInput       -= HandleDashInput;
         InputManager.Instance.OnInteractInput   -= Interactor.Interact;
+        moveInputCooldown.Timeout               -= UnblockMoveInput;
+        dashCooldown.Timeout                    -= UnblockDashInput;
+        attackCooldown.Timeout                  -= UnblockAttackInput;
     }
+
+    private void HandleAttackInput(){
+        
+        if(blockAttackInput == true){
+            return;
+        }
+
+        int hitBoxId;
+        float angle = aimCursour.AimAngle;
+        if(angle >= -135 && angle <= -45){
+            hitBoxId = 0;
+        }
+        else if(angle >= -45 && angle <= 45){
+            hitBoxId = 1;
+        }
+        else if(angle >= 45 && angle <= 135){
+            hitBoxId = 2;
+        }
+        else{
+            hitBoxId = 3;
+        }
+
+        hitBoxes.EnableHitBox(hitBoxId, time: 0.167f);
+
+        movement.ZeroDirection();
+        movement.ZeroVelocity();
+        movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
+
+        BlockMoveInput(time: 0.2f);
+        BlockAttackInput(time: 0.2f);
+    }
+
+    private void BlockAttackInput(float time){
+        blockAttackInput = true;
+        attackCooldown.WaitTime = time;
+        attackCooldown.Start();
+    }
+
+    private void UnblockAttackInput(){
+        blockAttackInput = false;
+    }
+
+    private void HandleDashInput(){
+        if(blockDashInput==true){
+            return;
+        }
+        if(movement.MoveDirection.LengthSquared() > 0){
+            movement.Impulse(movement.MoveDirection * DashForce);
+            BlockDashInput(time: 1);
+            BlockMoveInput(time: 0.2f);
+        }
+    }
+
+    private void HandleMovementInput(Vector2 input){
+        if(blockMoveInput == false){
+            movement.Move(input);
+        }
+    }
+
+    private void HandleHealInput(){
+        if(EmberStorage.NotchAmount >= 1){
+            EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
+            Health.Heal(1);
+        }
+    }
+
+    private void BlockMoveInput(float time){
+        blockMoveInput = true;
+        moveInputCooldown.WaitTime = time;
+        moveInputCooldown.Start();
+        movement.ZeroDirection();
+    }
+
+    private void UnblockMoveInput(){
+        blockMoveInput = false;
+    }
+
+    private void BlockDashInput(float time){
+        blockDashInput = true;
+        dashCooldown.WaitTime = time;
+        dashCooldown.Start();
+    }
+
+    private void UnblockDashInput(){
+        blockDashInput = false;
+    }
+
+
+    /// 
+    /// Hurtbox Linkage.
+    /// 
+
 
     private void LinkHurtBox(){
         hurtBox.BodyEntered += HandleHurtBoxCollision;
@@ -270,23 +302,48 @@ public partial class Player : CharacterBody2D{
         hurtBox.AreaEntered -= HandleHurtBoxCollision;
     }
 
-    private void LinkMovement(){
-        moveInputBlockTimer.Timeout += UnblockMoveInput;
+    private void HandleHurtBoxCollision(Node2D node){
+        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string layerName) == false){
+            return;
+        }
+        switch(layerName){
+            case "Enemy":
+                Health.Damage(1);
+            break;
+        }
     }
 
-    private void UnlinkMovement(){
-        moveInputBlockTimer.Timeout -= UnblockMoveInput;
-    }
+
+    /// 
+    /// Ember Storage Linkage.
+    /// 
+
 
     private void LinkEmberStorage(){
-        emberDecayTimer.Timeout += DecayEmberStorage;
+        emberDecayRate.Timeout += DecayEmberStorage;
         EmberStorage.OnAdd += StartEmberDecayTimer;
     }
 
     private void UnlinkEmberStorage(){
-        emberDecayTimer.Timeout -= DecayEmberStorage;
+        emberDecayRate.Timeout -= DecayEmberStorage;
         EmberStorage.OnAdd -= StartEmberDecayTimer;
     }
+
+    private void DecayEmberStorage(){
+        if(EmberStorage.RemoveRemainder(2)==true){
+            StartEmberDecayTimer();
+        }
+    }
+
+    private void StartEmberDecayTimer(){
+        emberDecayRate.Start();
+    }
+
+
+    /// 
+    /// Health Linkage.
+    /// 
+
 
     private void LinkHealth(){
         Health.OnDamage += HandleDamaged;
@@ -297,6 +354,26 @@ public partial class Player : CharacterBody2D{
         Health.OnDamage -= HandleDamaged; 
         Health.OnDeath -= HandleDeath;
     }
+
+    private void HandleDamaged(){
+        hitFlash.Flash();
+        camera.StartShake(20.0f, 0.33f);
+        camera.Vignette.Update(0.33f,1f,0.01f);
+        camera.Vignette.QueueUpdate(0,0,0.005f,1f);
+        EntityManager.Instance.PauseEntityProcesses(time:0.25f);
+        Health.SetInvincible(time:1f);
+    }
+
+    private void HandleDeath(){
+        GameManager.Instance.DeathState();
+        QueueFree();
+    }
+
+
+    /// 
+    /// Gui Linkage.
+    /// 
+
 
     private void LinkGui(){
         GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
@@ -312,6 +389,12 @@ public partial class Player : CharacterBody2D{
         hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).UnlinkFromEmberStorage(EmberStorage);
     }
 
+
+    /// 
+    /// Entity Manager Linkage.
+    /// 
+
+
     private void LinkEntityManager(){
         EntityManager.Instance.OnPause += HandlePause;
         EntityManager.Instance.OnResume += HandleResume;
@@ -324,11 +407,31 @@ public partial class Player : CharacterBody2D{
         EntityManager.Instance.OnProcess -= Process;
     }
 
+    private void HandlePause(){
+        hitBoxes.PauseState();
+        movement.PauseState();
+        InputManager.Instance.PauseState();
+    }
+
+    private void HandleResume(){
+        hitBoxes.ResumeState();
+        movement.ResumeState();
+        InputManager.Instance.ResumeState();
+    }
+
 
     ///
-    /// Linkage functions.
+    /// Hitbox Linkage.
     /// 
 
+
+    private void LinkHitbox(){
+        hitBoxes.OnHit += OnHitBoxHit;
+    }
+
+    private void UnlinkHitBox(){
+        hitBoxes.OnHit -= OnHitBoxHit;
+    }
 
     private void OnHitBoxHit(Node2D node, int id){
 
@@ -350,42 +453,22 @@ public partial class Player : CharacterBody2D{
             throw new Exception($"{hitLayer} not implemented.");
         }
     }
+    
+    private void HandleOnHitEnemy(Enemy enemy){
+        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+        
+        float stunTime = 0.33f;
+        enemy.StunState(stunTime);
+        enemy.IgnoreEnemyCollisionMask(stunTime);
+        
+        enemy.GetNode<Health>(Health.NodeName).Damage(1);
+        
+        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+        enemyMovement.ZeroVelocity();
+        enemyMovement.Impulse(directionToHit * AttackEnemyKnockback);
+        
+        movement.Impulse(-directionToHit * AttackPlayerKnockback);
 
-    private void HandleDamaged(){
-        hitFlash.Flash();
-        camera.StartShake(20.0f, 0.33f);
-        camera.Vignette.Update(0.33f,1f,0.01f);
-        camera.Vignette.QueueUpdate(0,0,0.005f,1f);
-        EntityManager.Instance.PauseEntityProcesses(time:0.25f);
-        Health.SetInvincible(time:1f);
+        EmberStorage.Add(50);
     }
-
-    private void HandleDeath(){
-        GameManager.Instance.DeathState();
-        QueueFree();
-    }
-
-    private void HandlePause(){
-        hitBoxes.PauseState();
-        movement.PauseState();
-        InputManager.Instance.PauseState();
-    }
-
-    private void HandleResume(){
-        hitBoxes.ResumeState();
-        movement.ResumeState();
-        InputManager.Instance.ResumeState();
-    }
-
-    private void HandleHurtBoxCollision(Node2D node){
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string layerName) == false){
-            return;
-        }
-        switch(layerName){
-            case "Enemy":
-                Health.Damage(1);
-            break;
-        }
-    }
-
 }
