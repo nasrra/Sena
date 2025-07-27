@@ -48,8 +48,6 @@ character = NodePath("..")
 BaseTopSpeed = 50.0
 BaseAcceleration = 200.0
 BaseDeceleration = 200.0
-lockYAxis = false
-gravityAffected = false
 
 [node name="AiAttackHandler" parent="." node_paths=PackedStringArray("attackCooldowns", "hitBoxHandler") instance=ExtResource("6_mj3ic")]
 upAttacks = Array[Resource]([ExtResource("7_8rhtt")])
@@ -135,8 +133,9 @@ one_shot = true
 [node name="Navigation2DAgent" type="Node2D" parent="."]
 scale = Vector2(122.225, 7.59879)
 script = ExtResource("10_m80fk")
-size = 2
+size = 5
 endPathPointTolerance = 1
+Capability = 4
 
 [node name="Health" parent="." instance=ExtResource("10_1jhey")]
 Max = 3

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Entropek.Ai;
 
@@ -14,7 +15,8 @@ public partial class WayfindingGrid2D : Node2D{
     [Export] private TileMapLayer tileMap;
     [Export] private Font debugFont;
     private Color debugBlockedColour        = new Color(1,0,0,0.5f);
-    private Color debugTraversableColour    = new Color(0.5f,0.5f,1,0.5f);
+    private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,0.5f);
+    private Color debugOpenColour           = new Color(0f,0.5f,0.5f,0.5f);
     private Vector2 debugSquareSize         = new Vector2(4,4);
     private Vector2I gridSize = Vector2I.Zero;
     public Vector2I GridSize {get => gridSize;}
@@ -71,6 +73,8 @@ public partial class WayfindingGrid2D : Node2D{
         cellSize.X = tileMap.TileSet.TileSize.X;
         cellSize.Y = tileMap.TileSet.TileSize.Y;
 
+        GD.Print(gridSize);
+
         cells = new CellData[gridSize.X, gridSize.Y];
         paths = new PathCell[gridSize.X, gridSize.Y];
 
@@ -94,12 +98,16 @@ public partial class WayfindingGrid2D : Node2D{
                 ref CellData cell = ref cells[x,y];
                 
                 switch(navigation){
-                    case NavigationType.Block:
-                        cell.SetBlocked(true);
+                    case NavigationType.Blocked:
+                        cell.SetNavigationType(NavigationType.Blocked);
                         cell.LockData(); // <-- lock for statics.
                         break;
+                    case NavigationType.PassThrough:
+                        cell.SetNavigationType(NavigationType.PassThrough);
+                        cell.LockData();
+                        break;
                     case NavigationType.Open:
-                        cell.SetBlocked(false);
+                        cell.SetNavigationType(NavigationType.Open);
                         break;
                 }
             }
@@ -110,6 +118,19 @@ public partial class WayfindingGrid2D : Node2D{
         base._Process(delta);
         QueueRedraw();
     }
+
+    double deltaAdd = 0;
+
+    public override void _PhysicsProcess(double delta){
+        base._PhysicsProcess(delta);
+        deltaAdd += delta;
+        if(deltaAdd >= 0.167f * 20){
+            InitialiseGridClearance();
+            InitialiseGridClearance();
+            deltaAdd = 0;
+        }
+    }
+
 
     public void InitialiseGridClearance(){
         int rows = cells.GetLength(0);
@@ -166,64 +187,48 @@ public partial class WayfindingGrid2D : Node2D{
     //     cell.SetClearance(clearance);
     // }
 
-    public void CalculateClearance(int cx, int cy) {
-        ref CellData cell = ref cells[cx, cy];
+public void CalculateClearance(int cx, int cy){
+    ref CellData cell = ref cells[cx, cy];
 
-        if(cell.Blocked==true){
-            cell.SetClearance(0);
-            return;
-        }
-
-        byte clearance = 1;
-        bool foundBlocked = false;
-
-        while(true){
-            // define the square bounds to check.
-            int left = cx - clearance;
-            int right = cx + clearance;
-            int top = cy - clearance;
-            int bot = cy + clearance;
-
-            // stop if we are out of the grid.
-            if(left < 0 
-            || top < 0
-            || right >= gridSize.X 
-            || bot >= gridSize.Y){
-                break;
-            }
-            
-            // analyse border of square at current clearance radius.
-            // to find a cell that is blocked.
-            for(int i = -clearance; i <= clearance; i++){
-                
-                // top and bottom rows.
-            
-                if(cells[cx + i, top].Blocked == true
-                || cells[cx +i, bot].Blocked == true){
-                    foundBlocked = true;
-                    break;
-                }
-
-                // left and right columns 
-                // <-- (< not <=) skip corners as they are already checked.
-
-                if(cells[left, cy + i].Blocked == true
-                || cells[right, cy + i].Blocked == true){
-                    foundBlocked = true;
-                    break;
-                }
-
-            }
-
-            if(foundBlocked == true){
-                break;
-            }
-
-            clearance++;
-        }
-
-        cell.SetClearance(clearance);
+    if (cell.NavigationType == NavigationType.Blocked){
+        cell.SetClearance(0);
+        return;
     }
+
+    int clearance = 1;
+    while (clearance < 255){
+        int left = cx - clearance;
+        int right = cx + clearance;
+        int top = cy - clearance;
+        int bottom = cy + clearance;
+
+        for (int i = -clearance; i <= clearance; i++){
+            // Top and bottom edge
+            if (cells[cx + i, top].NavigationType == NavigationType.Blocked ||
+                cells[cx + i, bottom].NavigationType == NavigationType.Blocked)
+            {
+                cell.SetClearance((byte)clearance);
+                return;
+            }
+
+            // Left and right edge
+            if (cells[left, cy + i].NavigationType == NavigationType.Blocked ||
+                cells[right, cy + i].NavigationType == NavigationType.Blocked)
+            {
+                cell.SetClearance((byte)clearance);
+                return;
+            }
+        }
+
+        clearance++;
+    }
+
+    // Max clearance possible
+    cell.SetClearance((byte)clearance);
+}
+
+
+
 
     /// <summary>
     /// Gets a path along the grid towards a given end point.
@@ -234,10 +239,11 @@ public partial class WayfindingGrid2D : Node2D{
     /// <param name="tolerance">tolerance is the amount of leeway given for the end point check.</param>
     /// <returns></returns>
 
-    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, byte agentSize, byte tolerance = 0){
+    public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, NavigationType capability, byte agentSize, byte tolerance = 0){
         return GetPath(
             GlobalToIdPosition(startGlobalPosition), 
             GlobalToIdPosition(endGlobalPosition), 
+            capability,
             agentSize,
             tolerance
         );
@@ -252,7 +258,7 @@ public partial class WayfindingGrid2D : Node2D{
     /// <param name="tolerance">the amount of leeway given for the end point check.</param>
     /// <returns></returns>
 
-    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, byte agentSize, byte tolerance = 0){
+    private Stack<Vector2> GetPath(Vector2I start, Vector2I end, NavigationType capability, byte agentSize, byte tolerance = 0){
 
         // if either point is out of bounds.
 
@@ -265,7 +271,7 @@ public partial class WayfindingGrid2D : Node2D{
 
         ref CellData startCell = ref cells[start.X, start.Y];
         ref CellData endCell = ref cells[end.X, end.Y];
-        if(startCell.Blocked == true || endCell.Blocked == true){
+        if(startCell.NavigationType == NavigationType.Blocked || endCell.NavigationType == NavigationType.Blocked){
             return new();
         }
 
@@ -321,9 +327,9 @@ public partial class WayfindingGrid2D : Node2D{
 
                 ref CellData neighbourCellData = ref cells[neighbourId.X,neighbourId.Y];
 
-                // // Check if terrain is in agent's capability
-                // if (!capability.Contains(neighborCell.TerrainType))
-                //     continue;
+                // Check if terrain is in agent's capability
+                if ((capability & neighbourCellData.NavigationType) <= 0)
+                    continue;
 
                 // check clearance.
 
@@ -419,7 +425,7 @@ public partial class WayfindingGrid2D : Node2D{
 
             // Blocked check
             ref CellData cellData = ref cells[x0, y0];
-            if (cellData.Blocked){
+            if (cellData.NavigationType == NavigationType.Blocked){
                 // GD.Print($"end! {to.X} {to.Y}");
                 // GD.Print($"blocked! {x0} {y0}");
                 return false;
@@ -515,14 +521,24 @@ public partial class WayfindingGrid2D : Node2D{
 
                 ref CellData cell = ref cells[x,y];
 
-                if(cell.Blocked==true){
-                    Vector2 globalPosition = tileMap.MapToLocal(index);
-                    DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
+                Vector2 globalPosition = tileMap.MapToLocal(index);
+                switch(cell.NavigationType){
+                    case NavigationType.Blocked:
+                        DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
+                    break;
+                    case NavigationType.PassThrough:
+                        DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
+                        DrawString(debugFont, globalPosition, cell.Clearance.ToString(), HorizontalAlignment.Left, -1, 4);
+                    break;
+                    case NavigationType.Open:
+                        DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
+                        DrawString(debugFont, globalPosition, cell.Clearance.ToString(), HorizontalAlignment.Left, -1, 4);
+                    break;
+                }
+
+                if(cell.NavigationType == NavigationType.Blocked){
                 }
                 else{
-                    Vector2 globalPosition = tileMap.MapToLocal(index);
-                    DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugTraversableColour);
-                    DrawString(debugFont, globalPosition, cell.Clearance.ToString(), HorizontalAlignment.Left, -1, 4);
                 }
             }
         }            
@@ -552,13 +568,14 @@ public partial class WayfindingGrid2D : Node2D{
                 }
 
                 switch(navigationType){
-                    case NavigationType.Block:
-                        cellData.SetBlocked(true);
+                    case NavigationType.Blocked:
+                        cellData.SetNavigationType(NavigationType.Blocked);
                         break;
-                    case NavigationType.Pass:
-                        throw new Exception($"{NavigationType.Pass} not implmeneted!");
+                    case NavigationType.PassThrough:
+                        cellData.SetNavigationType(NavigationType.PassThrough);
+                        break;
                     case NavigationType.Open:
-                        cellData.SetBlocked(false);
+                        cellData.SetNavigationType(NavigationType.Open);
                         break;
                 }
             }
@@ -581,17 +598,7 @@ public partial class WayfindingGrid2D : Node2D{
             if(cellData.Locked==true){
                 continue;
             }
-
-            switch(navigationType){
-                case NavigationType.Block:
-                    cellData.SetBlocked(false);
-                    break;
-                case NavigationType.Pass:
-                    throw new Exception($"{NavigationType.Pass} not implmeneted!");
-                case NavigationType.Open:
-                    cellData.SetBlocked(false);
-                    break;
-            }
+            cellData.SetNavigationType(NavigationType.Open);
         }
 
         InitialiseGridClearance();

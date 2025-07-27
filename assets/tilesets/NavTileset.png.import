@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ekkhpak068w8"
-path="res://.godot/imported/NavTileset.png-37624fffca53975f16490ce085d77951.ctex"
+uid="uid://beai5x8sgajfy"
+path="res://.godot/imported/NavTileset.png-1c74552e0f35bd6c3526703fd2206411.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/test/NavTileset.png"
-dest_files=["res://.godot/imported/NavTileset.png-37624fffca53975f16490ce085d77951.ctex"]
+source_file="res://assets/tilesets/NavTileset.png"
+dest_files=["res://.godot/imported/NavTileset.png-1c74552e0f35bd6c3526703fd2206411.ctex"]
 
 [params]
 

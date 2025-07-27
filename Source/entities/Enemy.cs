@@ -92,8 +92,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private void ChaseStateProcess(){
-        if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
+        if(IsInstanceValid(Target) && Target.IsInsideTree()==true && pathToTarget != null){
             MoveAlongPathToTarget();
+        }
+        else{
+            characterMovement.ZeroDirection();
         }
     }
 

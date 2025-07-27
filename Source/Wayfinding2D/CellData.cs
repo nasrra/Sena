@@ -7,16 +7,16 @@ public struct CellData{
     
     public CellData(){
         Locked = false;
-        Blocked = false;
+        NavigationType = NavigationType.Open;
         Clearance = 0;
         // PassInhabitants = 0;
         // BlockInhabitants = 0;
     }
     
     public byte Clearance           {get;private set;}
+    public NavigationType NavigationType {get;private set;}
     public bool Locked              {get;private set;}
-    public bool Blocked             {get;private set;}
-    
+
     // public int PassInhabitants      {get;private set;}
     // public int BlockInhabitants     {get;private set;}
 
@@ -44,8 +44,8 @@ public struct CellData{
         Clearance = clearance;
     }
 
-    public void SetBlocked(bool blocked){
-        Blocked = blocked;
+    public void SetNavigationType(NavigationType navigationType){
+        NavigationType = navigationType;
     }
 
     public void UnlockData(){
