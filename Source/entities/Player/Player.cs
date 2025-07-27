@@ -19,6 +19,7 @@ public partial class Player : CharacterBody2D{
     [Export] private Area2D hurtBox;
     [Export] public CharacterMovement movement {get; private set;}
     [Export] public PlayerAimCursour aimCursour {get; private set;}
+    [Export] public ProjectileSpawner projectileSpawner {get; private set;}
     [Export] public HitBoxHandler hitBoxes {get; private set;}
     [Export] public HitFlashShaderController hitFlash {get;private set;} 
     [Export] public Health Health {get; private set;}
@@ -30,7 +31,7 @@ public partial class Player : CharacterBody2D{
     private const float AttackLungeForce = 100f;
     private const float AttackEnemyKnockback = 100f;
     private const float AttackPlayerKnockback = 80f;
-    private const float DashForce = 200f;
+    private const float DashForce = 300f;
     
     private bool blockAttackInput = false;
     private bool blockMoveInput = false;
@@ -76,7 +77,7 @@ public partial class Player : CharacterBody2D{
 
 
     private void UpdateAnimation(){
-        float angle = movement.GetMoveAngle();
+        float angle = movement.GetMoveAngleDegrees();
         if(movement.MoveDirection == Vector2.Zero){
             return;
         }
@@ -183,6 +184,7 @@ public partial class Player : CharacterBody2D{
         InputManager.Instance.OnMovementInput   += HandleMovementInput;
         InputManager.Instance.OnHealInput       += HandleHealInput;
         InputManager.Instance.OnDashInput       += HandleDashInput;
+        InputManager.Instance.OnShootInput      += HandleShootInput;
         InputManager.Instance.OnInteractInput   += Interactor.Interact;
         moveInputCooldown.Timeout               += UnblockMoveInput;
         dashCooldown.Timeout                    += UnblockDashInput;
@@ -194,6 +196,7 @@ public partial class Player : CharacterBody2D{
         InputManager.Instance.OnMovementInput   -= HandleMovementInput;
         InputManager.Instance.OnHealInput       -= HandleHealInput;
         InputManager.Instance.OnDashInput       -= HandleDashInput;
+        InputManager.Instance.OnShootInput      -= HandleShootInput;
         InputManager.Instance.OnInteractInput   -= Interactor.Interact;
         moveInputCooldown.Timeout               -= UnblockMoveInput;
         dashCooldown.Timeout                    -= UnblockDashInput;
@@ -246,10 +249,11 @@ public partial class Player : CharacterBody2D{
             return;
         }
         if(movement.MoveDirection.LengthSquared() > 0){
+            movement.ZeroVelocity();
             movement.Impulse(movement.MoveDirection * DashForce);
             BlockDashInput(time: 1);
-            BlockMoveInput(time: 0.2f);
-            Health.SetInvincible(time:0.2f);
+            BlockMoveInput(time: 0.33f);
+            Health.SetInvincible(time:0.33f);
         }
     }
 
@@ -285,6 +289,13 @@ public partial class Player : CharacterBody2D{
 
     private void UnblockDashInput(){
         blockDashInput = false;
+    }
+
+    private void HandleShootInput(){
+        if(EmberStorage.NotchAmount >= 1){
+            projectileSpawner.Fire((aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized());
+            EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
+        }
     }
 
 

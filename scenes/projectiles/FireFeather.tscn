@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwkf62bbh1dli"]
+
+[ext_resource type="Script" uid="uid://cciurjfttkg3s" path="res://source/projectile/Projectile.cs" id="1_i40qg"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_jdku7"]
+[ext_resource type="Texture2D" uid="uid://ovw8l76b4h8o" path="res://assets/test/feather-295126_640.png" id="2_ort3v"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ort3v"]
+radius = 4.0
+height = 26.0
+
+[node name="FireFeather" type="CharacterBody2D" node_paths=PackedStringArray("Movement", "sprite", "collider")]
+collision_layer = 64
+collision_mask = 10
+script = ExtResource("1_i40qg")
+Movement = NodePath("CharacterMovement")
+sprite = NodePath("Sprite2D")
+collider = NodePath("Area2D")
+knockback = 150.0
+damage = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -2.42252
+scale = Vector2(0.03, 0.03)
+texture = ExtResource("2_ort3v")
+
+[node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
+script = ExtResource("2_jdku7")
+character = NodePath("..")
+BaseTopSpeed = 512.0
+BaseAcceleration = 1600.0
+BaseDeceleration = 1600.0
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ort3v")

@@ -93,11 +93,11 @@ levelToLoad = "Level0"
 Locked = true
 Opened = false
 
-[node name="Camera" parent="." index="11" node_paths=PackedStringArray("Target")]
-Target = NodePath("../Player")
-
 [node name="Chimney" parent="." index="12" instance=ExtResource("8_brv20")]
 position = Vector2(168, 104)
 
 [node name="Firepit" parent="." index="13" instance=ExtResource("9_7d7pp")]
 position = Vector2(160, 136)
+
+[node name="Camera" parent="." index="14" node_paths=PackedStringArray("Target")]
+Target = NodePath("../Player")

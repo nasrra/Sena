@@ -22,6 +22,7 @@ public partial class InputManager : Node2D{
     private event Action InteractInputProcess;
     private event Action HealInputProcess;
     private event Action DashInputProcess;
+    private event Action ShootInputProcess;
 
     /// 
     /// Callbacks.
@@ -33,6 +34,7 @@ public partial class InputManager : Node2D{
     public event Action OnHealInput;
     public event Action OnInteractInput;
     public event Action OnDashInput;
+    public event Action OnShootInput;
 
     public event Action OnGamepadState;
     public event Action OnKeyboardState;
@@ -72,6 +74,7 @@ public partial class InputManager : Node2D{
         AimInputProcess();
         HealInputProcess();
         DashInputProcess();
+        ShootInputProcess();
     }
 
 
@@ -87,6 +90,7 @@ public partial class InputManager : Node2D{
         HealInputProcess        = null;
         InteractInputProcess    = null;
         DashInputProcess        = null;
+        ShootInputProcess       = null;
     }
 
     private void KeyboardState(){
@@ -103,6 +107,7 @@ public partial class InputManager : Node2D{
         HealInputProcess        = HealInputKeyboard;
         InteractInputProcess    = InteractInputKeyboard;
         DashInputProcess        = DashInputKeyboard;
+        ShootInputProcess       = ShootInputKeyboard;
         
         OnKeyboardState?.Invoke();
     }
@@ -121,6 +126,7 @@ public partial class InputManager : Node2D{
         HealInputProcess        = HealInputGamepad;
         InteractInputProcess    = InteractInputGamepad;
         DashInputProcess        = DashInputGamepad;
+        ShootInputProcess       = ShootInputGamepad;
 
         OnGamepadState?.Invoke();
     }
@@ -226,6 +232,18 @@ public partial class InputManager : Node2D{
     private void DashInputGamepad(){
         if(Input.IsActionJustPressed("DashGP")){
             OnDashInput?.Invoke();
+        }
+    }
+
+    private void ShootInputKeyboard(){
+        if(Input.IsActionJustPressed("ShootKB")){
+            OnShootInput?.Invoke();
+        }
+    }
+
+    private void ShootInputGamepad(){
+        if(Input.IsActionJustPressed("ShootGP")){
+            OnShootInput?.Invoke();
         }
     }
 

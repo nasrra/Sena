@@ -1,11 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=19 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_kpjcp"]
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="5_cxr5p"]
+[ext_resource type="Script" uid="uid://bw7drms7g4wce" path="res://source/projectile/ProjectileSpawner.cs" id="5_sdcm4"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
+[ext_resource type="PackedScene" uid="uid://dwkf62bbh1dli" path="res://scenes/projectiles/FireFeather.tscn" id="6_jh8vs"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
@@ -28,7 +30,7 @@ size = Vector2(1, 1)
 radius = 5.0
 height = 22.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "moveInputCooldown", "dashCooldown", "attackCooldown", "hurtBox", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "moveInputCooldown", "dashCooldown", "attackCooldown", "hurtBox", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
@@ -39,6 +41,7 @@ attackCooldown = NodePath("AttackCooldown")
 hurtBox = NodePath("HurtBox")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
+projectileSpawner = NodePath("PlayerAimCursour/ProjectileSpawner")
 hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
@@ -56,8 +59,6 @@ BaseTopSpeed = 100.0
 BaseAcceleration = 800.0
 BaseDeceleration = 800.0
 gravityModifier = 6.0
-lockYAxis = false
-gravityAffected = false
 
 [node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
 script = ExtResource("4_e80uo")
@@ -68,6 +69,10 @@ CursourDistance = 12.0
 position = Vector2(5, 1)
 scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_xhfnw")
+
+[node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour"]
+script = ExtResource("5_sdcm4")
+projectilePackedScene = ExtResource("6_jh8vs")
 
 [node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes", "timers")]
 visible = false
