@@ -249,6 +249,7 @@ public partial class Player : CharacterBody2D{
             movement.Impulse(movement.MoveDirection * DashForce);
             BlockDashInput(time: 1);
             BlockMoveInput(time: 0.2f);
+            Health.SetInvincible(time:0.2f);
         }
     }
 
