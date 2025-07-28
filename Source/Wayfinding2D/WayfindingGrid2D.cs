@@ -123,12 +123,13 @@ public partial class WayfindingGrid2D : Node2D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
-        deltaAdd += delta;
-        if(deltaAdd >= 0.167f * 20){
-            InitialiseGridClearance();
-            InitialiseGridClearance();
-            deltaAdd = 0;
-        }
+        // deltaAdd += delta;
+        // if(deltaAdd >= 0.167f * 10){
+        //     InitialiseGridClearance();
+        //     InitialiseGridClearance();
+        //     deltaAdd = 0;
+        // }
+        // GD.Print(Engine.GetFramesPerSecond());
     }
 
 
@@ -143,89 +144,48 @@ public partial class WayfindingGrid2D : Node2D{
         }
     }
 
-    // Calculates clearance from top left to bottom right.
-    // for bottom right alignment.
+    public void CalculateClearance(int cx, int cy)
+    {
+        ref CellData cell = ref cells[cx, cy];
 
-    // public void CalculateClearance(int cellX, int cellY){
-    //     ref CellData cell = ref cells[cellX, cellY];
-        
-    //     if (cell.Blocked){
-    //         cell.SetClearance(0);
-    //         return;
-    //     }
+        if (cell.NavigationType == NavigationType.Blocked)
+        {
+            cell.SetClearance(0);
+            return;
+        }
 
-    //     byte clearance = 1;
-    //     bool foundBlocked = false;
+        int maxClearance = Math.Min(
+            Math.Min(cx, gridSize.X - 1 - cx),
+            Math.Min(cy, gridSize.Y - 1 - cy)
+        );
 
-    //     while (clearance < 255){
+        byte clearance = 1;
 
-    //         // Check bounds before checking the square
-            
-    //         if (cellX + clearance >= cells.GetLength(0) || cellY + clearance >= cells.GetLength(1))
-    //             break;
+        for (; clearance <= maxClearance && clearance < byte.MaxValue; clearance++){
+            int left = cx - clearance;
+            int right = cx + clearance;
+            int top = cy - clearance;
+            int bottom = cy + clearance;
 
-    //         // Check new border row and column of the square
-            
-    //         for (int i = 0; i <= clearance; i++){
-
-    //             ref CellData bottomRowNeighbour = ref cells[cellX + i, cellY + clearance];
-    //             ref CellData rightColumnNeighbour = ref cells[cellX + clearance, cellY + i]; 
-
-    //             if (bottomRowNeighbour.Blocked ||
-    //                 rightColumnNeighbour.Blocked){
-    //                 foundBlocked = true;
-    //                 break;
-    //             }
-    //         }
-
-    //         if (foundBlocked)
-    //             break;
-
-    //         clearance++;
-    //     }
-
-    //     cell.SetClearance(clearance);
-    // }
-
-public void CalculateClearance(int cx, int cy){
-    ref CellData cell = ref cells[cx, cy];
-
-    if (cell.NavigationType == NavigationType.Blocked){
-        cell.SetClearance(0);
-        return;
-    }
-
-    int clearance = 1;
-    while (clearance < 255){
-        int left = cx - clearance;
-        int right = cx + clearance;
-        int top = cy - clearance;
-        int bottom = cy + clearance;
-
-        for (int i = -clearance; i <= clearance; i++){
-            // Top and bottom edge
-            if (cells[cx + i, top].NavigationType == NavigationType.Blocked ||
-                cells[cx + i, bottom].NavigationType == NavigationType.Blocked)
+            for (int i = -clearance; i <= clearance; i++)
             {
-                cell.SetClearance((byte)clearance);
-                return;
-            }
-
-            // Left and right edge
-            if (cells[left, cy + i].NavigationType == NavigationType.Blocked ||
-                cells[right, cy + i].NavigationType == NavigationType.Blocked)
-            {
-                cell.SetClearance((byte)clearance);
-                return;
+                if (
+                    cells[cx + i, top].NavigationType == NavigationType.Blocked ||
+                    cells[cx + i, bottom].NavigationType == NavigationType.Blocked ||
+                    cells[left, cy + i].NavigationType == NavigationType.Blocked ||
+                    cells[right, cy + i].NavigationType == NavigationType.Blocked
+                )
+                {
+                    cell.SetClearance(clearance);
+                    return;
+                }
             }
         }
 
-        clearance++;
+        // Full square fits inside bounds with no blocked tiles
+        cell.SetClearance(clearance);
     }
 
-    // Max clearance possible
-    cell.SetClearance((byte)clearance);
-}
 
 
 

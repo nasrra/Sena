@@ -133,7 +133,7 @@ one_shot = true
 [node name="Navigation2DAgent" type="Node2D" parent="."]
 scale = Vector2(122.225, 7.59879)
 script = ExtResource("10_m80fk")
-size = 5
+size = 2
 endPathPointTolerance = 1
 Capability = 4
 
