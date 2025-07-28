@@ -130,7 +130,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
     private void MoveAlongPathToTarget(){
-        navAgent.CalculatePath(Target.GlobalPosition);
+        navAgent.CalculateNewPath(Target.GlobalPosition);
+        navAgent.UpdateCurrentPathToTarget();
         characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
     }
 

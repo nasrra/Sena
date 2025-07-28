@@ -16,27 +16,22 @@ public partial class WayfindingAgent2D : Node2D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
+    }
+
+    public void CalculateNewPath(Vector2 endGlobalPosition){
+        Path = WayfindingGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
+    }
+
+    public void UpdateCurrentPathToTarget(){
         if(Path != null && Path.Count > 0){
             if(noPathLastTick == true){
                 CurrentPathPoint = Path.Pop();
             }
             Vector2 distance = CurrentPathPoint - GlobalPosition;
-            if(distance.LengthSquared() <= 50f){
+            if(distance.LengthSquared() <= 50f && Path.Count > 0){
                 CurrentPathPoint = Path.Pop();
             }
         }
-        // deltaCummulative += delta;
-        
-        // // tick 30 times a second.
-
-        // if(deltaCummulative >= calculatePathTick){
-        //     deltaCummulative = 0;
-        //     CalculatePath();
-        // }
-    }
-
-    public void CalculatePath(Vector2 endGlobalPosition){
-        Path = WayfindingGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
     }
 
     public override void _Process(double delta){

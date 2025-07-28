@@ -1,3 +1,4 @@
+using Entropek.Ai;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,6 @@ public partial class Player : CharacterBody2D{
         // do not change this.
 
     [Export] private Timer emberDecayRate;
-    [Export] private Timer moveInputCooldown;
-    [Export] private Timer dashCooldown;
-    [Export] private Timer attackCooldown;
     
     [Export] private CameraController camera;
     [Export] private Area2D hurtBox;
@@ -25,17 +23,26 @@ public partial class Player : CharacterBody2D{
     [Export] public Health Health {get; private set;}
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
+    [Export] private AnimatedSprite2D animator;
 
     [ExportGroup("Variables")]
-    [Export] private AnimatedSprite2D animator;
+    private Vector2I lastSafeTile = Vector2I.Zero;
     private const float AttackLungeForce = 100f;
     private const float AttackEnemyKnockback = 100f;
     private const float AttackPlayerKnockback = 80f;
     private const float DashForce = 300f;
-    
-    private bool blockAttackInput = false;
-    private bool blockMoveInput = false;
-    private bool blockDashInput = false;
+    private PlayerState playerState = PlayerState.Standby;
+
+    ///
+    /// Definitions.
+    /// 
+
+
+    private enum PlayerState : byte{
+        Standby,
+        Attack,
+        Dashing
+    }
 
 
     /// 
@@ -68,6 +75,20 @@ public partial class Player : CharacterBody2D{
 
     private void Process(double delta){
         UpdateAnimation();
+    }
+
+    private void PhysicsProcess(double delta){
+        lastSafeTile = WayfindingGrid2D.Instance.GlobalToIdPosition(GlobalPosition);
+    }
+
+
+    ///
+    /// States.
+    /// 
+
+
+    private void DashState(){
+        
     }
 
 
@@ -180,35 +201,24 @@ public partial class Player : CharacterBody2D{
 
 
     private void LinkInput(){
-        InputManager.Instance.OnAttackInput     += HandleAttackInput;
-        InputManager.Instance.OnMovementInput   += HandleMovementInput;
-        InputManager.Instance.OnHealInput       += HandleHealInput;
-        InputManager.Instance.OnDashInput       += HandleDashInput;
-        InputManager.Instance.OnShootInput      += HandleShootInput;
-        InputManager.Instance.OnInteractInput   += Interactor.Interact;
-        moveInputCooldown.Timeout               += UnblockMoveInput;
-        dashCooldown.Timeout                    += UnblockDashInput;
-        attackCooldown.Timeout                  += UnblockAttackInput;
+        InputManager.Singleton.OnAttackInput     += HandleAttackInput;
+        InputManager.Singleton.OnMovementInput   += HandleMovementInput;
+        InputManager.Singleton.OnHealInput       += HandleHealInput;
+        InputManager.Singleton.OnDashInput       += HandleDashInput;
+        InputManager.Singleton.OnShootInput      += HandleShootInput;
+        InputManager.Singleton.OnInteractInput   += Interactor.Interact;
     }
 
     private void UnlinkInput(){
-        InputManager.Instance.OnAttackInput     -= HandleAttackInput;
-        InputManager.Instance.OnMovementInput   -= HandleMovementInput;
-        InputManager.Instance.OnHealInput       -= HandleHealInput;
-        InputManager.Instance.OnDashInput       -= HandleDashInput;
-        InputManager.Instance.OnShootInput      -= HandleShootInput;
-        InputManager.Instance.OnInteractInput   -= Interactor.Interact;
-        moveInputCooldown.Timeout               -= UnblockMoveInput;
-        dashCooldown.Timeout                    -= UnblockDashInput;
-        attackCooldown.Timeout                  -= UnblockAttackInput;
+        InputManager.Singleton.OnAttackInput     -= HandleAttackInput;
+        InputManager.Singleton.OnMovementInput   -= HandleMovementInput;
+        InputManager.Singleton.OnHealInput       -= HandleHealInput;
+        InputManager.Singleton.OnDashInput       -= HandleDashInput;
+        InputManager.Singleton.OnShootInput      -= HandleShootInput;
+        InputManager.Singleton.OnInteractInput   -= Interactor.Interact;
     }
 
     private void HandleAttackInput(){
-        
-        if(blockAttackInput == true){
-            return;
-        }
-
         int hitBoxId;
         float angle = aimCursour.AimAngle;
         if(angle >= -135 && angle <= -45){
@@ -230,37 +240,22 @@ public partial class Player : CharacterBody2D{
         movement.ZeroVelocity();
         movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
 
-        BlockMoveInput(time: 0.2f);
-        BlockAttackInput(time: 0.2f);
-    }
-
-    private void BlockAttackInput(float time){
-        blockAttackInput = true;
-        attackCooldown.WaitTime = time;
-        attackCooldown.Start();
-    }
-
-    private void UnblockAttackInput(){
-        blockAttackInput = false;
+        InputManager.Singleton.BlockMovementInput(time: 0.2f);
+        InputManager.Singleton.BlockAttackInput(time: 0.2f);
     }
 
     private void HandleDashInput(){
-        if(blockDashInput==true){
-            return;
-        }
         if(movement.MoveDirection.LengthSquared() > 0){
             movement.ZeroVelocity();
             movement.Impulse(movement.MoveDirection * DashForce);
-            BlockDashInput(time: 1);
-            BlockMoveInput(time: 0.33f);
+            InputManager.Singleton.BlockDashInput(time: 1);
+            InputManager.Singleton.BlockMovementInput(time: 0.33f);
             Health.SetInvincible(time:0.33f);
         }
     }
 
     private void HandleMovementInput(Vector2 input){
-        if(blockMoveInput == false){
-            movement.Move(input);
-        }
+        movement.Move(input);
     }
 
     private void HandleHealInput(){
@@ -268,27 +263,6 @@ public partial class Player : CharacterBody2D{
             EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
             Health.Heal(1);
         }
-    }
-
-    private void BlockMoveInput(float time){
-        blockMoveInput = true;
-        moveInputCooldown.WaitTime = time;
-        moveInputCooldown.Start();
-        movement.ZeroDirection();
-    }
-
-    private void UnblockMoveInput(){
-        blockMoveInput = false;
-    }
-
-    private void BlockDashInput(float time){
-        blockDashInput = true;
-        dashCooldown.WaitTime = time;
-        dashCooldown.Start();
-    }
-
-    private void UnblockDashInput(){
-        blockDashInput = false;
     }
 
     private void HandleShootInput(){
@@ -422,13 +396,13 @@ public partial class Player : CharacterBody2D{
     private void HandlePause(){
         hitBoxes.PauseState();
         movement.PauseState();
-        InputManager.Instance.PauseState();
+        InputManager.Singleton.PauseState();
     }
 
     private void HandleResume(){
         hitBoxes.ResumeState();
         movement.ResumeState();
-        InputManager.Instance.ResumeState();
+        InputManager.Singleton.ResumeState();
     }
 
 

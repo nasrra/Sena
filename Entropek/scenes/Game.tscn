@@ -28,5 +28,33 @@ one_shot = true
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("2_y3xkw")
 
-[node name="InputManager" type="Node2D" parent="."]
+[node name="InputManager" type="Node2D" parent="." node_paths=PackedStringArray("blockAimInputTimer", "blockAttackInputTimer", "blockDashInputTimer", "blockHealInputTimer", "blockInteractInputTimer", "blockMovementInputTimer", "blockShootInputTimer")]
 script = ExtResource("3_3ypkp")
+blockAimInputTimer = NodePath("BlockAimTimer")
+blockAttackInputTimer = NodePath("BlockAttackTimer")
+blockDashInputTimer = NodePath("BlockDashTimer")
+blockHealInputTimer = NodePath("BlockHealTimer")
+blockInteractInputTimer = NodePath("BlockInteractTimer")
+blockMovementInputTimer = NodePath("BlockMovementTimer")
+blockShootInputTimer = NodePath("BlockShootTimer")
+
+[node name="BlockAimTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockAttackTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockDashTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockHealTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockInteractTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockMovementTimer" type="Timer" parent="InputManager"]
+one_shot = true
+
+[node name="BlockShootTimer" type="Timer" parent="InputManager"]
+one_shot = true

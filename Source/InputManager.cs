@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public partial class InputManager : Node2D{
-    public static InputManager Instance {get;private set;}
+    public static InputManager Singleton {get;private set;}
 
     /// 
     /// Variables.
@@ -12,16 +12,30 @@ public partial class InputManager : Node2D{
     private Vector2 moveInput = Vector2.Zero;
     private Vector2 aimInput = Vector2.Zero;
 
+    ///
+    /// Timers.
+    /// 
+
+
+    [Export] private Timer blockAimInputTimer;
+    [Export] private Timer blockAttackInputTimer;
+    [Export] private Timer blockDashInputTimer;
+    [Export] private Timer blockHealInputTimer;
+    [Export] private Timer blockInteractInputTimer;
+    [Export] private Timer blockMovementInputTimer;
+    [Export] private Timer blockShootInputTimer;
+
+
     /// 
     /// States.
     /// 
 
-    private event Action MovementInputProcess;
     private event Action AimInputProcess;
     private event Action AttackInputProcess;
-    private event Action InteractInputProcess;
-    private event Action HealInputProcess;
     private event Action DashInputProcess;
+    private event Action HealInputProcess;
+    private event Action InteractInputProcess;
+    private event Action MovementInputProcess;
     private event Action ShootInputProcess;
 
     /// 
@@ -39,7 +53,7 @@ public partial class InputManager : Node2D{
     public event Action OnGamepadState;
     public event Action OnKeyboardState;
 
-    public bool IsGamepad {get; private set;} = false;
+    public bool IsGamepadConnected {get; private set;} = false;
     public bool Paused {get; private set;} = false;
 
 
@@ -50,7 +64,7 @@ public partial class InputManager : Node2D{
 
     public override void _EnterTree(){
         base._EnterTree();
-        Instance = this;
+        Singleton = this;
         CheckGamepad();
         LinkEvents();
     }
@@ -68,13 +82,13 @@ public partial class InputManager : Node2D{
         }
 
         base._Process(delta);        
-        InteractInputProcess();
-        MovementInputProcess();
-        AttackInputProcess();
-        AimInputProcess();
-        HealInputProcess();
-        DashInputProcess();
-        ShootInputProcess();
+        InteractInputProcess?.Invoke();
+        MovementInputProcess?.Invoke();
+        AttackInputProcess?.Invoke();
+        AimInputProcess?.Invoke();
+        HealInputProcess?.Invoke();
+        DashInputProcess?.Invoke();
+        ShootInputProcess?.Invoke();
     }
 
 
@@ -99,7 +113,7 @@ public partial class InputManager : Node2D{
 
         ClearState();
         
-        IsGamepad = false;
+        IsGamepadConnected = false;
         
         MovementInputProcess    = MovementInputKeyboard;
         AimInputProcess         = AimInputKeyboard;
@@ -118,7 +132,7 @@ public partial class InputManager : Node2D{
 
         ClearState();
         
-        IsGamepad = true;
+        IsGamepadConnected = true;
         
         MovementInputProcess    = MovementInputGamepad;
         AimInputProcess         = AimInputGamepad;
@@ -132,16 +146,30 @@ public partial class InputManager : Node2D{
     }
 
     public void PauseState(){
-        Paused = true;
+        Paused                          = true;
+        blockAimInputTimer.Paused       = true;
+        blockAttackInputTimer.Paused    = true;
+        blockDashInputTimer.Paused      = true;
+        blockHealInputTimer.Paused      = true;
+        blockInteractInputTimer.Paused  = true;
+        blockMovementInputTimer.Paused  = true;
+        blockShootInputTimer.Paused     = true;
     }
 
     public void ResumeState(){
-        Paused = false;
+        Paused                          = false;
+        blockAimInputTimer.Paused       = false;
+        blockAttackInputTimer.Paused    = false;
+        blockDashInputTimer.Paused      = false;
+        blockHealInputTimer.Paused      = false;
+        blockInteractInputTimer.Paused  = false;
+        blockMovementInputTimer.Paused  = false;
+        blockShootInputTimer.Paused     = false;
     }
 
 
     /// 
-    /// Functions.
+    /// Input Checks.
     /// 
 
 
@@ -248,17 +276,129 @@ public partial class InputManager : Node2D{
     }
 
 
+    ///
+    /// Blockers.
+    /// 
+
+
+    public void BlockMovementInput(){
+        MovementInputProcess = null;
+    }
+
+    public void BlockMovementInput(float time){
+        BlockMovementInput();
+        blockMovementInputTimer.Start(time);
+    }
+
+    public void UnblockMovementInput(){
+        MovementInputProcess = IsGamepadConnected == false? MovementInputKeyboard : MovementInputGamepad;
+    }
+
+    public void BlockAttackInput(){
+        AttackInputProcess = null;
+    }
+
+    public void BlockAttackInput(float time){
+        BlockAttackInput();
+        blockAttackInputTimer.Start(time);
+    }
+
+    public void UnblockAttackInput(){
+        AttackInputProcess = IsGamepadConnected == false ? AttackInputKeyboard : AttackInputGamepad;  
+    }
+
+    public void BlockInteractInput(){
+        InteractInputProcess = null;
+    }
+
+    public void BlockInteractInput(float time){
+        BlockInteractInput();
+        blockInteractInputTimer.Start(time);
+    }
+
+    public void UnblockInteractInput(){
+        InteractInputProcess = IsGamepadConnected == false ? InteractInputKeyboard : InteractInputGamepad;
+    }
+
+    public void BlockDashInput(){
+        DashInputProcess = null;
+    }
+
+    public void BlockDashInput(float time){
+        BlockDashInput();
+        blockDashInputTimer.Start(time);
+    }
+
+    public void UnblockDashInput(){
+        DashInputProcess = IsGamepadConnected == false ? DashInputKeyboard : DashInputGamepad;
+    }
+
+    public void BlockHealInput(){
+        HealInputProcess = null;
+    }
+
+    public void BlockHealInput(float time){
+        BlockHealInput();
+        blockHealInputTimer.Start(time);
+    }
+
+    public void UnblockHealInput(){
+        HealInputProcess = IsGamepadConnected == false ? HealInputKeyboard : HealInputGamepad;
+    }
+
+    public void BlockShootInput(){
+        ShootInputProcess = null;
+    }
+
+    public void BlockShootInput(float time){
+        BlockShootInput();
+        blockShootInputTimer.Start(time);
+    }
+
+    public void UnblockShootInput(){
+        ShootInputProcess = IsGamepadConnected == false ? ShootInputKeyboard : ShootInputGamepad;
+    }
+
+    public void BlockAimInput(){
+        AimInputProcess = null;
+    }
+
+    public void BlockAimInput(float time){
+        BlockAimInput();
+        blockAimInputTimer.Start(time);
+    }
+
+    public void UnblockAimInput(){
+        AimInputProcess = IsGamepadConnected == false ? AimInputKeyboard : AimInputGamepad;
+    }
+
+
     /// 
     /// Linkage.
     /// 
 
 
     private void LinkEvents(){
-        Input.Singleton.JoyConnectionChanged += OnJoyConnectionChanged;
+        Input.Singleton.JoyConnectionChanged    += OnJoyConnectionChanged;
+        blockAimInputTimer.Timeout              += UnblockAimInput;
+        blockAttackInputTimer.Timeout           += UnblockAttackInput;
+        blockDashInputTimer.Timeout             += UnblockDashInput;
+        blockHealInputTimer.Timeout             += UnblockHealInput;
+        blockInteractInputTimer.Timeout         += UnblockInteractInput;
+        blockMovementInputTimer.Timeout         += UnblockMovementInput;
+        blockShootInputTimer.Timeout            += UnblockShootInput;
+        
     }
 
     private void UnlinkEvents(){
-        Input.Singleton.JoyConnectionChanged -= OnJoyConnectionChanged;
+        Input.Singleton.JoyConnectionChanged    -= OnJoyConnectionChanged;
+        blockAimInputTimer.Timeout              -= UnblockAimInput;
+        blockAttackInputTimer.Timeout           -= UnblockAttackInput;
+        blockDashInputTimer.Timeout             -= UnblockDashInput;
+        blockHealInputTimer.Timeout             -= UnblockHealInput;
+        blockInteractInputTimer.Timeout         -= UnblockInteractInput;
+        blockMovementInputTimer.Timeout         -= UnblockMovementInput;
+        blockShootInputTimer.Timeout            -= UnblockShootInput;
     }
 
 

@@ -38,7 +38,7 @@ public partial class PlayerAimCursour : Node2D{
     }
 
     private void HandleAimDirection(Vector2 direction){
-        if(InputManager.Instance.IsGamepad == true){
+        if(InputManager.Singleton.IsGamepadConnected == true){
             AimDirection = direction.Normalized();
         }else{
             AimDirection = (direction-GlobalPosition).Normalized();
@@ -52,11 +52,11 @@ public partial class PlayerAimCursour : Node2D{
 
 
     private void LinkEvents(){
-        InputManager.Instance.OnAimInput += HandleAimDirection;
+        InputManager.Singleton.OnAimInput += HandleAimDirection;
     }
 
     private void UnlinkEvents(){
-        InputManager.Instance.OnAimInput -= HandleAimDirection;
+        InputManager.Singleton.OnAimInput -= HandleAimDirection;
     }
 }
 
