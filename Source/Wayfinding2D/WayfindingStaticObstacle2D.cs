@@ -31,7 +31,7 @@ public partial class WayfindingStaticObstacle2D : Node2D{
 
     private void Remove(){
         if(occupiedTiles.Count>0){
-            WayfindingGrid2D.Instance.Remove(occupiedTiles, navigationType);
+            WayfindingGrid2D.Instance.Remove(occupiedTiles);
             GD.Print("remove door");
         }
     }

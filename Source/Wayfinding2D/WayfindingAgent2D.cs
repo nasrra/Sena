@@ -7,7 +7,7 @@ public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
-    [Export(PropertyHint.Flags)] public NavigationType Capability {get;private set;}
+    [Export] public NavigationType Capability {get;private set;}
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
