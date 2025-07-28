@@ -40,9 +40,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         SlashUp     = 3,
     }
 
-    private Stack<Vector2> pathToTarget;
-
-
     ///
     /// Base
     ///
@@ -87,24 +84,15 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     public void ChaseState(){
-        stateProcess        = ChaseStateProcess;
+        stateProcess        = null;
         statePhysicProcess  = ChaseStatePhysicsProcess;
-    }
-
-    private void ChaseStateProcess(){
-        if(IsInstanceValid(Target) && Target.IsInsideTree()==true && pathToTarget != null){
-            MoveAlongPathToTarget();
-        }
-        else{
-            characterMovement.ZeroDirection();
-        }
     }
 
     private void ChaseStatePhysicsProcess(){
         if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
             CalculateRelationshipToTarget();
-            GetPathToTarget();
             UpdateAttackHandler();
+            MoveAlongPathToTarget();
         }
     }
 
@@ -142,13 +130,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
     private void MoveAlongPathToTarget(){
-        if(pathToTarget != null && pathToTarget.Count > 0){
-            Vector2 distance = pathToTarget.Peek() - GlobalPosition;
-            characterMovement.Move(pathToTarget.Peek() - GlobalPosition);
-            if(distance.LengthSquared() <= 100){
-                pathToTarget.Pop();
-            }
-        }
+        navAgent.CalculatePath(Target.GlobalPosition);
+        characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
     }
 
     private void CalculateRelationshipToTarget(){
@@ -160,11 +143,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     private void UpdateAttackHandler(){
         attackHandler.SetDirectionToTarget(directionToTarget);
         attackHandler.SetDistanceToTarget(distanceToTarget);
-    }
-
-    private void GetPathToTarget(){
-        navAgent.CalculatePathToGlobalPosition(Target.GlobalPosition);
-        pathToTarget = navAgent.Path; 
     }
 
     public void IgnoreEnemyCollisionMask(float time){

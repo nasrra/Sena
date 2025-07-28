@@ -5,15 +5,37 @@ using System.Collections.Generic;
 
 public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
+    public Vector2 CurrentPathPoint {get;private set;}
+    private bool noPathLastTick = true;
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
     [Export] public NavigationType Capability {get;private set;}
 
+    private double deltaCummulative = 0f;
+    private const float calculatePathTick = 1.67f * 2;
+
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
+        if(Path != null && Path.Count > 0){
+            if(noPathLastTick == true){
+                CurrentPathPoint = Path.Pop();
+            }
+            Vector2 distance = CurrentPathPoint - GlobalPosition;
+            if(distance.LengthSquared() <= 50f){
+                CurrentPathPoint = Path.Pop();
+            }
+        }
+        // deltaCummulative += delta;
+        
+        // // tick 30 times a second.
+
+        // if(deltaCummulative >= calculatePathTick){
+        //     deltaCummulative = 0;
+        //     CalculatePath();
+        // }
     }
 
-    public void CalculatePathToGlobalPosition(Vector2 endGlobalPosition){
+    public void CalculatePath(Vector2 endGlobalPosition){
         Path = WayfindingGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
     }
 
@@ -24,12 +46,12 @@ public partial class WayfindingAgent2D : Node2D{
 
     public override void _Draw(){
         base._Draw();
-        // if(Path!=null){
-        //     foreach(Vector2 point in Path){
-        //         GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-        //         debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
-        //     }
-        // }
+        if(Path!=null){
+            foreach(Vector2 point in Path){
+                GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+                debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
+            }
+        }
     }
 
 }
