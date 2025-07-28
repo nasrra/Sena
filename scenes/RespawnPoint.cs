@@ -35,7 +35,7 @@ public partial class RespawnPoint : Node2D{
         RespawnScene = SceneManager.Instance.Current2DSceneName;
         GD.Print("respawn point set: "+RespawnScene);
         Player.Instance.Health.HealToMax();
-        EntityManager.Instance.PauseEntityProcesses(0.33f);
+        EntityManager.Singleton.PauseEntityProcesses(0.33f);
     }
 
     public static void Respawn(){

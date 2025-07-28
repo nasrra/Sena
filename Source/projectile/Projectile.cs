@@ -53,8 +53,8 @@ public partial class Projectile : CharacterBody2D{
 
     protected virtual void LinkEvents(){
         
-        EntityManager.Instance.OnPause  += HandlePause;
-        EntityManager.Instance.OnResume += HandleResume;
+        EntityManager.Singleton.OnPause  += HandlePause;
+        EntityManager.Singleton.OnResume += HandleResume;
         
         Movement.OnMoveDirectionUpdated += RotateToMoveDirection;
 
@@ -64,8 +64,8 @@ public partial class Projectile : CharacterBody2D{
 
     protected virtual void UnlinkEvents(){
         
-        EntityManager.Instance.OnPause  -= HandlePause;
-        EntityManager.Instance.OnResume -= HandleResume;
+        EntityManager.Singleton.OnPause  -= HandlePause;
+        EntityManager.Singleton.OnResume -= HandleResume;
 
         Movement.OnMoveDirectionUpdated -= RotateToMoveDirection;
 
@@ -87,7 +87,6 @@ public partial class Projectile : CharacterBody2D{
 
     private void OnCollision(Node2D node){
         string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-
         switch (layer){
             case "Enemy":
                 HandleOnHitEnemy(node as Enemy);

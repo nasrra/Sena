@@ -10,6 +10,6 @@ public partial class EnemySpawner : Node2D{
         enemy.GlobalPosition = GlobalPosition;
         enemy.Target = Player.Instance;
         // SceneManager.Instance.Current2DScene.AddChild(enemy);
-        EntityManager.Instance.AddChild(enemy);
+        EntityManager.Singleton.AddChild(enemy);
     }
 }

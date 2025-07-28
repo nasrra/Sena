@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class EntityManager : Node{
-    public static EntityManager Instance {get;private set;}
+    public static EntityManager Singleton {get;private set;}
     [Export] private Timer pausedTimer;
     public event Action<double> OnProcess;
     public event Action<double> OnPhysicsProcess;
@@ -18,7 +18,7 @@ public partial class EntityManager : Node{
 
     public override void _EnterTree(){
         base._EnterTree();
-        Instance = this;
+        Singleton = this;
         LinkEvents();
     }
 

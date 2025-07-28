@@ -34,7 +34,7 @@ public partial class LevelSwapDoor : Door{
     public void Enter(){
         LevelSwapDoorManager.Instance.SetExitDoorId(doorToLoadTo);
         SceneManager.Instance.LoadScene2D(levelToLoad, SceneLoadType.Delete, 0.5f);
-        EntityManager.Instance.PauseEntityProcesses();
+        EntityManager.Singleton.PauseEntityProcesses();
     }
 
     public override void Open(){

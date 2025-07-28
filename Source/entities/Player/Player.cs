@@ -16,6 +16,7 @@ public partial class Player : CharacterBody2D{
     
     [Export] private CameraController camera;
     [Export] private Area2D hurtBox;
+    [Export] private AnimatedSprite2D animator;
     [Export] public CharacterMovement movement {get; private set;}
     [Export] public PlayerAimCursour aimCursour {get; private set;}
     [Export] public ProjectileSpawner projectileSpawner {get; private set;}
@@ -24,14 +25,15 @@ public partial class Player : CharacterBody2D{
     [Export] public Health Health {get; private set;}
     [Export] public EmberStorage EmberStorage {get; private set;}
     [Export] public Interactor Interactor {get; private set;}
-    [Export] private AnimatedSprite2D animator;
+
+    private event Action<double> statePhysicsProcess = null;
 
     [ExportGroup("Variables")]
     private Vector2I lastSafeTile = Vector2I.Zero;
     private const float AttackLungeForce = 100f;
     private const float AttackEnemyKnockback = 100f;
     private const float AttackPlayerKnockback = 80f;
-    private const float DashForce = 300f;
+    private const float DashForce = 400f;
     private PlayerState state = PlayerState.Standby;
 
     ///
@@ -79,7 +81,7 @@ public partial class Player : CharacterBody2D{
     }
 
     private void PhysicsProcess(double delta){
-        lastSafeTile = WayfindingGrid2D.Instance.GlobalToIdPosition(GlobalPosition);
+        statePhysicsProcess?.Invoke(delta);
     }
 
 
@@ -91,11 +93,42 @@ public partial class Player : CharacterBody2D{
     private void EvaluateState(){
         // check if we are colliding with any pitfall areas.
         // - enter falling state.
-        state = PlayerState.Standby;
+        if(state == PlayerState.Dashing){
+            movement.Deceleration = 800f;
+        }
+        StandbyState();
     }
 
     private void StandbyState(){
+        
         state = PlayerState.Standby;
+        statePhysicsProcess = StandbyStatePhysicsProcess;
+
+        hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), true);
+    }
+
+    private void StandbyStatePhysicsProcess(double delta){
+        lastSafeTile = WayfindingGrid2D.Instance.GlobalToIdPosition(GlobalPosition);
+    }
+
+    private void DashState(){
+        if(movement.MoveDirection.LengthSquared() <= 0){
+            return;
+        }
+        
+        state = PlayerState.Dashing;
+        statePhysicsProcess = null;
+
+        hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), false);
+        movement.ZeroVelocity();
+        movement.Impulse(movement.MoveDirection * DashForce);
+        movement.ZeroDirection(); // <-- here so Deceleration is applied.
+        Health.SetInvincible(time:0.4f);
+        evaluateStateTimer.Start(timeSec:0.4f); 
+        movement.Deceleration = 975f;
+        InputManager.Singleton.BlockMovementInput(time: 0.4f);
+        InputManager.Singleton.BlockAttackInput(time:0.4f);
+        InputManager.Singleton.BlockDashInput(time: 1);
     }
 
 
@@ -134,11 +167,13 @@ public partial class Player : CharacterBody2D{
     private void HandleLevelEnter(){
         
         // spawn at the exit point from the last door we entered.
+        StandbyState();
+        
         switch(GameManager.Instance.State){
             case GameState.Gameplay:
                 // spawn at door.
                 if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
-                    EntityManager.Instance.PauseEntityProcesses(0.33f);
+                    EntityManager.Singleton.PauseEntityProcesses(0.33f);
                     GlobalPosition = door.ExitPoint.GlobalPosition;
                 }                
                 break;
@@ -175,6 +210,17 @@ public partial class Player : CharacterBody2D{
         PlayerPersistence.MaxNotchAmount    = EmberStorage.MaxNotchAmount;
     }
 
+    private void CheckHurtCollider(){
+        Godot.Collections.Array<Area2D> areas = hurtBox.GetOverlappingAreas();
+        for(int i = 0; i < areas.Count; i++){
+            HandleHurtBoxCollision(areas[i]);
+        }
+
+        Godot.Collections.Array<Node2D> bodies = hurtBox.GetOverlappingBodies();
+        for(int i = 0; i < bodies.Count; i++){
+            HandleHurtBoxCollision(bodies[i]);
+        }
+    }
 
     /// 
     /// Linkage
@@ -182,6 +228,7 @@ public partial class Player : CharacterBody2D{
 
 
     private void LinkEvents(){
+        evaluateStateTimer.Timeout += EvaluateState;
         LinkHitbox();        
         LinkInput();
         LinkHurtBox();
@@ -192,6 +239,7 @@ public partial class Player : CharacterBody2D{
     }
 
     private void UnlinkEvents(){
+        evaluateStateTimer.Timeout -= EvaluateState;
         UnlinkHitBox();        
         UnlinkInput();
         UnlinkHurtBox();
@@ -211,7 +259,7 @@ public partial class Player : CharacterBody2D{
         InputManager.Singleton.OnAttackInput     += HandleAttackInput;
         InputManager.Singleton.OnMovementInput   += HandleMovementInput;
         InputManager.Singleton.OnHealInput       += HandleHealInput;
-        InputManager.Singleton.OnDashInput       += HandleDashInput;
+        InputManager.Singleton.OnDashInput       += DashState;
         InputManager.Singleton.OnShootInput      += HandleShootInput;
         InputManager.Singleton.OnInteractInput   += Interactor.Interact;
     }
@@ -220,7 +268,7 @@ public partial class Player : CharacterBody2D{
         InputManager.Singleton.OnAttackInput     -= HandleAttackInput;
         InputManager.Singleton.OnMovementInput   -= HandleMovementInput;
         InputManager.Singleton.OnHealInput       -= HandleHealInput;
-        InputManager.Singleton.OnDashInput       -= HandleDashInput;
+        InputManager.Singleton.OnDashInput       -= DashState;
         InputManager.Singleton.OnShootInput      -= HandleShootInput;
         InputManager.Singleton.OnInteractInput   -= Interactor.Interact;
     }
@@ -249,20 +297,6 @@ public partial class Player : CharacterBody2D{
 
         InputManager.Singleton.BlockMovementInput(time: 0.2f);
         InputManager.Singleton.BlockAttackInput(time: 0.2f);
-    }
-
-    private void HandleDashInput(){
-        if(movement.MoveDirection.LengthSquared() <= 0){
-            return;
-        }
-        state = PlayerState.Dashing;
-        SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), false);
-        movement.ZeroVelocity();
-        movement.Impulse(movement.MoveDirection * DashForce);
-        Health.SetInvincible(time:0.33f);
-        evaluateStateTimer.Start(timeSec:0.33f);   
-        InputManager.Singleton.BlockMovementInput(time: 0.33f);
-        InputManager.Singleton.BlockDashInput(time: 1);
     }
 
     private void HandleMovementInput(Vector2 input){
@@ -357,8 +391,8 @@ public partial class Player : CharacterBody2D{
         camera.StartShake(20.0f, 0.33f);
         camera.Vignette.Update(0.33f,1f,0.01f);
         camera.Vignette.QueueUpdate(0,0,0.005f,1f);
-        EntityManager.Instance.PauseEntityProcesses(time:0.25f);
         Health.SetInvincible(time:1f);
+        EntityManager.Singleton.PauseEntityProcesses(time:0.25f);
     }
 
     private void HandleDeath(){
@@ -393,15 +427,17 @@ public partial class Player : CharacterBody2D{
 
 
     private void LinkEntityManager(){
-        EntityManager.Instance.OnPause += HandlePause;
-        EntityManager.Instance.OnResume += HandleResume;
-        EntityManager.Instance.OnProcess += Process;
+        EntityManager.Singleton.OnPause += HandlePause;
+        EntityManager.Singleton.OnResume += HandleResume;
+        EntityManager.Singleton.OnProcess += Process;
+        EntityManager.Singleton.OnPhysicsProcess += PhysicsProcess;
     }
 
     private void UnlinkEntityManager(){
-        EntityManager.Instance.OnPause -= HandlePause;
-        EntityManager.Instance.OnResume -= HandleResume;
-        EntityManager.Instance.OnProcess -= Process;
+        EntityManager.Singleton.OnPause -= HandlePause;
+        EntityManager.Singleton.OnResume -= HandleResume;
+        EntityManager.Singleton.OnProcess -= Process;
+        EntityManager.Singleton.OnPhysicsProcess -= PhysicsProcess;
     }
 
     private void HandlePause(){
