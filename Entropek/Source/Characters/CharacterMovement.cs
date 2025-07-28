@@ -85,7 +85,7 @@ public partial class CharacterMovement : Node{
                 
                 Velocity = new Vector2(
                     newVelocity.X, 
-                    Velocity.Y - PhysicsManager.Instance.Gravity * (float)delta * gravityModifier
+                    Velocity.Y - PhysicsManager.Singleton.Gravity * (float)delta * gravityModifier
                 ); 
             }
             else{
@@ -100,7 +100,7 @@ public partial class CharacterMovement : Node{
             if(gravityAffected == true){
                 newVelocity = new Vector2(
                     newVelocity.X, 
-                    Velocity.Y - PhysicsManager.Instance.Gravity * (float)delta * gravityModifier
+                    Velocity.Y - PhysicsManager.Singleton.Gravity * (float)delta * gravityModifier
                 ); 
             }
 

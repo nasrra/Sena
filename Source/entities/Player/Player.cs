@@ -12,6 +12,7 @@ public partial class Player : CharacterBody2D{
         // do not change this.
 
     [Export] private Timer emberDecayRate;
+    [Export] private Timer evaluateStateTimer;
     
     [Export] private CameraController camera;
     [Export] private Area2D hurtBox;
@@ -31,7 +32,7 @@ public partial class Player : CharacterBody2D{
     private const float AttackEnemyKnockback = 100f;
     private const float AttackPlayerKnockback = 80f;
     private const float DashForce = 300f;
-    private PlayerState playerState = PlayerState.Standby;
+    private PlayerState state = PlayerState.Standby;
 
     ///
     /// Definitions.
@@ -87,8 +88,14 @@ public partial class Player : CharacterBody2D{
     /// 
 
 
-    private void DashState(){
-        
+    private void EvaluateState(){
+        // check if we are colliding with any pitfall areas.
+        // - enter falling state.
+        state = PlayerState.Standby;
+    }
+
+    private void StandbyState(){
+        state = PlayerState.Standby;
     }
 
 
@@ -245,13 +252,17 @@ public partial class Player : CharacterBody2D{
     }
 
     private void HandleDashInput(){
-        if(movement.MoveDirection.LengthSquared() > 0){
-            movement.ZeroVelocity();
-            movement.Impulse(movement.MoveDirection * DashForce);
-            InputManager.Singleton.BlockDashInput(time: 1);
-            InputManager.Singleton.BlockMovementInput(time: 0.33f);
-            Health.SetInvincible(time:0.33f);
+        if(movement.MoveDirection.LengthSquared() <= 0){
+            return;
         }
+        state = PlayerState.Dashing;
+        SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), false);
+        movement.ZeroVelocity();
+        movement.Impulse(movement.MoveDirection * DashForce);
+        Health.SetInvincible(time:0.33f);
+        evaluateStateTimer.Start(timeSec:0.33f);   
+        InputManager.Singleton.BlockMovementInput(time: 0.33f);
+        InputManager.Singleton.BlockDashInput(time: 1);
     }
 
     private void HandleMovementInput(Vector2 input){
@@ -289,12 +300,12 @@ public partial class Player : CharacterBody2D{
     }
 
     private void HandleHurtBoxCollision(Node2D node){
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string layerName) == false){
-            return;
-        }
-        switch(layerName){
+        switch(PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer)){
             case "Enemy":
                 Health.Damage(1);
+            break;
+            case "Pitfall":
+                GD.Print("Entered Pitfal Area!");
             break;
         }
     }
@@ -422,12 +433,9 @@ public partial class Player : CharacterBody2D{
     private void OnHitBoxHit(Node2D node, int id){
 
         // validate physics layer name.
-
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string hitLayer)==false){
-            return;
-        }
         
-        switch(hitLayer){
+        string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
+        switch(layer){
             case "Enemy":
                 HandleOnHitEnemy((Enemy)node);
             break;
@@ -436,7 +444,7 @@ public partial class Player : CharacterBody2D{
                 interactable.Interact(Interactor);
             break;
             default:
-            throw new Exception($"{hitLayer} not implemented.");
+            throw new Exception($"{layer} not implemented.");
         }
     }
     

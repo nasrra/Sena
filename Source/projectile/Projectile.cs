@@ -86,11 +86,9 @@ public partial class Projectile : CharacterBody2D{
     }
 
     private void OnCollision(Node2D node){
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer, out string layerName) == false){
-            return;
-        }
+        string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
 
-        switch (layerName){
+        switch (layer){
             case "Enemy":
                 HandleOnHitEnemy(node as Enemy);
             break;

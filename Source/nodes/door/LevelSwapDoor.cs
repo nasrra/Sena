@@ -80,11 +80,7 @@ public partial class LevelSwapDoor : Door{
 
 
     private void OnEnterZone(Node2D other){
-        
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer, out string hitLayer) == false){
-            return;
-        }
-
+        string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
         switch(hitLayer){
             case "Player":
                 Enter();

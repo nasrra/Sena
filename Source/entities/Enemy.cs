@@ -149,24 +149,12 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     public void IgnoreEnemyCollisionMask(float time){
         
         ignoreEnemyTimer.WaitTime = time;
-        
-        if(PhysicsManager.Instance.GetPhysics2DLayerId("Enemy", out int layerid)==true){
-            SetCollisionMaskValue(layerid, false);
-        }
-        else{
-            throw new Exception("Enemy physics layer not found!");
-        }
-
+        SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), false);
         ignoreEnemyTimer.Start();
     }
 
     private void RespondToEnemyCollisionMask(){
-        if(PhysicsManager.Instance.GetPhysics2DLayerId("Enemy", out int layerid)==true){
-            SetCollisionMaskValue(layerid, true);
-        }
-        else{
-            throw new Exception("Enemy physics layer not found!");
-        }
+        SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
     }
 
 
@@ -249,10 +237,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     }
 
     private void OnAttackHit(Node other, int hitboxId){
-        if(PhysicsManager.Instance.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer, out string hitLayer) == false){
-            return;
-        }
-
+        string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
         switch (hitLayer){
             case "Player":
                 Health playerHealth = other.GetNode<Health>(Health.NodeName);

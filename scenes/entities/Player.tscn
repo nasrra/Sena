@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(8, 16)
+size = Vector2(8, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tdg3f"]
 size = Vector2(28, 16)
@@ -27,8 +27,8 @@ size = Vector2(14, 28)
 size = Vector2(1, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boxie"]
-radius = 5.0
-height = 22.0
+radius = 3.0
+height = 10.5
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "hurtBox", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "animator")]
 collision_layer = 32
@@ -47,6 +47,7 @@ Interactor = NodePath("Interactor")
 animator = NodePath("AnimatedSprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_xhfnw")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
@@ -167,6 +168,7 @@ collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_boxie")
 
 [node name="EmberDecayRate" type="Timer" parent="."]

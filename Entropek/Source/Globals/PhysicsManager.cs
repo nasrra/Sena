@@ -8,12 +8,12 @@ public partial class PhysicsManager : Node{
     private Dictionary<string, int> NameToLayerIDMap = new Dictionary<string, int>();  
     public Vector3 GravityDirection {get;private set;}
     public float Gravity {get;private set;}
-    public static PhysicsManager Instance {get;private set;}
+    public static PhysicsManager Singleton {get;private set;}
 
 
     public override void _EnterTree(){
         base._EnterTree();
-        Instance = this;
+        Singleton = this;
         Gravity = (float)ProjectSettings.GetSetting("physics/2d/default_gravity");
         GravityDirection = (Vector3)ProjectSettings.GetSetting("physics/2d/default_gravity_vector");
         SetLayerNames();
@@ -33,10 +33,7 @@ public partial class PhysicsManager : Node{
         }
     }
 
-    public bool GetPhysics2DLayerName(uint collisionObjectLayerBit, out string layerName){
-        
-        layerName = "";
-        
+    public string GetPhysics2DLayerName(uint collisionObjectLayerBit){        
         // convert the nodes layer bitmask to layer index. 
         
         int layerIndex = System.Numerics.BitOperations.TrailingZeroCount(collisionObjectLayerBit) + 1;
@@ -44,23 +41,18 @@ public partial class PhysicsManager : Node{
         // GD.Print($"bitmask[{collisionObjectLayer}] index[{layerIndex}]");
         
         if(LayerNames2D.Length < layerIndex){
-            return false;
+            throw new Exception($"{collisionObjectLayerBit} is not a valid Physics2D bit layer.");
         }
 
-        layerName = LayerNames2D[layerIndex];
-
-        return true;
+        return LayerNames2D[layerIndex];
     }
 
-    public bool GetPhysics2DLayerId(string layerName, out int layerId){
-        layerId = -1;
-
+    public int GetPhysics2DLayerId(string layerName){
         if(NameToLayerIDMap.ContainsKey(layerName)){
-            layerId = NameToLayerIDMap[layerName];
-            return true;
+            return NameToLayerIDMap[layerName];;
         }
 
-        return false;
+        throw new Exception($"{layerName} is not a Physics2D layer.");
     }
 
     public void SetGravity(float gravity){
