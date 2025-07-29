@@ -1,0 +1,86 @@
+[gd_resource type="SpriteFrames" load_steps=13 format=3 uid="uid://ds6xh0lqqrjmq"]
+
+[ext_resource type="Texture2D" uid="uid://cqiguce3t0g8b" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-1.tres" id="1_6uu5v"]
+[ext_resource type="Texture2D" uid="uid://1rilf2ytcnh4" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-2.tres" id="2_udn3c"]
+[ext_resource type="Texture2D" uid="uid://pue4p0lsuqmp" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-3.tres" id="3_cmkee"]
+[ext_resource type="Texture2D" uid="uid://dgu52rxelsknu" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-4.tres" id="4_gts82"]
+[ext_resource type="Texture2D" uid="uid://bqcvwhjwesvs5" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleForward-1.tres" id="5_2p0r7"]
+[ext_resource type="Texture2D" uid="uid://bpwa7nnvyxtgd" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-2.tres" id="6_3t5dg"]
+[ext_resource type="Texture2D" uid="uid://ulcq5stocw3e" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-3.tres" id="7_h041g"]
+[ext_resource type="Texture2D" uid="uid://ci8nic8d82s5p" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-4.tres" id="8_dw8b0"]
+[ext_resource type="Texture2D" uid="uid://cvgtpfwcu3q3u" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-1.tres" id="9_yc1b7"]
+[ext_resource type="Texture2D" uid="uid://c6r1bvtsrp32x" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-2.tres" id="10_paj6p"]
+[ext_resource type="Texture2D" uid="uid://cd8v6lvg44udn" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-3.tres" id="11_4w33b"]
+[ext_resource type="Texture2D" uid="uid://hwfb83tl2t5v" path="res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-4.tres" id="12_yihx5"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6uu5v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_udn3c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cmkee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gts82")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_cmkee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_udn3c")
+}],
+"loop": true,
+"name": &"IdleBackward",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2p0r7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3t5dg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h041g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dw8b0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_h041g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_3t5dg")
+}],
+"loop": true,
+"name": &"IdleForward",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_yc1b7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_paj6p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4w33b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_yihx5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4w33b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_paj6p")
+}],
+"loop": true,
+"name": &"IdleSide",
+"speed": 12.0
+}]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dg4h4toplh4i0" path="res://Entropek/source/globals/SceneManager.cs" id="1_3ypkp"]
 [ext_resource type="Script" uid="uid://dlxuuf8pcvm7v" path="res://source/GameManager.cs" id="2_y3xkw"]
-[ext_resource type="Script" uid="uid://bmj23kybcgjq7" path="res://source/InputManager.cs" id="3_3ypkp"]
+[ext_resource type="Script" uid="uid://bmj23kybcgjq7" path="res://source/managers/input/InputManager.cs" id="3_3ypkp"]
 
 [node name="Main" type="Node"]
 
@@ -16,7 +16,7 @@ world2D = NodePath("../World2D")
 gui = NodePath("../GUI")
 loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene2DStart = "Level2"
+scene2DStart = "Level1"
 guiStart = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]

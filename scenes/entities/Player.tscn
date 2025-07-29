@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://bw7drms7g4wce" path="res://source/projectile/ProjectileSpawner.cs" id="5_sdcm4"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
 [ext_resource type="PackedScene" uid="uid://dwkf62bbh1dli" path="res://scenes/projectiles/FireFeather.tscn" id="6_jh8vs"]
-[ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/sena/Animations/Sena.tres" id="6_tdg3f"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="8_5ncpa"]
+[ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/animations/sena/Sena.tres" id="9_jh8vs"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
@@ -137,9 +137,9 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = ExtResource("6_boxie")
 scale = Vector2(0.1, 0.1)
-sprite_frames = ExtResource("6_tdg3f")
+sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
-frame_progress = 0.532616
+frame_progress = 0.0687357
 
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")

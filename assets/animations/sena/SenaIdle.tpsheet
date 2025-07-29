@@ -1,0 +1,198 @@
+{
+	"textures": [
+		{
+			"image": "SenaIdle.png",
+			"size": {
+				"w": 512,
+				"h": 2048
+			},
+			"sprites": [
+				{
+					"filename": "Idle/SenaIdleBackward-1.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleBackward-2.png",
+					"region": {
+						"x": 0,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleBackward-3.png",
+					"region": {
+						"x": 0,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleBackward-4.png",
+					"region": {
+						"x": 0,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleForward-1.png",
+					"region": {
+						"x": 0,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleFoward-2.png",
+					"region": {
+						"x": 0,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleFoward-3.png",
+					"region": {
+						"x": 0,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleFoward-4.png",
+					"region": {
+						"x": 0,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleSide-1.png",
+					"region": {
+						"x": 256,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleSide-2.png",
+					"region": {
+						"x": 256,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleSide-3.png",
+					"region": {
+						"x": 256,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Idle/SenaIdleSide-4.png",
+					"region": {
+						"x": 256,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

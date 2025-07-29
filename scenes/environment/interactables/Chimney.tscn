@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bsgesvasya5np"]
+[gd_scene load_steps=7 format=3 uid="uid://bsgesvasya5np"]
 
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_oye58"]
 [ext_resource type="Script" uid="uid://c1ynvngk2n7pl" path="res://source/nodes/interactables/Chimney.cs" id="1_prvul"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="3_g20y1"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="4_ebept"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_8r0fy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prvul"]
 size = Vector2(14, 14)
@@ -17,18 +18,25 @@ modulate = Color(0, 0.633333, 1, 1)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_oye58")
 
-[node name="Interactable" type="Area2D" parent="."]
+[node name="Interactable" type="Area2D" parent="." node_paths=PackedStringArray("InteractIcon")]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("3_g20y1")
+InteractIcon = NodePath("../InputActionLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
 shape = SubResource("RectangleShape2D_prvul")
 
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("4_ebept")
-Max = 20
-Value = 20
 
 [node name="ReachargeTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="InputActionLabel" parent="." instance=ExtResource("5_8r0fy")]
+visible = false
+offset_left = -5.0
+offset_top = -20.0
+offset_right = 3.0
+offset_bottom = -7.91667
+text = ""

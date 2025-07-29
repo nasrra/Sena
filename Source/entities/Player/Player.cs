@@ -131,9 +131,9 @@ public partial class Player : CharacterBody2D{
         movement.ZeroVelocity();
         movement.Impulse(movement.MoveDirection * DashForce);
         movement.ZeroDirection(); // <-- here so Deceleration is applied.
+        movement.Deceleration = 1150f;
         Health.SetInvincible(time:0.4f);
         evaluateStateTimer.Start(timeSec:0.4f); 
-        movement.Deceleration = 1150f;
         InputManager.Singleton.BlockMovementInput(time: 0.4f);
         InputManager.Singleton.BlockAttackInput(time:0.4f);
         InputManager.Singleton.BlockDashInput(time: 1);

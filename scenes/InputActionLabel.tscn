@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvss82y3uasd5"]
+
+[ext_resource type="FontFile" uid="uid://dofm1r1t27gsi" path="res://assets/fonts/PromptFont/promptfont.ttf" id="1_3kvkw"]
+[ext_resource type="Script" uid="uid://cnla4oundx541" path="res://source/InputActionLabel.cs" id="2_qqi6l"]
+
+[node name="InputActionLabel" type="Label"]
+offset_right = 4.0
+offset_bottom = 12.0833
+theme_override_fonts/font = ExtResource("1_3kvkw")
+theme_override_font_sizes/font_size = 10
+text = "."
+script = ExtResource("2_qqi6l")
+inputAction = "Interact"

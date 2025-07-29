@@ -504,11 +504,11 @@ public partial class WayfindingGrid2D : Node2D{
                     break;
                     case NavigationType.PassThrough:
                         DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
-                        DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+                        // DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
                     break;
                     case NavigationType.Open:
                         DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
-                        DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+                        // DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
                     break;
                 }
             }

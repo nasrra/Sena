@@ -2,7 +2,8 @@ using Godot;
 using System;
 
 public partial class Interactable : Area2D{
-    public const string NodeName = nameof(Interactable); 
+    public const string NodeName = nameof(Interactable);
+    [Export] private Label InteractIcon; 
     public event Action<Interactor> OnInteract;
     public bool IsInteractable = true;
 
@@ -19,6 +20,18 @@ public partial class Interactable : Area2D{
     public void Interact(Interactor interactor){
         if(IsInteractable == true){
             OnInteract?.Invoke(interactor);
+        }
+    }
+
+    public void EnableInteractableIcon(){
+        if(IsInteractable == true && InteractIcon != null){
+            InteractIcon.Visible = true;
+        }
+    }
+
+    public void DisableInteractableIcon(){
+        if(InteractIcon != null){
+            InteractIcon.Visible = false;
         }
     }
 }

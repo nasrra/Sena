@@ -13,6 +13,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     [Export] private Timer stunTimer;
     [Export] private Timer ignoreEnemyTimer;
     [Export] public Node2D Target;
+    [Export] private AnimatedSprite2D animator;
     private EnemyState state = EnemyState.Chase;
 
     private Vector2 directionToTarget = Vector2.Zero;
@@ -48,6 +49,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
     public override void _Ready(){
         base._Ready();
         EnemyManager.Instance.AddEnemy(this);
+        animator.Play("IdleBackward");
     }
 
 
@@ -68,6 +70,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void PhysicsProcess(double delta){
         statePhysicProcess?.Invoke();
+        UpdateAnimation();
     }
 
 
@@ -157,6 +160,32 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
     }
 
+    private void UpdateAnimation(){
+        float angle = characterMovement.GetMoveAngleDegrees();
+        if(characterMovement.MoveDirection == Vector2.Zero){
+            return;
+        }
+        if(angle > -135 && angle < -45){
+            animator.Play("IdleForward");
+            animator.FlipH = false;
+            return;
+        }
+        else if(angle > 45 && angle < 135){
+            animator.Play("IdleBackward");
+            animator.FlipH = false;
+            return;
+        }
+        else if(angle > -45 && angle < 45){
+            animator.Play("IdleSide");
+            animator.FlipH = true;
+            return;
+        }
+        else{
+            animator.Play("IdleSide");
+            animator.FlipH = false;
+            return;
+        }
+    }
 
     /// 
     /// Linkage

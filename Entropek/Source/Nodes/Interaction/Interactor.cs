@@ -4,7 +4,6 @@ using Godot.Collections;
 
 public partial class Interactor : Area2D{
     private Interactable previous = null;
-    private Interactable current = null;
     [Export] private Array<Interactable> inRange;
     [Export(PropertyHint.Layers2DPhysics)]
     public uint ObstructionLayer;
@@ -75,8 +74,8 @@ public partial class Interactor : Area2D{
             // Handle state transition
 
             if (closestValid != previous){
-                // previous?.IdleState();
-                // closestValid?.HoveredState();
+                previous?.DisableInteractableIcon();
+                closestValid?.EnableInteractableIcon();
                 previous = closestValid;
             }
         }
@@ -84,7 +83,7 @@ public partial class Interactor : Area2D{
         // if we have left all interactables.
 
         else if (previous != null){
-            // previous.IdleState();
+            previous.DisableInteractableIcon();
             previous = null;
         }
     }

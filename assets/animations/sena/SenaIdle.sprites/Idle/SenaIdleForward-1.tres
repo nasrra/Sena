@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bqcvwhjwesvs5"]
+
+[ext_resource type="Texture2D" uid="uid://bf7jlfk20ge11" path="res://assets/animations/sena/SenaIdle.png" id="1_vr6qj"]
+
+[resource]
+atlas = ExtResource("1_vr6qj")
+region = Rect2(0, 1024, 256, 256)

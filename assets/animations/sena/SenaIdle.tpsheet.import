@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://dokcthl8nl7c5"
+path="res://.godot/imported/SenaIdle.tpsheet-5a0cf7c911b9b3c7b4c683556a50471e.res"
+
+[deps]
+
+files=["res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-4.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleForward-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-4.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-4.tres"]
+
+source_file="res://assets/animations/sena/SenaIdle.tpsheet"
+dest_files=["res://.godot/imported/SenaIdle.tpsheet-5a0cf7c911b9b3c7b4c683556a50471e.res", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleBackward-4.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleForward-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleFoward-4.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-1.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-2.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-3.tres", "res://assets/animations/sena/SenaIdle.sprites/Idle/SenaIdleSide-4.tres"]
+
+[params]
+

@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://243v0sxe3xy6"]
+
+[ext_resource type="Texture2D" uid="uid://cg2vlsdkdwoar" path="res://assets/animations/worker/WorkerIdleBackward.png" id="1_8gbue"]
+
+[resource]
+atlas = ExtResource("1_8gbue")
+region = Rect2(256, 768, 256, 256)

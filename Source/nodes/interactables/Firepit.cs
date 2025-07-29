@@ -29,15 +29,12 @@ public partial class Firepit : Node{
     private void Interacted(Interactor interactor){
         EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
         if(embers != null){
-            GD.Print(embers.EmptyNotches);
             if(embers.EmptyNotches > 0 && ContainsEmbers == true){
                 embers.Add(EmberStorage.NotchMaxEmberValue);
-                GD.Print("pass.");
                 UnlitState();
             }
-            else if(embers.EmptyNotches > 0 && ContainsEmbers == false){
+            else if(embers.NotchAmount > 0 && ContainsEmbers == false){
                 embers.Remove(EmberStorage.NotchMaxEmberValue);
-                GD.Print("pass.");
                 LitState();
             }
         }
