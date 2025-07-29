@@ -19,7 +19,7 @@ public partial class WayfindingAgent2D : Node2D{
     }
 
     public void CalculateNewPath(Vector2 endGlobalPosition){
-        Path = WayfindingGrid2D.Instance.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
+        Path = WayfindingGrid2D.Singleton.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
     }
 
     public void UpdateCurrentPathToTarget(){

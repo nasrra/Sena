@@ -7,7 +7,7 @@ namespace Entropek.Ai;
 
 public partial class WayfindingGrid2D : Node2D{
 
-    public static WayfindingGrid2D Instance {get;private set;}
+    public static WayfindingGrid2D Singleton {get;private set;}
 
     PathCell[,] paths;
 
@@ -66,7 +66,7 @@ public partial class WayfindingGrid2D : Node2D{
             material.Shader = shader;
             tileMap.Material = material;
         }
-        Instance=this;
+        Singleton=this;
         Initialise();
     }
 
@@ -570,6 +570,14 @@ public partial class WayfindingGrid2D : Node2D{
         }
         InitialiseGridClearance(NavigationType.Open);
         InitialiseGridClearance(NavigationType.PassThrough);
+    }
+
+    public bool IsCellNavigationType(int cellIdX, int cellIdY, NavigationType navigationType){
+        return this.navigationType[cellIdX,cellIdY] == navigationType;
+    }
+
+    public bool IsCellNavigationType(Vector2I cellId, NavigationType navigationType){
+        return this.navigationType[cellId.X,cellId.Y] == navigationType;
     }
 
     private bool TileIsInUse(int x, int y, out TileData sharedTileData){

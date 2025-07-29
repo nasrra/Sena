@@ -31,7 +31,7 @@ public partial class WayfindingStaticObstacle2D : Node2D{
 
     private void Remove(){
         if(occupiedTiles.Count>0){
-            WayfindingGrid2D.Instance.Remove(occupiedTiles);
+            WayfindingGrid2D.Singleton.Remove(occupiedTiles);
             GD.Print("remove door");
         }
     }
@@ -45,8 +45,8 @@ public partial class WayfindingStaticObstacle2D : Node2D{
 
         globalAABB = new Rect2(center - extents, rectShape.Size);
 
-        GD.Print(WayfindingGrid2D.Instance);
-        WayfindingGrid2D.Instance.Insert(globalAABB, navigationType, out occupiedTiles);
+        GD.Print(WayfindingGrid2D.Singleton);
+        WayfindingGrid2D.Singleton.Insert(globalAABB, navigationType, out occupiedTiles);
         GD.Print("insert door");
     }
 

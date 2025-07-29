@@ -33,7 +33,7 @@ public partial class Player : CharacterBody2D{
     private const float AttackLungeForce = 100f;
     private const float AttackEnemyKnockback = 100f;
     private const float AttackPlayerKnockback = 80f;
-    private const float DashForce = 400f;
+    private const float DashForce = 450f;
     private PlayerState state = PlayerState.Standby;
 
     ///
@@ -44,7 +44,8 @@ public partial class Player : CharacterBody2D{
     private enum PlayerState : byte{
         Standby,
         Attack,
-        Dashing
+        Dashing,
+        Evaluating
     }
 
 
@@ -90,13 +91,21 @@ public partial class Player : CharacterBody2D{
     /// 
 
 
-    private void EvaluateState(){
-        // check if we are colliding with any pitfall areas.
-        // - enter falling state.
-        if(state == PlayerState.Dashing){
+    private async void EvaluateState(){
+        if (state == PlayerState.Dashing){
             movement.Deceleration = 800f;
+            hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), true);
         }
-        StandbyState();
+
+        state = PlayerState.Evaluating;
+
+        GD.Print("start eval");
+
+        await ToSignal(GetTree(), "physics_frame"); // Wait one full physics frame
+        CheckHurtCollider();
+        await ToSignal(GetTree(), "physics_frame"); // Wait one full physics frame
+        StandbyState(); // You can call this right after if needed
+        GD.Print("end eval");
     }
 
     private void StandbyState(){
@@ -104,11 +113,10 @@ public partial class Player : CharacterBody2D{
         state = PlayerState.Standby;
         statePhysicsProcess = StandbyStatePhysicsProcess;
 
-        hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), true);
     }
 
     private void StandbyStatePhysicsProcess(double delta){
-        lastSafeTile = WayfindingGrid2D.Instance.GlobalToIdPosition(GlobalPosition);
+        CheckPositionSafety();
     }
 
     private void DashState(){
@@ -117,7 +125,7 @@ public partial class Player : CharacterBody2D{
         }
         
         state = PlayerState.Dashing;
-        statePhysicsProcess = null;
+        statePhysicsProcess = DashStatePhysicsProcess;
 
         hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), false);
         movement.ZeroVelocity();
@@ -125,10 +133,14 @@ public partial class Player : CharacterBody2D{
         movement.ZeroDirection(); // <-- here so Deceleration is applied.
         Health.SetInvincible(time:0.4f);
         evaluateStateTimer.Start(timeSec:0.4f); 
-        movement.Deceleration = 975f;
+        movement.Deceleration = 1150f;
         InputManager.Singleton.BlockMovementInput(time: 0.4f);
         InputManager.Singleton.BlockAttackInput(time:0.4f);
         InputManager.Singleton.BlockDashInput(time: 1);
+    }
+
+    private void DashStatePhysicsProcess(double delta){
+        CheckPositionSafety();
     }
 
 
@@ -211,15 +223,21 @@ public partial class Player : CharacterBody2D{
     }
 
     private void CheckHurtCollider(){
-        Godot.Collections.Array<Area2D> areas = hurtBox.GetOverlappingAreas();
-        for(int i = 0; i < areas.Count; i++){
-            HandleHurtBoxCollision(areas[i]);
-        }
+        // Force update
+        var shape = hurtBox.GetNode<CollisionShape2D>("CollisionShape2D");
+        shape.Disabled = true;
+        shape.Disabled = false;
+    }
 
-        Godot.Collections.Array<Node2D> bodies = hurtBox.GetOverlappingBodies();
-        for(int i = 0; i < bodies.Count; i++){
-            HandleHurtBoxCollision(bodies[i]);
+    private void CheckPositionSafety(){
+        Vector2I currentCell = WayfindingGrid2D.Singleton.GlobalToIdPosition(GlobalPosition);
+        if(WayfindingGrid2D.Singleton.IsCellNavigationType(currentCell, NavigationType.Open)){
+            lastSafeTile = currentCell;
         }
+    }
+
+    private void ReturnToLastSafePosition(){
+        GlobalPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(lastSafeTile);
     }
 
     /// 
@@ -339,7 +357,9 @@ public partial class Player : CharacterBody2D{
                 Health.Damage(1);
             break;
             case "Pitfall":
-                GD.Print("Entered Pitfal Area!");
+                Health.Damage(1);
+                ReturnToLastSafePosition();
+                GD.Print("pitfall");
             break;
         }
     }
