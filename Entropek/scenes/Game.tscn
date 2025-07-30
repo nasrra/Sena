@@ -16,7 +16,7 @@ world2D = NodePath("../World2D")
 gui = NodePath("../GUI")
 loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene2DStart = "Level1"
+scene2DStart = "Level0"
 guiStart = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]

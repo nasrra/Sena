@@ -226,6 +226,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		stunTimer.Timeout += EvaluateState;
 		ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
 
+		animator.FrameChanged += FrameEvents;
+
 		EntityManager.Singleton.OnProcess += Process;
 		EntityManager.Singleton.OnPhysicsProcess += PhysicsProcess;
 		EntityManager.Singleton.OnPause += PauseState;
@@ -244,6 +246,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 		stunTimer.Timeout -= EvaluateState;
 		ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
+
+		animator.FrameChanged -= FrameEvents;
 
 		EntityManager.Singleton.OnProcess -= Process;
 		EntityManager.Singleton.OnPhysicsProcess -= PhysicsProcess;
@@ -341,6 +345,25 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	public void Kill(){
 		EnemyManager.Instance.RemoveEnemy(this);
 		QueueFree();
+	}
+
+	private void FrameEvents(){
+		switch(animator.Animation){
+			case "RunBackward":
+			case "RunForward":
+			case "RunSide":
+				RunAnimationFrameEvent(animator.Frame);
+			break;
+		}
+	}
+
+	private void RunAnimationFrameEvent(int frame){
+		switch(frame){
+			case 2:
+			case 6:
+				AudioManager.Singleton.PlayOneShot("StoneFootstep", GlobalPosition);
+			break;
+		}
 	}
 
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMOD;
 using Godot;
 
 public partial class AudioManager : Node{
@@ -28,14 +29,14 @@ public partial class AudioManager : Node{
     /// </summary>
     private Dictionary<string, FMOD.Studio.Bus> _busHandles = new Dictionary<string, FMOD.Studio.Bus>(); 
 
-    public static AudioManager Instance {get;private set;}
+    public static AudioManager Singleton {get;private set;}
 
     /// <summary>
     /// Creates a new AudioManager instance.
     /// </summary>
     /// <param name="fileDirectory">The file directory path, relative to the executable, where all audio files are located.</param>
-    public override void _Ready(){
-        base._Ready();
+    public override void _EnterTree(){
+        base._EnterTree();
 
         // load Masters.
 
@@ -63,9 +64,8 @@ public partial class AudioManager : Node{
         LoadBank("Master.strings");
         LoadBusHandle("Master");
         SetBusVolume("Master", 1.0f);
-        LoadBank("Bank B");
 
-        Instance = this;
+        Singleton = this;
     }
 
 
@@ -144,6 +144,7 @@ public partial class AudioManager : Node{
         foreach(FMOD.Studio.EventDescription e in events){
             e.getPath(out string path);
             path = System.IO.Path.GetFileNameWithoutExtension(path);
+            GD.Print(path);
             _loadedEvents.Add(path, e);
         }
     }
@@ -230,6 +231,34 @@ public partial class AudioManager : Node{
     }
 
     /// <summary>
+    /// Plays a one-shot instance of a sound.
+    /// </summary>
+    /// <param name="eventName"></param>
+    /// <param name="globalPosition"></param>
+    public void PlayOneShot(string eventName, Vector2 globalPosition){
+        
+        FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
+        desc.createInstance(out FMOD.Studio.EventInstance inst);
+
+        ATTRIBUTES_3D attributes = new ATTRIBUTES_3D{
+            position = GodotToFmodPosition(globalPosition),
+            velocity = new FMOD.VECTOR { x = 0, y = 0, z = 0 },
+            forward = new FMOD.VECTOR { x = 0, y = 0, z = 1 },
+            up = new FMOD.VECTOR { x = 0, y = 1, z = 0 }
+        };
+        inst.set3DAttributes(attributes);
+
+        inst.start();
+        inst.release(); // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
+
+        StudioSystem.update();
+    }
+
+    public bool IsBankLoaded(string bankName){
+        return _loadedBanks.ContainsKey(bankName);
+    }
+
+    /// <summary>
     /// Gets the full absolute path to a bank file within the Godot project.
     /// </summary>
     /// <param name="bankName">The specified name of the bank to get the path to.</param>
@@ -242,4 +271,29 @@ public partial class AudioManager : Node{
         GD.Print($"Bank path: {absolutePath}");
         return absolutePath;
     }
+
+    private VECTOR GodotToFmodPosition(Vector2 globalPosition){
+        return new VECTOR{
+            x = globalPosition.X,
+            y = 0,
+            z = -globalPosition.Y
+        };
+    }
+
+
+public void SetListenerPosition(Vector2 globalPosition){
+    ATTRIBUTES_3D listenerAttributes = new ATTRIBUTES_3D{
+        position = GodotToFmodPosition(globalPosition),
+        velocity = new VECTOR { x = 0, y = 0, z = 0 },
+        forward  = new VECTOR { x = 0, y = 0, z = 1 },
+        up       = new VECTOR { x = 0, y = 1, z = 0 }
+    };
+
+    // Assuming you have a valid FMOD.Studio.System instance called studioSystem
+    RESULT result = StudioSystem.setListenerAttributes(0, listenerAttributes);
+    if (result != RESULT.OK){
+        GD.PrintErr($"Failed to set listener attributes: {result}");
+    }
+    StudioSystem.update();
+}
 }

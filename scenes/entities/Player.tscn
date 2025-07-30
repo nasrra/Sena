@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=20 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
+[ext_resource type="Script" uid="uid://bs1smpepd2hqc" path="res://Entropek/source/globals/fmod/AudioListener2D.cs" id="14_rfitb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(8, 10)
@@ -184,3 +185,6 @@ one_shot = true
 
 [node name="EvaluateStateTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioListener2D" type="Node2D" parent="."]
+script = ExtResource("14_rfitb")

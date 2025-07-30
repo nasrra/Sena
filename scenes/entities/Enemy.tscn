@@ -40,9 +40,7 @@ y_sort_enabled = true
 material = ExtResource("2_m80fk")
 scale = Vector2(0.125, 0.125)
 sprite_frames = ExtResource("3_m80fk")
-animation = &"AttackSide"
-frame = 2
-frame_progress = 0.593657
+animation = &"RunSide"
 offset = Vector2(0, -45)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

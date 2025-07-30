@@ -313,6 +313,8 @@ public partial class Player : CharacterBody2D{
 		movement.ZeroVelocity();
 		movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
 
+		AudioManager.Singleton.PlayOneShot("PlayerAttack");
+
 		InputManager.Singleton.BlockMovementInput(time: 0.2f);
 		InputManager.Singleton.BlockAttackInput(time: 0.2f);
 	}

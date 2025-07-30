@@ -19,9 +19,8 @@ tile_map_data = PackedByteArray("AAD//x8AAAABAAAAAAAAAAAAAQAAAAAAAAAAAAEAAQAAAAA
 [node name="DoorManager" parent="." index="1" node_paths=PackedStringArray("doors")]
 doors = [NodePath("../TestlevelSwapDoorDown"), NodePath("../TestlevelSwapDoorLeft"), NodePath("../TestlevelSwapDoorRight"), NodePath("../TestlevelSwapDoorUp")]
 
-[node name="Player" parent="EntityManager" index="1" node_paths=PackedStringArray("camera") instance=ExtResource("2_wnydg")]
-position = Vector2(256, 108)
-camera = NodePath("../../Camera")
+[node name="AudioBankLoader" parent="." index="3"]
+bankName = "Test"
 
 [node name="Walls" type="StaticBody2D" parent="." index="4"]
 collision_layer = 2
@@ -84,8 +83,12 @@ position = Vector2(256, 16)
 levelToLoad = "Level1"
 Opened = true
 
-[node name="Camera" parent="." index="10" node_paths=PackedStringArray("Target")]
-Target = NodePath("../EntityManager/Player")
+[node name="Player" parent="EntityManager" index="1" node_paths=PackedStringArray("camera") instance=ExtResource("2_wnydg")]
+position = Vector2(256, 108)
+camera = NodePath("../../Camera")
 
 [node name="TimedEnemySpawner" parent="." index="11" instance=ExtResource("8_bbvxl")]
 position = Vector2(184, 136)
+
+[node name="Camera" parent="." index="12" node_paths=PackedStringArray("Target")]
+Target = NodePath("../EntityManager/Player")
