@@ -7,12 +7,12 @@ public partial class Firepit : Node{
 	[Export] private Texture2D litSprite;
 	[Export] private Texture2D unlitSprite;
 	[Export] private Sprite2D sprite;
-	[Export] private EmberLock emberLock;
+	[Export] private EmberHolder embers;
 
 	public override void _EnterTree(){
 		base._EnterTree();
 		LinkEvents();
-		if(emberLock.locked == false){
+		if(embers.IsLit == true){
 			LitState();
 		}
 		else{
@@ -26,14 +26,16 @@ public partial class Firepit : Node{
 	}
 
 	private void Interacted(Interactor interactor){
-		EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
-		if(embers != null){
-			if(embers.EmptyNotches > 0 && emberLock.locked == false){
-				embers.Add(EmberStorage.NotchMaxEmberValue);
+		EmberStorage interactorEmbers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
+		GD.Print(embers.IsLit );
+		if(interactorEmbers != null){
+			if(interactorEmbers.EmptyNotches > 0 && embers.IsLit == true){
+				embers.UnlitState(out int giveEmberValue);
+				interactorEmbers.Add(giveEmberValue);
 				UnlitState();
 			}
-			else if(embers.NotchAmount > 0 && emberLock.locked == true){
-				embers.Remove(EmberStorage.NotchMaxEmberValue);
+			else if(interactorEmbers.NotchAmount > 0 && embers.IsLit  == false){
+				interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
 				LitState();
 			}
 		}
@@ -41,23 +43,21 @@ public partial class Firepit : Node{
 
 	private void LitState(){
 		sprite.Texture = litSprite;
-		emberLock.locked = false;
 	}
 
 	private void UnlitState(){
 		sprite.Texture = unlitSprite;
-		emberLock.locked = true;
 	}
 
 	private void LinkEvents(){
 		interactable.OnInteract += Interacted;
-		emberLock.OnUnlock      += LitState;
-		emberLock.OnLock        += UnlitState;
+		embers.OnLit      		+= LitState;
+		embers.OnUnlit        	+= UnlitState;
 	}
 
 	private void UnlinkEvents(){
 		interactable.OnInteract -= Interacted;
-		emberLock.OnUnlock      -= LitState;
-		emberLock.OnLock        -= UnlitState;
+		embers.OnLit      		-= LitState;
+		embers.OnUnlit        	-= UnlitState;
 	}
 }

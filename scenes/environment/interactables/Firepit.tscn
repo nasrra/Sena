@@ -1,19 +1,19 @@
 [gd_scene load_steps=7 format=3 uid="uid://dl4kccjhbcmux"]
 
-[ext_resource type="Script" uid="uid://cdynmk3lqx27l" path="res://Source/nodes/interactables/Firepit.cs" id="1_w14fp"]
+[ext_resource type="Script" uid="uid://cdynmk3lqx27l" path="res://source/nodes/interactables/Firepit.cs" id="1_w14fp"]
 [ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="2_xhpog"]
 [ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="3_gd46t"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_6ahcc"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_h4qwx"]
-[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://Source/nodes/door/EmberLock.cs" id="6_37krm"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/nodes/door/EmberHolder.cs" id="6_37krm"]
 
-[node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite", "emberLock")]
+[node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite", "embers")]
 script = ExtResource("1_w14fp")
 interactable = NodePath("Interactable")
 litSprite = ExtResource("2_xhpog")
 unlitSprite = ExtResource("3_gd46t")
 sprite = NodePath("Sprite2D")
-emberLock = NodePath("EmberLock")
+embers = NodePath("EmberHolder")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
@@ -30,6 +30,5 @@ offset_top = -16.0
 offset_bottom = -3.91667
 text = ""
 
-[node name="EmberLock" type="Node" parent="."]
+[node name="EmberHolder" type="Node" parent="."]
 script = ExtResource("6_37krm")
-locked = true

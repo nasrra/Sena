@@ -5,6 +5,7 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
     [ExportGroup("BrazierLevelSwapDoor")]
     [Export] private Interactable hitInteractable;
     [Export] private Interactable interactable;
+    [Export] private EmberHolder embers;
 
 
     /// 
@@ -35,9 +36,10 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
     }
 
     private void Interacted(Interactor interactor){
-        EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
-        if(embers != null){
-            Unlock(embers);
+        EmberStorage interactorEmbers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
+        if(interactorEmbers != null){
+            interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
+            embers.LitState();
         }
         else{
             Unlock();
@@ -53,20 +55,6 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
         sprite.Texture = closedSprite;
         base.Close();
     }
-
-
-    /// <summary>
-    /// Unlocks the door via removing embers from an ember storage.
-    /// </summary>
-    /// <param name="emberStorage"></param>
-
-    public void Unlock(EmberStorage emberStorage){
-        if(Locked == true && emberStorage.NotchAmount >= 1){
-            emberStorage.Remove(EmberStorage.NotchMaxEmberValue);
-            Unlock();
-        }
-    }
-
     
     /// 
     /// Linkage.
@@ -74,13 +62,21 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
 
     
     private void LinkEvents(){
-        interactable.OnInteract += Interacted; 
-        hitInteractable.OnInteract += HitInteracted;
+        interactable.OnInteract     += Interacted; 
+        hitInteractable.OnInteract  += HitInteracted;
+        embers.OnLit                += Unlock;
+        embers.OnLit                += interactable.DisableInteraction;
+        embers.OnUnlit              += Lock;
+        embers.OnUnlit              += interactable.EnableInteraction;
     }
 
     private void UnlinkEvents(){
-        interactable.OnInteract -= Interacted;
-        hitInteractable.OnInteract -= HitInteracted;
+        interactable.OnInteract     -= Interacted;
+        hitInteractable.OnInteract  -= HitInteracted;
+        embers.OnLit                -= Unlock;
+        embers.OnLit                -= interactable.DisableInteraction;
+        embers.OnUnlit              -= Lock;
+        embers.OnUnlit              -= interactable.EnableInteraction;
     }
 
 }

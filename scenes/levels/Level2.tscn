@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cxklw5os88and" path="res://scenes/doors/TestLevelSwapDoor/TestLevelSwapDoorUp.tscn" id="6_bs2pm"]
 [ext_resource type="PackedScene" uid="uid://dsnsfb48dls5n" path="res://scenes/environment/Pitfall.tscn" id="7_twycr"]
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/Enemy.tscn" id="10_dpm1s"]
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://Source/shaders/HitFlash.gdshader" id="11_mcssb"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="11_mcssb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xh834"]
 size = Vector2(8, 8)

@@ -9,8 +9,7 @@ public partial class FireFeather : Projectile{
 				HandleOnHitEnemy(node as Enemy);
 			break;
 			case "Interactable":
-			case "HitInteractable":
-				node.GetParent().GetNode<EmberLock>(EmberLock.NodeName).Unlock();
+				node.GetParent().GetNode<EmberHolder>(EmberHolder.NodeName).LitState();
 			break;
 		}
 

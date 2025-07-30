@@ -18,9 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 DebugDraw2D="*res://addons/debugdraw2d/DebugDraw2D.gd"
-PhysicsManager="*res://Entropek/Source/globals/PhysicsManager.cs"
-SceneManager="*res://Entropek/Source/globals/SceneManager.cs"
-AudioManager="*res://Entropek/Source/globals/fmod/AudioManager.cs"
+PhysicsManager="*res://Entropek/source/globals/PhysicsManager.cs"
+AudioManager="*res://Entropek/source/globals/fmod/AudioManager.cs"
+SceneManager="*res://Entropek/source/globals/SceneManager.cs"
 
 [copy_files_on_export]
 

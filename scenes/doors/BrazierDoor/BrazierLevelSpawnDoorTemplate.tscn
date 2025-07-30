@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://543qv6luqatf"]
+[gd_scene load_steps=9 format=3 uid="uid://543qv6luqatf"]
 
 [ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/nodes/door/BrazierLevelSwapDoor.cs" id="1_r0bip"]
 [ext_resource type="Texture2D" uid="uid://d1pwdo2evg11s" path="res://assets/test/DoorOpen.png" id="2_bcd7d"]
 [ext_resource type="Texture2D" uid="uid://q3tn4k1itx50" path="res://assets/test/DoorClosed.png" id="3_dvdcg"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_allfw"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_bcd7d"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/nodes/door/EmberHolder.cs" id="6_dvdcg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_02wmg"]
 size = Vector2(8, 8)
@@ -11,10 +13,11 @@ size = Vector2(8, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ybpd"]
 size = Vector2(8, 8)
 
-[node name="BrazierLevelSpawnDoorTemplate" type="Node2D" node_paths=PackedStringArray("hitInteractable", "interactable", "enterZone", "ExitPoint", "collider", "sprite")]
+[node name="BrazierLevelSpawnDoorTemplate" type="Node2D" node_paths=PackedStringArray("hitInteractable", "interactable", "embers", "enterZone", "ExitPoint", "collider", "sprite")]
 script = ExtResource("1_r0bip")
 hitInteractable = NodePath("HitInteractable/Interactable")
 interactable = NodePath("Interactable")
+embers = NodePath("EmberHolder")
 enterZone = NodePath("Container/EnterZone")
 ExitPoint = NodePath("Container/ExitPoint")
 collider = NodePath("Container/StaticBody2D")
@@ -47,8 +50,9 @@ shape = SubResource("RectangleShape2D_5ybpd")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Interactable" parent="." instance=ExtResource("4_allfw")]
+[node name="Interactable" parent="." node_paths=PackedStringArray("InteractIcon") instance=ExtResource("4_allfw")]
 scale = Vector2(12, 16)
+InteractIcon = NodePath("../InputActionLabel")
 
 [node name="HitInteractable" type="Node2D" parent="."]
 
@@ -56,3 +60,14 @@ scale = Vector2(12, 16)
 scale = Vector2(13, 17)
 collision_layer = 4
 collision_mask = 4
+
+[node name="InputActionLabel" parent="." instance=ExtResource("5_bcd7d")]
+visible = false
+offset_left = -5.0
+offset_top = -20.0
+offset_right = 3.0
+offset_bottom = -7.91667
+text = ""
+
+[node name="EmberHolder" type="Node" parent="."]
+script = ExtResource("6_dvdcg")

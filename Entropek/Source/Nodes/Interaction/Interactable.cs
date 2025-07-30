@@ -34,4 +34,12 @@ public partial class Interactable : Area2D{
             InteractIcon.Visible = false;
         }
     }
+
+    public void EnableInteraction(){
+        IsInteractable = true;
+    }
+
+    public void DisableInteraction(){
+        IsInteractable = false;
+    }
 }
