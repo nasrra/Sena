@@ -10,8 +10,7 @@ public partial class FireFeather : Projectile{
 			break;
 			case "Interactable":
 			case "HitInteractable":
-				EmberStorage embers = node.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
-				embers.Add(EmberStorage.NotchMaxEmberValue);
+				node.GetParent().GetNode<EmberLock>(EmberLock.NodeName).Unlock();
 			break;
 		}
 

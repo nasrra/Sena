@@ -5,15 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="3_gd46t"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_6ahcc"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_h4qwx"]
-[ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://Source/nodes/EmberStorage.cs" id="6_37krm"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://Source/nodes/door/EmberLock.cs" id="6_37krm"]
 
-[node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite", "emberStorage")]
+[node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite", "emberLock")]
 script = ExtResource("1_w14fp")
 interactable = NodePath("Interactable")
 litSprite = ExtResource("2_xhpog")
 unlitSprite = ExtResource("3_gd46t")
 sprite = NodePath("Sprite2D")
-emberStorage = NodePath("EmberStorage")
+emberLock = NodePath("EmberLock")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.1)
@@ -30,6 +30,6 @@ offset_top = -16.0
 offset_bottom = -3.91667
 text = ""
 
-[node name="EmberStorage" type="Node" parent="."]
+[node name="EmberLock" type="Node" parent="."]
 script = ExtResource("6_37krm")
-MaxNotchAmount = 1
+locked = true
