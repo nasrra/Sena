@@ -17,10 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AudioManager="*res://Entropek/source/globals/fmod/AudioManager.cs"
 DebugDraw2D="*res://addons/debugdraw2d/DebugDraw2D.gd"
-SceneManager="*res://Entropek/source/globals/SceneManager.cs"
-PhysicsManager="*res://Entropek/source/globals/PhysicsManager.cs"
+PhysicsManager="*res://Entropek/Source/globals/PhysicsManager.cs"
+SceneManager="*res://Entropek/Source/globals/SceneManager.cs"
+AudioManager="*res://Entropek/Source/globals/fmod/AudioManager.cs"
 
 [copy_files_on_export]
 

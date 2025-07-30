@@ -3,110 +3,110 @@ using System;
 using System.Collections.Generic;
 
 public partial class Projectile : CharacterBody2D{
-    [ExportGroup(nameof(Projectile))]
-    [Export] public CharacterMovement Movement {get; private set;}
-    [Export] private Sprite2D sprite;
-    [Export] private Area2D collider;
-    [Export] private float knockback;     
-    [Export] private int damage;
+	[ExportGroup(nameof(Projectile))]
+	[Export] public CharacterMovement Movement {get; private set;}
+	[Export] private Sprite2D sprite;
+	[Export] private Area2D collider;
+	[Export] private float knockback;     
+	[Export] private int damage;
 
 
-    /// 
-    /// Base.
-    /// 
+	/// 
+	/// Base.
+	/// 
 
-    public override void _EnterTree(){
-        base._EnterTree();
-        ProjectileManager.Instance.AddProjectile(this);
-        LinkEvents();
-    }
+	public override void _EnterTree(){
+		base._EnterTree();
+		ProjectileManager.Instance.AddProjectile(this);
+		LinkEvents();
+	}
 
-    public override void _Ready(){
-        base._Ready();
-        RotateToMoveDirection();
-    }
-
-
-    public override void _ExitTree(){
-        base._ExitTree();
-        ProjectileManager.Instance.RemoveProjectile(this);
-        UnlinkEvents();
-    }
+	public override void _Ready(){
+		base._Ready();
+		RotateToMoveDirection();
+	}
 
 
-    ///
-    /// Functions.
-    /// 
+	public override void _ExitTree(){
+		base._ExitTree();
+		ProjectileManager.Instance.RemoveProjectile(this);
+		UnlinkEvents();
+	}
 
 
-    protected void RotateToMoveDirection(){
-        float angle = Movement.GetMoveAngleRadians();
-        GlobalRotation = angle;
-        GD.Print($"{GlobalRotation} {angle}");
-    } 
+	///
+	/// Functions.
+	/// 
 
 
-    /// 
-    /// Linkage.
-    /// 
+	protected void RotateToMoveDirection(){
+		float angle = Movement.GetMoveAngleRadians();
+		GlobalRotation = angle;
+		GD.Print($"{GlobalRotation} {angle}");
+	} 
 
 
-    protected virtual void LinkEvents(){
-        
-        EntityManager.Singleton.OnPause  += HandlePause;
-        EntityManager.Singleton.OnResume += HandleResume;
-        
-        Movement.OnMoveDirectionUpdated += RotateToMoveDirection;
+	/// 
+	/// Linkage.
+	/// 
 
-        collider.BodyEntered += OnCollision;
-        collider.AreaEntered += OnCollision;
-    }
 
-    protected virtual void UnlinkEvents(){
-        
-        EntityManager.Singleton.OnPause  -= HandlePause;
-        EntityManager.Singleton.OnResume -= HandleResume;
+	protected virtual void LinkEvents(){
+		
+		EntityManager.Singleton.OnPause  += HandlePause;
+		EntityManager.Singleton.OnResume += HandleResume;
+		
+		Movement.OnMoveDirectionUpdated += RotateToMoveDirection;
 
-        Movement.OnMoveDirectionUpdated -= RotateToMoveDirection;
+		collider.BodyEntered += OnCollision;
+		collider.AreaEntered += OnCollision;
+	}
 
-        collider.BodyEntered -= OnCollision;
-        collider.AreaEntered -= OnCollision;
-    }
+	protected virtual void UnlinkEvents(){
+		
+		EntityManager.Singleton.OnPause  -= HandlePause;
+		EntityManager.Singleton.OnResume -= HandleResume;
 
-    ///
-    /// Linkage Functions.
-    /// 
+		Movement.OnMoveDirectionUpdated -= RotateToMoveDirection;
 
-    private void HandlePause(){
-        Movement.PauseState();
-    }
+		collider.BodyEntered -= OnCollision;
+		collider.AreaEntered -= OnCollision;
+	}
 
-    private void HandleResume(){
-        Movement.ResumeState();
-    }
+	///
+	/// Linkage Functions.
+	/// 
 
-    private void OnCollision(Node2D node){
-        string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-        switch (layer){
-            case "Enemy":
-                HandleOnHitEnemy(node as Enemy);
-            break;
-        }
+	private void HandlePause(){
+		Movement.PauseState();
+	}
 
-        QueueFree();
-    }
+	private void HandleResume(){
+		Movement.ResumeState();
+	}
 
-    private void HandleOnHitEnemy(Enemy enemy){
-        Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-        
-        float stunTime = 0.33f;
-        enemy.StunState(stunTime);
-        enemy.IgnoreEnemyCollisionMask(stunTime);
-        
-        enemy.GetNode<Health>(Health.NodeName).Damage(damage);
-        
-        CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-        enemyMovement.ZeroVelocity();
-        enemyMovement.Impulse(directionToHit * knockback);
-    } 
+	protected virtual void OnCollision(Node2D node){
+		string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
+		switch (layer){
+			case "Enemy":
+				HandleOnHitEnemy(node as Enemy);
+			break;
+		}
+
+		QueueFree();
+	}
+
+	protected virtual void HandleOnHitEnemy(Enemy enemy){
+		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+		
+		float stunTime = 0.33f;
+		enemy.StunState(stunTime);
+		enemy.IgnoreEnemyCollisionMask(stunTime);
+		
+		enemy.GetNode<Health>(Health.NodeName).Damage(damage);
+		
+		CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+		enemyMovement.ZeroVelocity();
+		enemyMovement.Impulse(directionToHit * knockback);
+	} 
 }

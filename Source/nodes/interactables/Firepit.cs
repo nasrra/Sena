@@ -7,17 +7,16 @@ public partial class Firepit : Node{
     [Export] private Texture2D litSprite;
     [Export] private Texture2D unlitSprite;
     [Export] private Sprite2D sprite;
-    [Export] private bool ContainsEmbers = false;
+    [Export] private EmberStorage emberStorage;
 
     public override void _EnterTree(){
         base._EnterTree();
         LinkEvents();
-
-        if(ContainsEmbers == false){
-            UnlitState();
+        if(emberStorage.NotchAmount >= 1){
+            LitState();
         }
         else{
-            LitState();
+            UnlitState();
         }
     }
 
@@ -29,11 +28,11 @@ public partial class Firepit : Node{
     private void Interacted(Interactor interactor){
         EmberStorage embers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
         if(embers != null){
-            if(embers.EmptyNotches > 0 && ContainsEmbers == true){
+            if(embers.EmptyNotches > 0 && emberStorage.NotchAmount >= 1){
                 embers.Add(EmberStorage.NotchMaxEmberValue);
                 UnlitState();
             }
-            else if(embers.NotchAmount > 0 && ContainsEmbers == false){
+            else if(embers.NotchAmount > 0 && emberStorage.NotchAmount >= 1){
                 embers.Remove(EmberStorage.NotchMaxEmberValue);
                 LitState();
             }
@@ -41,20 +40,29 @@ public partial class Firepit : Node{
     }
 
     private void LitState(){
-        ContainsEmbers = true;
         sprite.Texture = litSprite;
     }
 
     private void UnlitState(){
-        ContainsEmbers = false;
         sprite.Texture = unlitSprite;
     }
 
+    private void HandleOnNotchesUpdated(int notchAmount, int remainderEmbers){
+        if(notchAmount >= 1){
+            LitState();
+        }
+        else{
+            UnlitState();
+        }
+    }
+
     private void LinkEvents(){
-        interactable.OnInteract += Interacted; 
+        interactable.OnInteract += Interacted;
+        emberStorage.OnNotchesUpdated +=  HandleOnNotchesUpdated;
     }
 
     private void UnlinkEvents(){
         interactable.OnInteract -= Interacted;
+        emberStorage.OnNotchesUpdated -= HandleOnNotchesUpdated;
     }
 }

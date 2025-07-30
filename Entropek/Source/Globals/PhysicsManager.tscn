@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://u0y4f6ahck0"]
+
+[ext_resource type="Script" uid="uid://1u0ps2odesw5" path="res://Entropek/Source/globals/PhysicsManager.cs" id="1_ascod"]
+
+[node name="PhysicsManager" type="Node2D"]
+script = ExtResource("1_ascod")

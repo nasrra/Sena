@@ -4,65 +4,65 @@ using System.Collections.Generic;
 using System.Linq;
 
 public partial class PhysicsManager : Node{
-    private string[] LayerNames2D;
-    private Dictionary<string, int> NameToLayerIDMap = new Dictionary<string, int>();  
-    public Vector3 GravityDirection {get;private set;}
-    public float Gravity {get;private set;}
-    public static PhysicsManager Singleton {get;private set;}
+	private string[] LayerNames2D;
+	private Dictionary<string, int> NameToLayerIDMap = new Dictionary<string, int>();  
+	public Vector3 GravityDirection {get;private set;}
+	public float Gravity {get;private set;}
+	public static PhysicsManager Singleton {get;private set;}
 
 
-    public override void _EnterTree(){
-        base._EnterTree();
-        Singleton = this;
-        Gravity = (float)ProjectSettings.GetSetting("physics/2d/default_gravity");
-        GravityDirection = (Vector3)ProjectSettings.GetSetting("physics/2d/default_gravity_vector");
-        SetLayerNames();
-    }
+	public override void _EnterTree(){
+		base._EnterTree();
+		Singleton = this;
+		Gravity = (float)ProjectSettings.GetSetting("physics/2d/default_gravity");
+		GravityDirection = (Vector3)ProjectSettings.GetSetting("physics/2d/default_gravity_vector");
+		SetLayerNames();
+	}
 
-    private void SetLayerNames(){
-        LayerNames2D = new string[32];
-        for(int i = 0; i < 32; ++i){
-            string key = $"layer_names/2d_physics/layer_{i}";
-            if(ProjectSettings.HasSetting(key)){
-                string layerName = (string)ProjectSettings.GetSetting(key);
-                if(layerName!=""){
-                    LayerNames2D[i] = layerName;
-                    NameToLayerIDMap.Add(layerName, i);
-                }
-            }
-        }
-    }
+	private void SetLayerNames(){
+		LayerNames2D = new string[32];
+		for(int i = 0; i < 32; ++i){
+			string key = $"layer_names/2d_physics/layer_{i}";
+			if(ProjectSettings.HasSetting(key)){
+				string layerName = (string)ProjectSettings.GetSetting(key);
+				if(layerName!=""){
+					LayerNames2D[i] = layerName;
+					NameToLayerIDMap.Add(layerName, i);
+				}
+			}
+		}
+	}
 
-    public string GetPhysics2DLayerName(uint collisionObjectLayerBit){        
-        // convert the nodes layer bitmask to layer index. 
-        
-        int layerIndex = System.Numerics.BitOperations.TrailingZeroCount(collisionObjectLayerBit) + 1;
-        
-        // GD.Print($"bitmask[{collisionObjectLayer}] index[{layerIndex}]");
-        
-        if(LayerNames2D.Length < layerIndex){
-            throw new Exception($"{collisionObjectLayerBit} is not a valid Physics2D bit layer.");
-        }
+	public string GetPhysics2DLayerName(uint collisionObjectLayerBit){        
+		// convert the nodes layer bitmask to layer index. 
+		
+		int layerIndex = System.Numerics.BitOperations.TrailingZeroCount(collisionObjectLayerBit) + 1;
+		
+		// GD.Print($"bitmask[{collisionObjectLayer}] index[{layerIndex}]");
+		
+		if(LayerNames2D.Length < layerIndex){
+			throw new Exception($"{collisionObjectLayerBit} is not a valid Physics2D bit layer.");
+		}
 
-        return LayerNames2D[layerIndex];
-    }
+		return LayerNames2D[layerIndex];
+	}
 
-    public int GetPhysics2DLayerId(string layerName){
-        if(NameToLayerIDMap.ContainsKey(layerName)){
-            return NameToLayerIDMap[layerName];;
-        }
+	public int GetPhysics2DLayerId(string layerName){
+		if(NameToLayerIDMap.ContainsKey(layerName)){
+			return NameToLayerIDMap[layerName];;
+		}
 
-        throw new Exception($"{layerName} is not a Physics2D layer.");
-    }
+		throw new Exception($"{layerName} is not a Physics2D layer.");
+	}
 
-    public void SetGravity(float gravity){
-        ProjectSettings.SetSetting("physics/2d/default_gravity",gravity);
-        Gravity = gravity;
-    }
+	public void SetGravity(float gravity){
+		ProjectSettings.SetSetting("physics/2d/default_gravity",gravity);
+		Gravity = gravity;
+	}
 
-    public void SetGravityDirection(Vector3 direction){
-        ProjectSettings.SetSetting("physics/2d/default_gravity_vector", direction);
-        GravityDirection = direction;
-    }
+	public void SetGravityDirection(Vector3 direction){
+		ProjectSettings.SetSetting("physics/2d/default_gravity_vector", direction);
+		GravityDirection = direction;
+	}
 
 }

@@ -14,7 +14,7 @@ public partial class EmberStorage : Node{
     public int NotchAmount                  {get; private set;} = 0; 
     public int EmptyNotches                 => MaxNotchAmount - NotchAmount;
     public int MaxEmberValue                {get; private set;} = 0; 
-    public int EmberValue                   {get; private set;} = 0; 
+    [Export] public int EmberValue          {get; private set;} = 0; 
     public int RemainderNotchEmberValue     {get; private set;} = 0; 
     public event Action OnAdd; 
     public event Action OnRemove;
