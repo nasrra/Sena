@@ -330,7 +330,8 @@ public partial class Player : CharacterBody2D{
 
 	private void HandleShootInput(){
 		if(EmberStorage.NotchAmount >= 1){
-			projectileSpawner.Fire((aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized());
+			Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
+			projectileSpawner.Fire(shootDirection, 10);
 			EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
 		}
 	}

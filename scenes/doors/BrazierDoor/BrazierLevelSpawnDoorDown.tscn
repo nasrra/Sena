@@ -4,5 +4,5 @@
 
 [node name="BrazierLevelSpawnDoorDown" instance=ExtResource("1_dddh4")]
 
-[node name="Container" parent="." index="1"]
+[node name="Container" parent="." index="3"]
 rotation = 3.14159

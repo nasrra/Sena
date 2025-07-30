@@ -41,5 +41,6 @@ public partial class Interactable : Area2D{
 
     public void DisableInteraction(){
         IsInteractable = false;
+        DisableInteractableIcon();
     }
 }

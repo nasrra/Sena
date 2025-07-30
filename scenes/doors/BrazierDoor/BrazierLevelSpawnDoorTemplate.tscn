@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://543qv6luqatf"]
+[gd_scene load_steps=11 format=3 uid="uid://543qv6luqatf"]
 
 [ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/nodes/door/BrazierLevelSwapDoor.cs" id="1_r0bip"]
 [ext_resource type="Texture2D" uid="uid://d1pwdo2evg11s" path="res://assets/test/DoorOpen.png" id="2_bcd7d"]
+[ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="2_sxa3i"]
 [ext_resource type="Texture2D" uid="uid://q3tn4k1itx50" path="res://assets/test/DoorClosed.png" id="3_dvdcg"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_allfw"]
+[ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="4_sxa3i"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_bcd7d"]
 [ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/nodes/door/EmberHolder.cs" id="6_dvdcg"]
 
@@ -13,22 +15,36 @@ size = Vector2(8, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ybpd"]
 size = Vector2(8, 8)
 
-[node name="BrazierLevelSpawnDoorTemplate" type="Node2D" node_paths=PackedStringArray("hitInteractable", "interactable", "embers", "enterZone", "ExitPoint", "collider", "sprite")]
+[node name="BrazierLevelSpawnDoorTemplate" type="Node2D" node_paths=PackedStringArray("hitInteractable", "interactable", "embers", "fireRight", "fireLeft", "enterZone", "ExitPoint", "collider", "sprite")]
 script = ExtResource("1_r0bip")
 hitInteractable = NodePath("HitInteractable/Interactable")
 interactable = NodePath("Interactable")
 embers = NodePath("EmberHolder")
+litFire = ExtResource("2_sxa3i")
+unlitFire = ExtResource("4_sxa3i")
+fireRight = NodePath("EmberSpriteRight")
+fireLeft = NodePath("EmberSpriteLeft")
 enterZone = NodePath("Container/EnterZone")
 ExitPoint = NodePath("Container/ExitPoint")
 collider = NodePath("Container/StaticBody2D")
-sprite = NodePath("Sprite2D")
+sprite = NodePath("MainSprite")
 openedSprite = ExtResource("2_bcd7d")
 closedSprite = ExtResource("3_dvdcg")
 Opened = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="MainSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.03, 0.03)
 texture = ExtResource("2_bcd7d")
+
+[node name="EmberSpriteLeft" type="Sprite2D" parent="."]
+position = Vector2(-7, 2)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_sxa3i")
+
+[node name="EmberSpriteRight" type="Sprite2D" parent="."]
+position = Vector2(7, 2)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_sxa3i")
 
 [node name="Container" type="Node2D" parent="."]
 

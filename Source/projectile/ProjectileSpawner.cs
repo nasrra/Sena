@@ -4,6 +4,13 @@ using System;
 public partial class ProjectileSpawner : Node2D{
     [Export] private PackedScene projectilePackedScene;
 
+    public void Fire(Vector2 direction, float spawnOffset){
+        Projectile projectile = (Projectile)projectilePackedScene.Instantiate();
+        projectile.GlobalPosition = GlobalPosition + (direction * spawnOffset);
+        projectile.Movement.Move(direction);
+        ProjectileManager.Instance.AddChild(projectile);
+    }
+
     public void Fire(Vector2 direction){
         Projectile projectile = (Projectile)projectilePackedScene.Instantiate();
         projectile.GlobalPosition = GlobalPosition;

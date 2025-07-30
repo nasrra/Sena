@@ -40,7 +40,7 @@ hurtBox = NodePath("HurtBox")
 animator = NodePath("AnimatedSprite2D")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
-projectileSpawner = NodePath("PlayerAimCursour/ProjectileSpawner")
+projectileSpawner = NodePath("PlayerAimCursour/Sprite2D/ProjectileSpawner")
 hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
@@ -69,7 +69,9 @@ position = Vector2(5, 1)
 scale = Vector2(0.025, 0.025)
 texture = ExtResource("1_xhfnw")
 
-[node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour"]
+[node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour/Sprite2D"]
+position = Vector2(-200, -40)
+scale = Vector2(40, 40)
 script = ExtResource("5_sdcm4")
 projectilePackedScene = ExtResource("6_jh8vs")
 
