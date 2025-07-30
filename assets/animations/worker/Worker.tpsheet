@@ -1,0 +1,843 @@
+{
+	"textures": [
+		{
+			"image": "Worker.png",
+			"size": {
+				"w": 2048,
+				"h": 2048
+			},
+			"sprites": [
+				{
+					"filename": "Worker_1_Attack_Back_Proto-1.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Back_Proto-2.png",
+					"region": {
+						"x": 0,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Back_Proto-3.png",
+					"region": {
+						"x": 0,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Back_Proto-4.png",
+					"region": {
+						"x": 0,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Proto-1.png",
+					"region": {
+						"x": 0,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Proto-2.png",
+					"region": {
+						"x": 0,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Proto-3.png",
+					"region": {
+						"x": 0,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Proto-4.png",
+					"region": {
+						"x": 0,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Side_Proto-1.png",
+					"region": {
+						"x": 256,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Side_Proto-2.png",
+					"region": {
+						"x": 512,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Side_Proto-3.png",
+					"region": {
+						"x": 768,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Attack_Side_Proto-4.png",
+					"region": {
+						"x": 1024,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Hit_Back_Proto-1.png",
+					"region": {
+						"x": 1280,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Hit_Proto-1.png",
+					"region": {
+						"x": 1536,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Hit_Side_Proto-1.png",
+					"region": {
+						"x": 1792,
+						"y": 0,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-1.png",
+					"region": {
+						"x": 256,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-2.png",
+					"region": {
+						"x": 256,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-3.png",
+					"region": {
+						"x": 256,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-4.png",
+					"region": {
+						"x": 256,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-5.png",
+					"region": {
+						"x": 256,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-6.png",
+					"region": {
+						"x": 256,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-7.png",
+					"region": {
+						"x": 256,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Back_Proto-8.png",
+					"region": {
+						"x": 512,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-1.png",
+					"region": {
+						"x": 768,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-2.png",
+					"region": {
+						"x": 1024,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-3.png",
+					"region": {
+						"x": 1280,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-4.png",
+					"region": {
+						"x": 1536,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-5.png",
+					"region": {
+						"x": 1792,
+						"y": 256,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-6.png",
+					"region": {
+						"x": 512,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-7.png",
+					"region": {
+						"x": 512,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Proto-8.png",
+					"region": {
+						"x": 512,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-1.png",
+					"region": {
+						"x": 512,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-2.png",
+					"region": {
+						"x": 512,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-3.png",
+					"region": {
+						"x": 512,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-4.png",
+					"region": {
+						"x": 768,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-6.png",
+					"region": {
+						"x": 1024,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Idle_Side_Proto-8.png",
+					"region": {
+						"x": 1280,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-1 2.png",
+					"region": {
+						"x": 1536,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-2.png",
+					"region": {
+						"x": 1792,
+						"y": 512,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-3.png",
+					"region": {
+						"x": 768,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-4.png",
+					"region": {
+						"x": 768,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-5.png",
+					"region": {
+						"x": 768,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Back_Proto-6.png",
+					"region": {
+						"x": 768,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-1.png",
+					"region": {
+						"x": 768,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-2.png",
+					"region": {
+						"x": 1024,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-3.png",
+					"region": {
+						"x": 1280,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-4.png",
+					"region": {
+						"x": 1536,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-5.png",
+					"region": {
+						"x": 1792,
+						"y": 768,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Proto-6.png",
+					"region": {
+						"x": 1024,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-1.png",
+					"region": {
+						"x": 1024,
+						"y": 1280,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-2.png",
+					"region": {
+						"x": 1024,
+						"y": 1536,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-3.png",
+					"region": {
+						"x": 1024,
+						"y": 1792,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-4.png",
+					"region": {
+						"x": 1280,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-5.png",
+					"region": {
+						"x": 1536,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Worker_1_Run_Side_Proto-6.png",
+					"region": {
+						"x": 1792,
+						"y": 1024,
+						"w": 256,
+						"h": 256
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

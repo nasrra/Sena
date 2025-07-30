@@ -41,12 +41,12 @@ public partial class WayfindingAgent2D : Node2D{
 
     public override void _Draw(){
         base._Draw();
-        if(Path!=null){
-            foreach(Vector2 point in Path){
-                GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-                debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
-            }
-        }
+        // if(Path!=null){
+        //     foreach(Vector2 point in Path){
+        //         GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+        //         debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
+        //     }
+        // }
     }
 
 }

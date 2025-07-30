@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
-[ext_resource type="SpriteFrames" uid="uid://dgctvnqvp4u7" path="res://assets/animations/worker/WorkerAnimations.tres" id="2_bfkeh"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
+[ext_resource type="SpriteFrames" uid="uid://ducvecsmuxhlm" path="res://assets/animations/worker/Worker.tres" id="3_m80fk"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttack.tres" id="7_8rhtt"]
@@ -39,9 +39,8 @@ animator = NodePath("AnimatedSprite")
 material = ExtResource("2_m80fk")
 position = Vector2(0, -5)
 scale = Vector2(0.125, 0.125)
-sprite_frames = ExtResource("2_bfkeh")
+sprite_frames = ExtResource("3_m80fk")
 animation = &"IdleBackward"
-frame_progress = 0.507987
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

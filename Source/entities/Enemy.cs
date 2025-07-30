@@ -70,7 +70,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void PhysicsProcess(double delta){
         statePhysicProcess?.Invoke();
-        UpdateAnimation();
     }
 
 
@@ -96,6 +95,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
             CalculateRelationshipToTarget();
             UpdateAttackHandler();
             MoveAlongPathToTarget();
+            RunAnimation();
         }
     }
 
@@ -104,6 +104,27 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         stateProcess        = null;
         statePhysicProcess  = null;
         attackHandler.HaltState(time+stunStateAttackHandlerStandbyAdditiveTime);
+        hitBoxHandler.DisableAllHitBoxes();
+
+        float angle = characterMovement.GetVelocityAngleDegrees();
+        GD.Print(angle);
+        if(angle > -135 && angle < -45){
+            animator.Play("HitBackward");
+            animator.FlipH = false;
+        }
+        else if(angle > 45 && angle < 135){
+            animator.Play("HitForward");
+            animator.FlipH = false;
+        }
+        else if(angle > -45 && angle < 45){
+            animator.Play("HitSide");
+            animator.FlipH = false;
+        }
+        else{
+            animator.Play("HitSide");
+            animator.FlipH = true;
+        }
+
         stunTimer.WaitTime = time;
         stunTimer.Start();
     }
@@ -160,28 +181,28 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
         SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
     }
 
-    private void UpdateAnimation(){
+    private void RunAnimation(){
         float angle = characterMovement.GetMoveAngleDegrees();
         if(characterMovement.MoveDirection == Vector2.Zero){
             return;
         }
-        if(angle > -135 && angle < -45){
-            animator.Play("IdleForward");
+        if(angle >= -155 && angle <= -25){
+            animator.Play("RunForward");
             animator.FlipH = false;
             return;
         }
-        else if(angle > 45 && angle < 135){
-            animator.Play("IdleBackward");
+        else if(angle >= 25 && angle <= 155){
+            animator.Play("RunBackward");
             animator.FlipH = false;
             return;
         }
         else if(angle > -45 && angle < 45){
-            animator.Play("IdleSide");
+            animator.Play("RunSide");
             animator.FlipH = true;
             return;
         }
         else{
-            animator.Play("IdleSide");
+            animator.Play("RunSide");
             animator.FlipH = false;
             return;
         }
@@ -194,7 +215,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void LinkEvents(){
         health.OnDeath  += Kill;
-        health.OnDamage += hitFlash.Flash;
+        health.OnDamage += OnDamaged;
         
         attackHandler.OnAttack          += OnAttack;
         attackHandler.OnAttackStarted   += OnStartAttack;
@@ -213,7 +234,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void UnlinkEvents(){
         health.OnDeath  -= Kill;
-        health.OnDamage -= hitFlash.Flash;
+        health.OnDamage -= OnDamaged;
 
         attackHandler.OnAttack          -= OnAttack;
         attackHandler.OnAttackStarted   -= OnStartAttack;
@@ -238,6 +259,30 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
     private void OnStartAttack(byte attackId, AttackDirection attackDirection){
         AttackingState();
+        switch(attackId){
+            case (byte)AttackId.Slash:
+                switch(attackDirection){
+                    case AttackDirection.Down:
+                        animator.Play("AttackBackward");
+                        animator.FlipH = false;
+                    break;
+                    case AttackDirection.Left:
+                        animator.Play("AttackSide");
+                        animator.FlipH = false;
+                    break;
+                    case AttackDirection.Right:
+                        animator.Play("AttackSide");
+                        animator.FlipH = true;
+                    break;
+                    case AttackDirection.Up:
+                        animator.Play("AttackForward");                 
+                        animator.FlipH = false;
+                    break;
+                }
+            break;
+            default:
+                throw new Exception($"Attack id[{attackId}] has not been implemented!");
+        }
         characterMovement.ZeroDirection();
     }
 
@@ -247,15 +292,19 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
                 switch(attackDirection){
                     case AttackDirection.Down:
                         hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashDown, 0.33f);
+                        animator.Play("AttackBackward");
                     break;
                     case AttackDirection.Left:
                         hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashLeft, 0.33f);
+                        animator.Play("AttackSide");
                     break;
                     case AttackDirection.Right:
                         hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashRight, 0.33f);
+                        animator.Play("AttackSide");
                     break;
                     case AttackDirection.Up:
-                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);                    
+                        hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);
+                        animator.Play("AttackForward");                 
                     break;
                 }
                 characterMovement.Impulse(normalDirectionToTarget * 100f);
@@ -275,6 +324,13 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
             default:
             throw new Exception($"{hitLayer} not implemented.");
         }
+    }
+
+    private void OnDamaged(){
+        float stunTime = 0.66f;
+        hitFlash.Flash();
+        StunState(stunTime);
+        IgnoreEnemyCollisionMask(stunTime);
     }
 
 

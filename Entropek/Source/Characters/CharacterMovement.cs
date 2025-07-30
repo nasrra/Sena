@@ -152,6 +152,12 @@ public partial class CharacterMovement : Node{
         return angle;
     }
 
+    public float GetVelocityAngleDegrees(){
+        float angle = Mathf.Atan2(Velocity.Y, Velocity.X);
+        angle = Mathf.RadToDeg(angle);
+        return angle;
+    }
+
     public bool HasCollisions(out List<KinematicCollision2D> collisions){
         collisions = null;
         

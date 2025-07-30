@@ -507,15 +507,10 @@ public partial class Player : CharacterBody2D{
     private void HandleOnHitEnemy(Enemy enemy){
         Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
         
-        float stunTime = 0.33f;
-        enemy.StunState(stunTime);
-        enemy.IgnoreEnemyCollisionMask(stunTime);
-        
-        enemy.GetNode<Health>(Health.NodeName).Damage(1);
-        
         CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
         enemyMovement.ZeroVelocity();
-        enemyMovement.Impulse(directionToHit * AttackEnemyKnockback);
+        enemyMovement.Impulse(directionToHit * AttackEnemyKnockback);        
+        enemy.GetNode<Health>(Health.NodeName).Damage(1);
         
         movement.Impulse(-directionToHit * AttackPlayerKnockback);
 
