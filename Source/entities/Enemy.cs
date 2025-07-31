@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization.Metadata;
 
 public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
+	
+	[ExportGroup("Nodes")]
 	[Export] private Health health;
 	[Export] private WayfindingAgent2D navAgent;
 	[Export] private CharacterMovement characterMovement;
@@ -14,18 +16,28 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	[Export] private Timer ignoreEnemyTimer;
 	[Export] public Node2D Target;
 	[Export] private AnimatedSprite2D animator;
-	private EnemyState state = EnemyState.Chase;
+	[Export] private AudioPlayer audioPlayer;
 
-	private Vector2 directionToTarget = Vector2.Zero;
-	private Vector2 normalDirectionToTarget = Vector2.Zero;
-	private float distanceToTarget = float.MaxValue;
-	[Export] public float stunStateAttackHandlerStandbyAdditiveTime = 1.0f;
-	[Export] public bool stunOnHit = true;
 
 	private event Action stateProcess = null;
 	private event Action statePhysicProcess = null;
 
-	private enum EnemyState{
+	[ExportGroup("Variabales")]
+	private Vector2 directionToTarget = Vector2.Zero;
+	private Vector2 normalDirectionToTarget = Vector2.Zero;
+	private float distanceToTarget = float.MaxValue;
+	[Export] private float damagedKnockback = 100f;
+	[Export] public float stunStateAttackHandlerStandbyAdditiveTime = 1.0f;
+	private EnemyState state = EnemyState.Chase;
+	[Export] public bool stunOnHit = true;
+
+
+	/// 
+	/// Definitions.
+	/// 
+
+
+	private enum EnemyState : byte{
 		Chase,
 		Stunned,
 	}
@@ -41,6 +53,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		SlashUp     = 3,
 	}
 
+
 	///
 	/// Base
 	///
@@ -51,7 +64,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		EnemyManager.Instance.AddEnemy(this);
 		animator.Play("IdleBackward");
 	}
-
 
 	public override void _EnterTree(){
 		base._EnterTree();
@@ -100,14 +112,15 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	public void StunState(float time){
-		state = EnemyState.Stunned;
+		state 				= EnemyState.Stunned;
 		stateProcess        = null;
 		statePhysicProcess  = null;
 		attackHandler.HaltState(time+stunStateAttackHandlerStandbyAdditiveTime);
 		hitBoxHandler.DisableAllHitBoxes();
 
+		audioPlayer.StopSound("WorkerAttack", immediate: true);
+
 		float angle = characterMovement.GetVelocityAngleDegrees();
-		GD.Print(angle);
 		if(angle > -135 && angle < -45){
 			animator.Play("HitBackward");
 			animator.FlipH = false;
@@ -214,6 +227,14 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
 	private void LinkEvents(){
+		EntityManager.Singleton.OnProcess += Process;
+		EntityManager.Singleton.OnPhysicsProcess += PhysicsProcess;
+		EntityManager.Singleton.OnPause += PauseState;
+		EntityManager.Singleton.OnResume += ResumeState;
+
+		animator.FrameChanged 		+= OnFrameChanged;
+		animator.AnimationChanged 	+= OnAnimationChanged;
+
 		health.OnDeath  += Kill;
 		health.OnDamage += OnDamaged;
 		
@@ -226,15 +247,18 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		stunTimer.Timeout += EvaluateState;
 		ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
 
-		animator.FrameChanged += FrameEvents;
 
-		EntityManager.Singleton.OnProcess += Process;
-		EntityManager.Singleton.OnPhysicsProcess += PhysicsProcess;
-		EntityManager.Singleton.OnPause += PauseState;
-		EntityManager.Singleton.OnResume += ResumeState;
 	}
 
 	private void UnlinkEvents(){
+		EntityManager.Singleton.OnProcess -= Process;
+		EntityManager.Singleton.OnPhysicsProcess -= PhysicsProcess;
+		EntityManager.Singleton.OnPause -= PauseState;
+		EntityManager.Singleton.OnResume -= ResumeState;
+
+		animator.FrameChanged 		-= OnFrameChanged;
+		animator.AnimationChanged 	-= OnAnimationChanged;
+
 		health.OnDeath  -= Kill;
 		health.OnDamage -= OnDamaged;
 
@@ -246,13 +270,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 		stunTimer.Timeout -= EvaluateState;
 		ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
-
-		animator.FrameChanged -= FrameEvents;
-
-		EntityManager.Singleton.OnProcess -= Process;
-		EntityManager.Singleton.OnPhysicsProcess -= PhysicsProcess;
-		EntityManager.Singleton.OnPause -= PauseState;
-		EntityManager.Singleton.OnResume -= ResumeState;
 	}
 
 
@@ -347,8 +364,24 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		QueueFree();
 	}
 
-	private void FrameEvents(){
-		switch(animator.Animation){
+	private void OnAnimationChanged(){
+
+		// work around to always ensure frame 0 of animation event is fired.
+		OnFrameChanged(animator.Animation);		
+	}
+
+	private void OnFrameChanged(){
+
+		OnFrameChanged(animator.Animation);
+	}
+
+	private void OnFrameChanged(string animation){
+		switch(animation){
+			case "AttackBackward":
+			case "AttackForward":
+			case "AttackSide":
+				AttackAnimationFrameEvent(animator.Frame);
+			break;
 			case "RunBackward":
 			case "RunForward":
 			case "RunSide":
@@ -357,11 +390,19 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		}
 	}
 
+	private void AttackAnimationFrameEvent(int frame){
+		switch(frame){
+			case 0:
+				audioPlayer.PlaySound("WorkerAttack", GlobalPosition);
+			break;
+		}
+	}
+
 	private void RunAnimationFrameEvent(int frame){
 		switch(frame){
 			case 2:
 			case 6:
-				AudioManager.Singleton.PlayOneShot("StoneFootstep", GlobalPosition);
+				audioPlayer.PlaySound("StoneFootstep", GlobalPosition);
 			break;
 		}
 	}

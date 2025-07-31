@@ -74,7 +74,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_q6pjk")
 }],
-"loop": true,
+"loop": false,
 "name": &"AttackBackward",
 "speed": 6.0
 }, {
@@ -97,7 +97,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_nh43i")
 }],
-"loop": true,
+"loop": false,
 "name": &"AttackForward",
 "speed": 6.0
 }, {
@@ -120,7 +120,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_pp8gk")
 }],
-"loop": true,
+"loop": false,
 "name": &"AttackSide",
 "speed": 6.0
 }, {
@@ -128,7 +128,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_ww0l7")
 }],
-"loop": true,
+"loop": false,
 "name": &"HitBackward",
 "speed": 5.0
 }, {
@@ -136,7 +136,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("14_htjjt")
 }],
-"loop": true,
+"loop": false,
 "name": &"HitForward",
 "speed": 5.0
 }, {
@@ -144,7 +144,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_1y2d4")
 }],
-"loop": true,
+"loop": false,
 "name": &"HitSide",
 "speed": 5.0
 }, {

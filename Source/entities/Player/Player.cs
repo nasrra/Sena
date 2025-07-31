@@ -313,7 +313,7 @@ public partial class Player : CharacterBody2D{
 		movement.ZeroVelocity();
 		movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
 
-		AudioManager.Singleton.PlayOneShot("PlayerAttack");
+		AudioManager.Singleton.PlayEvent("PlayerAttack");
 
 		InputManager.Singleton.BlockMovementInput(time: 0.2f);
 		InputManager.Singleton.BlockAttackInput(time: 0.2f);
@@ -509,14 +509,8 @@ public partial class Player : CharacterBody2D{
 	
 	private void HandleOnHitEnemy(Enemy enemy){
 		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-		
-		CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-		enemyMovement.ZeroVelocity();
-		enemyMovement.Impulse(directionToHit * AttackEnemyKnockback);        
+		enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName).Knockback(directionToHit * AttackEnemyKnockback); 
 		enemy.GetNode<Health>(Health.NodeName).Damage(1);
-		
-		movement.Impulse(-directionToHit * AttackPlayerKnockback);
-
 		EmberStorage.Add(50);
 	}
 }

@@ -34,8 +34,6 @@ public partial class CharacterMovement : Node{
     public float TopSpeed;
     [Export] public float gravityModifier = 1f;
     
-    [Export] private bool lockYAxis = false;
-    [Export] private bool gravityAffected = false;
     private bool paused = false;
 
 
@@ -69,41 +67,12 @@ public partial class CharacterMovement : Node{
         // if there is movement.
 
         if (moveDirection.Length() > 0f){
-            if (lockYAxis==true){
-                trueDirection.Y = 0.0f;
-            }
-
             trueDirection = trueDirection.Normalized();
-
-            // convert movement direction into velocity.
-
             Vector2 newVelocity = Velocity.MoveToward(trueDirection * TopSpeed, Acceleration * (float)delta);
-
-
-            if(gravityAffected == true){
-                // apply gravity.
-                
-                Velocity = new Vector2(
-                    newVelocity.X, 
-                    Velocity.Y - PhysicsManager.Singleton.Gravity * (float)delta * gravityModifier
-                ); 
-            }
-            else{
-                Velocity = newVelocity;
-            }
+            Velocity = newVelocity;
         }
-
-        // if there is no movement.
-
         else{
             Vector2 newVelocity = Velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
-            if(gravityAffected == true){
-                newVelocity = new Vector2(
-                    newVelocity.X, 
-                    Velocity.Y - PhysicsManager.Singleton.Gravity * (float)delta * gravityModifier
-                ); 
-            }
-
             Velocity = newVelocity;
         }
 
@@ -132,6 +101,12 @@ public partial class CharacterMovement : Node{
 
     public void ZeroVelocity(){
         character.Velocity = Vector2.Zero;
+    }
+
+    public void Knockback(Vector2 velocity){
+        ZeroDirection();
+        ZeroVelocity();
+        character.Velocity += velocity;
     }
 
     public void ScaleSpeed(float amount){

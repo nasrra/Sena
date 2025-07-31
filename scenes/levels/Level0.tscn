@@ -83,12 +83,12 @@ position = Vector2(256, 16)
 levelToLoad = "Level1"
 Opened = true
 
+[node name="TimedEnemySpawner" parent="." index="9" instance=ExtResource("8_bbvxl")]
+position = Vector2(184, 136)
+
 [node name="Player" parent="EntityManager" index="1" node_paths=PackedStringArray("camera") instance=ExtResource("2_wnydg")]
 position = Vector2(256, 108)
 camera = NodePath("../../Camera")
-
-[node name="TimedEnemySpawner" parent="." index="11" instance=ExtResource("8_bbvxl")]
-position = Vector2(184, 136)
 
 [node name="Camera" parent="." index="12" node_paths=PackedStringArray("Target")]
 Target = NodePath("../EntityManager/Player")

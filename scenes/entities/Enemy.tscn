@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
@@ -8,6 +8,7 @@
 [ext_resource type="Resource" uid="uid://75p11r0gk2cb" path="res://resources/ai/EnemyAttack.tres" id="7_8rhtt"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
 [ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="11_1jhey"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
 
@@ -20,7 +21,7 @@ size = Vector2(18, 13)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_esdid"]
 size = Vector2(13, 18)
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator", "audioPlayer")]
 material = ExtResource("2_m80fk")
 collision_layer = 8
 collision_mask = 14
@@ -34,13 +35,14 @@ hitFlash = NodePath("HitFlashShaderController")
 stunTimer = NodePath("StunTimer")
 ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
 animator = NodePath("AnimatedSprite")
+audioPlayer = NodePath("AudioPlayer")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 material = ExtResource("2_m80fk")
 scale = Vector2(0.125, 0.125)
 sprite_frames = ExtResource("3_m80fk")
-animation = &"RunSide"
+animation = &"AttackSide"
 offset = Vector2(0, -45)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -144,3 +146,6 @@ Capability = 4
 [node name="Health" parent="." instance=ExtResource("10_1jhey")]
 Max = 3
 Value = 3
+
+[node name="AudioPlayer" type="Node2D" parent="."]
+script = ExtResource("11_1jhey")

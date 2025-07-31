@@ -142,10 +142,7 @@ public partial class AudioManager : Node{
         
         bank.getEventList(out FMOD.Studio.EventDescription[] events);
         foreach(FMOD.Studio.EventDescription e in events){
-            e.getPath(out string path);
-            path = System.IO.Path.GetFileNameWithoutExtension(path);
-            GD.Print(path);
-            _loadedEvents.Add(path, e);
+            _loadedEvents.Add(GetEventName(e), e);
         }
     }
 
@@ -162,9 +159,7 @@ public partial class AudioManager : Node{
 
         bank.getEventList(out FMOD.Studio.EventDescription[] events);
         foreach(FMOD.Studio.EventDescription e in events){
-            e.getPath(out string path);
-            path = System.IO.Path.GetFileNameWithoutExtension(path);
-            _loadedEvents.Remove(path);
+            _loadedEvents.Remove(GetEventName(e));
         }
 
         // Unload the bank from FMOD Studio.
@@ -212,7 +207,7 @@ public partial class AudioManager : Node{
     /// Plays a one-shot instance of a sound.
     /// </summary>
     /// <param name="eventName">The name of the event to play, excluding its relative path.</param>
-    public void PlayOneShot(string eventName){
+    public AudioInstance PlayEvent(string eventName, bool release = true){
         
         // Get the loaded event description.
 
@@ -223,11 +218,16 @@ public partial class AudioManager : Node{
         desc.createInstance(out FMOD.Studio.EventInstance inst);
         inst.start();
         
-        // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
-        inst.release();
+        if(release == true){
+            // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
+
+            inst.release();
+        }
 
         // update the audio system to play the sound.
         StudioSystem.update();
+        
+        return new AudioInstance(inst, eventName);
     }
 
     /// <summary>
@@ -235,7 +235,7 @@ public partial class AudioManager : Node{
     /// </summary>
     /// <param name="eventName"></param>
     /// <param name="globalPosition"></param>
-    public void PlayOneShot(string eventName, Vector2 globalPosition){
+    public AudioInstance PlayEvent(string eventName, Vector2 globalPosition, bool release = true){
         
         FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
         desc.createInstance(out FMOD.Studio.EventInstance inst);
@@ -249,9 +249,13 @@ public partial class AudioManager : Node{
         inst.set3DAttributes(attributes);
 
         inst.start();
-        inst.release(); // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
+        if(release == true){
+            inst.release(); // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
+        }
 
         StudioSystem.update();
+
+        return new AudioInstance(inst, eventName);
     }
 
     public bool IsBankLoaded(string bankName){
@@ -281,19 +285,24 @@ public partial class AudioManager : Node{
     }
 
 
-public void SetListenerPosition(Vector2 globalPosition){
-    ATTRIBUTES_3D listenerAttributes = new ATTRIBUTES_3D{
-        position = GodotToFmodPosition(globalPosition),
-        velocity = new VECTOR { x = 0, y = 0, z = 0 },
-        forward  = new VECTOR { x = 0, y = 0, z = 1 },
-        up       = new VECTOR { x = 0, y = 1, z = 0 }
-    };
+    public void SetListenerPosition(Vector2 globalPosition){
+        ATTRIBUTES_3D listenerAttributes = new ATTRIBUTES_3D{
+            position = GodotToFmodPosition(globalPosition),
+            velocity = new VECTOR { x = 0, y = 0, z = 0 },
+            forward  = new VECTOR { x = 0, y = 0, z = 1 },
+            up       = new VECTOR { x = 0, y = 1, z = 0 }
+        };
 
-    // Assuming you have a valid FMOD.Studio.System instance called studioSystem
-    RESULT result = StudioSystem.setListenerAttributes(0, listenerAttributes);
-    if (result != RESULT.OK){
-        GD.PrintErr($"Failed to set listener attributes: {result}");
+        // Assuming you have a valid FMOD.Studio.System instance called studioSystem
+        RESULT result = StudioSystem.setListenerAttributes(0, listenerAttributes);
+        if (result != RESULT.OK){
+            GD.PrintErr($"Failed to set listener attributes: {result}");
+        }
+        StudioSystem.update();
     }
-    StudioSystem.update();
-}
+
+    public string GetEventName(FMOD.Studio.EventDescription eventDescription){
+        eventDescription.getPath(out string path);
+        return System.IO.Path.GetFileNameWithoutExtension(path);
+    }
 }

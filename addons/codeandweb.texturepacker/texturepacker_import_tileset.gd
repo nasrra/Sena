@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2018 Andreas Loew / CodeAndWeb GmbH www.codeandweb.com
+# Copyright (c) 2018 George Marques
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,6 @@ var imageLoader = preload("image_loader.gd").new()
 
 enum Preset { PRESET_DEFAULT }
 
-# const TiledMapReader = preload("tiled_map_reader.gd")
-
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		imageLoader.free()
@@ -36,126 +34,116 @@ func _notification(what):
 func get_importer_name():
 	return "codeandweb.texturepacker_import_tileset"
 
-
 func get_visible_name():
 	return "TileSet from TexturePacker"
-
 
 func get_recognized_extensions():
 	return ["tpset"]
 
-
 func get_save_extension():
 	return "res"
-
 
 func get_resource_type():
 	return "Resource"
 
-
 func get_preset_count():
 	return Preset.size()
-
 
 func get_preset_name(preset):
 	match preset:
 		Preset.PRESET_DEFAULT: return "Default"
 
-
 func get_import_options(preset):
 	return []
 
-
 func get_option_visibility(option, options):
 	return true
-
 
 func get_import_order():
 	return 200
 
 func import(source_file, save_path, options, r_platform_variants, r_gen_files):
 	var sheets = read_sprite_sheet(source_file)
-	var sheetFolder = source_file.get_basename()+".sprites";
-	create_folder(sheetFolder)
+	var sheet_folder = source_file.get_basename() + ".sprites"
+	create_folder(sheet_folder)
 
-	var fileName = "%s.%s" % [source_file.get_basename(), "res"]
+	var file_name = "%s.%s" % [source_file.get_basename(), "res"]
 
-	var tileSet
-	if File.new().file_exists(fileName):
-		tileSet = ResourceLoader.load(fileName, "TileSet")
+	var tile_set: TileSet
+	if FileAccess.file_exists(file_name):
+		tile_set = ResourceLoader.load(file_name, "TileSet")
 	else:
-		tileSet = TileSet.new()
+		tile_set = TileSet.new()
 
-	var usedIds = []
+	var used_ids = []
 	for sheet in sheets.textures:
-		var sheetFile = source_file.get_base_dir()+"/"+sheet.image
-		var image = load_image(sheetFile, "ImageTexture", [])
+		var sheet_file = source_file.get_base_dir() + "/" + sheet.image
+		var image = load_image(sheet_file, "ImageTexture", [])
 		r_gen_files.push_back(sheet.image)
-		create_tiles(tileSet, sheet, image, usedIds)
-	
-	prune_tileset(tileSet, usedIds)	
+		create_tiles(tile_set, sheet, image, used_ids)
 
-	r_gen_files.push_back(fileName)
-	ResourceSaver.save(fileName, tileSet)
+	prune_tileset(tile_set, used_ids)
 
-	return ResourceSaver.save("%s.%s" % [save_path, get_save_extension()], Resource.new())
+	r_gen_files.push_back(file_name)
+	ResourceSaver.save(tile_set, file_name)
 
-func prune_tileset(tileSet, usedIds):
-	usedIds.sort()
-	for id in tileSet.get_tiles_ids():
-		if !usedIds.has(id):
-			tileSet.remove_tile(id)
+	return ResourceSaver.save(Resource.new(), "%s.%s" % [save_path, get_save_extension()])
 
+func prune_tileset(tile_set: TileSet, used_ids):
+	used_ids.sort()
+	for id in tile_set.get_tiles_ids():
+		if not used_ids.has(id):
+			tile_set.remove_tile(id)
 
 func create_folder(folder):
-	var dir = Directory.new()
-	if !dir.dir_exists(folder):
+	var dir = DirAccess.open("res://")
+	if not dir.dir_exists(folder):
 		if dir.make_dir_recursive(folder) != OK:
 			printerr("Failed to create folder: " + folder)
 
-
-func create_tiles(tileSet, sheet, image, r_usedIds):
+func create_tiles(tile_set, sheet, image, r_used_ids):
 	for sprite in sheet.sprites:
-		r_usedIds.push_back(create_tile(tileSet, sprite, image))
+		r_used_ids.push_back(create_tile(tile_set, sprite, image))
 
+func create_tile(tile_set, sprite, image):
+	var tile_name = sprite.filename.get_basename()
 
-func create_tile(tileSet, sprite, image):
-	var tileName = sprite.filename.get_basename()
-	
-	var id = tileSet.find_tile_by_name(tileName)
-	if id==-1:
-		id = tileSet.get_last_unused_tile_id()
-		tileSet.create_tile(id)
-		tileSet.tile_set_name(id, tileName)
+	var id = tile_set.find_tile_by_name(tile_name)
+	if id == -1:
+		id = tile_set.get_last_unused_tile_id()
+		tile_set.create_tile(id)
+		tile_set.set_tile_name(id, tile_name)
 
-	tileSet.tile_set_texture(id, image)
-	tileSet.tile_set_region(id, Rect2(sprite.region.x,sprite.region.y,sprite.region.w,sprite.region.h))
-	tileSet.tile_set_texture_offset(id, Vector2(sprite.margin.x, sprite.margin.y))
+	tile_set.set_texture(id, image)
+	tile_set.set_region(id, Rect2(sprite.region.x, sprite.region.y, sprite.region.w, sprite.region.h))
+	tile_set.set_texture_origin(id, Vector2(sprite.margin.x, sprite.margin.y))
 	return id
-
 
 func save_resource(name, texture):
 	create_folder(name.get_base_dir())
-	
-	var status = ResourceSaver.save(name, texture)
+
+	var status = ResourceSaver.save(texture, name)
 	if status != OK:
-		printerr("Failed to save resource "+name)
+		printerr("Failed to save resource " + name)
 		return false
 	return true
 
+func read_sprite_sheet(file_name):
+	var file = FileAccess.open(file_name, FileAccess.READ)
+	if file == null:
+		printerr("Failed to load " + file_name)
+		return {}
 
-func read_sprite_sheet(fileName):
-	var file = File.new()
-	if file.open(fileName, file.READ) != OK:
-		printerr("Failed to load "+fileName)
 	var text = file.get_as_text()
-	var dict = JSON.parse(text).result
-	if !dict:
-		printerr("Invalid json data in "+fileName)
 	file.close()
-	return dict
 
+	var json = JSON.new()
+	var result = json.parse(text)
+	if result != OK:
+		printerr("Invalid JSON data in " + file_name)
+		return {}
+
+	return json.data
 
 func load_image(rel_path, source_path, options):
 	return imageLoader.load_image(rel_path, source_path, options)
-	
