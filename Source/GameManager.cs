@@ -61,7 +61,7 @@ public partial class GameManager : Node{
         }        
         ui.HudState();
         
-        InputManager.Singleton.ResumeState();
+        InputManager.Singleton.ResumeGameplayInput();
         EntityManager.Singleton.ResumeEntityProcesses();
 
         OnPauseInput = PauseMenuState;
@@ -74,7 +74,10 @@ public partial class GameManager : Node{
             return;
         }
         ui.PauseMenuState();
+
+        InputManager.Singleton.PauseGameplayInput();
         EntityManager.Singleton.PauseEntityProcesses();
+
         OnPauseInput = GameplayState;
     }
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public partial class InputManager : Node2D{
     public static InputManager Singleton {get;private set;}
+    public const string GamepadInputNameSuffix = "GP";
+    public const string KeyboardInputNameSuffix = "KB";
 
     private InputGlyphs inputGlyphs = new InputGlyphs();
     private Dictionary<string, string> inputActionGlyphUnicodes = new Dictionary<string, string>();
@@ -151,31 +153,9 @@ public partial class InputManager : Node2D{
         OnGamepadState?.Invoke();
     }
 
-    public void PauseState(){
-        Paused                          = true;
-        blockAimInputTimer.Paused       = true;
-        blockAttackInputTimer.Paused    = true;
-        blockDashInputTimer.Paused      = true;
-        blockHealInputTimer.Paused      = true;
-        blockInteractInputTimer.Paused  = true;
-        blockMovementInputTimer.Paused  = true;
-        blockShootInputTimer.Paused     = true;
-    }
-
-    public void ResumeState(){
-        Paused                          = false;
-        blockAimInputTimer.Paused       = false;
-        blockAttackInputTimer.Paused    = false;
-        blockDashInputTimer.Paused      = false;
-        blockHealInputTimer.Paused      = false;
-        blockInteractInputTimer.Paused  = false;
-        blockMovementInputTimer.Paused  = false;
-        blockShootInputTimer.Paused     = false;
-    }
-
 
     /// 
-    /// Controller Check.
+    /// Shared Functions.
     /// 
 
 
@@ -188,7 +168,7 @@ public partial class InputManager : Node2D{
             GamepadState();
         }
     }
-
+    
 
     /// 
     /// Gameplay Input Checks.
@@ -310,6 +290,54 @@ public partial class InputManager : Node2D{
     ///
     /// Gameplay Blockers.
     /// 
+
+    public void PauseGameplayInput(){
+        blockAimInputTimer.Paused       = true;
+        blockAttackInputTimer.Paused    = true;
+        blockDashInputTimer.Paused      = true;
+        blockHealInputTimer.Paused      = true;
+        blockInteractInputTimer.Paused  = true;
+        blockMovementInputTimer.Paused  = true;
+        blockShootInputTimer.Paused     = true;
+        BlockGameplayInput();
+    }
+
+    public void ResumeGameplayInput(){
+        blockAimInputTimer.Paused       = false;
+        if(blockAimInputTimer.TimeLeft <= 0){
+            UnblockAimInput();
+        }
+        
+        blockAttackInputTimer.Paused    = false;
+        if(blockAttackInputTimer.TimeLeft <= 0){
+            UnblockAttackInput();
+        }
+
+        blockDashInputTimer.Paused      = false;
+        if(blockDashInputTimer.TimeLeft <= 0){
+            UnblockDashInput();
+        }
+        
+        blockHealInputTimer.Paused      = false;
+        if(blockHealInputTimer.TimeLeft <= 0){
+            UnblockHealInput();
+        }
+        
+        blockInteractInputTimer.Paused  = false;
+        if(blockInteractInputTimer.TimeLeft <= 0){
+            UnblockInteractInput();
+        }
+
+        blockMovementInputTimer.Paused  = false;
+        if(blockMovementInputTimer.TimeLeft <= 0){
+            UnblockMovementInput();
+        }
+
+        blockShootInputTimer.Paused     = false;
+        if(blockShootInputTimer.TimeLeft <= 0){
+            UnblockShootInput();
+        }
+    }
 
     public void BlockGameplayInput(){
         BlockAimInput();
@@ -495,10 +523,15 @@ public partial class InputManager : Node2D{
     }
 
     public string GetInputActionGlyphUnicode(string inputActionName){ // <-- without GP or KB suffix.
-        string fullName = inputActionName + (IsGamepadConnected == true? "GP" : "KB");
-        GD.Print(fullName);
+        string fullName = inputActionName + (IsGamepadConnected == true? GamepadInputNameSuffix : KeyboardInputNameSuffix);
         return inputActionGlyphUnicodes[fullName];
     }
+    
+    public string GetInputActionGlyphUnicode(string inputActionName, bool isGamepad){ // <-- without GP or KB suffix.
+        string fullName = inputActionName + (isGamepad == true? GamepadInputNameSuffix : KeyboardInputNameSuffix);
+        return inputActionGlyphUnicodes[fullName];
+    }
+
 
 
     /// 

@@ -44,7 +44,7 @@ public class InputGlyphs{
     };
 
     public readonly Dictionary<string, string> SpecialGlyphs = new Dictionary<string, string>(){
-        { "MouseAny",       "\u27FC" },
+        { "MouseAny",       "\u243E"},
         { "LeftJoyStick",   "\u21CB"}, 
         { "RightJoyStick",  "\u21CC"}, 
     };

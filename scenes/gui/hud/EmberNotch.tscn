@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2qqes5obn3oe"]
 
 [ext_resource type="Texture2D" uid="uid://cvdi5glgf1wef" path="res://assets/test/EmberNotchOutline.png" id="1_bb70c"]
-[ext_resource type="Script" uid="uid://dru7hknsehoqe" path="res://source/gui/EmberNotchGui.cs" id="1_vlmle"]
+[ext_resource type="Script" uid="uid://dru7hknsehoqe" path="res://source/gui/hud/EmberNotchGui.cs" id="1_vlmle"]
 [ext_resource type="Texture2D" uid="uid://rufftqafrtpc" path="res://assets/test/EmberNotchFill.png" id="2_vlmle"]
 
 [node name="EmberNotch" type="Control" node_paths=PackedStringArray("container", "fill")]

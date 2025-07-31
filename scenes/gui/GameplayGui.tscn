@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://loedt6suho5"]
 
-[ext_resource type="Script" uid="uid://dstbxyesb2jxn" path="res://source/gui/GameplayGui.cs" id="1_fk06d"]
+[ext_resource type="Script" uid="uid://dstbxyesb2jxn" path="res://source/gui/hud/GameplayGui.cs" id="1_fk06d"]
 [ext_resource type="PackedScene" uid="uid://b6itbgcgwb6f3" path="res://scenes/gui/DeathScreenGui.tscn" id="2_jtajr"]
 [ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://scenes/gui/hud/HudGui.tscn" id="3_ci30k"]
 [ext_resource type="PackedScene" uid="uid://7vrorweb7eg4" path="res://scenes/gui/PauseMenuGui.tscn" id="4_6fj7h"]

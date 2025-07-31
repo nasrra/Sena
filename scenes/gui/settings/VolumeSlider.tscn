@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://63nxfstxn5sf"]
+
+[ext_resource type="Script" uid="uid://cp68qnepyefha" path="res://Entropek/source/globals/fmod/VolumeSlider.cs" id="1_p1vhv"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_cmfrv"]
+color = Color(1, 1, 1, 1)
+thickness = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_i4ol6"]
+color = Color(0.916701, 0.54438, 7.70092e-07, 1)
+thickness = 4
+
+[node name="VolumeSlider" type="Control" node_paths=PackedStringArray("slider")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_p1vhv")
+slider = NodePath("Slider")
+
+[node name="Slider" type="HSlider" parent="."]
+layout_mode = 0
+offset_right = 342.0
+offset_bottom = 16.0
+theme_override_styles/slider = SubResource("StyleBoxLine_cmfrv")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_i4ol6")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_i4ol6")
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 1.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = -43.0
+offset_right = 70.0
+offset_bottom = -9.5
+theme_override_font_sizes/font_size = 24
+text = "Name"

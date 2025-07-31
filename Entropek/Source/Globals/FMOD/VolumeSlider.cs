@@ -1,9 +1,10 @@
 using Godot;
 using System;
 
-public partial class VolumeSlider : HSlider{
+public partial class VolumeSlider : Control{
+    [Export] private HSlider slider;
     [Export] private string audioBus = "";
-    
+
 
     /// 
     /// Base.
@@ -13,7 +14,7 @@ public partial class VolumeSlider : HSlider{
     public override void _EnterTree(){
         base._EnterTree();
         LinkEvents();
-        Value = AudioManager.Singleton.GetBusVolume(audioBus);
+        slider.Value = AudioManager.Singleton.GetBusVolume(audioBus);
     }
 
     public override void _ExitTree(){
@@ -38,10 +39,10 @@ public partial class VolumeSlider : HSlider{
 
 
     private void LinkEvents(){
-        ValueChanged += HandleValueChanged;
+        slider.ValueChanged += HandleValueChanged;
     }
 
     private void UnlinkEvents(){
-        ValueChanged -= HandleValueChanged;
+        slider.ValueChanged -= HandleValueChanged;
     }
 }

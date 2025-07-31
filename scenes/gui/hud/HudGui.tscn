@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ge883ir7y6gs"]
 
 [ext_resource type="PackedScene" uid="uid://dg20aopqvr8bh" path="res://scenes/gui/hud/EmberNotchChainHud.tscn" id="1_fx7nb"]
-[ext_resource type="Script" uid="uid://busapvemmrelg" path="res://source/gui/HealthHud.cs" id="1_nyl7x"]
+[ext_resource type="Script" uid="uid://busapvemmrelg" path="res://source/gui/hud/HealthHud.cs" id="1_nyl7x"]
 [ext_resource type="PackedScene" uid="uid://b8kvttpk1lnmc" path="res://scenes/gui/hud/HealthHudHeart.tscn" id="2_y3y48"]
 [ext_resource type="PackedScene" uid="uid://d3urc5o6fag7l" path="res://scenes/gui/hud/EmberBarHud.tscn" id="3_bqein"]
 

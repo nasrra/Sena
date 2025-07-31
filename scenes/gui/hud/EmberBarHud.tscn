@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d3urc5o6fag7l"]
 
-[ext_resource type="Script" uid="uid://buag3rnsx2vh" path="res://source/gui/EmberBarHud.cs" id="1_xfdw7"]
+[ext_resource type="Script" uid="uid://buag3rnsx2vh" path="res://source/gui/hud/EmberBarHud.cs" id="1_xfdw7"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iybtp"]
 

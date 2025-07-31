@@ -1,14 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://7vrorweb7eg4"]
 
-[ext_resource type="Script" uid="uid://cp68qnepyefha" path="res://Entropek/source/globals/fmod/VolumeSlider.cs" id="1_i4ol6"]
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_cmfrv"]
-color = Color(1, 1, 1, 1)
-thickness = 4
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_i4ol6"]
-color = Color(0.916701, 0.54438, 7.70092e-07, 1)
-thickness = 4
+[ext_resource type="PackedScene" uid="uid://63nxfstxn5sf" path="res://scenes/gui/settings/VolumeSlider.tscn" id="1_i4ol6"]
+[ext_resource type="FontFile" uid="uid://dofm1r1t27gsi" path="res://assets/fonts/PromptFont/promptfont.ttf" id="2_5vli8"]
+[ext_resource type="Script" uid="uid://c5hmkwevhdkr6" path="res://source/gui/settings/InputIconGui.cs" id="3_12m4t"]
 
 [node name="PauseMenuGui" type="Control"]
 layout_mode = 3
@@ -33,27 +27,271 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -140.0
-offset_right = 20.0
-offset_bottom = -117.667
+offset_left = -232.0
+offset_top = -482.0
+offset_right = 195.0
+offset_bottom = -381.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 72
 text = "Pause Menu"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="."]
-layout_mode = 0
-offset_left = 765.0
-offset_top = 587.0
-offset_right = 1107.0
-offset_bottom = 603.0
-theme_override_styles/slider = SubResource("StyleBoxLine_cmfrv")
-theme_override_styles/grabber_area = SubResource("StyleBoxLine_i4ol6")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_i4ol6")
-min_value = 0.001
-max_value = 1.0
-step = 0.001
-value = 1.0
-script = ExtResource("1_i4ol6")
+[node name="VolumeSlider" parent="." instance=ExtResource("1_i4ol6")]
+offset_left = 1012.0
+offset_top = 310.0
+offset_right = 1052.0
+offset_bottom = 350.0
 audioBus = "Master"
+
+[node name="Label" parent="VolumeSlider" index="1"]
+text = "Master Volume"
+
+[node name="Grid Container" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 706.0
+offset_top = 267.0
+offset_right = 898.0
+offset_bottom = 991.0
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="InputText10" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Aim"
+
+[node name="InputIcon10" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Aim"
+isGamepad = true
+
+[node name="InputText" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Attack"
+
+[node name="InputIcon" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Attack"
+isGamepad = true
+
+[node name="InputText2" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Dash"
+
+[node name="InputIcon2" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Dash"
+isGamepad = true
+
+[node name="InputText3" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Fire Feather"
+
+[node name="InputIcon3" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Shoot"
+isGamepad = true
+
+[node name="InputText4" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Heal"
+
+[node name="InputIcon4" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Heal"
+isGamepad = true
+
+[node name="InputText5" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Interact"
+
+[node name="InputIcon5" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Interact"
+isGamepad = true
+
+[node name="InputText6" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move"
+
+[node name="InputIcon6" type="Label" parent="Grid Container"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "MoveDown"
+isGamepad = true
+
+[node name="Grid Container2" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 269.0
+offset_right = 582.0
+offset_bottom = 993.0
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 2
+
+[node name="InputText10" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Aim"
+
+[node name="InputIcon10" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Aim"
+
+[node name="InputText" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Attack"
+
+[node name="InputIcon" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Attack"
+
+[node name="InputText2" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Dash"
+
+[node name="InputIcon2" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Dash"
+
+[node name="InputText3" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Fire Feather"
+
+[node name="InputIcon3" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Shoot"
+
+[node name="InputText4" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Heal"
+
+[node name="InputIcon4" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Heal"
+
+[node name="InputText5" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Interact"
+
+[node name="InputIcon5" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "Interact"
+
+[node name="InputText6" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move Down"
+
+[node name="InputIcon6" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "MoveDown"
+
+[node name="InputText7" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move Left"
+
+[node name="InputIcon7" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "MoveLeft"
+
+[node name="InputText8" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move Right"
+
+[node name="InputIcon8" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "MoveRight"
+
+[node name="InputText9" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Move Up"
+
+[node name="InputIcon9" type="Label" parent="Grid Container2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_5vli8")
+theme_override_font_sizes/font_size = 48
+text = "E"
+script = ExtResource("3_12m4t")
+inputAction = "MoveUp"
+
+[editable path="VolumeSlider"]

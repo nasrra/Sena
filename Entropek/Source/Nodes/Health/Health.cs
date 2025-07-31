@@ -80,6 +80,13 @@ public partial class Health : Node{
         Value = currentValue;
     }
 
+    public void PauseState(){
+        invincibleTimer.Paused = true;
+    }
+
+    public void ResumeState(){
+        invincibleTimer.Paused = false;    
+    }
 
     /// 
     /// Linkage.
