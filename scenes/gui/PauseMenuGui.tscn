@@ -1,4 +1,14 @@
-[gd_scene format=3 uid="uid://7vrorweb7eg4"]
+[gd_scene load_steps=4 format=3 uid="uid://7vrorweb7eg4"]
+
+[ext_resource type="Script" uid="uid://cp68qnepyefha" path="res://Entropek/source/globals/fmod/VolumeSlider.cs" id="1_i4ol6"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_cmfrv"]
+color = Color(1, 1, 1, 1)
+thickness = 4
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_i4ol6"]
+color = Color(0.916701, 0.54438, 7.70092e-07, 1)
+thickness = 4
 
 [node name="PauseMenuGui" type="Control"]
 layout_mode = 3
@@ -31,3 +41,19 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 72
 text = "Pause Menu"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 765.0
+offset_top = 587.0
+offset_right = 1107.0
+offset_bottom = 603.0
+theme_override_styles/slider = SubResource("StyleBoxLine_cmfrv")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_i4ol6")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_i4ol6")
+min_value = 0.001
+max_value = 1.0
+step = 0.001
+value = 1.0
+script = ExtResource("1_i4ol6")
+audioBus = "Master"

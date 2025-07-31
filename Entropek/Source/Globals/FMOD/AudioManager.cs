@@ -29,6 +29,8 @@ public partial class AudioManager : Node{
     /// </summary>
     private Dictionary<string, FMOD.Studio.Bus> _busHandles = new Dictionary<string, FMOD.Studio.Bus>(); 
 
+    [Export] private Godot.Collections.Array<string> _busesToLoad = new Godot.Collections.Array<string>();
+
     public static AudioManager Singleton {get;private set;}
 
     /// <summary>
@@ -60,10 +62,18 @@ public partial class AudioManager : Node{
         ));
 
         // load master banks.
+        
         LoadBank("Master");
         LoadBank("Master.strings");
         LoadBusHandle("Master");
         SetBusVolume("Master", 1.0f);
+
+        // load other buses.
+
+        for(int i = 0; i < _busesToLoad.Count; i++){
+            LoadBusHandle(_busesToLoad[i]);
+            SetBusVolume(_busesToLoad[i], 1.0f);
+        }
 
         Singleton = this;
     }
