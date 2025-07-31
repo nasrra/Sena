@@ -40,6 +40,7 @@ public partial class InputManager : Node2D{
     private event Action InteractInputProcess;
     private event Action MovementInputProcess;
     private event Action ShootInputProcess;
+    private event Action PauseInputProcess;
 
     /// 
     /// Callbacks.
@@ -52,6 +53,7 @@ public partial class InputManager : Node2D{
     public event Action OnInteractInput;
     public event Action OnDashInput;
     public event Action OnShootInput;
+    public event Action OnPauseInput;
 
     public event Action OnGamepadState;
     public event Action OnKeyboardState;
@@ -93,6 +95,7 @@ public partial class InputManager : Node2D{
         HealInputProcess?.Invoke();
         DashInputProcess?.Invoke();
         ShootInputProcess?.Invoke();
+        PauseInputProcess?.Invoke();
     }
 
 
@@ -109,13 +112,12 @@ public partial class InputManager : Node2D{
         InteractInputProcess    = null;
         DashInputProcess        = null;
         ShootInputProcess       = null;
+        PauseInputProcess       = null;
     }
 
     private void KeyboardState(){
         
         GD.Print("keyboard state");
-
-        ClearState();
         
         IsGamepadConnected = false;
         
@@ -126,15 +128,14 @@ public partial class InputManager : Node2D{
         InteractInputProcess    = InteractInputKeyboard;
         DashInputProcess        = DashInputKeyboard;
         ShootInputProcess       = ShootInputKeyboard;
-        
+        PauseInputProcess       = PauseInputKeyboard;
+
         OnKeyboardState?.Invoke();
     }
 
     private void GamepadState(){
         
         GD.Print("gamepad state");
-
-        ClearState();
         
         IsGamepadConnected = true;
         
@@ -145,6 +146,7 @@ public partial class InputManager : Node2D{
         InteractInputProcess    = InteractInputGamepad;
         DashInputProcess        = DashInputGamepad;
         ShootInputProcess       = ShootInputGamepad;
+        PauseInputProcess       = PauseInputGamepad;
 
         OnGamepadState?.Invoke();
     }
@@ -173,7 +175,7 @@ public partial class InputManager : Node2D{
 
 
     /// 
-    /// Input Checks.
+    /// Controller Check.
     /// 
 
 
@@ -186,6 +188,12 @@ public partial class InputManager : Node2D{
             GamepadState();
         }
     }
+
+
+    /// 
+    /// Gameplay Input Checks.
+    /// 
+
 
     private void MovementInputKeyboard(){
         Vector2 newMoveInput = Input.GetVector("MoveLeftKB", "MoveRightKB", "MoveUpKB", "MoveDownKB");
@@ -280,10 +288,48 @@ public partial class InputManager : Node2D{
     }
 
 
-    ///
-    /// Blockers.
+    /// 
+    /// Shared Input Checks.
     /// 
 
+
+    private void PauseInputKeyboard(){
+        if(Input.IsActionJustPressed("PauseKB")){
+            GD.Print("sent");
+            OnPauseInput?.Invoke();
+        }
+    }
+
+    private void PauseInputGamepad(){
+        if(Input.IsActionJustPressed("PauseGP")){
+            OnPauseInput?.Invoke();
+        }
+    }
+
+
+    ///
+    /// Gameplay Blockers.
+    /// 
+
+    public void BlockGameplayInput(){
+        BlockAimInput();
+        BlockAttackInput();
+        BlockDashInput();
+        BlockHealInput();
+        BlockInteractInput();
+        BlockMovementInput();
+        BlockShootInput();
+    }
+
+    public void UnblockGameplayInput(){
+        UnblockAimInput();
+        UnblockAttackInput();
+        UnblockDashInput();
+        UnblockHealInput();
+        UnblockInteractInput();
+        UnblockMovementInput();
+        UnblockShootInput();
+    }
 
     public void BlockMovementInput(){
         MovementInputProcess = null;
@@ -374,6 +420,20 @@ public partial class InputManager : Node2D{
 
     public void UnblockAimInput(){
         AimInputProcess = IsGamepadConnected == false ? AimInputKeyboard : AimInputGamepad;
+    }
+
+
+    /// 
+    /// Shared Input blocks.
+    /// 
+
+
+    public void BlockPauseInput(){
+        PauseInputProcess = null;
+    }
+
+    public void UnblockPauseInput(){
+        PauseInputProcess = IsGamepadConnected == false ? PauseInputKeyboard : PauseInputGamepad;
     }
 
 

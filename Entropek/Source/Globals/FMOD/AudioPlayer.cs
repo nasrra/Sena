@@ -15,6 +15,18 @@ public partial class AudioPlayer : Node2D{
         TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, globalPosition, oneshot));
     }
 
+    public void PauseState(){
+        for(int i = 0; i < audioInstances.Count; i++){
+            audioInstances[i].EventInstance.setPaused(true);
+        }
+    }
+
+    public void ResumeState(){
+        for(int i = 0; i < audioInstances.Count; i++){
+            audioInstances[i].EventInstance.setPaused(false);
+        }    
+    }
+
     public bool StopSound(string eventName, bool immediate = false){
         for(int i = audioInstances.Count-1; i >=     0; i--){
             if(audioInstances[i].Name == eventName){

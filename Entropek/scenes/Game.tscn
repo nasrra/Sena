@@ -16,7 +16,7 @@ world2D = NodePath("../World2D")
 gui = NodePath("../GUI")
 loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene2DStart = "Level0"
+scene2DStart = "Level2"
 guiStart = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]
@@ -24,9 +24,6 @@ one_shot = true
 
 [node name="LoadScene2DDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
-
-[node name="GameManager" type="Node" parent="."]
-script = ExtResource("2_y3xkw")
 
 [node name="InputManager" type="Node2D" parent="." node_paths=PackedStringArray("blockAimInputTimer", "blockAttackInputTimer", "blockDashInputTimer", "blockHealInputTimer", "blockInteractInputTimer", "blockMovementInputTimer", "blockShootInputTimer")]
 script = ExtResource("3_3ypkp")
@@ -58,3 +55,6 @@ one_shot = true
 
 [node name="BlockShootTimer" type="Timer" parent="InputManager"]
 one_shot = true
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("2_y3xkw")

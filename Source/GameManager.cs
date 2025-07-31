@@ -7,6 +7,7 @@ public partial class GameManager : Node{
     
     public GameState State {get; private set;}
 
+    private event Action OnPauseInput = null;
 
     /// 
     /// Base.
@@ -16,11 +17,19 @@ public partial class GameManager : Node{
     public override void _EnterTree(){
         base._EnterTree();
         Instance = this;
+        LinkEvents();
+    }
+
+
+    public override void _Ready(){
+        base._Ready();
+        GameplayState();
     }
 
     public override void _ExitTree(){
         base._ExitTree();
         Instance = null;
+        UnlinkEvents();
     }
 
 
@@ -30,22 +39,84 @@ public partial class GameManager : Node{
 
 
     public void DeathState(){
+        
         State = GameState.Death;
-        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-        ui.EnableDeathGui();
+        
+        if(GetGameplayUi(out GameplayGui ui)==false){
+            return;
+        }        
+        ui.HudState();
+        
+        ui.DeathState();
+
+        OnPauseInput = null;
     }
 
     public void GameplayState(){
+        
         State = GameState.Gameplay;
-        GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-        ui.EnableHudGui();
+        
+        if(GetGameplayUi(out GameplayGui ui)==false){
+            return;
+        }        
+        ui.HudState();
+        
         InputManager.Singleton.ResumeState();
+        EntityManager.Singleton.ResumeEntityProcesses();
+
+        OnPauseInput = PauseMenuState;
+    }
+
+    public void PauseMenuState(){
+        State = GameState.PauseMenu;
+
+        if(GetGameplayUi(out GameplayGui ui)==false){
+            return;
+        }
+        ui.PauseMenuState();
+        EntityManager.Singleton.PauseEntityProcesses();
+        OnPauseInput = GameplayState;
+    }
+
+    private bool GetGameplayUi(out GameplayGui gameplayGui){
+        Node node = GetNodeOrNull("/root/Main/GUI/GameplayGui");
+        if(node==null){
+            gameplayGui = null;
+            return false;
+        }
+        gameplayGui = (GameplayGui)node;
+        return true;
+    }
+
+
+    /// 
+    /// Linkage.
+    /// 
+
+
+    private void LinkEvents(){
+        InputManager.Singleton.OnPauseInput += InvokeOnPauseInput;
+    }
+
+    private void UnlinkEvents(){
+        InputManager.Singleton.OnPauseInput -= InvokeOnPauseInput;
+    }
+
+
+    ///
+    /// Linkage functions.
+    /// 
+
+
+    private void InvokeOnPauseInput(){
+        GD.Print("recieved");
+        OnPauseInput?.Invoke();
     }
 }
 
 public enum GameState : byte{
     Gameplay,
-    Paused,
+    PauseMenu,
     MainMenu,
     Death,
 }

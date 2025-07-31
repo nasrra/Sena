@@ -466,13 +466,15 @@ public partial class Player : CharacterBody2D{
 	private void HandlePause(){
 		hitBoxes.PauseState();
 		movement.PauseState();
-		InputManager.Singleton.PauseState();
+		animator.Pause();
+		InputManager.Singleton.BlockGameplayInput();
 	}
 
 	private void HandleResume(){
 		hitBoxes.ResumeState();
 		movement.ResumeState();
-		InputManager.Singleton.ResumeState();
+		animator.Play();
+		InputManager.Singleton.UnblockGameplayInput();
 	}
 
 

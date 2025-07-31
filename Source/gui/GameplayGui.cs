@@ -10,6 +10,7 @@ public partial class GameplayGui : Control{
 
     [Export] public DeathScreenGui DeathGui {get; private set;}
     [Export] public Control HudGui {get; private set;}
+    [Export] public Control PauseMenuGui {get; private set;}
     [Export] GameplayGuiState state; 
 
 
@@ -21,6 +22,7 @@ public partial class GameplayGui : Control{
     private enum GameplayGuiState : byte{
         Death,
         Hud,
+        PauseMenu,
     }
 
 
@@ -33,13 +35,13 @@ public partial class GameplayGui : Control{
         
         DeathGui.Visible    = true;
         HudGui.Visible      = true;
+        PauseMenuGui.Visible = true;
         
         RemoveChild(DeathGui);
         RemoveChild(HudGui);
+        RemoveChild(PauseMenuGui);
         
         EnableCurrentGui();
-
-        LinkEvents();
     }
 
     public override void _ExitTree(){
@@ -47,8 +49,6 @@ public partial class GameplayGui : Control{
         
         DeathGui.QueueFree();
         HudGui.QueueFree();
-
-        UnlinkEvents();
     }
 
 
@@ -57,16 +57,24 @@ public partial class GameplayGui : Control{
     ///
 
 
-    public void EnableDeathGui(){
+    public void DeathState(){
         DisableCurrentGui();
         state = GameplayGuiState.Death;
         AddChild(DeathGui);
     }
 
-    public void EnableHudGui(){
+    public void HudState(){
         DisableCurrentGui();
         state = GameplayGuiState.Hud;
         AddChild(HudGui);
+        GD.Print(state);
+    }
+
+    public void PauseMenuState(){
+        DisableCurrentGui();
+        state = GameplayGuiState.PauseMenu;
+        AddChild(PauseMenuGui);
+        GD.Print(state);
     }
 
     private void DisableCurrentGui(){
@@ -76,6 +84,9 @@ public partial class GameplayGui : Control{
             break;
             case GameplayGuiState.Hud:
                 RemoveChild(HudGui);
+            break;
+            case GameplayGuiState.PauseMenu:
+                RemoveChild(PauseMenuGui);
             break;
         }
     }
@@ -88,20 +99,9 @@ public partial class GameplayGui : Control{
             case GameplayGuiState.Hud:
                 AddChild(HudGui);
             break;
+            case GameplayGuiState.PauseMenu:
+                AddChild(PauseMenuGui);
+            break;
         }
-    }
-
-
-    ///
-    /// Linkage.
-    /// 
-
-
-    private void LinkEvents(){
-        // DeathGui.respawnButton.Pressed += EnableHudGui;
-    }
-
-    private void UnlinkEvents(){
-        // DeathGui.respawnButton.Pressed -= EnableHudGui;
     }
 }

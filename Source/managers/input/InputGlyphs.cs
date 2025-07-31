@@ -35,6 +35,7 @@ public class InputGlyphs{
         {Key.A,     "\uFF21"},
         {Key.S,     "\uFF33"},
         {Key.D,     "\uFF24"},
+        {Key.Escape,"\u242F"}
     };
 
     public readonly Dictionary<MouseButton, string> MouseButtonUnicode = new Dictionary<MouseButton, string>(){

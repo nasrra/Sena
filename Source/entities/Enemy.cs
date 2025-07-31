@@ -152,11 +152,15 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		statePhysicProcess = null;
 		attackHandler.PauseState();
 		characterMovement.PauseState();
+		audioPlayer.PauseState();
+		animator.SpeedScale = 0; // pause animator.
 	}
 
 	private void ResumeState(){
 		attackHandler.ResumeState();
 		characterMovement.ResumeState();
+		audioPlayer.ResumeState();
+		animator.SpeedScale = 1; // resume animator.
 		EvaluateState();
 	}
 
@@ -365,13 +369,16 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	private void OnAnimationChanged(){
-
 		// work around to always ensure frame 0 of animation event is fired.
 		OnFrameChanged(animator.Animation);		
 	}
 
 	private void OnFrameChanged(){
-
+		// work around to always ensure frame 0 of animation event is fired.
+		int frame = animator.Frame;
+		if(frame==0){
+			return;
+		}
 		OnFrameChanged(animator.Animation);
 	}
 
