@@ -26,6 +26,7 @@ public partial class AiAttackHandler : Node{
     private Array<AiAttack> availableOmniAttacks = new Array<AiAttack>();
     [Export] private Array<Timer> attackCooldowns; // <-- one timer per unique attack.
 
+    public event Action<byte> OnAttackChosen;
     public event Action<byte, AttackDirection> OnAttackStarted;
     public event Action<byte, AttackDirection> OnLeadIn;
     public event Action<byte, AttackDirection> OnAttack;
@@ -211,11 +212,7 @@ public partial class AiAttackHandler : Node{
     }
 
     public void EvaluateState(){
-        // go into standby if we are not currently attacking.
-
-        if(leadInStateTimer.TimeLeft == 0
-        && attackStateTimer.TimeLeft == 0
-        && followThroughStateTimer.TimeLeft == 0){
+        if(IsAttacking==false){
             StandbyState();
         }
     }
@@ -372,7 +369,7 @@ public partial class AiAttackHandler : Node{
 
         // choose a random attack.
 
-        StartAttacking();
+        OnAttackChosen?.Invoke(chosenAttack.Id);
     }
 
     private void ChooseRandomAttack(Array<AiAttack> availableAttackOptions, Array<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
@@ -422,10 +419,14 @@ public partial class AiAttackHandler : Node{
         }
     }
 
-    private void StartAttacking(){
-        statePhysicsProcess = null;
-        OnAttackStarted?.Invoke(chosenAttack.Id, chosenAttackDirection);
-        LeadInState();
+    public bool StartAttacking(){
+        if(chosenAttack!=null){
+            statePhysicsProcess = null;
+            OnAttackStarted?.Invoke(chosenAttack.Id, chosenAttackDirection);
+            LeadInState();
+            return true;
+        }
+        return false;
     }
 
     /// 

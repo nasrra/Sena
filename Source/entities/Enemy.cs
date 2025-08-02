@@ -19,7 +19,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	[Export] private AudioPlayer audioPlayer;
 	[Export] private AgressionZone agressionZone;
 
-
 	private event Action<double> Process = null;
 	private event Action<double> PhysicsProcess = null;
 
@@ -81,6 +80,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	private void InvokeProcess(double delta) => Process?.Invoke(delta);
 	private void InvokePhysicsProcess(double delta) => PhysicsProcess?.Invoke(delta);
 
+
 	/// 
 	/// State Machine
 	/// 
@@ -124,6 +124,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		PhysicsProcess  = ChaseStatePhysicsProcess;
 		
 		// update data relevant to this frames.
+
 		CalculateRelationshipToTarget();
 		attackHandler.SetDirectionToTarget(directionToTarget);
 		attackHandler.SetDistanceToTarget(distanceToTarget);
@@ -141,6 +142,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	public void StunState(float time){
+		
 		state 			= EnemyState.Stunned;
 		Process        	= null;
 		PhysicsProcess  = null;
@@ -186,6 +188,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		characterMovement.PauseState();
 		audioPlayer.PauseState();
 		hitBoxHandler.PauseState();
+		agressionZone.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
@@ -195,6 +198,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		audioPlayer.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
 		hitBoxHandler.ResumeState();
+		agressionZone.ResumeState();
 		EvaluateState();
 	}
 
@@ -323,23 +327,25 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	private void LinkAttackHandler(){
-		attackHandler.OnAttack          += OnAttack;
-		attackHandler.OnAttackStarted   += OnStartAttack;
-		attackHandler.OnAttackEnded     += OnAttackEnded;
+		attackHandler.OnAttackChosen	+= HandleAttackChosen;
+		attackHandler.OnAttack          += HandleAttack;
+		attackHandler.OnAttackStarted   += HandleStartAttack;
+		attackHandler.OnAttackEnded     += HandleAttackEnded;
 	}
 
 	private void UnlinkAttackHandler(){
-		attackHandler.OnAttack          -= OnAttack;
-		attackHandler.OnAttackStarted   -= OnStartAttack;
-		attackHandler.OnAttackEnded     -= OnAttackEnded;
+		attackHandler.OnAttackChosen	-= HandleAttackChosen;
+		attackHandler.OnAttack          -= HandleAttack;
+		attackHandler.OnAttackStarted   -= HandleStartAttack;
+		attackHandler.OnAttackEnded     -= HandleAttackEnded;
 	}
 
 	private void LinkHitBoxHandler(){
-		hitBoxHandler.OnHit += OnAttackHit;
+		hitBoxHandler.OnHit += HandleAttackHit;
 	}
 
 	private void UnlinkHitBoxHandler(){
-		hitBoxHandler.OnHit -= OnAttackHit;
+		hitBoxHandler.OnHit -= HandleAttackHit;
 	}
 
 	private void LinkTimers(){
@@ -369,8 +375,13 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	/// Linkage Functions.
 	/// 
 
+	private void HandleAttackChosen(byte attackId){
+		if(agressionZone.IsInSight(Target)==true){
+			attackHandler.StartAttacking();
+		}
+	}
 
-	private void OnStartAttack(byte attackId, AttackDirection attackDirection){
+	private void HandleStartAttack(byte attackId, AttackDirection attackDirection){
 		AttackingState();
 		switch(attackId){
 			case (byte)AttackId.Slash:
@@ -399,7 +410,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		characterMovement.ZeroDirection();
 	}
 
-	private void OnAttack(byte attackId, AttackDirection attackDirection){
+	private void HandleAttack(byte attackId, AttackDirection attackDirection){
 		switch(attackId){
 			case (byte)AttackId.Slash:
 				switch(attackDirection){
@@ -427,7 +438,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		}
 	}
 
-	private void OnAttackHit(Node other, int hitboxId){
+	private void HandleAttackHit(Node other, int hitboxId){
 		string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
 		switch (hitLayer){
 			case "Player":
@@ -439,6 +450,10 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		}
 	}
 
+	private void HandleAttackEnded(){
+		EvaluateState();
+	}
+
 	private void OnDamaged(){
 		float stunTime = 0.66f;
 		hitFlash.Flash();
@@ -447,9 +462,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 
-	private void OnAttackEnded(){
-		EvaluateState();
-	}
 
 	public void Kill(){
 		EnemyManager.Instance.RemoveEnemy(this);
