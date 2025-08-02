@@ -1,89 +1,61 @@
-[gd_scene load_steps=11 format=3 uid="uid://543qv6luqatf"]
+[gd_scene load_steps=10 format=3 uid="uid://dihopjgrk6eff"]
 
-[ext_resource type="Script" uid="uid://bunhr6v7hw70" path="res://source/nodes/door/BrazierLevelSwapDoor.cs" id="1_r0bip"]
+[ext_resource type="PackedScene" uid="uid://dokaqxml1glsl" path="res://scenes/doors/templates/LevelSwapDoor.tscn" id="1_5s8c3"]
 [ext_resource type="Texture2D" uid="uid://d1pwdo2evg11s" path="res://assets/test/DoorOpen.png" id="2_bcd7d"]
 [ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="2_sxa3i"]
 [ext_resource type="Texture2D" uid="uid://q3tn4k1itx50" path="res://assets/test/DoorClosed.png" id="3_dvdcg"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_allfw"]
+[ext_resource type="PackedScene" uid="uid://lfgrjn2vk4ss" path="res://Entropek/scenes/HitInteractable.tscn" id="4_r0bip"]
 [ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="4_sxa3i"]
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_bcd7d"]
-[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/nodes/door/EmberHolder.cs" id="6_dvdcg"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="6_dvdcg"]
+[ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierDoor.cs" id="7_allfw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_02wmg"]
-size = Vector2(8, 8)
+[node name="BrazierLevelSwapDoorTemplate" instance=ExtResource("1_5s8c3")]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ybpd"]
-size = Vector2(8, 8)
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(0, -10)
+scale = Vector2(0.075, 0.075)
+texture = ExtResource("3_dvdcg")
 
-[node name="BrazierLevelSpawnDoorTemplate" type="Node2D" node_paths=PackedStringArray("hitInteractable", "interactable", "embers", "fireRight", "fireLeft", "enterZone", "ExitPoint", "collider", "sprite")]
-script = ExtResource("1_r0bip")
-hitInteractable = NodePath("HitInteractable/Interactable")
-interactable = NodePath("Interactable")
-embers = NodePath("EmberHolder")
+[node name="ExitPoint" parent="Container" index="0"]
+position = Vector2(0, 20)
+
+[node name="EnterZone" parent="Container" index="1"]
+position = Vector2(0, -8)
+scale = Vector2(5, 3)
+
+[node name="Collider" parent="Container" index="2"]
+scale = Vector2(5, 1)
+
+[node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers", "fireRight", "fireLeft")]
+script = ExtResource("7_allfw")
+door = NodePath("..")
+sprite = NodePath("../Sprite2D")
+hitInteractable = NodePath("../HitInteractable/Interactable")
+interactable = NodePath("../Interactable")
+embers = NodePath("../EmberHolder")
 litFire = ExtResource("2_sxa3i")
 unlitFire = ExtResource("4_sxa3i")
-fireRight = NodePath("EmberSpriteRight")
-fireLeft = NodePath("EmberSpriteLeft")
-enterZone = NodePath("Container/EnterZone")
-ExitPoint = NodePath("Container/ExitPoint")
-collider = NodePath("Container/StaticBody2D")
-sprite = NodePath("MainSprite")
+fireRight = NodePath("../FireRight")
+fireLeft = NodePath("../FireLeft")
 openedSprite = ExtResource("2_bcd7d")
 closedSprite = ExtResource("3_dvdcg")
-Opened = true
 
-[node name="MainSprite" type="Sprite2D" parent="."]
-scale = Vector2(0.03, 0.03)
-texture = ExtResource("2_bcd7d")
+[node name="Interactable" parent="." index="4" instance=ExtResource("4_allfw")]
 
-[node name="EmberSpriteLeft" type="Sprite2D" parent="."]
-position = Vector2(-7, 2)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("4_sxa3i")
+[node name="HitInteractable" type="Node2D" parent="." index="5"]
 
-[node name="EmberSpriteRight" type="Sprite2D" parent="."]
-position = Vector2(7, 2)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("4_sxa3i")
+[node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("4_r0bip")]
 
-[node name="Container" type="Node2D" parent="."]
-
-[node name="ExitPoint" type="Node2D" parent="Container"]
-position = Vector2(0, 18)
-
-[node name="EnterZone" type="Area2D" parent="Container"]
-collision_layer = 0
-collision_mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/EnterZone"]
-shape = SubResource("RectangleShape2D_02wmg")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Container"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/StaticBody2D"]
-shape = SubResource("RectangleShape2D_5ybpd")
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="Interactable" parent="." node_paths=PackedStringArray("InteractIcon") instance=ExtResource("4_allfw")]
-scale = Vector2(12, 16)
-InteractIcon = NodePath("../InputActionLabel")
-
-[node name="HitInteractable" type="Node2D" parent="."]
-
-[node name="Interactable" parent="HitInteractable" instance=ExtResource("4_allfw")]
-scale = Vector2(13, 17)
-collision_layer = 4
-collision_mask = 4
-
-[node name="InputActionLabel" parent="." instance=ExtResource("5_bcd7d")]
-visible = false
-offset_left = -5.0
-offset_top = -20.0
-offset_right = 3.0
-offset_bottom = -7.91667
-text = ""
-
-[node name="EmberHolder" type="Node" parent="."]
+[node name="EmberHolder" type="Node" parent="." index="6"]
 script = ExtResource("6_dvdcg")
+
+[node name="FireLeft" type="Sprite2D" parent="." index="7"]
+position = Vector2(-14, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_sxa3i")
+
+[node name="FireRight" type="Sprite2D" parent="." index="8"]
+position = Vector2(14, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_sxa3i")

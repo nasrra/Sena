@@ -10,8 +10,6 @@
 
 [node name="GameplayLevelTemplate" type="Node2D"]
 
-[node name="PathfindGrid" parent="." instance=ExtResource("1_0pdpo")]
-
 [node name="DoorManager" type="Node" parent="." node_paths=PackedStringArray("doors")]
 script = ExtResource("2_r4jcq")
 doors = []
@@ -21,6 +19,8 @@ script = ExtResource("3_ekaam")
 
 [node name="AudioBankLoader" type="Node" parent="."]
 script = ExtResource("7_fei8l")
+
+[node name="PathfindGrid" parent="." instance=ExtResource("1_0pdpo")]
 
 [node name="EntityManager" type="Node2D" parent="." node_paths=PackedStringArray("pausedTimer")]
 z_as_relative = false

@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://bsgesvasya5np"]
 
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_oye58"]
-[ext_resource type="Script" uid="uid://c1ynvngk2n7pl" path="res://source/nodes/interactables/Chimney.cs" id="1_prvul"]
+[ext_resource type="Script" uid="uid://c1ynvngk2n7pl" path="res://source/interactables/Chimney.cs" id="1_prvul"]
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="3_g20y1"]
-[ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/nodes/EmberStorage.cs" id="4_ebept"]
+[ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="4_ebept"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_8r0fy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prvul"]

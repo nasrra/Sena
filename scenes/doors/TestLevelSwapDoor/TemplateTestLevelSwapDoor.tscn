@@ -5,6 +5,10 @@
 
 [node name="TestlevelSwapDoor" instance=ExtResource("1_jjq1m")]
 
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("2_eflrg")
+
 [node name="ExitPoint" parent="Container" index="0"]
 position = Vector2(0, 10)
 
@@ -15,7 +19,3 @@ scale = Vector2(2, 1)
 scale = Vector2(2, 1)
 collision_layer = 2
 collision_mask = 0
-
-[node name="Sprite2D" parent="." index="2"]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("2_eflrg")

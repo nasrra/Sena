@@ -359,14 +359,12 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	private void LinkAgressionZone(){
-		agressionZone.OnInSight 	+= SetTarget;
-		agressionZone.OnEnteredZone += ChaseState;
+		agressionZone.OnInSight 	+= ChaseState;
 		agressionZone.OnExitedZone 	+= TargetLeft;
 	}
 
 	private void UnlinkAgressionZone(){
-		agressionZone.OnInSight 	-= SetTarget;
-		agressionZone.OnEnteredZone -= ChaseState;
+		agressionZone.OnInSight 	-= ChaseState;
 		agressionZone.OnExitedZone 	-= TargetLeft;
 	}
 

@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="11_1jhey"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
-[ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
+[ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/HitBoxHandler.cs" id="13_qwpog"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(14, 14)

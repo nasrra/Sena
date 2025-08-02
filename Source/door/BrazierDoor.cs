@@ -1,8 +1,9 @@
 using Godot;
 using System;
 
-public partial class BrazierLevelSwapDoor : LevelSwapDoor{
-    [ExportGroup("BrazierLevelSwapDoor")]
+public partial class BrazierDoor : Node{
+    [Export] private Door door;
+    [Export] private Sprite2D sprite;
     [Export] private Interactable hitInteractable;
     [Export] private Interactable interactable;
     [Export] private EmberHolder embers;
@@ -10,6 +11,8 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
     [Export] private Texture2D unlitFire;
     [Export] private Sprite2D fireRight;
     [Export] private Sprite2D fireLeft;
+    [Export] private Texture2D openedSprite;
+    [Export] private Texture2D closedSprite;
 
 
     /// 
@@ -19,6 +22,20 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
 
     public override void _EnterTree(){
         base._EnterTree();
+        if(door.Locked==false){
+            LitState();
+            embers.LitState();
+        }
+        else{
+            embers.UnlitState();
+            UnlitState();
+        }
+        if(door.Opened==true){
+            HandleOpen();
+        }
+        else{
+            HandleClose();
+        }
         LinkEvents();
     }
 
@@ -28,14 +45,11 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
     }
 
     private void HitInteracted(Interactor interactor){
-        if(Locked==true){
+        if(door.Locked==true){
             return;
         }
-        if(Opened == false){
-            Open();
-            }
-        else{
-            Close();
+        if(door.Opened == false && embers.IsLit == true){
+            door.Open();
         }
     }
 
@@ -46,29 +60,25 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
             embers.LitState();
         }
         else{
-            Unlock();
+            door.Unlock();
         }
     }   
 
-    public override void Open(){
+    private void HandleOpen(){
         sprite.Texture = openedSprite;
-        base.Open();
     }
 
-    public override void Close(){
+    private void HandleClose(){
         sprite.Texture = closedSprite;
-        base.Close();
     }
 
     private void LitState(){
-        Unlock();
         interactable.DisableInteraction();
         fireLeft.Texture    = litFire;
         fireRight.Texture   = litFire;
     }
 
     private void UnlitState(){
-        Lock();
         interactable.EnableInteraction();        
         fireLeft.Texture    = unlitFire;
         fireRight.Texture   = unlitFire;
@@ -85,6 +95,10 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
         hitInteractable.OnInteract  += HitInteracted;
         embers.OnLit                += LitState;
         embers.OnUnlit              += UnlitState;
+        door.OnOpen                 += HandleOpen;
+        door.OnClose                += HandleClose;
+        door.OnLock                 += UnlitState;
+        door.OnUnlock               += LitState;
     }
 
     private void UnlinkEvents(){
@@ -92,6 +106,10 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
         hitInteractable.OnInteract  -= HitInteracted;
         embers.OnLit                -= LitState;
         embers.OnUnlit              -= UnlitState;
+        door.OnOpen                 -= HandleOpen;
+        door.OnClose                -= HandleClose;
+        door.OnLock                 -= UnlitState;
+        door.OnUnlock               -= LitState;
     }
 
 }

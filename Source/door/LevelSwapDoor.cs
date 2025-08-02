@@ -39,12 +39,22 @@ public partial class LevelSwapDoor : Door{
 
     public override void Open(){
         CallDeferred(nameof(EnableEnterZone));
+        CallDeferred(nameof(DisableCollider));
         base.Open();
     }
 
     public override void Close(){
         CallDeferred(nameof(DisableEnterZone));
+        CallDeferred(nameof(EnableCollider));
         base.Close();
+    }
+
+    private void EnableCollider(){
+        collider.GetNode<CollisionShape2D>("CollisionShape2D").Disabled=false;
+    }
+
+    private void DisableCollider(){
+        collider.GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
     }
 
     private void EnableEnterZone(){

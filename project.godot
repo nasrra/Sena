@@ -35,6 +35,10 @@ window/size/viewport_height=1080
 
 project/assembly_name="Cena"
 
+[editor]
+
+naming/scene_name_casing=1
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/codeandweb.texturepacker/plugin.cfg", "res://addons/copy_files_on_export/plugin.cfg", "res://addons/debugdraw2d/plugin.cfg")

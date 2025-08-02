@@ -59,6 +59,7 @@ public partial class WayfindingGrid2D : Node2D{
 
     public override void _Ready(){
         base._Ready();
+        tileMap.Visible=true;
         if(hideTiles == true){
             Shader shader = new Shader();
             shader.Code = "shader_type canvas_item; void fragment() { discard; }";

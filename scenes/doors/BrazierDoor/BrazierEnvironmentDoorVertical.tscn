@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7omjbe8a7mqf"]
+
+[ext_resource type="PackedScene" uid="uid://ct8o3q4y7ymc4" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorTemplate.tscn" id="1_sjgkp"]
+
+[node name="BrazierEnvironmentDoorVertical" instance=ExtResource("1_sjgkp")]
+
+[node name="Collider" parent="Container" index="0"]
+scale = Vector2(5, 1)
