@@ -17,10 +17,11 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	[Export] public Node2D Target;
 	[Export] private AnimatedSprite2D animator;
 	[Export] private AudioPlayer audioPlayer;
+	[Export] private AgressionZone agressionZone;
 
 
-	private event Action stateProcess = null;
-	private event Action statePhysicProcess = null;
+	private event Action<double> Process = null;
+	private event Action<double> PhysicsProcess = null;
 
 	[ExportGroup("Variabales")]
 	private Vector2 directionToTarget = Vector2.Zero;
@@ -38,8 +39,10 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
 	private enum EnemyState : byte{
+		Idle,
 		Chase,
 		Stunned,
+		Attacking,
 	}
 
 	private enum AttackId : byte{
@@ -62,13 +65,12 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	public override void _Ready(){
 		base._Ready();
 		EnemyManager.Instance.AddEnemy(this);
-		animator.Play("IdleBackward");
+		IdleState();
 	}
 
 	public override void _EnterTree(){
 		base._EnterTree();
 		LinkEvents();
-		ChaseState();
 	}
 
 	public override void _ExitTree(){
@@ -76,33 +78,60 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		UnlinkEvents();
 	}
 
-	private void Process(double delta){
-		stateProcess?.Invoke();
-	}
-
-	private void PhysicsProcess(double delta){
-		statePhysicProcess?.Invoke();
-	}
-
+	private void InvokeProcess(double delta) => Process?.Invoke(delta);
+	private void InvokePhysicsProcess(double delta) => PhysicsProcess?.Invoke(delta);
 
 	/// 
 	/// State Machine
 	/// 
 
 
+	private void TargetLeft(Node2D node){
+		Target = null;
+		characterMovement.ZeroDirection();
+		audioPlayer.StopSound("WorkerAttack");
+		attackHandler.HaltState();
+		hitBoxHandler.DisableAllHitBoxes();
+		IdleState();
+	}
+
 	private void EvaluateState(){
 
 		// TODO: do some recovery state code when needed.
-		ChaseState();
+		if(Target == null){
+			IdleState();
+		}
+		else if(attackHandler.IsAttacking == false){
+			ChaseState();
+		}
 		attackHandler.EvaluateState();
 	}
 
-	public void ChaseState(){
-		stateProcess        = null;
-		statePhysicProcess  = ChaseStatePhysicsProcess;
+	private void IdleState(){
+		state 			= EnemyState.Idle;
+		Process 		= null;
+		PhysicsProcess 	= null;
+		animator.Play("IdleBackward");
 	}
 
-	private void ChaseStatePhysicsProcess(){
+	private void ChaseState(Node2D target){
+		SetTarget(target);
+		ChaseState();
+	}
+
+	public void ChaseState(){
+		Process        	= null;
+		PhysicsProcess  = ChaseStatePhysicsProcess;
+		
+		// update data relevant to this frames.
+		CalculateRelationshipToTarget();
+		attackHandler.SetDirectionToTarget(directionToTarget);
+		attackHandler.SetDistanceToTarget(distanceToTarget);
+
+		attackHandler.ResumeState();
+	}
+
+	private void ChaseStatePhysicsProcess(double delta){
 		if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
 			CalculateRelationshipToTarget();
 			UpdateAttackHandler();
@@ -112,9 +141,9 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	public void StunState(float time){
-		state 				= EnemyState.Stunned;
-		stateProcess        = null;
-		statePhysicProcess  = null;
+		state 			= EnemyState.Stunned;
+		Process        	= null;
+		PhysicsProcess  = null;
 		attackHandler.HaltState(time+stunStateAttackHandlerStandbyAdditiveTime);
 		hitBoxHandler.DisableAllHitBoxes();
 
@@ -143,16 +172,20 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	private void AttackingState(){
-		stateProcess = null;
-		statePhysicProcess = null;
+		
+		state = EnemyState.Attacking;
+
+		Process = null;
+		PhysicsProcess = null;
 	}
 
 	private void PauseState(){
-		stateProcess = null;
-		statePhysicProcess = null;
+		Process = null;
+		PhysicsProcess = null;
 		attackHandler.PauseState();
 		characterMovement.PauseState();
 		audioPlayer.PauseState();
+		hitBoxHandler.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
@@ -161,12 +194,13 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		characterMovement.ResumeState();
 		audioPlayer.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
+		hitBoxHandler.ResumeState();
 		EvaluateState();
 	}
 
 
 	/// 
-	/// Shared State Function
+	/// Shared Functions
 	/// 
 
 
@@ -225,55 +259,109 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		}
 	}
 
+	public void SetTarget(Node2D target){
+		Target = target;
+	}
+
 	/// 
 	/// Linkage
 	/// 
 
 
 	private void LinkEvents(){
-		EntityManager.Singleton.OnProcess += Process;
-		EntityManager.Singleton.OnPhysicsProcess += PhysicsProcess;
-		EntityManager.Singleton.OnPause += PauseState;
-		EntityManager.Singleton.OnResume += ResumeState;
-
-		animator.FrameChanged 		+= OnFrameChanged;
-		animator.AnimationChanged 	+= OnAnimationChanged;
-
-		health.OnDeath  += Kill;
-		health.OnDamage += OnDamaged;
-		
-		attackHandler.OnAttack          += OnAttack;
-		attackHandler.OnAttackStarted   += OnStartAttack;
-		attackHandler.OnAttackEnded     += OnAttackEnded;
-
-		hitBoxHandler.OnHit += OnAttackHit;
-
-		stunTimer.Timeout += EvaluateState;
-		ignoreEnemyTimer.Timeout += RespondToEnemyCollisionMask;
-
-
+		LinkEntityManager();
+		LinkAnimator();
+		LinkHealth();
+		LinkAttackHandler();
+		LinkHitBoxHandler();
+		LinkTimers();
+		LinkAgressionZone();
 	}
 
 	private void UnlinkEvents(){
-		EntityManager.Singleton.OnProcess -= Process;
-		EntityManager.Singleton.OnPhysicsProcess -= PhysicsProcess;
-		EntityManager.Singleton.OnPause -= PauseState;
-		EntityManager.Singleton.OnResume -= ResumeState;
+		UnlinkEntityManager();
+		UnlinkAnimator();
+		UnlinkHealth();
+		UnlinkAttackHandler();
+		UnlinkHitBoxHandler();
+		UnlinkTimers();
+		UnlinkAgressionZone();
+	}
 
+	private void LinkEntityManager(){
+		EntityManager.Singleton.OnProcess 			+= InvokeProcess;
+		EntityManager.Singleton.OnPhysicsProcess 	+= InvokePhysicsProcess;
+		EntityManager.Singleton.OnPause 			+= PauseState;
+		EntityManager.Singleton.OnResume 			+= ResumeState;
+	}
+
+	private void UnlinkEntityManager(){
+		EntityManager.Singleton.OnProcess 			-= InvokeProcess;
+		EntityManager.Singleton.OnPhysicsProcess 	-= InvokePhysicsProcess;
+		EntityManager.Singleton.OnPause 			-= PauseState;
+		EntityManager.Singleton.OnResume 			-= ResumeState;
+	}
+
+	private void LinkAnimator(){
+		animator.FrameChanged 		+= OnFrameChanged;
+		animator.AnimationChanged 	+= OnAnimationChanged;
+	}
+
+	private void UnlinkAnimator(){
 		animator.FrameChanged 		-= OnFrameChanged;
 		animator.AnimationChanged 	-= OnAnimationChanged;
+	}
 
+	private void LinkHealth(){
+		health.OnDeath  += Kill;
+		health.OnDamage += OnDamaged;
+	}
+
+	private void UnlinkHealth(){
 		health.OnDeath  -= Kill;
 		health.OnDamage -= OnDamaged;
+	}
 
+	private void LinkAttackHandler(){
+		attackHandler.OnAttack          += OnAttack;
+		attackHandler.OnAttackStarted   += OnStartAttack;
+		attackHandler.OnAttackEnded     += OnAttackEnded;
+	}
+
+	private void UnlinkAttackHandler(){
 		attackHandler.OnAttack          -= OnAttack;
 		attackHandler.OnAttackStarted   -= OnStartAttack;
 		attackHandler.OnAttackEnded     -= OnAttackEnded;
+	}
 
+	private void LinkHitBoxHandler(){
+		hitBoxHandler.OnHit += OnAttackHit;
+	}
+
+	private void UnlinkHitBoxHandler(){
 		hitBoxHandler.OnHit -= OnAttackHit;
+	}
 
-		stunTimer.Timeout -= EvaluateState;
-		ignoreEnemyTimer.Timeout -= RespondToEnemyCollisionMask;
+	private void LinkTimers(){
+		stunTimer.Timeout 			+= EvaluateState;
+		ignoreEnemyTimer.Timeout 	+= RespondToEnemyCollisionMask;
+	}
+
+	private void UnlinkTimers(){
+		stunTimer.Timeout 			-= EvaluateState;
+		ignoreEnemyTimer.Timeout 	-= RespondToEnemyCollisionMask;	
+	}
+
+	private void LinkAgressionZone(){
+		agressionZone.OnInSight 	+= SetTarget;
+		agressionZone.OnEnteredZone += ChaseState;
+		agressionZone.OnExitedZone 	+= TargetLeft;
+	}
+
+	private void UnlinkAgressionZone(){
+		agressionZone.OnInSight 	-= SetTarget;
+		agressionZone.OnEnteredZone -= ChaseState;
+		agressionZone.OnExitedZone 	-= TargetLeft;
 	}
 
 

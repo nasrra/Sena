@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=17 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://cob7ecgwsouqq" path="res://source/entities/Enemy.cs" id="1_s7bn3"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
 [ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="11_1jhey"]
+[ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/nodes/HitBoxHandler.cs" id="13_qwpog"]
 
@@ -21,7 +22,10 @@ size = Vector2(18, 13)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_esdid"]
 size = Vector2(13, 18)
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator", "audioPlayer")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8ssa"]
+radius = 100.0
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator", "audioPlayer", "agressionZone")]
 material = ExtResource("2_m80fk")
 collision_layer = 8
 collision_mask = 14
@@ -36,6 +40,7 @@ stunTimer = NodePath("StunTimer")
 ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
 animator = NodePath("AnimatedSprite")
 audioPlayer = NodePath("AudioPlayer")
+agressionZone = NodePath("AgressionZone")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -55,14 +60,13 @@ BaseTopSpeed = 50.0
 BaseAcceleration = 200.0
 BaseDeceleration = 200.0
 
-[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("attackCooldowns", "hitBoxHandler") instance=ExtResource("6_mj3ic")]
+[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("attackCooldowns") instance=ExtResource("6_mj3ic")]
 upAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 rightAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 downAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 leftAttacks = Array[Resource]([ExtResource("7_8rhtt")])
 omniAttacks = Array[Resource]([])
 attackCooldowns = [NodePath("SlashCooldown")]
-hitBoxHandler = NodePath("../HitBoxHandler")
 
 [node name="SlashCooldown" type="Timer" parent="AiAttackHandler"]
 one_shot = true
@@ -149,3 +153,24 @@ Value = 3
 
 [node name="AudioPlayer" type="Node2D" parent="."]
 script = ExtResource("11_1jhey")
+
+[node name="AgressionZone" type="Node2D" parent="." node_paths=PackedStringArray("passiveZone", "activeZone")]
+visible = false
+script = ExtResource("12_qwpog")
+passiveZone = NodePath("PassiveZone")
+activeZone = NodePath("ActiveZone")
+obstructionLayer = 2
+
+[node name="PassiveZone" type="Area2D" parent="AgressionZone"]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/PassiveZone"]
+shape = SubResource("CircleShape2D_v8ssa")
+
+[node name="ActiveZone" type="Area2D" parent="AgressionZone"]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/ActiveZone"]
+shape = SubResource("CircleShape2D_v8ssa")

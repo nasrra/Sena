@@ -33,7 +33,6 @@ public partial class AiAttackHandler : Node{
     public event Action OnAttackEnded;
     private event Action statePhysicsProcess = null;
 
-    [Export] private HitBoxHandler hitBoxHandler;
     [Export] private Timer leadInStateTimer;
     [Export] private Timer attackStateTimer;
     [Export] private Timer followThroughStateTimer;
@@ -50,6 +49,8 @@ public partial class AiAttackHandler : Node{
     private float maxMinTargetDistanceAttack = float.MinValue;
 
     private AiAttackHandlerState state;
+
+    public bool IsAttacking => leadInStateTimer.TimeLeft > 0 || attackStateTimer.TimeLeft > 0 || followThroughStateTimer.TimeLeft > 0;
 
 
     /// 
@@ -171,9 +172,8 @@ public partial class AiAttackHandler : Node{
         leadInStateTimer.Stop();
         attackStateTimer.Stop();
         followThroughStateTimer.Stop();
-        
-        hitBoxHandler.DisableAllHitBoxes();
-        
+        standByCooldown.Stop();
+                
         statePhysicsProcess = null;
         
         StartChoseAttackCooldown();
@@ -189,20 +189,25 @@ public partial class AiAttackHandler : Node{
 
         state = AiAttackHandlerState.Paused;
 
-        leadInStateTimer.Paused         = true;
-        attackStateTimer.Paused         = true;
-        followThroughStateTimer.Paused  = true;
-        standByCooldown.Paused          = true;
+        leadInStateTimer.Paused                 = true;
+        attackStateTimer.Paused                 = true;
+        followThroughStateTimer.Paused          = true;
+        standByCooldown.Paused                  = true;
+        if(chosenAttack!=null){
+            attackCooldowns[chosenAttack.Id].Paused = true;
+        }
         statePhysicsProcess = null;
-        hitBoxHandler.PauseState();
     }
 
     public void ResumeState(){
-        leadInStateTimer.Paused         = false;
-        attackStateTimer.Paused         = false;
-        followThroughStateTimer.Paused  = false;
-        standByCooldown.Paused          = false;
-        hitBoxHandler.ResumeState();
+        leadInStateTimer.Paused                 = false;
+        attackStateTimer.Paused                 = false;
+        followThroughStateTimer.Paused          = false;
+        standByCooldown.Paused                  = false;
+        if(chosenAttack != null){
+            attackCooldowns[chosenAttack.Id].Paused = false;
+        }
+        EvaluateState();
     }
 
     public void EvaluateState(){
@@ -216,7 +221,7 @@ public partial class AiAttackHandler : Node{
     }
 
     private void LeadInState(){
-        
+
         state = AiAttackHandlerState.LeadIn;
 
         leadInStateTimer.WaitTime = chosenAttack.LeadInTime;
@@ -367,7 +372,6 @@ public partial class AiAttackHandler : Node{
 
         // choose a random attack.
 
-        
         StartAttacking();
     }
 

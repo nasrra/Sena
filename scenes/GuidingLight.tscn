@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://yqjahtxaq8sv"]
+
+[ext_resource type="Texture2D" uid="uid://c3oeg656d1n6r" path="res://assets/test/Compass_Container_.png" id="1_xlwo8"]
+[ext_resource type="Texture2D" uid="uid://xwuwtqxg8bd6" path="res://assets/test/Needle.png" id="2_anb5j"]
+
+[node name="Guiding Light" type="Node2D"]
+
+[node name="Container" type="Sprite2D" parent="."]
+texture = ExtResource("1_xlwo8")
+
+[node name="Needle" type="Sprite2D" parent="."]
+texture = ExtResource("2_anb5j")
+offset = Vector2(10, -15)
