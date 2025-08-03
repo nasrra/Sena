@@ -21,6 +21,7 @@ script = ExtResource("3_ekaam")
 script = ExtResource("7_fei8l")
 
 [node name="PathfindGrid" parent="." instance=ExtResource("1_0pdpo")]
+modulate = Color(1, 1, 1, 0.784314)
 
 [node name="EntityManager" type="Node2D" parent="." node_paths=PackedStringArray("pausedTimer")]
 z_as_relative = false

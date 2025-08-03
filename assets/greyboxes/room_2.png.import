@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1j0mxmi8yien"
-path="res://.godot/imported/NavTileset.png-1c74552e0f35bd6c3526703fd2206411.ctex"
+uid="uid://77bbdw28gevy"
+path="res://.godot/imported/room_2.png-45f20df7b437d0f55a4a5fbb3ef70c24.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/NavTileset.png"
-dest_files=["res://.godot/imported/NavTileset.png-1c74552e0f35bd6c3526703fd2206411.ctex"]
+source_file="res://assets/greyboxes/room_2.png"
+dest_files=["res://.godot/imported/room_2.png-45f20df7b437d0f55a4a5fbb3ef70c24.ctex"]
 
 [params]
 

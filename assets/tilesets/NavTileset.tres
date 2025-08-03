@@ -1,8 +1,8 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cngxibluwqs2j"]
 
-[ext_resource type="Texture2D" uid="uid://beai5x8sgajfy" path="res://assets/tilesets/NavTileset.png" id="1_xc77c"]
+[ext_resource type="Texture2D" uid="uid://d1j0mxmi8yien" path="res://assets/tilesets/NavTileset.png" id="1_xc77c"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p8iaj"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kykr0"]
 texture = ExtResource("1_xc77c")
 texture_region_size = Vector2i(8, 8)
 0:0/0 = 0
@@ -22,4 +22,4 @@ custom_data_layer_2/name = "PassInhabitants"
 custom_data_layer_2/type = 2
 custom_data_layer_3/name = "LockData"
 custom_data_layer_3/type = 1
-sources/1 = SubResource("TileSetAtlasSource_p8iaj")
+sources/2 = SubResource("TileSetAtlasSource_kykr0")

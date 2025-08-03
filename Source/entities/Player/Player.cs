@@ -187,7 +187,8 @@ public partial class Player : CharacterBody2D{
 				if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
 					EntityManager.Singleton.PauseEntityProcesses(0.33f);
 					GlobalPosition = door.ExitPoint.GlobalPosition;
-				}                
+				}     
+				InputManager.Singleton.ResumeGameplayInput();           
 				break;
 			case GameState.Death:
 				// spawn at respawn point.
