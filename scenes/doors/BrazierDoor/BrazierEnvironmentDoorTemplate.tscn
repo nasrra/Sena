@@ -13,15 +13,25 @@
 [node name="BrazierEnvironmentDoorTemplate" instance=ExtResource("1_a5bdk")]
 Locked = true
 
-[node name="WayfindingStaticObstacle2D" parent="." index="0" node_paths=PackedStringArray("body")]
-body = NodePath("../Container/Collider")
+[node name="FireLeft" type="Sprite2D" parent="." index="0"]
+position = Vector2(-14, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_sw243")
+
+[node name="FireRight" type="Sprite2D" parent="." index="1"]
+position = Vector2(14, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_sw243")
 
 [node name="Sprite2D" parent="." index="2"]
 position = Vector2(0, -10)
 scale = Vector2(0.075, 0.075)
 texture = ExtResource("6_fy6aj")
 
-[node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers", "fireRight", "fireLeft")]
+[node name="WayfindingStaticObstacle2D" parent="." index="3" node_paths=PackedStringArray("body")]
+body = NodePath("../Container/Collider")
+
+[node name="BrazierDoor" type="Node" parent="." index="5" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers", "fireRight", "fireLeft")]
 script = ExtResource("2_qrqup")
 door = NodePath("..")
 sprite = NodePath("../Sprite2D")
@@ -35,21 +45,11 @@ fireLeft = NodePath("../FireLeft")
 openedSprite = ExtResource("5_m60cc")
 closedSprite = ExtResource("6_fy6aj")
 
-[node name="Interactable" parent="." index="4" instance=ExtResource("7_043cj")]
+[node name="Interactable" parent="." index="6" instance=ExtResource("7_043cj")]
 
-[node name="HitInteractable" type="Node2D" parent="." index="5"]
+[node name="HitInteractable" type="Node2D" parent="." index="7"]
 
 [node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("8_4nw3d")]
 
-[node name="EmberHolder" type="Node" parent="." index="6"]
+[node name="EmberHolder" type="Node" parent="." index="8"]
 script = ExtResource("9_j6r0l")
-
-[node name="FireLeft" type="Sprite2D" parent="." index="7"]
-position = Vector2(-14, 0)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_sw243")
-
-[node name="FireRight" type="Sprite2D" parent="." index="8"]
-position = Vector2(14, 0)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_sw243")

@@ -21,10 +21,10 @@ texture = ExtResource("3_dvdcg")
 position = Vector2(0, 20)
 
 [node name="EnterZone" parent="Container" index="1"]
-scale = Vector2(5, 1)
+scale = Vector2(4, 1)
 
 [node name="Collider" parent="Container" index="2"]
-scale = Vector2(5, 1)
+scale = Vector2(4, 1)
 
 [node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers", "fireRight", "fireLeft")]
 script = ExtResource("7_allfw")

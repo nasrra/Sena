@@ -11,6 +11,8 @@ script = ExtResource("1_baynp")
 wayfindingObstacle = NodePath("WayfindingStaticObstacle2D")
 collider = NodePath("Container/Collider")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
 [node name="WayfindingStaticObstacle2D" type="Node2D" parent="."]
 script = ExtResource("2_7kp02")
 navigationType = 1
@@ -23,5 +25,3 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Container/Collider"]
 shape = SubResource("RectangleShape2D_b8yya")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

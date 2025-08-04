@@ -158,6 +158,7 @@ Value = 3
 script = ExtResource("11_1jhey")
 
 [node name="AgressionZone" type="Node2D" parent="." node_paths=PackedStringArray("passiveZone", "activeZone")]
+visible = false
 script = ExtResource("12_qwpog")
 passiveZone = NodePath("PassiveZone")
 activeZone = NodePath("ActiveZone")
