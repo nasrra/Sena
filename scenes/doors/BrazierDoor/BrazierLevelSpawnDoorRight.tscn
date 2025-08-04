@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dlgxjvbxsrofd"]
-
-[ext_resource type="PackedScene" uid="uid://dihopjgrk6eff" path="res://scenes/doors/BrazierDoor/BrazierLevelSpawnDoorTemplate.tscn" id="1_l3g6n"]
-
-[node name="BrazierLevelSpawnDoorRight" instance=ExtResource("1_l3g6n")]
-
-[node name="Container" parent="." index="1"]
-rotation = 1.5708

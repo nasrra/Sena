@@ -4,7 +4,7 @@ using System;
 
 public partial class LevelSwapDoorManager : Node{
     public static LevelSwapDoorManager Instance {get;private set;}
-    public static int exitDoorId;
+    public static int exitDoorId = -1;
     [Export] private Array<LevelSwapDoor> doors;
 
     public override void _Ready(){
@@ -28,7 +28,7 @@ public partial class LevelSwapDoorManager : Node{
     public bool GetExitDoor(out LevelSwapDoor door){
         GD.Print($"exit door: {exitDoorId}");
         door = null;
-        if(exitDoorId >= doors.Count){
+        if(exitDoorId >= doors.Count || exitDoorId < 0){
             return false;
         }
         door = doors[exitDoorId];

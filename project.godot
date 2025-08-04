@@ -194,7 +194,7 @@ PauseKB={
 [layer_names]
 
 2d_navigation/layer_1="Open"
-2d_physics/layer_2="Environment"
+2d_physics/layer_2="BlockedEnvironment"
 2d_navigation/layer_2="Blocked"
 2d_physics/layer_3="HitInteractable"
 2d_physics/layer_4="Enemy"
@@ -202,3 +202,4 @@ PauseKB={
 2d_physics/layer_6="Player"
 2d_physics/layer_7="Projectile"
 2d_physics/layer_8="Pitfall"
+2d_physics/layer_9="PassThroughEnvironment"
