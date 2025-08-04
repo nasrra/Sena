@@ -17,7 +17,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAgACAAAAAAAAAAEAAgACAAAAAAAAAAIAAgACAAA
 tile_set = ExtResource("3_qk8e2")
 
 [node name="DoorManager" parent="." index="1" node_paths=PackedStringArray("doors")]
-doors = [NodePath("../EntityManager/Doors/BrazierLevelSwapDoorLeft"), NodePath("../EntityManager/Doors/BrazierLevelSwapDoorLeft2"), NodePath("../EntityManager/Doors/BrazierLevelSwapDoorRight2"), NodePath("../EntityManager/Doors/BrazierLevelSwapDoorRight")]
+doors = [NodePath("../EntityManager/Doors/BrazierLevelSwapDoorLeft"), NodePath("../EntityManager/Doors/BrazierLevelSwapDoorRight")]
 
 [node name="AudioBankLoader" parent="." index="3"]
 bankName = "Test"
@@ -104,6 +104,7 @@ Locked = true
 
 [node name="BrazierLevelSwapDoorLeft" parent="EntityManager/Doors" index="18" instance=ExtResource("5_2tv1t")]
 position = Vector2(4, 104)
+levelToLoad = "KottLevel1"
 
 [node name="BrazierLevelSwapDoorLeft2" parent="EntityManager/Doors" index="19" instance=ExtResource("5_2tv1t")]
 position = Vector2(4, 344)

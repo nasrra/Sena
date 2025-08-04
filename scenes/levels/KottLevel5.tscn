@@ -34,7 +34,6 @@ position = Vector2(361, 167)
 position = Vector2(396, 168)
 levelToLoad = "KottLevel4"
 doorToLoadTo = 1
-Locked = true
 
 [node name="BrazierLevelSwapDoorRight2" parent="EntityManager/Door" index="1" instance=ExtResource("5_td8uy")]
 position = Vector2(396, 296)

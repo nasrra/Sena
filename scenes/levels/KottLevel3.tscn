@@ -44,7 +44,7 @@ tile_map_data = PackedByteArray("AAACABAAAgACAAAAAAACABEAAgABAAAAAAACABIAAgABAAA
 tile_set = ExtResource("2_atm15")
 
 [node name="DoorManager" parent="." index="2" node_paths=PackedStringArray("doors")]
-doors = [NodePath("../EntityManager/Doors/LevelSwapDoors/BrazierLevelSwapDoorLeft"), null]
+doors = [NodePath("../EntityManager/Doors/LevelSwapDoors/BrazierLevelSwapDoorLeft"), NodePath("../EntityManager/Doors/LevelSwapDoors/BrazierLevelSwapDoorRight2")]
 
 [node name="AudioBankLoader" parent="." index="4"]
 bankName = "Test"
