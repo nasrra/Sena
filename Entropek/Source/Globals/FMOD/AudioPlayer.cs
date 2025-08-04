@@ -7,6 +7,18 @@ public partial class AudioPlayer : Node2D{
     private SwapbackList<AudioInstance> audioInstances = new SwapbackList<AudioInstance>();
     private SwapbackList<FMOD.Studio.EVENT_CALLBACK> callbacks = new SwapbackList<FMOD.Studio.EVENT_CALLBACK>();
 
+    public override void _ExitTree(){
+        base._ExitTree();
+        foreach (var audioInstance in audioInstances) {
+            audioInstance.EventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            audioInstance.EventInstance.release();
+        }
+
+        audioInstances.Clear();
+        callbacks.Clear();
+    }
+
+
     public void PlaySound(string eventName, bool oneshot = true){
         TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, oneshot));
     }

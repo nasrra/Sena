@@ -99,13 +99,10 @@ public partial class Player : CharacterBody2D{
 
 		state = PlayerState.Evaluating;
 
-		GD.Print("start eval");
-
 		await ToSignal(GetTree(), "physics_frame"); // Wait one full physics frame
 		CheckHurtCollider();
 		await ToSignal(GetTree(), "physics_frame"); // Wait one full physics frame
 		StandbyState(); // You can call this right after if needed
-		GD.Print("end eval");
 	}
 
 	private void StandbyState(){
@@ -356,6 +353,7 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void HandleHurtBoxCollision(Node2D node){
+		
 		switch(PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer)){
 			case "Enemy":
 				Health.Damage(1);

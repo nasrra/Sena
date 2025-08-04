@@ -18,6 +18,15 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	[Export] private AnimatedSprite2D animator;
 	[Export] private AudioPlayer audioPlayer;
 	[Export] private AgressionZone agressionZone;
+	
+	[ExportGroup("Wanderer")]
+	[Export] private AiWander wanderer;
+    [Export] private double minPathTime;
+    [Export] private double maxPathTime;
+    [Export] private double minIdleTime;
+    [Export] private double maxIdleTime;
+    [Export] private Vector2 maxDirection = new Vector2(1,1);
+    [Export] private Vector2 minDirection = new Vector2(-1,-1);
 
 	private event Action<double> Process = null;
 	private event Action<double> PhysicsProcess = null;
@@ -28,9 +37,9 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	private float distanceToTarget = float.MaxValue;
 	[Export] private float damagedKnockback = 100f;
 	[Export] public float stunStateAttackHandlerStandbyAdditiveTime = 1.0f;
-	private EnemyState state = EnemyState.Chase;
+	private EnemyState state = EnemyState.None;
+	private FacingDirection facingDirection = FacingDirection.Backward;
 	[Export] public bool stunOnHit = true;
-
 
 	/// 
 	/// Definitions.
@@ -38,6 +47,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 
 	private enum EnemyState : byte{
+		None,
 		Idle,
 		Chase,
 		Stunned,
@@ -55,6 +65,13 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		SlashUp     = 3,
 	}
 
+	private enum FacingDirection : byte{
+		Backward,
+		Forward,
+		Left,
+		Right
+	}
+
 
 	///
 	/// Base
@@ -64,6 +81,14 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	public override void _Ready(){
 		base._Ready();
 		EnemyManager.Instance.AddEnemy(this);
+		wanderer.Initialise(
+			minPathTime,
+			maxPathTime,
+			minIdleTime,
+			maxIdleTime,
+			maxDirection,
+			minDirection
+		);
 		IdleState();
 	}
 
@@ -74,6 +99,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 	public override void _ExitTree(){
 		base._ExitTree();
+		EnemyManager.Instance.RemoveEnemy(this);
 		UnlinkEvents();
 	}
 
@@ -108,14 +134,26 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	}
 
 	private void IdleState(){
-		state 			= EnemyState.Idle;
 		Process 		= null;
-		PhysicsProcess 	= null;
+		PhysicsProcess 	= IdleStatePhysicsProcess;
+
+		if(state == EnemyState.Idle){
+			return;
+		}
+		
+		state 			= EnemyState.Idle;
 		animator.Play("IdleBackward");
+		wanderer.SetOrigin(GlobalPosition);
+		wanderer.EvaluateState();
+	}
+
+	private void IdleStatePhysicsProcess(double delta){
+		WalkAnimation();
 	}
 
 	private void ChaseState(Node2D target){
 		SetTarget(target);
+		wanderer.PauseState();
 		ChaseState();
 	}
 
@@ -176,7 +214,6 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	private void AttackingState(){
 		
 		state = EnemyState.Attacking;
-
 		Process = null;
 		PhysicsProcess = null;
 	}
@@ -189,6 +226,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		audioPlayer.PauseState();
 		hitBoxHandler.PauseState();
 		agressionZone.PauseState();
+		wanderer.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
@@ -199,6 +237,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		animator.SpeedScale = 1; // resume animator.
 		hitBoxHandler.ResumeState();
 		agressionZone.ResumeState();
+		wanderer.ResumeState();
 		EvaluateState();
 	}
 
@@ -234,6 +273,56 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 	private void RespondToEnemyCollisionMask(){
 		SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
+	}
+
+	private void WalkAnimation(){
+		float angle = characterMovement.GetMoveAngleDegrees();
+		if(characterMovement.MoveDirection == Vector2.Zero){
+			switch(facingDirection){
+				case FacingDirection.Backward:
+					animator.Play("IdleBackward");
+					animator.FlipH = false;
+				break;
+				case FacingDirection.Forward:
+					animator.Play("IdleForward");
+					animator.FlipH = false;
+				break;
+				case FacingDirection.Left:
+					animator.Play("IdleSide");
+					animator.FlipH = false;
+				break;
+				case FacingDirection.Right:
+					animator.Play("IdleSide");
+					animator.FlipH = true;
+				break;
+			}
+		}
+		else{
+			if(angle >= -155 && angle <= -25){
+				facingDirection = FacingDirection.Forward;
+				animator.Play("RunForward");
+				animator.FlipH = false;
+				return;
+			}
+			else if(angle >= 25 && angle <= 155){
+				facingDirection = FacingDirection.Backward;
+				animator.Play("RunBackward");
+				animator.FlipH = false;
+				return;
+			}
+			else if(angle > -45 && angle < 45){
+				facingDirection = FacingDirection.Right;
+				animator.Play("RunSide");
+				animator.FlipH = true;
+				return;
+			}
+			else{
+				facingDirection = FacingDirection.Left;
+				animator.Play("RunSide");
+				animator.FlipH = false; // left
+				return;
+			}
+		}
 	}
 
 	private void RunAnimation(){
@@ -279,7 +368,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		LinkAttackHandler();
 		LinkHitBoxHandler();
 		LinkTimers();
-		LinkAgressionZone();
+		// LinkAgressionZone();
+		LinkAiWander();
 	}
 
 	private void UnlinkEvents(){
@@ -289,7 +379,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		UnlinkAttackHandler();
 		UnlinkHitBoxHandler();
 		UnlinkTimers();
-		UnlinkAgressionZone();
+		// UnlinkAgressionZone();
+		UnlinkAiWander();
 	}
 
 	private void LinkEntityManager(){
@@ -366,6 +457,14 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	private void UnlinkAgressionZone(){
 		agressionZone.OnInSight 	-= ChaseState;
 		agressionZone.OnExitedZone 	-= TargetLeft;
+	}
+
+	private void LinkAiWander(){
+		wanderer.OnDirectionChosen += characterMovement.Move;
+	}
+
+	private void UnlinkAiWander(){
+		wanderer.OnDirectionChosen -= characterMovement.Move;
 	}
 
 

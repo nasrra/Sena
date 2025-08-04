@@ -275,7 +275,6 @@ public partial class InputManager : Node2D{
 
     private void PauseInputKeyboard(){
         if(Input.IsActionJustPressed("PauseKB")){
-            GD.Print("sent");
             OnPauseInput?.Invoke();
         }
     }

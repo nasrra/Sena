@@ -16,6 +16,7 @@ public partial class GameManager : Node{
 
     public override void _EnterTree(){
         base._EnterTree();
+        GD.Randomize();
         Instance = this;
         LinkEvents();
     }
