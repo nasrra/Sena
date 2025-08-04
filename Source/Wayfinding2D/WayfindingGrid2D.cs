@@ -7,6 +7,8 @@ namespace Entropek.Ai;
 
 public partial class WayfindingGrid2D : Node2D{
 
+    public const byte MaxAgentSize = 16;
+
     public static WayfindingGrid2D Singleton {get;private set;}
 
     PathCell[,] paths;
@@ -169,7 +171,7 @@ public partial class WayfindingGrid2D : Node2D{
 
         byte clearance = 1;
 
-        for (; clearance <= maxClearance && clearance < byte.MaxValue; clearance++){
+        for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++){
             int left = cx - clearance;
             int right = cx + clearance;
             int top = cy - clearance;
