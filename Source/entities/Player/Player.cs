@@ -332,10 +332,10 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void HandleShootInput(){
-		if(EmberStorage.NotchAmount >= 1){
+		if(EmberStorage.EmberValue >= 30){
 			Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
 			projectileSpawner.Fire(shootDirection, 10);
-			EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
+			EmberStorage.Remove(30);
 		}
 	}
 
@@ -375,13 +375,15 @@ public partial class Player : CharacterBody2D{
 
 
 	private void LinkEmberStorage(){
-		emberDecayRate.Timeout += DecayEmberStorage;
-		EmberStorage.OnAdd += StartEmberDecayTimer;
+		emberDecayRate.Timeout 	+= DecayEmberStorage;
+		EmberStorage.OnAdd 		+= StartEmberDecayTimer;
+		EmberStorage.OnRemove 	+= StartEmberDecayTimer;
 	}
 
 	private void UnlinkEmberStorage(){
-		emberDecayRate.Timeout -= DecayEmberStorage;
-		EmberStorage.OnAdd -= StartEmberDecayTimer;
+		emberDecayRate.Timeout 	-= DecayEmberStorage;
+		EmberStorage.OnAdd 		-= StartEmberDecayTimer;
+		EmberStorage.OnRemove 	-= StartEmberDecayTimer;
 	}
 
 	private void DecayEmberStorage(){
