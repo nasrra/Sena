@@ -27,8 +27,9 @@ position = Vector2(160, 236)
 levelToLoad = "KottLevel5"
 doorToLoadTo = 1
 
-[node name="Player" parent="EntityManager" index="2" instance=ExtResource("4_rb6vd")]
+[node name="Player" parent="EntityManager" index="2" node_paths=PackedStringArray("camera") instance=ExtResource("4_rb6vd")]
 position = Vector2(160, 147)
+camera = NodePath("../../Camera")
 
 [node name="Camera" parent="." index="7" node_paths=PackedStringArray("Target")]
 Target = NodePath("../EntityManager/Player")

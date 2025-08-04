@@ -64,8 +64,9 @@ position = Vector2(215, 119)
 material = SubResource("ShaderMaterial_lptje")
 position = Vector2(388, 158)
 
-[node name="Player" parent="EntityManager" index="4" instance=ExtResource("4_pu7n0")]
+[node name="Player" parent="EntityManager" index="4" node_paths=PackedStringArray("camera") instance=ExtResource("4_pu7n0")]
 position = Vector2(81, 469)
+camera = NodePath("../../Camera")
 
 [node name="Doors" type="Node2D" parent="EntityManager" index="5"]
 
