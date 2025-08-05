@@ -42,7 +42,6 @@ public partial class AudioPlayer : Node2D{
     public bool StopSound(string eventName, bool immediate = false){
         for(int i = audioInstances.Count-1; i >=     0; i--){
             if(audioInstances[i].Name == eventName){
-                GD.Print($"{audioInstances[i].Name} {eventName}");
                 audioInstances[i].EventInstance.stop(immediate == false? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
                 return true;
             }

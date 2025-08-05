@@ -3,50 +3,54 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization.Metadata;
 
-public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
+public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
 	
 	[ExportGroup("Nodes")]
-	[Export] private Health health;
-	[Export] private WayfindingAgent2D navAgent;
-	[Export] private CharacterMovement characterMovement;
-	[Export] private AiAttackHandler attackHandler;
-	[Export] private HitBoxHandler hitBoxHandler;
-	[Export] private HitFlashShaderController hitFlash;
-	[Export] private Timer stunTimer;
-	[Export] private Timer ignoreEnemyTimer;
+	[Export] protected Health health;
+	[Export] protected WayfindingAgent2D navAgent;
+	[Export] protected CharacterMovement characterMovement;
+	[Export] protected AiAttackHandler attackHandler;
+	[Export] protected HitBoxHandler hitBoxHandler;
+	[Export] protected HitFlashShaderController hitFlash;
+	[Export] protected Timer stunTimer;
+	[Export] protected Timer ignoreEnemyTimer;
+	[Export] protected AnimatedSprite2D animator;
+	[Export] protected AudioPlayer audioPlayer;
+	[Export] protected AgressionZone agressionZone;
 	[Export] public Node2D Target;
-	[Export] private AnimatedSprite2D animator;
-	[Export] private AudioPlayer audioPlayer;
-	[Export] private AgressionZone agressionZone;
 	
 	[ExportGroup("Wanderer")]
-	[Export] private AiWander wanderer;
-    [Export] private double minPathTime;
-    [Export] private double maxPathTime;
-    [Export] private double minIdleTime;
-    [Export] private double maxIdleTime;
-    [Export] private Vector2 maxDirection = new Vector2(1,1);
-    [Export] private Vector2 minDirection = new Vector2(-1,-1);
+	[Export] protected AiWander wanderer;
+    [Export] protected double minPathTime;
+    [Export] protected double maxPathTime;
+    [Export] protected double minIdleTime;
+    [Export] protected double maxIdleTime;
+    [Export] protected Vector2 maxDirection = new Vector2(1,1);
+    [Export] protected Vector2 minDirection = new Vector2(-1,-1);
 
-	private event Action<double> Process = null;
-	private event Action<double> PhysicsProcess = null;
+	protected event Action<double> Process = null;
+	protected event Action<double> PhysicsProcess = null;
 
 	[ExportGroup("Variabales")]
-	private Vector2 directionToTarget = Vector2.Zero;
-	private Vector2 normalDirectionToTarget = Vector2.Zero;
-	private float distanceToTarget = float.MaxValue;
-	[Export] private float damagedKnockback = 100f;
-	[Export] public float stunStateAttackHandlerStandbyAdditiveTime = 1.0f;
-	private EnemyState state = EnemyState.None;
-	private FacingDirection facingDirection = FacingDirection.Backward;
-	[Export] public bool stunOnHit = true;
+	protected const string ChaseMoveAnimationName 	= "Chase";
+	protected const string IdleAnimationName 		= "Idle";
+	protected const string WanderAnimationName 		= "Wander";
+	protected const string StunAnimationName 		= "Stun";
+	protected Vector2 directionToTarget = Vector2.Zero;
+	protected Vector2 normalDirectionToTarget = Vector2.Zero;
+	protected float distanceToTarget = float.MaxValue;
+	protected float damagedKnockback;
+	public float stunStateAttackHandlerStandbyAdditiveTime;
+	protected EnemyState state = EnemyState.None;
+	protected FacingDirection facingDirection = FacingDirection.Backward;
+	public bool stunOnHit = true;
 
 	/// 
 	/// Definitions.
 	/// 
 
 
-	private enum EnemyState : byte{
+	protected enum EnemyState : byte{
 		None,
 		Idle,
 		Chase,
@@ -54,18 +58,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		Attacking,
 	}
 
-	private enum AttackId : byte{
-		Slash    = 0,
-	}
-
-	private enum AttackHitBoxId{
-		SlashDown   = 0,
-		SlashLeft   = 1,
-		SlashRight  = 2,
-		SlashUp     = 3,
-	}
-
-	private enum FacingDirection : byte{
+	protected enum FacingDirection : byte{
 		Backward,
 		Forward,
 		Left,
@@ -81,7 +74,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	public override void _Ready(){
 		base._Ready();
 		EnemyManager.Instance.AddEnemy(this);
-		wanderer.Initialise(
+		wanderer?.Initialise(
 			minPathTime,
 			maxPathTime,
 			minIdleTime,
@@ -112,16 +105,15 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	/// 
 
 
-	private void TargetLeft(Node2D node){
+	protected virtual void TargetLeft(Node2D node){
 		Target = null;
 		characterMovement.ZeroDirection();
-		audioPlayer.StopSound("WorkerAttack");
 		attackHandler.HaltState();
 		hitBoxHandler.DisableAllHitBoxes();
 		IdleState();
 	}
 
-	private void EvaluateState(){
+	protected void EvaluateState(){
 
 		// TODO: do some recovery state code when needed.
 		if(Target == null){
@@ -133,7 +125,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		attackHandler.EvaluateState();
 	}
 
-	private void IdleState(){
+	protected void IdleState(){
 		Process 		= null;
 		PhysicsProcess 	= IdleStatePhysicsProcess;
 
@@ -143,17 +135,24 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		
 		state 			= EnemyState.Idle;
 		animator.Play("IdleBackward");
-		wanderer.SetOrigin(GlobalPosition);
-		wanderer.EvaluateState();
+		wanderer?.SetOrigin(GlobalPosition);
+		wanderer?.EvaluateState();
 	}
 
-	private void IdleStatePhysicsProcess(double delta){
-		WalkAnimation();
+	protected void IdleStatePhysicsProcess(double delta){
+		Vector2 moveDirection = characterMovement.MoveDirection; 
+		if(moveDirection == Vector2.Zero){
+			PlayAnimation(IdleAnimationName, facingDirection);
+		}
+		else{
+			CalculateFacingDirection(moveDirection, out facingDirection);
+			PlayAnimation(WanderAnimationName, facingDirection);			
+		}
 	}
 
-	private void ChaseState(Node2D target){
+	protected void ChaseState(Node2D target){
 		SetTarget(target);
-		wanderer.PauseState();
+		wanderer?.PauseState();
 		ChaseState();
 	}
 
@@ -170,55 +169,43 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		attackHandler.ResumeState();
 	}
 
-	private void ChaseStatePhysicsProcess(double delta){
+	protected void ChaseStatePhysicsProcess(double delta){
 		if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
 			CalculateRelationshipToTarget();
 			UpdateAttackHandler();
 			MoveAlongPathToTarget();
-			RunAnimation();
+			Vector2 moveDirection = characterMovement.MoveDirection;
+			if(moveDirection == Vector2.Zero){
+				PlayAnimation(IdleAnimationName, facingDirection);
+			}
+			else{
+				CalculateFacingDirection(moveDirection, out facingDirection);
+				PlayAnimation(ChaseMoveAnimationName, facingDirection);
+			}
 		}
 	}
 
-	public void StunState(float time){
+	protected virtual void StunState(float time){
 		
 		state 			= EnemyState.Stunned;
 		Process        	= null;
 		PhysicsProcess  = null;
 		attackHandler.HaltState(time+stunStateAttackHandlerStandbyAdditiveTime);
 		hitBoxHandler.DisableAllHitBoxes();
-
-		audioPlayer.StopSound("WorkerAttack", immediate: true);
-
-		float angle = characterMovement.GetVelocityAngleDegrees();
-		if(angle > -135 && angle < -45){
-			animator.Play("HitBackward");
-			animator.FlipH = false;
-		}
-		else if(angle > 45 && angle < 135){
-			animator.Play("HitForward");
-			animator.FlipH = false;
-		}
-		else if(angle > -45 && angle < 45){
-			animator.Play("HitSide");
-			animator.FlipH = false;
-		}
-		else{
-			animator.Play("HitSide");
-			animator.FlipH = true;
-		}
-
+		CalculateFacingDirection(-characterMovement.Velocity, out FacingDirection facing);
+		PlayAnimation(StunAnimationName, facing);
+		IgnoreEnemyCollisionMask(time);
 		stunTimer.WaitTime = time;
 		stunTimer.Start();
 	}
 
-	private void AttackingState(){
-		
+	protected void AttackingState(){
 		state = EnemyState.Attacking;
 		Process = null;
 		PhysicsProcess = null;
 	}
 
-	private void PauseState(){
+	protected void PauseState(){
 		Process = null;
 		PhysicsProcess = null;
 		attackHandler.PauseState();
@@ -226,18 +213,18 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		audioPlayer.PauseState();
 		hitBoxHandler.PauseState();
 		agressionZone.PauseState();
-		wanderer.PauseState();
+		wanderer?.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
-	private void ResumeState(){
+	protected void ResumeState(){
 		attackHandler.ResumeState();
 		characterMovement.ResumeState();
 		audioPlayer.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
 		hitBoxHandler.ResumeState();
 		agressionZone.ResumeState();
-		wanderer.ResumeState();
+		wanderer?.ResumeState();
 		EvaluateState();
 	}
 
@@ -247,108 +234,96 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	/// 
 
 
-	private void MoveAlongPathToTarget(){
+	protected void MoveAlongPathToTarget(){
 		navAgent.CalculateNewPath(Target.GlobalPosition);
 		navAgent.UpdateCurrentPathToTarget();
 		characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
 	}
 
-	private void CalculateRelationshipToTarget(){
+	protected void CalculateRelationshipToTarget(){
 		directionToTarget = Target.GlobalPosition- GlobalPosition;
 		normalDirectionToTarget = directionToTarget.Normalized();
 		distanceToTarget = directionToTarget.Length();
 	}
 
-	private void UpdateAttackHandler(){
+	protected void UpdateAttackHandler(){
 		attackHandler.SetDirectionToTarget(directionToTarget);
 		attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
 
-	public void IgnoreEnemyCollisionMask(float time){
+	protected void IgnoreEnemyCollisionMask(float time){
 		
 		ignoreEnemyTimer.WaitTime = time;
 		SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), false);
 		ignoreEnemyTimer.Start();
 	}
 
-	private void RespondToEnemyCollisionMask(){
+	protected void RespondToEnemyCollisionMask(){
 		SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
 	}
 
-	private void WalkAnimation(){
-		float angle = characterMovement.GetMoveAngleDegrees();
-		if(characterMovement.MoveDirection == Vector2.Zero){
-			switch(facingDirection){
-				case FacingDirection.Backward:
-					animator.Play("IdleBackward");
-					animator.FlipH = false;
-				break;
-				case FacingDirection.Forward:
-					animator.Play("IdleForward");
-					animator.FlipH = false;
-				break;
-				case FacingDirection.Left:
-					animator.Play("IdleSide");
-					animator.FlipH = false;
-				break;
-				case FacingDirection.Right:
-					animator.Play("IdleSide");
-					animator.FlipH = true;
-				break;
-			}
+	protected bool CalculateFacingDirection(Vector2 direction, out FacingDirection facing){
+		
+		facing = FacingDirection.Backward;
+		
+		if(direction == Vector2.Zero){
+			return false;
+		}
+		
+		float angle = Mathf.Atan2(direction.Y, direction.X);
+        angle = Mathf.RadToDeg(angle);
+		
+		if(angle >= -155 && angle <= -25){
+			facing = FacingDirection.Forward;
+			return true;
+		}
+		else if(angle >= 25 && angle <= 155){
+			facing = FacingDirection.Backward;
+			return true;
+		}
+		else if(angle > -45 && angle < 45){
+			facing = FacingDirection.Right;
+			return true;
 		}
 		else{
-			if(angle >= -155 && angle <= -25){
-				facingDirection = FacingDirection.Forward;
-				animator.Play("RunForward");
-				animator.FlipH = false;
-				return;
-			}
-			else if(angle >= 25 && angle <= 155){
-				facingDirection = FacingDirection.Backward;
-				animator.Play("RunBackward");
-				animator.FlipH = false;
-				return;
-			}
-			else if(angle > -45 && angle < 45){
-				facingDirection = FacingDirection.Right;
-				animator.Play("RunSide");
-				animator.FlipH = true;
-				return;
-			}
-			else{
-				facingDirection = FacingDirection.Left;
-				animator.Play("RunSide");
-				animator.FlipH = false; // left
-				return;
-			}
+			facing = FacingDirection.Left;
+			return true;
 		}
 	}
 
-	private void RunAnimation(){
-		float angle = characterMovement.GetMoveAngleDegrees();
-		if(characterMovement.MoveDirection == Vector2.Zero){
-			return;
+	protected void PlayAnimation(string animationName, FacingDirection facingDirection){
+		switch(facingDirection){
+			case FacingDirection.Backward:
+				animator.Play(animationName+"Backward");
+				animator.FlipH = false;
+			break;
+			case FacingDirection.Forward:
+				animator.Play(animationName+"Forward");
+				animator.FlipH = false;
+			break;
+			case FacingDirection.Left:
+				animator.Play(animationName+"Side");
+				animator.FlipH = false;
+			break;
+			case FacingDirection.Right:
+				animator.Play(animationName+"Side");
+				animator.FlipH = true;
+			break;
 		}
-		if(angle >= -155 && angle <= -25){
-			animator.Play("RunForward");
-			animator.FlipH = false;
-			return;
-		}
-		else if(angle >= 25 && angle <= 155){
-			animator.Play("RunBackward");
-			animator.FlipH = false;
-			return;
-		}
-		else if(angle > -45 && angle < 45){
-			animator.Play("RunSide");
-			animator.FlipH = true;
-			return;
-		}
-		else{
-			animator.Play("RunSide");
-			animator.FlipH = false;
-			return;
+	}
+
+	protected FacingDirection AttackDirectionToFacingDirection(AttackDirection attackDirection){
+		switch(attackDirection){
+			case AttackDirection.Down:
+				return FacingDirection.Backward;
+			case AttackDirection.Left:
+				return FacingDirection.Left;
+			case AttackDirection.Right:
+				return FacingDirection.Right;
+			case AttackDirection.Up:
+				return FacingDirection.Forward;
+			default:
+				return facingDirection;
 		}
 	}
 
@@ -361,110 +336,114 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 	/// 
 
 
-	private void LinkEvents(){
+	protected virtual void LinkEvents(){
 		LinkEntityManager();
 		LinkAnimator();
 		LinkHealth();
 		LinkAttackHandler();
 		LinkHitBoxHandler();
 		LinkTimers();
-		// LinkAgressionZone();
-		LinkAiWander();
+		LinkAgressionZone();
+		// LinkAiWander();
 	}
 
-	private void UnlinkEvents(){
+	protected virtual void UnlinkEvents(){
 		UnlinkEntityManager();
 		UnlinkAnimator();
 		UnlinkHealth();
 		UnlinkAttackHandler();
 		UnlinkHitBoxHandler();
 		UnlinkTimers();
-		// UnlinkAgressionZone();
-		UnlinkAiWander();
+		UnlinkAgressionZone();
+		// UnlinkAiWander();
 	}
 
-	private void LinkEntityManager(){
+	protected virtual void LinkEntityManager(){
 		EntityManager.Singleton.OnProcess 			+= InvokeProcess;
 		EntityManager.Singleton.OnPhysicsProcess 	+= InvokePhysicsProcess;
 		EntityManager.Singleton.OnPause 			+= PauseState;
 		EntityManager.Singleton.OnResume 			+= ResumeState;
 	}
 
-	private void UnlinkEntityManager(){
+	protected virtual void UnlinkEntityManager(){
 		EntityManager.Singleton.OnProcess 			-= InvokeProcess;
 		EntityManager.Singleton.OnPhysicsProcess 	-= InvokePhysicsProcess;
 		EntityManager.Singleton.OnPause 			-= PauseState;
 		EntityManager.Singleton.OnResume 			-= ResumeState;
 	}
 
-	private void LinkAnimator(){
+	protected virtual void LinkAnimator(){
 		animator.FrameChanged 		+= OnFrameChanged;
 		animator.AnimationChanged 	+= OnAnimationChanged;
 	}
 
-	private void UnlinkAnimator(){
+	protected virtual void UnlinkAnimator(){
 		animator.FrameChanged 		-= OnFrameChanged;
 		animator.AnimationChanged 	-= OnAnimationChanged;
 	}
 
-	private void LinkHealth(){
+	protected virtual void LinkHealth(){
 		health.OnDeath  += Kill;
-		health.OnDamage += OnDamaged;
+		health.OnDamage += OnDamagedCallback;
 	}
 
-	private void UnlinkHealth(){
+	protected virtual void UnlinkHealth(){
 		health.OnDeath  -= Kill;
-		health.OnDamage -= OnDamaged;
+		health.OnDamage -= OnDamagedCallback;
 	}
 
-	private void LinkAttackHandler(){
+	protected virtual void LinkAttackHandler(){
 		attackHandler.OnAttackChosen	+= HandleAttackChosen;
 		attackHandler.OnAttack          += HandleAttack;
 		attackHandler.OnAttackStarted   += HandleStartAttack;
 		attackHandler.OnAttackEnded     += HandleAttackEnded;
 	}
 
-	private void UnlinkAttackHandler(){
+	protected virtual void UnlinkAttackHandler(){
 		attackHandler.OnAttackChosen	-= HandleAttackChosen;
 		attackHandler.OnAttack          -= HandleAttack;
 		attackHandler.OnAttackStarted   -= HandleStartAttack;
 		attackHandler.OnAttackEnded     -= HandleAttackEnded;
 	}
 
-	private void LinkHitBoxHandler(){
+	protected virtual void LinkHitBoxHandler(){
 		hitBoxHandler.OnHit += HandleAttackHit;
 	}
 
-	private void UnlinkHitBoxHandler(){
+	protected virtual void UnlinkHitBoxHandler(){
 		hitBoxHandler.OnHit -= HandleAttackHit;
 	}
 
-	private void LinkTimers(){
+	protected virtual void LinkTimers(){
 		stunTimer.Timeout 			+= EvaluateState;
 		ignoreEnemyTimer.Timeout 	+= RespondToEnemyCollisionMask;
 	}
 
-	private void UnlinkTimers(){
+	protected virtual void UnlinkTimers(){
 		stunTimer.Timeout 			-= EvaluateState;
 		ignoreEnemyTimer.Timeout 	-= RespondToEnemyCollisionMask;	
 	}
 
-	private void LinkAgressionZone(){
+	protected virtual void LinkAgressionZone(){
 		agressionZone.OnInSight 	+= ChaseState;
 		agressionZone.OnExitedZone 	+= TargetLeft;
 	}
 
-	private void UnlinkAgressionZone(){
+	protected virtual void UnlinkAgressionZone(){
 		agressionZone.OnInSight 	-= ChaseState;
 		agressionZone.OnExitedZone 	-= TargetLeft;
 	}
 
-	private void LinkAiWander(){
-		wanderer.OnDirectionChosen += characterMovement.Move;
+	protected virtual void LinkAiWander(){
+		if(wanderer != null){
+			wanderer.OnDirectionChosen += characterMovement.Move;
+		}
 	}
 
-	private void UnlinkAiWander(){
-		wanderer.OnDirectionChosen -= characterMovement.Move;
+	protected virtual void UnlinkAiWander(){
+		if(wanderer != null){
+			wanderer.OnDirectionChosen -= characterMovement.Move;
+		}
 	}
 
 
@@ -478,62 +457,9 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		}
 	}
 
-	private void HandleStartAttack(byte attackId, AttackDirection attackDirection){
-		AttackingState();
-		switch(attackId){
-			case (byte)AttackId.Slash:
-				switch(attackDirection){
-					case AttackDirection.Down:
-						animator.Play("AttackBackward");
-						animator.FlipH = false;
-					break;
-					case AttackDirection.Left:
-						animator.Play("AttackSide");
-						animator.FlipH = false;
-					break;
-					case AttackDirection.Right:
-						animator.Play("AttackSide");
-						animator.FlipH = true;
-					break;
-					case AttackDirection.Up:
-						animator.Play("AttackForward");                 
-						animator.FlipH = false;
-					break;
-				}
-			break;
-			default:
-				throw new Exception($"Attack id[{attackId}] has not been implemented!");
-		}
-		characterMovement.ZeroDirection();
-	}
+	protected abstract void HandleStartAttack(byte attackId, AttackDirection attackDirection);
 
-	private void HandleAttack(byte attackId, AttackDirection attackDirection){
-		switch(attackId){
-			case (byte)AttackId.Slash:
-				switch(attackDirection){
-					case AttackDirection.Down:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashDown, 0.33f);
-						animator.Play("AttackBackward");
-					break;
-					case AttackDirection.Left:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashLeft, 0.33f);
-						animator.Play("AttackSide");
-					break;
-					case AttackDirection.Right:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashRight, 0.33f);
-						animator.Play("AttackSide");
-					break;
-					case AttackDirection.Up:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.SlashUp, 0.33f);
-						animator.Play("AttackForward");                 
-					break;
-				}
-				characterMovement.Impulse(normalDirectionToTarget * 100f);
-			break;
-			default:
-			throw new Exception($"Attack id[{attackId}] has not been implemented!");
-		}
-	}
+	protected abstract void HandleAttack(byte attackId, AttackDirection attackDirection);
 
 	private void HandleAttackHit(Node other, int hitboxId){
 		string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
@@ -551,11 +477,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		EvaluateState();
 	}
 
-	private void OnDamaged(){
-		float stunTime = 0.66f;
+	protected virtual void OnDamagedCallback(){
 		hitFlash.Flash();
-		StunState(stunTime);
-		IgnoreEnemyCollisionMask(stunTime);
 	}
 
 
@@ -567,7 +490,7 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 
 	private void OnAnimationChanged(){
 		// work around to always ensure frame 0 of animation event is fired.
-		OnFrameChanged(animator.Animation);		
+		OnAnimatorFrameChange(animator.Animation);		
 	}
 
 	private void OnFrameChanged(){
@@ -576,39 +499,8 @@ public partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from C
 		if(frame==0){
 			return;
 		}
-		OnFrameChanged(animator.Animation);
+		OnAnimatorFrameChange(animator.Animation);
 	}
 
-	private void OnFrameChanged(string animation){
-		switch(animation){
-			case "AttackBackward":
-			case "AttackForward":
-			case "AttackSide":
-				AttackAnimationFrameEvent(animator.Frame);
-			break;
-			case "RunBackward":
-			case "RunForward":
-			case "RunSide":
-				RunAnimationFrameEvent(animator.Frame);
-			break;
-		}
-	}
-
-	private void AttackAnimationFrameEvent(int frame){
-		switch(frame){
-			case 0:
-				audioPlayer.PlaySound("WorkerAttack", GlobalPosition);
-			break;
-		}
-	}
-
-	private void RunAnimationFrameEvent(int frame){
-		switch(frame){
-			case 2:
-			case 6:
-				audioPlayer.PlaySound("StoneFootstep", GlobalPosition);
-			break;
-		}
-	}
-
+	protected abstract void OnAnimatorFrameChange(string animation);
 }

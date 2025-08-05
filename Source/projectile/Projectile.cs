@@ -99,10 +99,6 @@ public partial class Projectile : CharacterBody2D{
 	protected virtual void HandleOnHitEnemy(Enemy enemy){
 		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
 		
-		float stunTime = 0.33f;
-		enemy.StunState(stunTime);
-		enemy.IgnoreEnemyCollisionMask(stunTime);
-		
 		enemy.GetNode<Health>(Health.NodeName).Damage(damage);
 		
 		CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
