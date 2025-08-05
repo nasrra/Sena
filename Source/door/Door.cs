@@ -56,4 +56,19 @@ public abstract partial class Door : Node{
         Locked = true;
         OnLock?.Invoke();
     }
+
+    public void SetState(bool opened, bool locked){
+        if(opened==true){
+            Open();
+        }
+        else{
+            Close();
+        }
+        if(locked==true){
+            Lock();
+        }
+        else{
+            Unlock();
+        }
+    }
 }

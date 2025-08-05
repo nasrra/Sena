@@ -52,7 +52,8 @@ public partial class HitBox : Area2D{
     }
 
     public void Disable(){
-        collsionShape.Disabled = true;
+        // collsionShape.Disabled = true;
+        collsionShape.CallDeferred("set_disabled", true);
     }
 
     public void PauseState(){

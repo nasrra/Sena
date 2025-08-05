@@ -6,10 +6,19 @@ public partial class LevelSwapDoorManager : Node{
     public static LevelSwapDoorManager Instance {get;private set;}
     public static int exitDoorId = -1;
     [Export] private Array<LevelSwapDoor> doors;
+    private (bool,bool)[] doorStateCache;
+
+    private State state = State.Normal;
+
+    private enum State : byte{
+        TempLocked,
+        Normal,
+    }
 
     public override void _Ready(){
         base._Ready();
         Instance = this;
+        doorStateCache = new (bool, bool)[doors.Count];
     }
 
     public bool GetDoor(int id, out LevelSwapDoor door){
@@ -33,5 +42,34 @@ public partial class LevelSwapDoorManager : Node{
         }
         door = doors[exitDoorId];
         return true;
+    }
+
+    public void TempLockAndCloseDoors(){
+        
+        if(state == State.TempLocked){
+            return;
+        }
+        state = State.TempLocked;
+        
+        for(int i = 0; i < doors.Count; i++){
+            LevelSwapDoor door = doors[i];
+            doorStateCache[i] = (door.Opened, door.Locked);
+            door.Lock();
+            door.Close();
+            GD.Print("temp lock");
+        }
+    }
+
+    public void RestoreDoorStates(){
+
+        if(state == State.Normal){
+            return;
+        }
+        state = State.Normal;
+
+        for(int i = 0; i < doors.Count; i++){
+            LevelSwapDoor door = doors[i];
+            door.SetState(doorStateCache[i].Item1, doorStateCache[i].Item2);
+        }
     }
 }

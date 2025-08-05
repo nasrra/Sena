@@ -79,22 +79,22 @@ hitBoxes = [NodePath("SlashDown"), NodePath("SlashLeft"), NodePath("SlashRight")
 [node name="SlashDown" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
 position = Vector2(0, 16)
 scale = Vector2(28, 14)
-collision_mask = 8
+collision_mask = 12
 
 [node name="SlashLeft" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
 position = Vector2(-12, 1.19209e-07)
 scale = Vector2(14, 28)
-collision_mask = 8
+collision_mask = 12
 
 [node name="SlashRight" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
 position = Vector2(12, 1)
 scale = Vector2(14, 28)
-collision_mask = 8
+collision_mask = 12
 
 [node name="SlashUp" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
 position = Vector2(0, -14)
 scale = Vector2(28, 14)
-collision_mask = 8
+collision_mask = 12
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_as_relative = false

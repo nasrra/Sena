@@ -6,6 +6,7 @@ public partial class EnemyManager : Node{
     public static EnemyManager Instance {get;private set;}
 
     private Entropek.Collections.SwapbackList<Enemy> enemies = new Entropek.Collections.SwapbackList<Enemy>();
+    public event Action OnAllEnemiesKilled;
 
     public override void _EnterTree(){
         base._EnterTree();
@@ -22,5 +23,8 @@ public partial class EnemyManager : Node{
 
     public void RemoveEnemy(Enemy enemy){
         enemies.Remove(enemy);
+        if(enemies.Count == 0){
+            OnAllEnemiesKilled?.Invoke();
+        }
     }
 }
