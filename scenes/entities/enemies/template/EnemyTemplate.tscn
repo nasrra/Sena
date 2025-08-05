@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://bda85676t7suo" path="res://Entropek/source/ai/AiWander.cs" id="13_esdid"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="13_qwpog"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_etlsf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
 size = Vector2(1, 1)
@@ -29,7 +31,7 @@ collision_mask = 14
 y_sort_enabled = true
 material = ExtResource("2_m80fk")
 scale = Vector2(0.125, 0.125)
-animation = &""
+sprite_frames = SubResource("SpriteFrames_etlsf")
 offset = Vector2(0, -45)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

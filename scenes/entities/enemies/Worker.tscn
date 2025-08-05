@@ -30,7 +30,7 @@ agressionZone = NodePath("AgressionZone")
 [node name="AnimatedSprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_10gc1")
 sprite_frames = ExtResource("3_83uge")
-animation = &"IdleBackward"
+animation = &"AttackBackward"
 
 [node name="CollisionShape2D" parent="." index="1"]
 visible = true
