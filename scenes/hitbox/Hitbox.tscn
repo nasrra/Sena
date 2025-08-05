@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bilexc3upyj70"]
+
+[ext_resource type="Script" uid="uid://bev12jhokgvkl" path="res://source/hitbox/HitBox.cs" id="1_tufbh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hrrb"]
+size = Vector2(1, 1)
+
+[node name="Hitbox" type="Area2D" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
+collision_layer = 0
+collision_mask = 32
+monitorable = false
+script = ExtResource("1_tufbh")
+enabledTimer = NodePath("Timer")
+collsionShape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_2hrrb")
+disabled = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true

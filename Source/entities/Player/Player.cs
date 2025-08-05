@@ -293,16 +293,16 @@ public partial class Player : CharacterBody2D{
 		int hitBoxId;
 		float angle = aimCursour.AimAngle;
 		if(angle >= -135 && angle <= -45){
-			hitBoxId = 0;
+			hitBoxId = 3; // up
 		}
 		else if(angle >= -45 && angle <= 45){
-			hitBoxId = 1;
+			hitBoxId = 2; // right.
 		}
 		else if(angle >= 45 && angle <= 135){
-			hitBoxId = 2;
+			hitBoxId = 0; // down.
 		}
 		else{
-			hitBoxId = 3;
+			hitBoxId = 1; // left
 		}
 
 		hitBoxes.EnableHitBox(hitBoxId, time: 0.167f);

@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1fp7wi1kjw4u"]
+
+[ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="1_45jq6"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="2_83uge"]
+[ext_resource type="SpriteFrames" uid="uid://ducvecsmuxhlm" path="res://assets/animations/worker/Worker.tres" id="3_83uge"]
+[ext_resource type="Script" uid="uid://bqy2sse3j5igu" path="res://source/entities/enemy/Worker.cs" id="3_afjqp"]
+[ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="4_10gc1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_10gc1"]
+resource_local_to_scene = true
+shader = ExtResource("2_83uge")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[node name="Worker" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator", "audioPlayer", "agressionZone") instance=ExtResource("1_45jq6")]
+material = SubResource("ShaderMaterial_10gc1")
+script = ExtResource("3_afjqp")
+health = NodePath("Health")
+navAgent = NodePath("Navigation2DAgent")
+characterMovement = NodePath("CharacterMovement")
+attackHandler = NodePath("AiAttackHandler")
+hitBoxHandler = NodePath("HitBoxHandler")
+hitFlash = NodePath("HitFlashShaderController")
+stunTimer = NodePath("StunTimer")
+ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
+animator = NodePath("AnimatedSprite")
+audioPlayer = NodePath("AudioPlayer")
+agressionZone = NodePath("AgressionZone")
+
+[node name="AnimatedSprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_10gc1")
+sprite_frames = ExtResource("3_83uge")
+animation = &"IdleBackward"
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = true
+scale = Vector2(14, 14)
+
+[node name="CharacterMovement" parent="." index="2" node_paths=PackedStringArray("character")]
+character = NodePath("..")
+BaseTopSpeed = 50.0
+BaseAcceleration = 200.0
+BaseDeceleration = 200.0
+
+[node name="AiAttackHandler" parent="." index="3" node_paths=PackedStringArray("attackCooldowns")]
+attackCooldowns = [NodePath("PunchTimer")]
+
+[node name="PunchTimer" type="Timer" parent="AiAttackHandler" index="4"]
+one_shot = true
+
+[node name="HitBoxHandler" parent="." index="7" node_paths=PackedStringArray("hitBoxes")]
+visible = true
+hitBoxes = [NodePath("PunchDown"), NodePath("PunchLeft"), NodePath("PunchRight"), NodePath("PunchUp")]
+
+[node name="PunchDown" parent="HitBoxHandler" index="0" instance=ExtResource("4_10gc1")]
+position = Vector2(0, 17)
+scale = Vector2(24, 20)
+
+[node name="PunchLeft" parent="HitBoxHandler" index="1" instance=ExtResource("4_10gc1")]
+position = Vector2(-17, 0)
+scale = Vector2(20, 24)
+
+[node name="PunchRight" parent="HitBoxHandler" index="2" instance=ExtResource("4_10gc1")]
+position = Vector2(17, 0)
+scale = Vector2(20, 24)
+
+[node name="PunchUp" parent="HitBoxHandler" index="3" instance=ExtResource("4_10gc1")]
+position = Vector2(0, -17)
+scale = Vector2(24, 20)
+
+[node name="Health" parent="." index="9"]
+Max = 3
+Value = 3
+
+[node name="PassiveZone" parent="AgressionZone" index="0"]
+scale = Vector2(100, 100)
+
+[node name="ActiveZone" parent="AgressionZone" index="1"]
+scale = Vector2(200, 200)

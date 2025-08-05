@@ -1,6 +1,7 @@
+using Entropek.Collections;
 using Godot;
-using System;
 using Godot.Collections;
+using System;
 using System.Collections.Generic;
 
 public partial class AiAttackHandler : Node{
@@ -14,16 +15,16 @@ public partial class AiAttackHandler : Node{
         Left
     }
      
-    [Export] private Array<AiAttack> upAttacks;
-    [Export] private Array<AiAttack> rightAttacks;
-    [Export] private Array<AiAttack> downAttacks;
-    [Export] private Array<AiAttack> leftAttacks;
-    [Export] private Array<AiAttack> omniAttacks;
-    private Array<AiAttack> availableUpAttacks = new Array<AiAttack>();
-    private Array<AiAttack> availableRightAttacks = new Array<AiAttack>();
-    private Array<AiAttack> availableDownAttacks = new Array<AiAttack>();
-    private Array<AiAttack> availableLeftAttacks = new Array<AiAttack>();
-    private Array<AiAttack> availableOmniAttacks = new Array<AiAttack>();
+    private AiAttack[] upAttacks;
+    private AiAttack[] rightAttacks;
+    private AiAttack[] downAttacks;
+    private AiAttack[] leftAttacks;
+    private AiAttack[] omniAttacks;
+    private SwapbackList<AiAttack> availableUpAttacks       = new SwapbackList<AiAttack>();
+    private SwapbackList<AiAttack> availableRightAttacks    = new SwapbackList<AiAttack>();
+    private SwapbackList<AiAttack> availableDownAttacks     = new SwapbackList<AiAttack>();
+    private SwapbackList<AiAttack> availableLeftAttacks     = new SwapbackList<AiAttack>();
+    private SwapbackList<AiAttack> availableOmniAttacks     = new SwapbackList<AiAttack>();
     [Export] private Array<Timer> attackCooldowns; // <-- one timer per unique attack.
 
     public event Action<byte> OnAttackChosen;
@@ -42,7 +43,7 @@ public partial class AiAttackHandler : Node{
     private RandomNumberGenerator rng = new RandomNumberGenerator();
     private TargetDirection targetDirection = TargetDirection.Right;
     
-    private AiAttack chosenAttack = null;
+    private AiAttack chosenAttack;
     private AttackDirection chosenAttackDirection;
 
     private float angleToTarget     = 0;
@@ -67,13 +68,6 @@ public partial class AiAttackHandler : Node{
         #endif
 
         rng.Randomize();
-
-        // set max range attack for perf reasons.
-
-        CalcMaxRange();
-
-        // GD.Print(attacks.Count);
-        // GD.Print(maxRangeAttack);
     }
 
     public override void _PhysicsProcess(double delta){
@@ -99,11 +93,26 @@ public partial class AiAttackHandler : Node{
     /// 
 
 
+    public void Initialise(
+        AiAttack[] downAttacks,
+        AiAttack[] leftAttacks,
+        AiAttack[] omniAttacks,
+        AiAttack[] rightAttacks,
+        AiAttack[] upAttacks
+    ){
+        this.downAttacks    = downAttacks;
+        this.leftAttacks    = leftAttacks;
+        this.omniAttacks    = omniAttacks;
+        this.rightAttacks   = rightAttacks;
+        this.upAttacks      = upAttacks;
+        CalcMaxRange();
+    }
+
     private void CalcMaxRange(){
         
         // up attacks.
 
-        for(int i = 0; i < upAttacks.Count; i++){
+        for(int i = 0; i < upAttacks.Length; i++){
             AiAttack attack = upAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
@@ -112,7 +121,7 @@ public partial class AiAttackHandler : Node{
 
         // right attacks.
 
-        for(int i = 0; i < rightAttacks.Count; i++){
+        for(int i = 0; i < rightAttacks.Length; i++){
             AiAttack attack = rightAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
@@ -121,7 +130,7 @@ public partial class AiAttackHandler : Node{
 
         // down attacks.
 
-        for(int i = 0; i < downAttacks.Count; i++){
+        for(int i = 0; i < downAttacks.Length; i++){
             AiAttack attack = downAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
@@ -130,7 +139,7 @@ public partial class AiAttackHandler : Node{
 
         // left attacks.
 
-        for(int i = 0; i < leftAttacks.Count; i++){
+        for(int i = 0; i < leftAttacks.Length; i++){
             AiAttack attack = leftAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
@@ -139,7 +148,7 @@ public partial class AiAttackHandler : Node{
 
         // omni directional attacks.
 
-        for(int i = 0; i < omniAttacks.Count; i++){
+        for(int i = 0; i < omniAttacks.Length; i++){
             AiAttack attack = omniAttacks[i];
             if(attack.MinTargetDistance > maxMinTargetDistanceAttack){
                 maxMinTargetDistanceAttack = attack.MinTargetDistance;
@@ -194,7 +203,7 @@ public partial class AiAttackHandler : Node{
         attackStateTimer.Paused                 = true;
         followThroughStateTimer.Paused          = true;
         standByCooldown.Paused                  = true;
-        if(chosenAttack!=null){
+        if(chosenAttack.IsValid == true){
             attackCooldowns[chosenAttack.Id].Paused = true;
         }
         statePhysicsProcess = null;
@@ -205,7 +214,7 @@ public partial class AiAttackHandler : Node{
         attackStateTimer.Paused                 = false;
         followThroughStateTimer.Paused          = false;
         standByCooldown.Paused                  = false;
-        if(chosenAttack != null){
+        if(chosenAttack.IsValid == true){
             attackCooldowns[chosenAttack.Id].Paused = false;
         }
         EvaluateState();
@@ -265,7 +274,7 @@ public partial class AiAttackHandler : Node{
     private void DetermineAvailableAttacks(){
 
         ClearAvailableAttacks();
-        chosenAttack = null;
+        chosenAttack = new AiAttack(); // null, not in use.
 
         // return if we are not in the max range attack.
 
@@ -304,8 +313,8 @@ public partial class AiAttackHandler : Node{
         availableUpAttacks.Clear();
     }
 
-    private void GetAvailableAttacks(Array<AiAttack> attackOptions, Array<AiAttack> availableAttackOptions){
-        for(int i = 0; i < attackOptions.Count; i++){
+    private void GetAvailableAttacks(AiAttack[] attackOptions, SwapbackList<AiAttack> availableAttackOptions){
+        for(int i = 0; i < attackOptions.Length; i++){
             AiAttack attack = attackOptions[i];
             if(attack.MinTargetDistance < distanceToTarget
             || attackCooldowns[attack.Id].TimeLeft > 0){
@@ -372,7 +381,7 @@ public partial class AiAttackHandler : Node{
         OnAttackChosen?.Invoke(chosenAttack.Id);
     }
 
-    private void ChooseRandomAttack(Array<AiAttack> availableAttackOptions, Array<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
+    private void ChooseRandomAttack(SwapbackList<AiAttack> availableAttackOptions, SwapbackList<AiAttack> alternateAvailableAttackOptions, out AiAttack chosen, out bool isAlternate){
         int r = rng.RandiRange(0,1);
         if(r==0){
             ChooseRandomAttack(availableAttackOptions, out chosen);
@@ -384,7 +393,7 @@ public partial class AiAttackHandler : Node{
         }
     }
 
-    private void ChooseRandomAttack(Array<AiAttack> availableAttackOptions, out AiAttack chosen){
+    private void ChooseRandomAttack(SwapbackList<AiAttack> availableAttackOptions, out AiAttack chosen){
         int r = rng.RandiRange(0,availableAttackOptions.Count-1);
         chosen = availableAttackOptions[r];
     }
@@ -412,15 +421,16 @@ public partial class AiAttackHandler : Node{
     }
 
     private void StartChoseAttackCooldown(){
-        if(chosenAttack != null){
+        if(chosenAttack.IsValid==true){
             Timer cooldownTimer = attackCooldowns[chosenAttack.Id]; 
             cooldownTimer.WaitTime = chosenAttack.Cooldown;
             cooldownTimer.Start();
+            GD.Print($"start cooldown {chosenAttack.Cooldown}");
         }
     }
 
     public bool StartAttacking(){
-        if(chosenAttack!=null){
+        if(chosenAttack.IsValid==true){
             statePhysicsProcess = null;
             OnAttackStarted?.Invoke(chosenAttack.Id, chosenAttackDirection);
             LeadInState();

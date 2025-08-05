@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bsgesvasya5np" path="res://scenes/environment/interactables/Chimney.tscn" id="5_j0sv7"]
 [ext_resource type="PackedScene" uid="uid://dl4kccjhbcmux" path="res://scenes/environment/interactables/Firepit.tscn" id="6_4unv2"]
 [ext_resource type="PackedScene" uid="uid://dmy0scf5vha1n" path="res://scenes/environment/interactables/RespawnPoint.tscn" id="7_yynx6"]
-[ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/Enemy.tscn" id="8_ktef7"]
+[ext_resource type="PackedScene" uid="uid://c1fp7wi1kjw4u" path="res://scenes/entities/enemies/Worker.tscn" id="8_ktef7"]
 [ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="9_l1je0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ktef7"]
@@ -59,6 +59,6 @@ position = Vector2(305, 129)
 [node name="RespawnPoint" parent="." index="14" instance=ExtResource("7_yynx6")]
 position = Vector2(319, 104)
 
-[node name="Enemy" parent="." index="15" instance=ExtResource("8_ktef7")]
+[node name="Worker" parent="." index="15" instance=ExtResource("8_ktef7")]
 material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(153, 160)
+position = Vector2(167, 176)

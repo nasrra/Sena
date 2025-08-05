@@ -3,16 +3,56 @@ using System;
 using System.ComponentModel;
 
 public partial class Worker : Enemy{
+	
+	/// <summary>
+	/// Definitions.
+	/// </summary>
+
+
     private enum AttackId : byte{
-		Slash    = 0,
+		Punch    	= 0,
 	}
 
 	private enum AttackHitBoxId{
-		AttackDown   = 0,
-		AttackLeft   = 1,
-		AttackRight  = 2,
-		AttackUp     = 3,
+		PunchDown   = 0,
+		PunchLeft   = 1,
+		PunchRight  = 2,
+		PunchUp     = 3,
 	}
+
+	private static readonly AiAttack PunchAttack = new AiAttack(
+		cooldown: 			1,
+		handlerCooldown:	0.1f,
+		leadInTime: 		0.5f,
+		attackTime:			0.05f,
+		followThroughTime:  0.75f,
+		minTargetDistance:  50,
+		damage: 			1,
+		id:					(byte)AttackId.Punch
+	);
+
+
+    /// 
+    /// Base.
+    /// 
+
+
+    public override void _Ready(){
+        base._Ready();
+		attackHandler.Initialise(
+			downAttacks: 	[PunchAttack],
+			leftAttacks: 	[PunchAttack],	
+			omniAttacks: 	[],
+			rightAttacks: 	[PunchAttack],
+			upAttacks: 		[PunchAttack]
+		);
+    }
+
+
+
+	/// 
+	/// Overrides.
+	/// 
 
     protected override void TargetLeft(Node2D node){
         base.TargetLeft(node);
@@ -27,19 +67,19 @@ public partial class Worker : Enemy{
     protected override void HandleAttack(byte attackId, AttackDirection attackDirection){
 		FacingDirection attackFacingDirection = AttackDirectionToFacingDirection(attackDirection);
 		switch(attackId){
-			case (byte)AttackId.Slash:
+			case (byte)AttackId.Punch:
 				switch(attackDirection){
 					case AttackDirection.Down:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.AttackDown, 0.33f);
+						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.PunchDown, 0.33f);
 					break;
 					case AttackDirection.Left:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.AttackLeft, 0.33f);
+						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.PunchLeft, 0.33f);
 					break;
 					case AttackDirection.Right:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.AttackRight, 0.33f);
+						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.PunchRight, 0.33f);
 					break;
 					case AttackDirection.Up:
-						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.AttackUp, 0.33f);
+						hitBoxHandler.EnableHitBox((int)AttackHitBoxId.PunchUp, 0.33f);
 					break;
 				}
                 PlayAnimation("Attack", attackFacingDirection);
@@ -85,7 +125,7 @@ public partial class Worker : Enemy{
     protected override void HandleStartAttack(byte attackId, AttackDirection attackDirection){
 		AttackingState();
 		switch(attackId){
-			case (byte)AttackId.Slash:
+			case (byte)AttackId.Punch:
 				switch(attackDirection){
 					case AttackDirection.Down:
 						animator.Play("AttackBackward");

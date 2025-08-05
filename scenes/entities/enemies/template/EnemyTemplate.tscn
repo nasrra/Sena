@@ -1,0 +1,96 @@
+[gd_scene load_steps=14 format=3 uid="uid://cnmwj8dlikh2o"]
+
+[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
+[ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
+[ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
+[ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="11_1jhey"]
+[ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
+[ext_resource type="Script" uid="uid://bda85676t7suo" path="res://Entropek/source/ai/AiWander.cs" id="13_esdid"]
+[ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="13_qwpog"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
+size = Vector2(1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8ssa"]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qwpog"]
+radius = 1.0
+
+[node name="EnemyTemplate" type="CharacterBody2D"]
+material = ExtResource("2_m80fk")
+collision_layer = 8
+collision_mask = 14
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+material = ExtResource("2_m80fk")
+scale = Vector2(0.125, 0.125)
+animation = &""
+offset = Vector2(0, -45)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_tt7e2")
+
+[node name="CharacterMovement" type="Node" parent="."]
+script = ExtResource("5_306ko")
+
+[node name="AiAttackHandler" parent="." node_paths=PackedStringArray("attackCooldowns") instance=ExtResource("6_mj3ic")]
+attackCooldowns = [null]
+
+[node name="StunTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="IgnoreEnemyTimer" type="Timer" parent="."]
+
+[node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
+sprite = NodePath("../AnimatedSprite")
+
+[node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes")]
+visible = false
+script = ExtResource("13_qwpog")
+hitBoxes = []
+
+[node name="Navigation2DAgent" type="Node2D" parent="."]
+scale = Vector2(122.225, 7.59879)
+script = ExtResource("10_m80fk")
+size = 2
+endPathPointTolerance = 1
+Capability = 4
+
+[node name="Health" parent="." instance=ExtResource("10_1jhey")]
+
+[node name="AudioPlayer" type="Node2D" parent="."]
+script = ExtResource("11_1jhey")
+
+[node name="AgressionZone" type="Node2D" parent="." node_paths=PackedStringArray("passiveZone", "activeZone")]
+visible = false
+script = ExtResource("12_qwpog")
+passiveZone = NodePath("PassiveZone")
+activeZone = NodePath("ActiveZone")
+obstructionLayer = 2
+
+[node name="PassiveZone" type="Area2D" parent="AgressionZone"]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/PassiveZone"]
+shape = SubResource("CircleShape2D_v8ssa")
+
+[node name="ActiveZone" type="Area2D" parent="AgressionZone"]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/ActiveZone"]
+shape = SubResource("CircleShape2D_qwpog")
+
+[node name="AiWander" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
+script = ExtResource("13_esdid")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="AiWander"]
+one_shot = true

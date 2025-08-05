@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://vjq57uwt6p5w" path="res://assets/greyboxes/room_1.png" id="2_opbph"]
 [ext_resource type="PackedScene" uid="uid://btfda2va3gwbu" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorHorizontal.tscn" id="3_6njyg"]
 [ext_resource type="PackedScene" uid="uid://7omjbe8a7mqf" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorVertical.tscn" id="4_i3w3v"]
-[ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/Enemy.tscn" id="5_mdeo0"]
+[ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="5_mdeo0"]
 [ext_resource type="PackedScene" uid="uid://dyymkutpgb1bl" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorLeft.tscn" id="6_ut634"]
 [ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="6_y60gd"]
 [ext_resource type="PackedScene" uid="uid://cfijs5hb822g" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorRight.tscn" id="7_kosd7"]
