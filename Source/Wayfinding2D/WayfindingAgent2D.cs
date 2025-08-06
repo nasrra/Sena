@@ -6,25 +6,26 @@ using System.Collections.Generic;
 public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
     public Vector2 CurrentPathPoint {get;private set;}
-    private bool noPathLastTick = true;
+    private bool noPathPathAssignedLastTick = true;
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
     [Export] public NavigationType Capability {get;private set;}
 
     private double deltaCummulative = 0f;
-    private const float calculatePathTick = 1.67f * 2;
+    private const float PathTick = 1.67f * 2;
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
     }
 
-    public void CalculateNewPath(Vector2 endGlobalPosition){
+    public bool CalculateNewPath(Vector2 endGlobalPosition){
         Path = WayfindingGrid2D.Singleton.GetPath(GlobalPosition, endGlobalPosition, Capability, size, endPathPointTolerance);
+        return Path != null;
     }
 
     public void UpdateCurrentPathToTarget(){
         if(Path != null && Path.Count > 0){
-            if(noPathLastTick == true){
+            if(noPathPathAssignedLastTick == true){
                 CurrentPathPoint = Path.Pop();
             }
             Vector2 distance = CurrentPathPoint - GlobalPosition;

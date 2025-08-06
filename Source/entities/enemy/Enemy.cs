@@ -235,9 +235,13 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 
 	protected void MoveAlongPathToTarget(){
-		navAgent.CalculateNewPath(Target.GlobalPosition);
-		navAgent.UpdateCurrentPathToTarget();
-		characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
+		if(navAgent.CalculateNewPath(Target.GlobalPosition)==true){
+			navAgent.UpdateCurrentPathToTarget();
+			characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
+		}
+		else{
+			IdleState();
+		}
 	}
 
 	protected void CalculateRelationshipToTarget(){
