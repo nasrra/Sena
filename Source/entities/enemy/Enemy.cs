@@ -106,15 +106,16 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	private void InvokeProcess(double delta){
 		Process?.Invoke(delta);
 	}
+
+	double d = 0;
+
 	private void InvokePhysicsProcess(double delta){
-		if(IsInstanceValid(Target)){
-			Vector2I[] cellsAroundTarget = WayfindingGrid2D.Singleton.GetCellsInArea(Target.GlobalPosition, new Vector2I(-2,-2), new Vector2I(2,2));		
-			GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-			for(int i = 0; i < cellsAroundTarget.Length; i++){			
-				Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[i]);
-				debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 0.0167f);
-			}
+		d += delta;
+		if(d >= 1.5f){
+			GetAvoidancePath();
+			d = 0;
 		}
+		
 		PhysicsProcess?.Invoke(delta);	
 	}
 
@@ -257,6 +258,25 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// Shared Functions
 	/// 
 
+	protected void GetAvoidancePath(){
+		
+		if(IsInstanceValid(Target) == false || Target == null){
+			return;
+		}
+
+		List<Vector2I> cellsAroundTarget = WayfindingGrid2D.Singleton.GetCellsInArea(Target.GlobalPosition, new Vector2I(-8,-8), new Vector2I(8,8));		
+		cellsAroundTarget = WayfindingGrid2D.Singleton.GetGroundClearanceCells(cellsAroundTarget, 2);
+		GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+		
+		// debug draw. 
+
+		for(int i = 0; i < cellsAroundTarget.Count; i++){			
+			Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[i]);
+			debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 1f);
+		}
+		Vector2 chosenAvoidance = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[GD.RandRange(0, cellsAroundTarget.Count-1)]);
+		debugDraw.Call("rect",chosenAvoidance, Vector2.One*8, new Color(1,0,0), 1f, 1f);
+	}
 
 	protected void MoveAlongPathToTarget(){
 		if(navAgent.CalculateNewPath(Target.GlobalPosition)==true){
