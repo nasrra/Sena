@@ -13,10 +13,10 @@ public partial class WayfindingGrid2D : Node2D{
 
     PathCell[,] paths;
 
-    bool[,] locked;
-    byte[,] groundClearance;
-    byte[,] aerialClearance;
-    NavigationType[,] navigationType;
+    private bool[,] locked                  ;
+    private byte[,] groundClearance         ;
+    private byte[,] aerialClearance         ;
+    private NavigationType[,] navigationType;
     
 
     [Export] private TileMapLayer tileMap;
@@ -573,6 +573,23 @@ public partial class WayfindingGrid2D : Node2D{
         }
         InitialiseGridClearance(NavigationType.Open);
         InitialiseGridClearance(NavigationType.PassThrough);
+    }
+
+    public Vector2I[] GetCellsInArea(Vector2 originPosition, Vector2I startOffset, Vector2I endOffset){
+        if(startOffset > endOffset){
+            throw new InvalidOperationException($"endOffset: {endOffset} cannot be smaller than startOffset {startOffset}");
+        }
+        Vector2I centerCell = GlobalToIdPosition(originPosition);
+        Vector2I[] cellsInArea = new Vector2I[(endOffset.X - startOffset.X) * (endOffset.Y - startOffset.Y)];
+        
+        int i = 0;
+        for(int x = startOffset.X; x < endOffset.X; x++){
+            for(int y = startOffset.Y; y < startOffset.Y; y++){
+                cellsInArea[i] = new Vector2I(x,y);
+            }
+        }
+
+        return cellsInArea;
     }
 
     public bool IsCellNavigationType(int cellIdX, int cellIdY, NavigationType navigationType){

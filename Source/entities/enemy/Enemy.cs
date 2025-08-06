@@ -1,3 +1,4 @@
+using Entropek.Ai;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -6,14 +7,15 @@ using System.Text.Json.Serialization.Metadata;
 public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
 	
 	[ExportGroup("Nodes")]
+	[Export] protected Timer stunTimer;
+	[Export] protected Timer ignoreEnemyTimer;
+	[Export] protected Timer chaseStateSwapTimer;
 	[Export] protected Health health;
 	[Export] protected WayfindingAgent2D navAgent;
 	[Export] protected CharacterMovement characterMovement;
 	[Export] protected AiAttackHandler attackHandler;
 	[Export] protected HitBoxHandler hitBoxHandler;
 	[Export] protected HitFlashShaderController hitFlash;
-	[Export] protected Timer stunTimer;
-	[Export] protected Timer ignoreEnemyTimer;
 	[Export] protected AnimatedSprite2D animator;
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
@@ -36,9 +38,9 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected const string IdleAnimationName 		= "Idle";
 	protected const string WanderAnimationName 		= "Wander";
 	protected const string StunAnimationName 		= "Stun";
-	protected Vector2 directionToTarget = Vector2.Zero;
-	protected Vector2 normalDirectionToTarget = Vector2.Zero;
-	protected float distanceToTarget = float.MaxValue;
+	protected Vector2 directionToTarget 			= Vector2.Zero;
+	protected Vector2 normalDirectionToTarget 		= Vector2.Zero;
+	protected float distanceToTarget 				= float.MaxValue;
 	protected float damagedKnockback;
 	public float stunStateAttackHandlerStandbyAdditiveTime;
 	protected EnemyState state = EnemyState.None;
@@ -64,6 +66,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		Left,
 		Right
 	}
+
+	protected enum ChaseStateIntention : byte{
+		AvoidTarget,
+		ApproachTarget
+	} 
 
 
 	///
@@ -96,8 +103,19 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		UnlinkEvents();
 	}
 
-	private void InvokeProcess(double delta) => Process?.Invoke(delta);
-	private void InvokePhysicsProcess(double delta) => PhysicsProcess?.Invoke(delta);
+	private void InvokeProcess(double delta){
+		Process?.Invoke(delta);
+	}
+	private void InvokePhysicsProcess(double delta){
+		Vector2I[] cellsAroundTarget = WayfindingAgent2D.Singleton
+		
+		// for(int i = 0; i < 6; i++){
+		// 	WayfindingGrid2D.Singleton.groundClearance
+		// }
+		// GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+		// debugDraw.Call("rect",);
+		PhysicsProcess?.Invoke(delta);	
+	}
 
 
 	/// 
@@ -165,6 +183,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		CalculateRelationshipToTarget();
 		attackHandler.SetDirectionToTarget(directionToTarget);
 		attackHandler.SetDistanceToTarget(distanceToTarget);
+
+		/// sample a square range aroung target postion.
+		/// have a while loop with 6 (max) iterations to find a possible avoidance path.
+		/// head toward that avoidance path if found.
+		/// return to approaching target if path is not found.
 
 		attackHandler.ResumeState();
 	}
