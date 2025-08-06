@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://j1150ggfsu65"]
 
 [ext_resource type="PackedScene" uid="uid://c01h80m6psa0x" path="res://scenes/PathfindGrid.tscn" id="1_0pdpo"]
-[ext_resource type="Script" uid="uid://ct7qugnshjte" path="res://source/managers/GameplayLevel.cs" id="1_mkam8"]
+[ext_resource type="Script" uid="uid://ct7qugnshjte" path="res://Source/managers/GameplayLevel.cs" id="1_mkam8"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="2_i0qjc"]
-[ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://source/managers/LevelSwapDoorManager.cs" id="2_r4jcq"]
-[ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="3_ekaam"]
-[ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="4_i7qc5"]
-[ext_resource type="Script" uid="uid://bajypq0pe4r6o" path="res://source/projectile/ProjectileManager.cs" id="5_h5lis"]
-[ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/source/globals/fmod/AudioBankLoader.cs" id="7_fei8l"]
+[ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://Source/managers/LevelSwapDoorManager.cs" id="2_r4jcq"]
+[ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://Source/managers/EnemyManager.cs" id="3_ekaam"]
+[ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://Source/managers/EntityManager.cs" id="4_i7qc5"]
+[ext_resource type="Script" uid="uid://bajypq0pe4r6o" path="res://Source/projectile/ProjectileManager.cs" id="5_h5lis"]
+[ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/Source/globals/fmod/AudioBankLoader.cs" id="7_fei8l"]
 
 [node name="GameplayLevelTemplate" type="Node2D" node_paths=PackedStringArray("enemyManager", "doors")]
 script = ExtResource("1_mkam8")

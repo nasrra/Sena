@@ -23,12 +23,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	
 	[ExportGroup("Wanderer")]
 	[Export] protected AiWander wanderer;
-    [Export] protected double minPathTime;
-    [Export] protected double maxPathTime;
-    [Export] protected double minIdleTime;
-    [Export] protected double maxIdleTime;
-    [Export] protected Vector2 maxDirection = new Vector2(1,1);
-    [Export] protected Vector2 minDirection = new Vector2(-1,-1);
+	[Export] protected double minPathTime;
+	[Export] protected double maxPathTime;
+	[Export] protected double minIdleTime;
+	[Export] protected double maxIdleTime;
+	[Export] protected Vector2 maxDirection = new Vector2(1,1);
+	[Export] protected Vector2 minDirection = new Vector2(-1,-1);
 
 	protected event Action<double> Process = null;
 	protected event Action<double> PhysicsProcess = null;
@@ -107,13 +107,14 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		Process?.Invoke(delta);
 	}
 	private void InvokePhysicsProcess(double delta){
-		Vector2I[] cellsAroundTarget = WayfindingAgent2D.Singleton
-		
-		// for(int i = 0; i < 6; i++){
-		// 	WayfindingGrid2D.Singleton.groundClearance
-		// }
-		// GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-		// debugDraw.Call("rect",);
+		if(IsInstanceValid(Target)){
+			Vector2I[] cellsAroundTarget = WayfindingGrid2D.Singleton.GetCellsInArea(Target.GlobalPosition, new Vector2I(-2,-2), new Vector2I(2,2));		
+			GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+			for(int i = 0; i < cellsAroundTarget.Length; i++){			
+				Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[i]);
+				debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 0.0167f);
+			}
+		}
 		PhysicsProcess?.Invoke(delta);	
 	}
 
@@ -298,7 +299,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		}
 		
 		float angle = Mathf.Atan2(direction.Y, direction.X);
-        angle = Mathf.RadToDeg(angle);
+		angle = Mathf.RadToDeg(angle);
 		
 		if(angle >= -155 && angle <= -25){
 			facing = FacingDirection.Forward;

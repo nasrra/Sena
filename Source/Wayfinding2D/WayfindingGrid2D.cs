@@ -99,6 +99,7 @@ public partial class WayfindingGrid2D : Node2D{
                 
                 if(TileIsInUse(x,y, out TileData sharedTileData) == false){
                     continue;
+                
                 }
 
                 NavigationType navigation = (NavigationType)(int)sharedTileData.GetCustomData("NavigationType");
@@ -580,12 +581,17 @@ public partial class WayfindingGrid2D : Node2D{
             throw new InvalidOperationException($"endOffset: {endOffset} cannot be smaller than startOffset {startOffset}");
         }
         Vector2I centerCell = GlobalToIdPosition(originPosition);
-        Vector2I[] cellsInArea = new Vector2I[(endOffset.X - startOffset.X) * (endOffset.Y - startOffset.Y)];
+        Vector2I[] cellsInArea = new Vector2I[(endOffset.X - startOffset.X + 1) * (endOffset.Y - startOffset.Y + 1)];
         
+        Vector2I start = centerCell + startOffset;
+        Vector2I end = centerCell + endOffset;
+        GD.Print($"iteration {start} {centerCell} {end}");
+
         int i = 0;
-        for(int x = startOffset.X; x < endOffset.X; x++){
-            for(int y = startOffset.Y; y < startOffset.Y; y++){
+        for(int x = start.X; x <= end.X; x++){
+            for(int y = start.Y; y <= end.Y; y++){
                 cellsInArea[i] = new Vector2I(x,y);
+                i++;
             }
         }
 
