@@ -118,14 +118,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// 
 
 
-	protected virtual void TargetLeft(Node2D node){
-		Target = null;
-		characterMovement.ZeroDirection();
-		attackHandler.HaltState();
-		hitBoxHandler.DisableAllHitBoxes();
-		IdleState();
-	}
-
 	protected void EvaluateState(){
 
 		// TODO: do some recovery state code when needed.
@@ -137,6 +129,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		}
 		attackHandler.EvaluateState();
 	}
+
+
+	/// 
+	/// Idle State.
+	/// 
+
 
 	protected void IdleState(){
 		Process 		= null;
@@ -162,6 +160,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 			PlayAnimation(WanderAnimationName, facingDirection);			
 		}
 	}
+
+
+	/// 
+	/// Chase State.
+	/// 
+
 
 	protected void ChaseState(Node2D target){
 		SetTarget(target);
@@ -232,6 +236,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		GD.Print(chaseStateIntention);
 	}
 
+
+	/// 
+	/// Stun State.
+	/// 
+
+
 	protected virtual void StunState(float time){
 		
 		state 			= EnemyState.Stunned;
@@ -246,11 +256,23 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		stunTimer.Start();
 	}
 
+
+	/// 
+	/// Attacking State.
+	/// 
+
+
 	protected void AttackingState(){
 		state = EnemyState.Attacking;
 		Process = null;
 		PhysicsProcess = null;
 	}
+
+
+	/// 
+	/// Flow States.
+	/// 
+
 
 	protected void PauseState(){
 		Process = null;
@@ -378,6 +400,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		Target = target;
 	}
 
+
 	/// 
 	/// Linkage
 	/// 
@@ -421,6 +444,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		EntityManager.Singleton.OnResume 			-= ResumeState;
 	}
 
+
+	/// 
+	/// Animator.
+	/// 
+
+
 	protected virtual void LinkAnimator(){
 		animator.FrameChanged 		+= OnFrameChanged;
 		animator.AnimationChanged 	+= OnAnimationChanged;
@@ -429,130 +458,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected virtual void UnlinkAnimator(){
 		animator.FrameChanged 		-= OnFrameChanged;
 		animator.AnimationChanged 	-= OnAnimationChanged;
-	}
-
-	protected virtual void LinkHealth(){
-		health.OnDeath  += Kill;
-		health.OnDamage += OnDamagedCallback;
-	}
-
-	protected virtual void UnlinkHealth(){
-		health.OnDeath  -= Kill;
-		health.OnDamage -= OnDamagedCallback;
-	}
-
-	protected virtual void LinkAttackHandler(){
-		attackHandler.OnAttackChosen	+= HandleAttackChosen;
-		attackHandler.OnAttack          += HandleAttack;
-		attackHandler.OnAttackStarted   += HandleStartAttack;
-		attackHandler.OnAttackEnded     += HandleAttackEnded;
-	}
-
-	protected virtual void UnlinkAttackHandler(){
-		attackHandler.OnAttackChosen	-= HandleAttackChosen;
-		attackHandler.OnAttack          -= HandleAttack;
-		attackHandler.OnAttackStarted   -= HandleStartAttack;
-		attackHandler.OnAttackEnded     -= HandleAttackEnded;
-	}
-
-	protected virtual void LinkHitBoxHandler(){
-		hitBoxHandler.OnHit += HandleAttackHit;
-	}
-
-	protected virtual void UnlinkHitBoxHandler(){
-		hitBoxHandler.OnHit -= HandleAttackHit;
-	}
-
-	protected virtual void LinkTimers(){
-		stunTimer.Timeout 							+= EvaluateState;
-		ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
-		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
-	}
-
-	protected virtual void UnlinkTimers(){
-		stunTimer.Timeout 							-= EvaluateState;
-		ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
-		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
-	}
-
-	protected virtual void LinkAgressionZone(){
-		agressionZone.OnInSight 	+= ChaseState;
-		agressionZone.OnExitedZone 	+= TargetLeft;
-	}
-
-	protected virtual void UnlinkAgressionZone(){
-		agressionZone.OnInSight 	-= ChaseState;
-		agressionZone.OnExitedZone 	-= TargetLeft;
-	}
-
-	protected virtual void LinkAiWander(){
-		if(wanderer != null){
-			wanderer.OnDirectionChosen += characterMovement.Move;
-		}
-	}
-
-	protected virtual void UnlinkAiWander(){
-		if(wanderer != null){
-			wanderer.OnDirectionChosen -= characterMovement.Move;
-		}
-	}
-
-	protected virtual void LinkWayfindingAgent(){
-		navAgent.OnReachedTarget += OnReachedTargetCallback;
-	}
-
-	protected virtual void UnlinkWayfindingAgent(){
-		navAgent.OnReachedTarget -= OnReachedTargetCallback;	
-	}
-
-	protected void OnReachedTargetCallback(){
-		if(state != EnemyState.Chase || chaseStateIntention != ChaseStateIntention.AvoidTarget){
-			return;
-		}
-		// return to approaching.
-		ApproachIntentionChaseState();
-	}
-
-
-	///
-	/// Linkage Functions.
-	/// 
-
-	private void HandleAttackChosen(byte attackId){
-		if(agressionZone.IsInSight(Target)==true){
-			attackHandler.StartAttacking();
-		}
-	}
-
-	protected abstract void HandleStartAttack(byte attackId, AttackDirection attackDirection);
-
-	protected abstract void HandleAttack(byte attackId, AttackDirection attackDirection);
-
-	private void HandleAttackHit(Node other, int hitboxId){
-		string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
-		switch (hitLayer){
-			case "Player":
-				Health playerHealth = other.GetNode<Health>(Health.NodeName);
-				playerHealth.Damage(1);
-			break;
-			default:
-			throw new Exception($"{hitLayer} not implemented.");
-		}
-	}
-
-	private void HandleAttackEnded(){
-		EvaluateState();
-	}
-
-	protected virtual void OnDamagedCallback(){
-		hitFlash.Flash();
-	}
-
-
-
-	public void Kill(){
-		EnemyManager.Instance.RemoveEnemy(this);
-		QueueFree();
 	}
 
 	private void OnAnimationChanged(){
@@ -570,4 +475,170 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected abstract void OnAnimatorFrameChange(string animation);
+
+
+	/// 
+	/// Health.
+	/// 
+
+
+	protected virtual void LinkHealth(){
+		health.OnDeath  += Kill;
+		health.OnDamage += OnDamagedCallback;
+	}
+
+	protected virtual void UnlinkHealth(){
+		health.OnDeath  -= Kill;
+		health.OnDamage -= OnDamagedCallback;
+	}
+
+	protected virtual void OnDamagedCallback(){
+		hitFlash.Flash();
+	}
+	
+	public void Kill(){
+		EnemyManager.Instance.RemoveEnemy(this);
+		QueueFree();
+	}
+
+
+
+	/// 
+	/// AtackHandler.
+	/// 
+
+
+	protected virtual void LinkAttackHandler(){
+		attackHandler.OnAttackChosen	+= HandleAttackChosen;
+		attackHandler.OnAttack          += HandleAttack;
+		attackHandler.OnAttackStarted   += HandleStartAttack;
+		attackHandler.OnAttackEnded     += HandleAttackEnded;
+	}
+
+	protected virtual void UnlinkAttackHandler(){
+		attackHandler.OnAttackChosen	-= HandleAttackChosen;
+		attackHandler.OnAttack          -= HandleAttack;
+		attackHandler.OnAttackStarted   -= HandleStartAttack;
+		attackHandler.OnAttackEnded     -= HandleAttackEnded;
+	}
+
+	private void HandleAttackChosen(byte attackId){
+		if(agressionZone.IsInSight(Target)==true){
+			attackHandler.StartAttacking();
+		}
+	}
+
+	protected abstract void HandleStartAttack(byte attackId, AttackDirection attackDirection);
+
+	protected abstract void HandleAttack(byte attackId, AttackDirection attackDirection);
+
+	private void HandleAttackEnded(){
+		EvaluateState();
+	}
+
+
+	/// 
+	/// HitBoxHandler
+	/// 
+
+
+	protected virtual void LinkHitBoxHandler(){
+		hitBoxHandler.OnHit += HandleAttackHit;
+	}
+
+	protected virtual void UnlinkHitBoxHandler(){
+		hitBoxHandler.OnHit -= HandleAttackHit;
+	}
+
+	private void HandleAttackHit(Node other, int hitboxId){
+		string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
+		switch (hitLayer){
+			case "Player":
+				Health playerHealth = other.GetNode<Health>(Health.NodeName);
+				playerHealth.Damage(1);
+			break;
+			default:
+			throw new Exception($"{hitLayer} not implemented.");
+		}
+	}
+
+
+	/// 
+	/// Timers
+	/// 
+
+
+	protected virtual void LinkTimers(){
+		stunTimer.Timeout 							+= EvaluateState;
+		ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
+		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
+	}
+
+	protected virtual void UnlinkTimers(){
+		stunTimer.Timeout 							-= EvaluateState;
+		ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
+		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
+	}
+
+
+	/// 
+	/// Ai Agression Zone.
+	/// 
+
+
+	protected virtual void LinkAgressionZone(){
+		agressionZone.OnInSight 	+= ChaseState;
+		agressionZone.OnExitedZone 	+= TargetLeft;
+	}
+
+	protected virtual void UnlinkAgressionZone(){
+		agressionZone.OnInSight 	-= ChaseState;
+		agressionZone.OnExitedZone 	-= TargetLeft;
+	}
+
+	protected virtual void TargetLeft(Node2D node){
+		Target = null;
+		characterMovement.ZeroDirection();
+		attackHandler.HaltState();
+		hitBoxHandler.DisableAllHitBoxes();
+		IdleState();
+	}
+
+
+	// Ai Wander.
+
+
+	protected virtual void LinkAiWander(){
+		if(wanderer != null){
+			wanderer.OnDirectionChosen += characterMovement.Move;
+		}
+	}
+
+	protected virtual void UnlinkAiWander(){
+		if(wanderer != null){
+			wanderer.OnDirectionChosen -= characterMovement.Move;
+		}
+	}
+
+
+	/// 
+	/// Wayfinding Agent.
+	/// 
+
+
+	protected virtual void LinkWayfindingAgent(){
+		navAgent.OnReachedTarget += OnReachedTargetCallback;
+	}
+
+	protected virtual void UnlinkWayfindingAgent(){
+		navAgent.OnReachedTarget -= OnReachedTargetCallback;	
+	}
+
+	protected void OnReachedTargetCallback(){
+		if(state != EnemyState.Chase || chaseStateIntention != ChaseStateIntention.AvoidTarget){
+			return;
+		}
+		// return to approaching.
+		ApproachIntentionChaseState();
+	}
 }
