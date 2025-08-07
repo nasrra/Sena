@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://cwgq114krxx04"]
+[gd_scene load_steps=18 format=4 uid="uid://cwgq114krxx04"]
 
 [ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_3wv3p"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_timdk"]
@@ -16,7 +16,50 @@ shader = ExtResource("9_l1je0")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l1je0"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ae2j3"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mg55r"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_21oen"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o0skh"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e5e55"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_seeu7"]
+resource_local_to_scene = true
+shader = ExtResource("9_l1je0")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_value = 0.0
+
 [node name="Level0" instance=ExtResource("1_3wv3p")]
+y_sort_enabled = true
 
 [node name="AudioBankLoader" parent="." index="2"]
 bankName = "Test"
@@ -44,6 +87,38 @@ scale = Vector2(32, 32)
 position = Vector2(216, 32)
 scale = Vector2(32, 48)
 
+[node name="Worker" parent="EntityManager" index="1" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_ktef7")
+position = Vector2(143, 179)
+
+[node name="Worker2" parent="EntityManager" index="2" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_l1je0")
+position = Vector2(160, 142)
+
+[node name="Worker3" parent="EntityManager" index="3" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_ae2j3")
+position = Vector2(121, 147)
+
+[node name="Worker4" parent="EntityManager" index="4" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_mg55r")
+position = Vector2(103, 181)
+
+[node name="Worker5" parent="EntityManager" index="5" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_21oen")
+position = Vector2(82, 152)
+
+[node name="Worker6" parent="EntityManager" index="6" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_o0skh")
+position = Vector2(99, 115)
+
+[node name="Worker7" parent="EntityManager" index="7" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_e5e55")
+position = Vector2(60, 120)
+
+[node name="Worker8" parent="EntityManager" index="8" instance=ExtResource("8_ktef7")]
+material = SubResource("ShaderMaterial_seeu7")
+position = Vector2(42, 154)
+
 [node name="Camera" parent="." index="11" node_paths=PackedStringArray("Target")]
 Target = NodePath("../Player")
 
@@ -55,33 +130,3 @@ position = Vector2(305, 129)
 
 [node name="RespawnPoint" parent="." index="14" instance=ExtResource("7_yynx6")]
 position = Vector2(319, 104)
-
-[node name="Worker" parent="." index="15" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(143, 179)
-collision_layer = 8
-
-[node name="Worker2" parent="." index="16" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(119, 199)
-collision_layer = 8
-
-[node name="Worker3" parent="." index="17" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(131, 150)
-collision_layer = 8
-
-[node name="Worker4" parent="." index="18" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(100, 154)
-collision_layer = 8
-
-[node name="Worker5" parent="." index="19" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(92, 180)
-collision_layer = 8
-
-[node name="Worker6" parent="." index="20" instance=ExtResource("8_ktef7")]
-material = SubResource("ShaderMaterial_ktef7")
-position = Vector2(118, 173)
-collision_layer = 8

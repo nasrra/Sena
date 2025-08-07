@@ -8,7 +8,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	
 	[ExportGroup("Nodes")]
 	[Export] protected Timer stunTimer;
-	[Export] protected Timer ignoreEnemyTimer;
 	[Export] protected Timer avoidanceIntentionChaseStateTimer;
 	[Export] protected Health health;
 	[Export] protected WayfindingAgent2D navAgent;
@@ -153,12 +152,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected void IdleStatePhysicsProcess(double delta){
-		Vector2 moveDirection = characterMovement.MoveDirection; 
-		if(moveDirection == Vector2.Zero){
+		Vector2 Velocity = characterMovement.Velocity; 
+		if(Velocity == Vector2.Zero){
 			PlayAnimation(IdleAnimationName, facingDirection);
 		}
 		else{
-			CalculateFacingDirection(moveDirection, out facingDirection);
+			CalculateFacingDirection(Velocity, out facingDirection);
 			PlayAnimation(WanderAnimationName, facingDirection);			
 		}
 	}
@@ -191,7 +190,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		CalculateRelationshipToTarget();
 		attackHandler.ResumeState();
 	}
-
 	protected void ChaseStatePhysicsProcess(double delta){
 		if(IsInstanceValid(Target) == false || Target == null){
 			return;
@@ -204,14 +202,13 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		}
 
 		MoveAlongPath();
-		
-		
-		Vector2 moveDirection = characterMovement.MoveDirection;
-		if(moveDirection == Vector2.Zero){
+	
+		Vector2 velocity = characterMovement.Velocity;
+		if(velocity == Vector2.Zero){
 			PlayAnimation(IdleAnimationName, facingDirection);
 		}
 		else{
-			CalculateFacingDirection(moveDirection, out facingDirection);
+			CalculateFacingDirection(velocity, out facingDirection);
 			PlayAnimation(ChaseMoveAnimationName, facingDirection);
 		}
 	}
@@ -251,7 +248,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		hitBoxHandler.DisableAllHitBoxes();
 		CalculateFacingDirection(-characterMovement.Velocity, out FacingDirection facing);
 		PlayAnimation(StunAnimationName, facing);
-		// IgnoreEnemyCollisionMask(time);
 		stunTimer.WaitTime = time;
 		stunTimer.Start();
 	}
@@ -305,7 +301,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected void MoveAlongPath(){
 		if(navAgent.CalculateNewPath()==true){
 			navAgent.UpdateCurrentPathToTarget();
-			characterMovement.Move((navAgent.CurrentPathPoint - GlobalPosition).Lerp(avoidanceAgent.GetAvoidanceDirection(), 0.25f));
+			avoidanceAgent.CalculatAvoidanceDirection();
+			characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
 		}
 		else{
 			IdleState();
@@ -320,17 +317,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
 
-	// protected void IgnoreEnemyCollisionMask(float time){
-		
-	// 	ignoreEnemyTimer.WaitTime = time;
-	// 	SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), false);
-	// 	ignoreEnemyTimer.Start();
-	// }
-
-	// protected void RespondToEnemyCollisionMask(){
-	// 	SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
-	// }
-
 	protected bool CalculateFacingDirection(Vector2 direction, out FacingDirection facing){
 		
 		facing = FacingDirection.Backward;
@@ -341,6 +327,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		
 		float angle = Mathf.Atan2(direction.Y, direction.X);
 		angle = Mathf.RadToDeg(angle);
+		// Ceil to nearest multiple of 2
+		angle = Mathf.Ceil(angle * 0.5f) * 2f;
 		
 		if(angle >= -155 && angle <= -25){
 			facing = FacingDirection.Forward;
@@ -570,13 +558,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 	protected virtual void LinkTimers(){
 		stunTimer.Timeout 							+= EvaluateState;
-		// ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
 		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void UnlinkTimers(){
 		stunTimer.Timeout 							-= EvaluateState;
-		// ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
 		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
 	}
 
@@ -627,11 +613,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 
 	protected virtual void LinkWayfindingAgent(){
-		navAgent.OnReachedTarget += OnReachedTargetCallback;
+		navAgent.OnReachedTarget 		+= OnReachedTargetCallback;
 	}
 
 	protected virtual void UnlinkWayfindingAgent(){
-		navAgent.OnReachedTarget -= OnReachedTargetCallback;	
+		navAgent.OnReachedTarget 		-= OnReachedTargetCallback;
 	}
 
 	protected void OnReachedTargetCallback(){
@@ -640,5 +626,9 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		}
 		// return to approaching.
 		ApproachIntentionChaseState();
+	}
+
+	protected void OnNextPathPointSetCallback(Vector2 nextPathPoint){
+		CalculateFacingDirection(nextPathPoint - GlobalPosition, out facingDirection);
 	}
 }

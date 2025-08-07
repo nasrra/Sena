@@ -30,7 +30,7 @@ public partial class WayfindingGrid2D : Node2D{
 	private Vector2I cellSize = Vector2I.Zero;
 	public Vector2I CellSize {get => cellSize;}
 
-	private bool drawDebug = true;
+	private bool drawDebug = false;
 	private bool hideTiles = true;
 
 	// orthogonal (Manhattan)
@@ -143,20 +143,45 @@ public partial class WayfindingGrid2D : Node2D{
 
 	public override void _Process(double delta){
 		base._Process(delta);
-		QueueRedraw();
 	}
 
 	double deltaAdd = 0;
 
 	public override void _PhysicsProcess(double delta){
 		base._PhysicsProcess(delta);
-		// deltaAdd += delta;
-		// if(deltaAdd >= 0.167f * 2){
-		//     InitialiseGridClearance(NavigationType.Open);
-		//     InitialiseGridClearance(NavigationType.PassThrough);
-		//     deltaAdd = 0;
-		// }
-		// GD.Print(Engine.GetFramesPerSecond());
+
+		if(drawDebug == false){
+			return;
+		}
+		for(int x = 0; x < tileMap.GetUsedRect().Size.X; x++){
+			for(int y = 0; y < tileMap.GetUsedRect().Size.Y; y++){                    
+
+				Vector2I index = new Vector2I(
+					x,
+					y
+				);
+
+				if(TileIsInUse(x, y, out TileData sharedTileData)==false){
+					continue;
+				}
+
+				Vector2 globalPosition = tileMap.MapToLocal(index);
+				switch(navigationType[x,y]){
+					case NavigationType.Blocked:
+						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
+					break;
+					case NavigationType.PassThrough:
+						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
+						// DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+					break;
+					case NavigationType.Open:
+						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
+						// DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+					break;
+				}
+			}
+		}            
+
 	}
 
 	public void CalculateClearance(ref byte[,] clearanceData, int cx, int cy, NavigationType blockTypes){
@@ -483,42 +508,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 		return D * (dx + dy) + (D2 - 2 * D) * Math.Min(dx, dy);
 	}
-
-	public override void _Draw(){
-		base._Draw();
-		if(drawDebug == false){
-			return;
-		}
-		for(int x = 0; x < tileMap.GetUsedRect().Size.X; x++){
-			for(int y = 0; y < tileMap.GetUsedRect().Size.Y; y++){                    
-
-				Vector2I index = new Vector2I(
-					x,
-					y
-				);
-
-				if(TileIsInUse(x, y, out TileData sharedTileData)==false){
-					continue;
-				}
-
-				Vector2 globalPosition = tileMap.MapToLocal(index);
-				switch(navigationType[x,y]){
-					case NavigationType.Blocked:
-						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
-					break;
-					case NavigationType.PassThrough:
-						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
-						// DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
-					break;
-					case NavigationType.Open:
-						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
-						// DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
-					break;
-				}
-			}
-		}            
-	}
-
+	
 	public void Insert(Rect2 globalAABB,  NavigationType agentNavigationType, out List<Vector2I> currentFrameIndices){
 		currentFrameIndices = new List<Vector2I>();
 

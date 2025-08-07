@@ -6,8 +6,9 @@ using System.Collections.Generic;
 public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
     public Vector2 TargetPosition {get;private set;}
-    public Vector2 CurrentPathPoint {get;private set;}
+    public Vector2 NextPathPoint {get;private set;}
     public Vector2 DistanceToPathPoint {get;private set;}
+    public Vector2 DirectionToPathPoint {get;private set;}
     public event Action OnReachedTarget;
     private bool noPathPathAssignedLastTick = true;
     [Export] byte size = 1;
@@ -19,7 +20,6 @@ public partial class WayfindingAgent2D : Node2D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
-    
     
         // if(Path!=null){
         //     foreach(Vector2 point in Path){
@@ -74,16 +74,16 @@ public partial class WayfindingAgent2D : Node2D{
     public void UpdateCurrentPathToTarget(){
         if(Path != null && Path.Count > 0){
             if(noPathPathAssignedLastTick == true){
-                CurrentPathPoint = Path.Pop();
+                NextPathPoint = Path.Pop();
             }
-            Vector2 distance = CurrentPathPoint - GlobalPosition;
-            if(distance.LengthSquared() <= 50f && Path.Count > 0){
-                CurrentPathPoint = Path.Pop();
+            Vector2 distance = NextPathPoint - GlobalPosition;
+            float distSqrd = distance.LengthSquared();
+            if( distSqrd<= 50f && Path.Count > 0){
+                NextPathPoint = Path.Pop();
             }
             if(Path.Count == 0){
                 OnReachedTarget?.Invoke();
             }
         }
     }
-
 }

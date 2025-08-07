@@ -105,11 +105,13 @@ timer = NodePath("Timer")
 [node name="Timer" type="Timer" parent="AiWander"]
 one_shot = true
 
-[node name="AvoidanceAgent" type="Area2D" parent="."]
+[node name="AvoidanceAgent" type="Area2D" parent="." node_paths=PackedStringArray("collisionShape")]
+y_sort_enabled = true
 collision_layer = 0
 collision_mask = 512
 monitorable = false
 script = ExtResource("11_mp6r4")
+collisionShape = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AvoidanceAgent"]
 shape = SubResource("CircleShape2D_rehrb")

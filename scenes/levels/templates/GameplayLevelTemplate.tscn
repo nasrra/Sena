@@ -28,7 +28,6 @@ script = ExtResource("7_fei8l")
 modulate = Color(1, 1, 1, 0.784314)
 
 [node name="EntityManager" type="Node2D" parent="." node_paths=PackedStringArray("pausedTimer")]
-z_as_relative = false
 y_sort_enabled = true
 script = ExtResource("4_i7qc5")
 pausedTimer = NodePath("PausedTimer")

@@ -153,4 +153,3 @@ Target = NodePath("../EntityManager/Player")
 [node name="Worker" parent="." index="9" instance=ExtResource("11_m27a0")]
 material = SubResource("ShaderMaterial_u481v")
 position = Vector2(381, 162)
-collision_layer = 8

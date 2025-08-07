@@ -12,13 +12,13 @@ shader = ExtResource("2_83uge")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "ignoreEnemyTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent") instance=ExtResource("1_45jq6")]
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_10gc1")
 collision_layer = 8
 collision_mask = 6
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
-ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
 avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
 health = NodePath("Health")
 navAgent = NodePath("Navigation2DAgent")
@@ -34,8 +34,10 @@ avoidanceIntentionChaseStateLineOfSightObstructions = 2
 
 [node name="AnimatedSprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_10gc1")
+position = Vector2(0, 3)
 sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"
+offset = Vector2(0, -75)
 
 [node name="CollisionShape2D" parent="." index="1"]
 scale = Vector2(8, 8)
@@ -84,7 +86,7 @@ scale = Vector2(200, 200)
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
 
-[node name="AvoidanceAgent" parent="." index="14"]
+[node name="CollisionShape2D" parent="AvoidanceAgent" index="0"]
 scale = Vector2(24, 24)
 
 [node name="AvoidancePoint" parent="." index="15"]
