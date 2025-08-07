@@ -211,7 +211,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected void ApproachIntentionChaseState(){
-		avoidanceIntentionChaseStateTimer.Start(1);
+		avoidanceIntentionChaseStateTimer.Start();
 		chaseStateIntention = ChaseStateIntention.ApproachTarget;
 		GD.Print(chaseStateIntention);
 	}
