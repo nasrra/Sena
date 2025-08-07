@@ -22,7 +22,7 @@ public partial class Worker : Enemy{
 
 	private static readonly AiAttack PunchAttack = new AiAttack(
 		cooldown: 			2,
-		handlerCooldown:	0.1f,
+		handlerCooldown:	0.2f,
 		leadInTime: 		0.5f,
 		attackTime:			0.05f,
 		followThroughTime:  0.75f,
