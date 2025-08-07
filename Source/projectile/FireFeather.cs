@@ -1,5 +1,5 @@
 using Godot;
-
+	
 public partial class FireFeather : Projectile{
 	
 	protected override void OnCollision(Node2D node){

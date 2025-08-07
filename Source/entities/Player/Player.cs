@@ -314,7 +314,7 @@ public partial class Player : CharacterBody2D{
 		AudioManager.Singleton.PlayEvent("PlayerAttack");
 
 		InputManager.Singleton.BlockMovementInput(time: 0.2f);
-		InputManager.Singleton.BlockAttackInput(time: 0.2f);
+		InputManager.Singleton.BlockAttackInput(time: 0.255f);
 	}
 
 	private void HandleMovementInput(Vector2 input){

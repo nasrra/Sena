@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=19 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="2_m80fk"]
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
 [ext_resource type="Script" uid="uid://bkuua5ir5ybd6" path="res://source/Wayfinding2D/WayfindingAgent2D.cs" id="10_m80fk"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="11_1jhey"]
+[ext_resource type="Script" uid="uid://d26s26ecv0l7c" path="res://source/ai/AvoidanceAgent.cs" id="11_mp6r4"]
+[ext_resource type="Script" uid="uid://dd5n1wkwu5do8" path="res://source/ai/AvoidancePoint.cs" id="11_rehrb"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
 [ext_resource type="Script" uid="uid://bda85676t7suo" path="res://Entropek/source/ai/AiWander.cs" id="13_esdid"]
@@ -13,8 +15,8 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_etlsf"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
-size = Vector2(1, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_etlsf"]
+radius = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v8ssa"]
 radius = 1.0
@@ -22,9 +24,14 @@ radius = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_qwpog"]
 radius = 1.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_rehrb"]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mp6r4"]
+radius = 1.0
+
 [node name="EnemyTemplate" type="CharacterBody2D"]
 material = ExtResource("2_m80fk")
-collision_layer = 8
 collision_mask = 14
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
@@ -35,8 +42,7 @@ sprite_frames = SubResource("SpriteFrames_etlsf")
 offset = Vector2(0, -45)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_tt7e2")
+shape = SubResource("CircleShape2D_etlsf")
 
 [node name="CharacterMovement" type="Node" parent="."]
 script = ExtResource("5_306ko")
@@ -79,6 +85,7 @@ obstructionLayer = 2
 [node name="PassiveZone" type="Area2D" parent="AgressionZone"]
 collision_layer = 0
 collision_mask = 32
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/PassiveZone"]
 shape = SubResource("CircleShape2D_v8ssa")
@@ -86,6 +93,7 @@ shape = SubResource("CircleShape2D_v8ssa")
 [node name="ActiveZone" type="Area2D" parent="AgressionZone"]
 collision_layer = 0
 collision_mask = 32
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AgressionZone/ActiveZone"]
 shape = SubResource("CircleShape2D_qwpog")
@@ -96,3 +104,21 @@ timer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="AiWander"]
 one_shot = true
+
+[node name="AvoidanceAgent" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 512
+monitorable = false
+script = ExtResource("11_mp6r4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AvoidanceAgent"]
+shape = SubResource("CircleShape2D_rehrb")
+
+[node name="AvoidancePoint" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 0
+script = ExtResource("11_rehrb")
+Strength = 4.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AvoidancePoint"]
+shape = SubResource("CircleShape2D_mp6r4")

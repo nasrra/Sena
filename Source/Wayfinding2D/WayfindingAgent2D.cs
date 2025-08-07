@@ -7,6 +7,7 @@ public partial class WayfindingAgent2D : Node2D{
     public Stack<Vector2> Path {get; private set;}
     public Vector2 TargetPosition {get;private set;}
     public Vector2 CurrentPathPoint {get;private set;}
+    public Vector2 DistanceToPathPoint {get;private set;}
     public event Action OnReachedTarget;
     private bool noPathPathAssignedLastTick = true;
     [Export] byte size = 1;
@@ -18,6 +19,14 @@ public partial class WayfindingAgent2D : Node2D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
+    
+    
+        // if(Path!=null){
+        //     foreach(Vector2 point in Path){
+        //         GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+        //         debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
+        //     }
+        // }
     }
 
     public bool CalculateNewPath(){
@@ -41,14 +50,14 @@ public partial class WayfindingAgent2D : Node2D{
                 CollisionMask       = obstructionLayers,
             }).Count==0){
                 // debug draw. 
-                GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+                // GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
                 for(int j = 0; j < cellsAroundTarget.Count; j++){			
                     Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[j]);
-                    debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 1f);
+                    // debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 1f);
                 }
 
                 TargetPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[GD.RandRange(0, cellsAroundTarget.Count-1)]);
-                debugDraw.Call("rect",TargetPosition, Vector2.One*8, new Color(1,0,0), 1f, 1f);
+                // debugDraw.Call("rect",TargetPosition, Vector2.One*8, new Color(1,0,0), 1f, 1f);
                 return true;
             }
         }
@@ -73,21 +82,6 @@ public partial class WayfindingAgent2D : Node2D{
             }
             if(Path.Count == 0){
                 OnReachedTarget?.Invoke();
-            }
-        }
-    }
-
-    public override void _Process(double delta){
-        base._Process(delta);
-        QueueRedraw();
-    }
-
-    public override void _Draw(){
-        base._Draw();
-        if(Path!=null){
-            foreach(Vector2 point in Path){
-                GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-                debugDraw.Call("rect",point, Vector2.One * 2f, new Color(1, 1, 0), 1f, 0.0167f);
             }
         }
     }

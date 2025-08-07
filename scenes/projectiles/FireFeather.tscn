@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwkf62bbh1dli"]
 
-[ext_resource type="Script" uid="uid://bxex8s26i0m80" path="res://Source/projectile/FireFeather.cs" id="1_ort3v"]
-[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/Source/Characters/CharacterMovement.cs" id="2_jdku7"]
+[ext_resource type="Script" uid="uid://bxex8s26i0m80" path="res://source/projectile/FireFeather.cs" id="1_ort3v"]
+[ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="2_jdku7"]
 [ext_resource type="Texture2D" uid="uid://ovw8l76b4h8o" path="res://assets/test/feather-295126_640.png" id="2_ort3v"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ort3v"]
@@ -16,7 +16,7 @@ Movement = NodePath("CharacterMovement")
 sprite = NodePath("Sprite2D")
 collider = NodePath("Area2D")
 knockback = 150.0
-damage = 3
+damage = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -2.42252

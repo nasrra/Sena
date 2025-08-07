@@ -425,7 +425,6 @@ public partial class AiAttackHandler : Node{
             Timer cooldownTimer = attackCooldowns[chosenAttack.Id]; 
             cooldownTimer.WaitTime = chosenAttack.Cooldown;
             cooldownTimer.Start();
-            GD.Print($"start cooldown {chosenAttack.Cooldown}");
         }
     }
 

@@ -12,8 +12,10 @@ shader = ExtResource("2_83uge")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "ignoreEnemyTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "ignoreEnemyTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent") instance=ExtResource("1_45jq6")]
 material = SubResource("ShaderMaterial_10gc1")
+collision_layer = 8
+collision_mask = 6
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
 ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
@@ -27,6 +29,8 @@ hitFlash = NodePath("HitFlashShaderController")
 animator = NodePath("AnimatedSprite")
 audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
+avoidanceAgent = NodePath("AvoidanceAgent")
+avoidanceIntentionChaseStateLineOfSightObstructions = 2
 
 [node name="AnimatedSprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_10gc1")
@@ -34,8 +38,7 @@ sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"
 
 [node name="CollisionShape2D" parent="." index="1"]
-visible = true
-scale = Vector2(14, 14)
+scale = Vector2(8, 8)
 
 [node name="CharacterMovement" parent="." index="2" node_paths=PackedStringArray("character")]
 character = NodePath("..")
@@ -54,20 +57,20 @@ visible = true
 hitBoxes = [NodePath("PunchDown"), NodePath("PunchLeft"), NodePath("PunchRight"), NodePath("PunchUp")]
 
 [node name="PunchDown" parent="HitBoxHandler" index="0" instance=ExtResource("4_10gc1")]
-position = Vector2(0, 17)
-scale = Vector2(24, 20)
+position = Vector2(0, 15)
+scale = Vector2(24, 18)
 
 [node name="PunchLeft" parent="HitBoxHandler" index="1" instance=ExtResource("4_10gc1")]
-position = Vector2(-17, 0)
-scale = Vector2(20, 24)
+position = Vector2(-15, 0)
+scale = Vector2(18, 24)
 
 [node name="PunchRight" parent="HitBoxHandler" index="2" instance=ExtResource("4_10gc1")]
-position = Vector2(17, 0)
-scale = Vector2(20, 24)
+position = Vector2(15, 0)
+scale = Vector2(18, 24)
 
 [node name="PunchUp" parent="HitBoxHandler" index="3" instance=ExtResource("4_10gc1")]
-position = Vector2(0, -17)
-scale = Vector2(24, 20)
+position = Vector2(0, -15)
+scale = Vector2(24, 18)
 
 [node name="Health" parent="." index="9"]
 Max = 3
@@ -80,3 +83,9 @@ scale = Vector2(100, 100)
 scale = Vector2(200, 200)
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
+
+[node name="AvoidanceAgent" parent="." index="14"]
+scale = Vector2(24, 24)
+
+[node name="AvoidancePoint" parent="." index="15"]
+Strength = 1.0

@@ -206,3 +206,4 @@ PauseKB={
 2d_physics/layer_7="Projectile"
 2d_physics/layer_8="Pitfall"
 2d_physics/layer_9="PassThroughEnvironment"
+2d_physics/layer_10="AvoidancePoint"

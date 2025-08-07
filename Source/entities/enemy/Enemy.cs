@@ -19,6 +19,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	[Export] protected AnimatedSprite2D animator;
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
+	[Export] protected AvoidanceAgent avoidanceAgent;
 	[Export] public Node2D Target;
 	
 	[ExportGroup("Wanderer")]
@@ -41,6 +42,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected Vector2 directionToTarget 			= Vector2.Zero;
 	protected Vector2 normalDirectionToTarget 		= Vector2.Zero;
 	protected float distanceToTarget 				= float.MaxValue;
+	[Export(PropertyHint.Layers2DPhysics)] uint avoidanceIntentionChaseStateLineOfSightObstructions;
 	protected float damagedKnockback;
 	public float stunStateAttackHandlerStandbyAdditiveTime;
 	protected EnemyState state = EnemyState.None;
@@ -201,7 +203,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 			navAgent.SetTargetPosition(Target.Position);
 		}
 
-		MoveAlongPathToTarget();
+		MoveAlongPath();
 		
 		
 		Vector2 moveDirection = characterMovement.MoveDirection;
@@ -217,7 +219,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected void ApproachIntentionChaseState(){
 		avoidanceIntentionChaseStateTimer.Start();
 		chaseStateIntention = ChaseStateIntention.ApproachTarget;
-		GD.Print(chaseStateIntention);
 	}
 
 	protected void AvoidanceIntentionChaseState(){
@@ -227,13 +228,12 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 		avoidanceIntentionChaseStateTimer.Stop();
 
-		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), 0)){
+		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceIntentionChaseStateLineOfSightObstructions)){
 			chaseStateIntention = ChaseStateIntention.AvoidTarget;
 		}
 		else{
 			chaseStateIntention = ChaseStateIntention.ApproachTarget;
 		}
-		GD.Print(chaseStateIntention);
 	}
 
 
@@ -251,7 +251,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		hitBoxHandler.DisableAllHitBoxes();
 		CalculateFacingDirection(-characterMovement.Velocity, out FacingDirection facing);
 		PlayAnimation(StunAnimationName, facing);
-		IgnoreEnemyCollisionMask(time);
+		// IgnoreEnemyCollisionMask(time);
 		stunTimer.WaitTime = time;
 		stunTimer.Start();
 	}
@@ -302,10 +302,10 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// Shared Functions
 	/// 
 
-	protected void MoveAlongPathToTarget(){
+	protected void MoveAlongPath(){
 		if(navAgent.CalculateNewPath()==true){
 			navAgent.UpdateCurrentPathToTarget();
-			characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
+			characterMovement.Move((navAgent.CurrentPathPoint - GlobalPosition).Lerp(avoidanceAgent.GetAvoidanceDirection(), 0.25f));
 		}
 		else{
 			IdleState();
@@ -320,16 +320,16 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
 
-	protected void IgnoreEnemyCollisionMask(float time){
+	// protected void IgnoreEnemyCollisionMask(float time){
 		
-		ignoreEnemyTimer.WaitTime = time;
-		SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), false);
-		ignoreEnemyTimer.Start();
-	}
+	// 	ignoreEnemyTimer.WaitTime = time;
+	// 	SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), false);
+	// 	ignoreEnemyTimer.Start();
+	// }
 
-	protected void RespondToEnemyCollisionMask(){
-		SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
-	}
+	// protected void RespondToEnemyCollisionMask(){
+	// 	SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Enemy"), true);
+	// }
 
 	protected bool CalculateFacingDirection(Vector2 direction, out FacingDirection facing){
 		
@@ -570,13 +570,13 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 	protected virtual void LinkTimers(){
 		stunTimer.Timeout 							+= EvaluateState;
-		ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
+		// ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
 		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void UnlinkTimers(){
 		stunTimer.Timeout 							-= EvaluateState;
-		ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
+		// ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
 		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
 	}
 

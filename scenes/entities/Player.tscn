@@ -74,7 +74,7 @@ projectilePackedScene = ExtResource("6_jh8vs")
 
 [node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes")]
 script = ExtResource("5_cxr5p")
-hitBoxes = []
+hitBoxes = [NodePath("SlashDown"), NodePath("SlashLeft"), NodePath("SlashRight"), NodePath("SlashUp")]
 
 [node name="SlashDown" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
 position = Vector2(0, 16)

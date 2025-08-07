@@ -585,7 +585,6 @@ public partial class WayfindingGrid2D : Node2D{
 		
 		Vector2I start = centerCell + startOffset;
 		Vector2I end = centerCell + endOffset;
-		GD.Print($"iteration {start} {centerCell} {end}");
 
 		for(int x = start.X; x <= end.X; x++){
 			
