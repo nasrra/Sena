@@ -83,7 +83,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	public override void _Ready(){
 		base._Ready();
 		EnemyManager.Instance.AddEnemy(this);
-		wanderer?.Initialise(
+		wanderer.Initialise(
 			minPathTime,
 			maxPathTime,
 			minIdleTime,
@@ -147,8 +147,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		
 		state 			= EnemyState.Idle;
 		animator.Play("IdleBackward");
-		wanderer?.SetOrigin(GlobalPosition);
-		wanderer?.EvaluateState();
+		wanderer.SetOrigin(GlobalPosition);
+		wanderer.EvaluateState();
 	}
 
 	protected void IdleStatePhysicsProcess(double delta){
@@ -170,7 +170,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 	protected void ChaseState(Node2D target){
 		SetTarget(target);
-		wanderer?.PauseState();
+		wanderer.PauseState();
 		ChaseState();
 	}
 
@@ -278,7 +278,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		audioPlayer.PauseState();
 		hitBoxHandler.PauseState();
 		agressionZone.PauseState();
-		wanderer?.PauseState();
+		wanderer.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
@@ -289,7 +289,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		animator.SpeedScale = 1; // resume animator.
 		hitBoxHandler.ResumeState();
 		agressionZone.ResumeState();
-		wanderer?.ResumeState();
+		wanderer.ResumeState();
 		EvaluateState();
 	}
 
@@ -402,7 +402,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		LinkHitBoxHandler();
 		LinkTimers();
 		LinkAgressionZone();
-		// LinkAiWander();
+		LinkAiWander();
 		LinkWayfindingAgent();
 	}
 
@@ -414,7 +414,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		UnlinkHitBoxHandler();
 		UnlinkTimers();
 		UnlinkAgressionZone();
-		// UnlinkAiWander();
+		UnlinkAiWander();
 		UnlinkWayfindingAgent();
 	}
 
@@ -595,15 +595,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 
 	protected virtual void LinkAiWander(){
-		if(wanderer != null){
-			wanderer.OnDirectionChosen += characterMovement.Move;
-		}
+		wanderer.OnDirectionChosen += characterMovement.Move;
 	}
 
 	protected virtual void UnlinkAiWander(){
-		if(wanderer != null){
-			wanderer.OnDirectionChosen -= characterMovement.Move;
-		}
+		wanderer.OnDirectionChosen -= characterMovement.Move;
 	}
 
 

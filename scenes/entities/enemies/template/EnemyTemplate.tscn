@@ -53,8 +53,6 @@ attackCooldowns = [null]
 [node name="StunTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="IgnoreEnemyTimer" type="Timer" parent="."]
-
 [node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("12_v8ssa")]
 sprite = NodePath("../AnimatedSprite")
 

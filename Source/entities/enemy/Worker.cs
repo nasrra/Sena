@@ -100,6 +100,9 @@ public partial class Worker : Enemy{
 			case "ChaseBackward":
 			case "ChaseForward":
 			case "ChaseSide":
+			case "WanderBackward":
+			case "WanderForward":
+			case "WanderSide":
 				RunAnimationFrameEvent(animator.Frame);
 			break;
 		}

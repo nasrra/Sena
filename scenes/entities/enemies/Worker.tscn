@@ -12,7 +12,7 @@ shader = ExtResource("2_83uge")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent", "wanderer") instance=ExtResource("1_45jq6")]
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_10gc1")
 collision_layer = 8
@@ -30,6 +30,11 @@ animator = NodePath("AnimatedSprite")
 audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
 avoidanceAgent = NodePath("AvoidanceAgent")
+wanderer = NodePath("AiWander")
+minPathTime = 0.22
+maxPathTime = 0.66
+minIdleTime = 1.0
+maxIdleTime = 2.0
 avoidanceIntentionChaseStateLineOfSightObstructions = 2
 
 [node name="AnimatedSprite" parent="." index="0"]
@@ -54,7 +59,7 @@ attackCooldowns = [NodePath("PunchTimer")]
 [node name="PunchTimer" type="Timer" parent="AiAttackHandler" index="4"]
 one_shot = true
 
-[node name="HitBoxHandler" parent="." index="7" node_paths=PackedStringArray("hitBoxes")]
+[node name="HitBoxHandler" parent="." index="6" node_paths=PackedStringArray("hitBoxes")]
 visible = true
 hitBoxes = [NodePath("PunchDown"), NodePath("PunchLeft"), NodePath("PunchRight"), NodePath("PunchUp")]
 
@@ -74,7 +79,7 @@ scale = Vector2(18, 24)
 position = Vector2(0, -15)
 scale = Vector2(24, 18)
 
-[node name="Health" parent="." index="9"]
+[node name="Health" parent="." index="8"]
 Max = 3
 Value = 3
 
@@ -84,10 +89,10 @@ scale = Vector2(100, 100)
 [node name="ActiveZone" parent="AgressionZone" index="1"]
 scale = Vector2(200, 200)
 
-[node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
-
 [node name="CollisionShape2D" parent="AvoidanceAgent" index="0"]
 scale = Vector2(24, 24)
 
-[node name="AvoidancePoint" parent="." index="15"]
+[node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
+
+[node name="AvoidancePoint" parent="." index="14"]
 Strength = 1.0
