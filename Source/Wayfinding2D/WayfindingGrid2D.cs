@@ -588,7 +588,17 @@ public partial class WayfindingGrid2D : Node2D{
 		GD.Print($"iteration {start} {centerCell} {end}");
 
 		for(int x = start.X; x <= end.X; x++){
+			
+			if(x<0||x>=gridSize.X){
+				continue;
+			}
+			
 			for(int y = start.Y; y <= end.Y; y++){
+
+				if(y<0||y>=gridSize.Y){
+					continue;
+				}
+			
 				cellsInArea.Add(new Vector2I(x,y));
 			}
 		}

@@ -122,8 +122,8 @@ public partial class AgressionZone : Node2D{
 
         passiveZone.BodyEntered += HandlePassiveZoneEntered;
         passiveZone.AreaEntered += HandlePassiveZoneEntered;
-        activeZone.BodyExited   += HandleActiveZoneExited;
-        activeZone.AreaExited   += HandleActiveZoneExited;
+        // activeZone.BodyExited   += HandleActiveZoneExited;
+        // activeZone.AreaExited   += HandleActiveZoneExited;
     }
 
     public void UnlinkEvents(){
@@ -132,7 +132,7 @@ public partial class AgressionZone : Node2D{
 
         passiveZone.BodyEntered -= HandlePassiveZoneEntered;
         passiveZone.AreaEntered -= HandlePassiveZoneEntered;
-        activeZone.BodyExited   -= HandleActiveZoneExited;
-        activeZone.AreaExited   -= HandleActiveZoneExited;
+        // activeZone.BodyExited   -= HandleActiveZoneExited;
+        // activeZone.AreaExited   -= HandleActiveZoneExited;
     }
 }

@@ -12,17 +12,18 @@ shader = ExtResource("2_83uge")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_value = 0.0
 
-[node name="Worker" node_paths=PackedStringArray("health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "stunTimer", "ignoreEnemyTimer", "animator", "audioPlayer", "agressionZone") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "ignoreEnemyTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone") instance=ExtResource("1_45jq6")]
 material = SubResource("ShaderMaterial_10gc1")
 script = ExtResource("3_afjqp")
+stunTimer = NodePath("StunTimer")
+ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
+avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
 health = NodePath("Health")
 navAgent = NodePath("Navigation2DAgent")
 characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
 hitBoxHandler = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
-stunTimer = NodePath("StunTimer")
-ignoreEnemyTimer = NodePath("IgnoreEnemyTimer")
 animator = NodePath("AnimatedSprite")
 audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
@@ -77,3 +78,5 @@ scale = Vector2(100, 100)
 
 [node name="ActiveZone" parent="AgressionZone" index="1"]
 scale = Vector2(200, 200)
+
+[node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]

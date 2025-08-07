@@ -9,7 +9,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	[ExportGroup("Nodes")]
 	[Export] protected Timer stunTimer;
 	[Export] protected Timer ignoreEnemyTimer;
-	[Export] protected Timer chaseStateSwapTimer;
+	[Export] protected Timer avoidanceIntentionChaseStateTimer;
 	[Export] protected Health health;
 	[Export] protected WayfindingAgent2D navAgent;
 	[Export] protected CharacterMovement characterMovement;
@@ -45,6 +45,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	public float stunStateAttackHandlerStandbyAdditiveTime;
 	protected EnemyState state = EnemyState.None;
 	protected FacingDirection facingDirection = FacingDirection.Backward;
+	protected ChaseStateIntention chaseStateIntention = ChaseStateIntention.ApproachTarget;
 	public bool stunOnHit = true;
 
 	/// 
@@ -107,15 +108,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		Process?.Invoke(delta);
 	}
 
-	double d = 0;
-
 	private void InvokePhysicsProcess(double delta){
-		d += delta;
-		if(d >= 1.5f){
-			GetAvoidancePath();
-			d = 0;
-		}
-		
 		PhysicsProcess?.Invoke(delta);	
 	}
 
@@ -177,37 +170,66 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	public void ChaseState(){
+
+		state = EnemyState.Chase;
+		
 		Process        	= null;
 		PhysicsProcess  = ChaseStatePhysicsProcess;
 		
 		// update data relevant to this frames.
 
+		if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
+			ApproachIntentionChaseState();
+		}
+
 		CalculateRelationshipToTarget();
-		attackHandler.SetDirectionToTarget(directionToTarget);
-		attackHandler.SetDistanceToTarget(distanceToTarget);
-
-		/// sample a square range aroung target postion.
-		/// have a while loop with 6 (max) iterations to find a possible avoidance path.
-		/// head toward that avoidance path if found.
-		/// return to approaching target if path is not found.
-
 		attackHandler.ResumeState();
 	}
 
 	protected void ChaseStatePhysicsProcess(double delta){
-		if(IsInstanceValid(Target) && Target.IsInsideTree()==true){
-			CalculateRelationshipToTarget();
-			UpdateAttackHandler();
-			MoveAlongPathToTarget();
-			Vector2 moveDirection = characterMovement.MoveDirection;
-			if(moveDirection == Vector2.Zero){
-				PlayAnimation(IdleAnimationName, facingDirection);
-			}
-			else{
-				CalculateFacingDirection(moveDirection, out facingDirection);
-				PlayAnimation(ChaseMoveAnimationName, facingDirection);
-			}
+		if(IsInstanceValid(Target) == false || Target == null){
+			return;
 		}
+		
+		CalculateRelationshipToTarget();
+
+		if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
+			navAgent.SetTargetPosition(Target.Position);
+		}
+
+		MoveAlongPathToTarget();
+		
+		
+		Vector2 moveDirection = characterMovement.MoveDirection;
+		if(moveDirection == Vector2.Zero){
+			PlayAnimation(IdleAnimationName, facingDirection);
+		}
+		else{
+			CalculateFacingDirection(moveDirection, out facingDirection);
+			PlayAnimation(ChaseMoveAnimationName, facingDirection);
+		}
+	}
+
+	protected void ApproachIntentionChaseState(){
+		avoidanceIntentionChaseStateTimer.Start(1);
+		chaseStateIntention = ChaseStateIntention.ApproachTarget;
+		GD.Print(chaseStateIntention);
+	}
+
+	protected void AvoidanceIntentionChaseState(){
+		if(GD.RandRange(0,2)==0){
+			return;
+		}
+
+		avoidanceIntentionChaseStateTimer.Stop();
+
+		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), 0)){
+			chaseStateIntention = ChaseStateIntention.AvoidTarget;
+		}
+		else{
+			chaseStateIntention = ChaseStateIntention.ApproachTarget;
+		}
+		GD.Print(chaseStateIntention);
 	}
 
 	protected virtual void StunState(float time){
@@ -258,28 +280,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// Shared Functions
 	/// 
 
-	protected void GetAvoidancePath(){
-		
-		if(IsInstanceValid(Target) == false || Target == null){
-			return;
-		}
-
-		List<Vector2I> cellsAroundTarget = WayfindingGrid2D.Singleton.GetCellsInArea(Target.GlobalPosition, new Vector2I(-8,-8), new Vector2I(8,8));		
-		cellsAroundTarget = WayfindingGrid2D.Singleton.GetGroundClearanceCells(cellsAroundTarget, 2);
-		GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-		
-		// debug draw. 
-
-		for(int i = 0; i < cellsAroundTarget.Count; i++){			
-			Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[i]);
-			debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 1f);
-		}
-		Vector2 chosenAvoidance = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[GD.RandRange(0, cellsAroundTarget.Count-1)]);
-		debugDraw.Call("rect",chosenAvoidance, Vector2.One*8, new Color(1,0,0), 1f, 1f);
-	}
-
 	protected void MoveAlongPathToTarget(){
-		if(navAgent.CalculateNewPath(Target.GlobalPosition)==true){
+		if(navAgent.CalculateNewPath()==true){
 			navAgent.UpdateCurrentPathToTarget();
 			characterMovement.Move(navAgent.CurrentPathPoint - GlobalPosition);
 		}
@@ -292,9 +294,6 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		directionToTarget = Target.GlobalPosition- GlobalPosition;
 		normalDirectionToTarget = directionToTarget.Normalized();
 		distanceToTarget = directionToTarget.Length();
-	}
-
-	protected void UpdateAttackHandler(){
 		attackHandler.SetDirectionToTarget(directionToTarget);
 		attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
@@ -393,6 +392,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		LinkTimers();
 		LinkAgressionZone();
 		// LinkAiWander();
+		LinkWayfindingAgent();
 	}
 
 	protected virtual void UnlinkEvents(){
@@ -404,6 +404,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		UnlinkTimers();
 		UnlinkAgressionZone();
 		// UnlinkAiWander();
+		UnlinkWayfindingAgent();
 	}
 
 	protected virtual void LinkEntityManager(){
@@ -463,13 +464,15 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected virtual void LinkTimers(){
-		stunTimer.Timeout 			+= EvaluateState;
-		ignoreEnemyTimer.Timeout 	+= RespondToEnemyCollisionMask;
+		stunTimer.Timeout 							+= EvaluateState;
+		ignoreEnemyTimer.Timeout 					+= RespondToEnemyCollisionMask;
+		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void UnlinkTimers(){
-		stunTimer.Timeout 			-= EvaluateState;
-		ignoreEnemyTimer.Timeout 	-= RespondToEnemyCollisionMask;	
+		stunTimer.Timeout 							-= EvaluateState;
+		ignoreEnemyTimer.Timeout 					-= RespondToEnemyCollisionMask;	
+		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void LinkAgressionZone(){
@@ -492,6 +495,22 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		if(wanderer != null){
 			wanderer.OnDirectionChosen -= characterMovement.Move;
 		}
+	}
+
+	protected virtual void LinkWayfindingAgent(){
+		navAgent.OnReachedTarget += OnReachedTargetCallback;
+	}
+
+	protected virtual void UnlinkWayfindingAgent(){
+		navAgent.OnReachedTarget -= OnReachedTargetCallback;	
+	}
+
+	protected void OnReachedTargetCallback(){
+		if(state != EnemyState.Chase || chaseStateIntention != ChaseStateIntention.AvoidTarget){
+			return;
+		}
+		// return to approaching.
+		ApproachIntentionChaseState();
 	}
 
 

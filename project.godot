@@ -13,18 +13,26 @@ config_version=5
 config/name="Sena"
 run/main_scene="uid://dyshyxa5ysn7v"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
 [autoload]
 
 DebugDraw2D="*res://addons/debugdraw2d/DebugDraw2D.gd"
-PhysicsManager="*res://Entropek/Source/globals/PhysicsManager.cs"
-SceneManager="*res://Entropek/Source/globals/SceneManager.cs"
-AudioManager="*res://Entropek/Source/globals/fmod/AudioManager.cs"
+SceneManager="*res://Entropek/source/globals/SceneManager.cs"
+PhysicsManager="*res://Entropek/source/globals/PhysicsManager.cs"
+AudioManager="*res://Entropek/source/globals/fmod/AudioManager.cs"
 
 [copy_files_on_export]
 
 files=Array[PackedStringArray]([PackedStringArray("res://fmod.dll", "fmod.dll", ""), PackedStringArray("res://fmodstudio.dll", "fmodstudio.dll", ""), PackedStringArray("res://fsbank.dll", "fsbank.dll", ""), PackedStringArray("res://libfsbvorbis64.dll", "libfsbvorbis64.dll", ""), PackedStringArray("res://Exports", "Exports", "")])
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [dotnet]
 
