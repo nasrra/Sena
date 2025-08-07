@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=20 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 [ext_resource type="Script" uid="uid://bs1smpepd2hqc" path="res://Entropek/source/globals/fmod/AudioListener2D.cs" id="14_rfitb"]
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
 size = Vector2(8, 10)
@@ -26,7 +27,7 @@ size = Vector2(1, 1)
 radius = 3.0
 height = 10.5
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
@@ -42,6 +43,7 @@ hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
+audioPlayer = NodePath("AudioPlayer")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -148,3 +150,6 @@ one_shot = true
 
 [node name="AudioListener2D" type="Node2D" parent="."]
 script = ExtResource("14_rfitb")
+
+[node name="AudioPlayer" type="Node2D" parent="."]
+script = ExtResource("16_vty87")

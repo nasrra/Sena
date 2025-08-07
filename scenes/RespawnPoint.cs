@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class RespawnPoint : Node2D{
-    public static string RespawnScene {get;private set;} = "Level0";
+    public static string RespawnScene {get;private set;} = "TestLevel";
     public static RespawnPoint Instance {get;private set;} = null;
 
     [Export] private Interactable interactable;

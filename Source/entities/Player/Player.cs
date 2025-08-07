@@ -25,6 +25,7 @@ public partial class Player : CharacterBody2D{
 	[Export] public Health Health {get; private set;}
 	[Export] public EmberStorage EmberStorage {get; private set;}
 	[Export] public Interactor Interactor {get; private set;}
+	[Export] private AudioPlayer audioPlayer;
 
 	private event Action<double> statePhysicsProcess = null;
 
@@ -311,7 +312,7 @@ public partial class Player : CharacterBody2D{
 		movement.ZeroVelocity();
 		movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
 
-		AudioManager.Singleton.PlayEvent("PlayerAttack");
+		audioPlayer.PlaySound("PlayerAttack");
 
 		InputManager.Singleton.BlockMovementInput(time: 0.2f);
 		InputManager.Singleton.BlockAttackInput(time: 0.255f);
@@ -416,6 +417,7 @@ public partial class Player : CharacterBody2D{
 		camera.Vignette.Update(0.33f,1f,0.01f);
 		camera.Vignette.QueueUpdate(0,0,0.005f,1f);
 		Health.SetInvincible(time:1f);
+		AudioManager.Singleton.PlayEvent("PlayerDamaged");
 		EntityManager.Singleton.PauseEntityProcesses(time:0.25f);
 	}
 
@@ -510,6 +512,7 @@ public partial class Player : CharacterBody2D{
 			default:
 			throw new Exception($"{layer} not implemented.");
 		}
+		audioPlayer.PlaySound("MeleeHit");
 	}
 	
 	private void HandleOnHitEnemy(Enemy enemy){
