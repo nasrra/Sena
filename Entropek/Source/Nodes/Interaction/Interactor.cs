@@ -1,10 +1,12 @@
 using Godot;
 using System;
 using Godot.Collections;
+using Entropek.Collections;
 
 public partial class Interactor : Area2D{
     private Interactable previous = null;
-    [Export] private Array<Interactable> inRange;
+    private Interactable current = null;
+    private SwapbackList<Interactable> inRange = new SwapbackList<Interactable>();
     [Export(PropertyHint.Layers2DPhysics)]
     public uint ObstructionLayer;
 
@@ -19,8 +21,8 @@ public partial class Interactor : Area2D{
     }
 
     public void Interact(){
-        if(previous != null){
-            previous.Interact(this);
+        if(current != null){
+            current.Interact(this);
         }
     }
 
@@ -42,50 +44,48 @@ public partial class Interactor : Area2D{
     {
         base._PhysicsProcess(delta);
 
-        if (inRange.Count > 0)
-        {
-            Interactable closestValid = null;
-            float minDistance = float.MaxValue;
+        Interactable closestValid = null;
+        float minDistance = float.MaxValue;
 
-            foreach (Interactable other in inRange){
-                Vector2 direction = other.GlobalPosition - GlobalPosition;
+        for(int i = 0; i < inRange.Count; i++){
+            Interactable other = inRange[i];
+            Vector2 direction = other.GlobalPosition - GlobalPosition;
 
-                // check if there is an obstruction.
-                var result = GetViewport().World2D.DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters2D
-                {
-                    From = GlobalPosition,
-                    To = other.GlobalPosition,
-                    CollisionMask = ObstructionLayer,
-                    HitFromInside = true
-                });
+            // check if there is an obstruction.
+            var result = GetViewport().World2D.DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters2D
+            {
+                From = GlobalPosition,
+                To = other.GlobalPosition,
+                CollisionMask = ObstructionLayer,
+                HitFromInside = true
+            });
 
-                if (result.Count > 0)
-                    continue;
+            if (result.Count > 0)
+                continue;
 
-                // check if the distance to the item is less than the previous iteration.
+            // check if the distance to the item is less than the previous iteration.
 
-                float distSquared = direction.LengthSquared();
-                if (distSquared < minDistance){
-                    minDistance = distSquared;
-                    closestValid = other;
-                }
+            float distSquared = direction.LengthSquared();
+            if (distSquared < minDistance){
+                minDistance = distSquared;
+                closestValid = other;
             }
+        }
 
-            // Handle state transition
+        // Handle state transition
 
-            if (closestValid != previous){
-                previous?.DisableInteractableIcon();
-                closestValid?.EnableInteractableIcon();
-                previous = closestValid;
-            }
+        if (closestValid != current){
+            current = closestValid;
         }
 
         // if we have left all interactables.
 
-        else if (previous != null){
-            previous.DisableInteractableIcon();
-            previous = null;
+        if (current != previous){
+            current?.InteractorPriorityState(this);
+            previous?.IdleState();
         }
+
+        previous = current;
     }
 
     private void LinkEvents(){

@@ -5,6 +5,8 @@ public partial class Interactable : Area2D{
     public const string NodeName = nameof(Interactable);
     [Export] private Label interactIcon; 
     public event Action<Interactor> OnInteract;
+    public event Action<Interactor> OnInteractorPriorityState;
+    public event Action OnIdleState;
     public bool IsInteractable = true;
 
     public override void _Ready(){
@@ -27,6 +29,26 @@ public partial class Interactable : Area2D{
         if(IsInteractable == true && interactIcon != null){
             interactIcon.Visible = true;
         }
+    }
+
+    public void InteractorPriorityState(Interactor interactor){ // the interactable that is targeted by an interactor.
+        
+        if(IsInteractable==false){
+            return;
+        }
+
+        EnableInteractableIcon();
+        OnInteractorPriorityState?.Invoke(interactor);
+    }
+
+    public void IdleState(){
+        
+        if(IsInteractable==false){
+            return;
+        }
+
+        DisableInteractableIcon();
+        OnIdleState?.Invoke();
     }
 
     public void DisableInteractableIcon(){
