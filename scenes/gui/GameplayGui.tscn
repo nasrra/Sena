@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://loedt6suho5"]
+[gd_scene load_steps=7 format=3 uid="uid://loedt6suho5"]
 
 [ext_resource type="Script" uid="uid://dstbxyesb2jxn" path="res://source/gui/hud/GameplayGui.cs" id="1_fk06d"]
 [ext_resource type="PackedScene" uid="uid://b6itbgcgwb6f3" path="res://scenes/gui/DeathScreenGui.tscn" id="2_jtajr"]
 [ext_resource type="PackedScene" uid="uid://ge883ir7y6gs" path="res://scenes/gui/hud/HudGui.tscn" id="3_ci30k"]
 [ext_resource type="PackedScene" uid="uid://7vrorweb7eg4" path="res://scenes/gui/PauseMenuGui.tscn" id="4_6fj7h"]
 [ext_resource type="PackedScene" uid="uid://b0prpovh35hl1" path="res://scenes/gui/TutorialGui.tscn" id="5_tfu0u"]
+[ext_resource type="PackedScene" uid="uid://c085cngicaiqx" path="res://scenes/gui/BossHealthBarHud.tscn" id="6_ttofl"]
 
-[node name="GameplayGui" type="Control" node_paths=PackedStringArray("DeathGui", "TutorialGui", "HudGui", "PauseMenuGui")]
+[node name="GameplayGui" type="Control" node_paths=PackedStringArray("DeathGui", "TutorialGui", "BossHealthBarHud", "HudGui", "PauseMenuGui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +17,7 @@ grow_vertical = 2
 script = ExtResource("1_fk06d")
 DeathGui = NodePath("DeathScreenGui")
 TutorialGui = NodePath("TutorialGui")
+BossHealthBarHud = NodePath("BossHealthBarHud")
 HudGui = NodePath("HudGui")
 PauseMenuGui = NodePath("PauseMenuGui")
 state = 1
@@ -32,4 +34,7 @@ visible = false
 layout_mode = 1
 
 [node name="TutorialGui" parent="." instance=ExtResource("5_tfu0u")]
+layout_mode = 1
+
+[node name="BossHealthBarHud" parent="." instance=ExtResource("6_ttofl")]
 layout_mode = 1

@@ -1,0 +1,196 @@
+[gd_scene load_steps=10 format=3 uid="uid://c085cngicaiqx"]
+
+[ext_resource type="Script" uid="uid://c4sulpt0nhksd" path="res://source/gui/hud/BossHealthBarHud.cs" id="1_ifofd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iybtp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iybtp"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.929715, 0.929715, 0.929715, 1)
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfdw7"]
+bg_color = Color(0.136826, 0.136826, 0.136826, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.219501, 0.219501, 0.219501, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnw8l"]
+bg_color = Color(0.712129, 0.712129, 0.712129, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.860369, 0.860369, 0.860369, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="Animation" id="Animation_q8542"]
+resource_name = "Enable"
+length = 0.77
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.77),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Container:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ifofd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0hl0s"]
+resource_name = "Disable"
+length = 0.77
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.77),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Container:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.736667, 0.77),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ifofd"]
+_data = {
+&"Disable": SubResource("Animation_0hl0s"),
+&"Enable": SubResource("Animation_q8542"),
+&"RESET": SubResource("Animation_ifofd")
+}
+
+[node name="BossHealthBarHud" type="Control" node_paths=PackedStringArray("valueBar", "trailBar", "trailBarCatchUpDelay", "animator", "nameTag")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_ifofd")
+valueBar = NodePath("Container/ValueBar")
+trailBar = NodePath("Container/ValueBar/TrailBar")
+trailBarCatchUpDelay = NodePath("Timer")
+animator = NodePath("AnimationPlayer")
+nameTag = NodePath("Container/Label")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="Container" type="Control" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ValueBar" type="ProgressBar" parent="Container"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -312.0
+offset_top = -120.0
+offset_right = 312.0
+offset_bottom = -104.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxEmpty_iybtp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_iybtp")
+value = 60.0
+show_percentage = false
+
+[node name="TrailBar" type="ProgressBar" parent="Container/ValueBar"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_xfdw7")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lnw8l")
+value = 80.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 0
+offset_left = 648.0
+offset_top = 920.0
+offset_right = 778.0
+offset_bottom = 953.5
+theme_override_font_sizes/font_size = 24
+text = "Boss Name"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ifofd")
+}

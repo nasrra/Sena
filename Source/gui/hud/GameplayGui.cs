@@ -12,6 +12,7 @@ public partial class GameplayGui : Control{
 
     [Export] public DeathScreenGui DeathGui {get; private set;}
     [Export] public TutorialGui TutorialGui {get; private set;}
+    [Export] public BossHealthBarHud BossHealthBarHud {get; private set;}
     [Export] public Control HudGui {get; private set;}
     [Export] public Control PauseMenuGui {get; private set;}
     [Export] GameplayGuiState state; 
