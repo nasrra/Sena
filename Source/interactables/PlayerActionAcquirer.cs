@@ -45,6 +45,7 @@ public partial class PlayerActionAcquirer : Node2D{
         if(player == null || player.IsPlayerActionEnabled(playerActions) == true){
             return;
         }
+        GameplayGui.Singleton.TutorialGui.EnableAttackTutorial();
         player.EnablePlayerAction(playerActions);
         interactable.DisableInteraction();
     }

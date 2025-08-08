@@ -3,7 +3,7 @@ using System;
 
 public partial class GameManager : Node{
 
-    public static GameManager Instance {get; private set;}
+    public static GameManager Singleton {get; private set;}
     
     public GameState State {get; private set;}
 
@@ -17,7 +17,7 @@ public partial class GameManager : Node{
     public override void _EnterTree(){
         base._EnterTree();
         GD.Randomize();
-        Instance = this;
+        Singleton = this;
         LinkEvents();
     }
 
@@ -29,7 +29,7 @@ public partial class GameManager : Node{
 
     public override void _ExitTree(){
         base._ExitTree();
-        Instance = null;
+        Singleton = null;
         UnlinkEvents();
     }
 
@@ -63,6 +63,7 @@ public partial class GameManager : Node{
         ui.HudState();
         
         InputManager.Singleton.ResumeGameplayInput();
+        InputManager.Singleton.UnblockPauseInput();
         EntityManager.Singleton.ResumeEntityProcesses();
 
         OnPauseInput = PauseMenuState;
@@ -80,6 +81,13 @@ public partial class GameManager : Node{
         EntityManager.Singleton.PauseEntityProcesses();
 
         OnPauseInput = GameplayState;
+    }
+
+    public void TutorialState(){
+        State = GameState.Tutorial;
+        InputManager.Singleton.PauseGameplayInput();
+        InputManager.Singleton.BlockPauseInput();
+        EntityManager.Singleton.PauseEntityProcesses();
     }
 
     private bool GetGameplayUi(out GameplayGui gameplayGui){
@@ -123,4 +131,5 @@ public enum GameState : byte{
     PauseMenu,
     MainMenu,
     Death,
+    Tutorial
 }

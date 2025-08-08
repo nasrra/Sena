@@ -186,7 +186,7 @@ public partial class Player : CharacterBody2D{
 		// spawn at the exit point from the last door we entered.
 		StandbyState();
 		
-		switch(GameManager.Instance.State){
+		switch(GameManager.Singleton.State){
 			case GameState.Gameplay:
 				// spawn at door.
 				if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
@@ -200,13 +200,13 @@ public partial class Player : CharacterBody2D{
 				if(RespawnPoint.Instance != null){
 					GlobalPosition = RespawnPoint.Instance.GlobalPosition;
 				}
-				GameManager.Instance.GameplayState();
+				GameManager.Singleton.GameplayState();
 				break;
 		}
 	}
 
 	private void LoadPersistentData(){        
-		if(PlayerPersistence.Initialised == false || GameManager.Instance.State == GameState.Death){
+		if(PlayerPersistence.Initialised == false || GameManager.Singleton.State == GameState.Death){
 			return;
 		}
 
@@ -469,7 +469,7 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void HandleDeath(){
-		GameManager.Instance.DeathState();
+		GameManager.Singleton.DeathState();
 		QueueFree();
 	}
 
@@ -480,15 +480,13 @@ public partial class Player : CharacterBody2D{
 
 
 	private void LinkGui(){
-		GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-		Control hudGui = ui.HudGui;
+		Control hudGui = GameplayGui.Singleton.HudGui;
 		hudGui.GetNode<HealthHud>(HealthHud.NodeName).LinkEvents(Health);
 		hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).LinkToEmberStorage(EmberStorage);
 	}
 
 	private void UnlinkGui(){
-		GameplayGui ui = (GameplayGui)GetNode("/root/Main/GUI/GameplayGui");
-		Control hudGui = ui.HudGui;
+		Control hudGui = GameplayGui.Singleton.HudGui;
 		hudGui.GetNode<HealthHud>(HealthHud.NodeName).UnlinkEvents();
 		hudGui.GetNode<EmberNotchChainHud>(EmberNotchChainHud.NodeName).UnlinkFromEmberStorage(EmberStorage);
 	}

@@ -4,11 +4,14 @@ using System;
 public partial class GameplayGui : Control{
 
 
+    public static GameplayGui Singleton {get;private set;}
+
     /// 
     /// Variables
     /// 
 
     [Export] public DeathScreenGui DeathGui {get; private set;}
+    [Export] public TutorialGui TutorialGui {get; private set;}
     [Export] public Control HudGui {get; private set;}
     [Export] public Control PauseMenuGui {get; private set;}
     [Export] GameplayGuiState state; 
@@ -42,6 +45,8 @@ public partial class GameplayGui : Control{
         RemoveChild(PauseMenuGui);
         
         EnableCurrentGui();
+        
+        Singleton = this;
     }
 
     public override void _ExitTree(){
@@ -49,6 +54,8 @@ public partial class GameplayGui : Control{
         
         DeathGui.QueueFree();
         HudGui.QueueFree();
+    
+        Singleton = null;
     }
 
 
