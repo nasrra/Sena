@@ -3,7 +3,7 @@ using System;
 
 public partial class Interactable : Area2D{
     public const string NodeName = nameof(Interactable);
-    [Export] private Label InteractIcon; 
+    [Export] private Label interactIcon; 
     public event Action<Interactor> OnInteract;
     public bool IsInteractable = true;
 
@@ -24,14 +24,14 @@ public partial class Interactable : Area2D{
     }
 
     public void EnableInteractableIcon(){
-        if(IsInteractable == true && InteractIcon != null){
-            InteractIcon.Visible = true;
+        if(IsInteractable == true && interactIcon != null){
+            interactIcon.Visible = true;
         }
     }
 
     public void DisableInteractableIcon(){
-        if(InteractIcon != null){
-            InteractIcon.Visible = false;
+        if(interactIcon != null){
+            interactIcon.Visible = false;
         }
     }
 
@@ -42,5 +42,9 @@ public partial class Interactable : Area2D{
     public void DisableInteraction(){
         IsInteractable = false;
         DisableInteractableIcon();
+    }
+
+    public void SetInteractIcon(Label label){
+        interactIcon = label;
     }
 }

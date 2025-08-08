@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://cwgq114krxx04"]
+[gd_scene load_steps=18 format=4 uid="uid://cwgq114krxx04"]
 
 [ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_3wv3p"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_timdk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dl4kccjhbcmux" path="res://scenes/environment/interactables/Firepit.tscn" id="6_4unv2"]
 [ext_resource type="PackedScene" uid="uid://dmy0scf5vha1n" path="res://scenes/environment/interactables/RespawnPoint.tscn" id="7_yynx6"]
 [ext_resource type="PackedScene" uid="uid://c1fp7wi1kjw4u" path="res://scenes/entities/enemies/Worker.tscn" id="8_ktef7"]
+[ext_resource type="PackedScene" uid="uid://2jjk1qovhggm" path="res://scenes/environment/interactables/SwordAcquirer.tscn" id="9_ktef7"]
 [ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="9_l1je0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ktef7"]
@@ -117,3 +118,6 @@ position = Vector2(305, 129)
 
 [node name="RespawnPoint" parent="." index="11" instance=ExtResource("7_yynx6")]
 position = Vector2(319, 104)
+
+[node name="SwordAcquirer" parent="." index="12" instance=ExtResource("9_ktef7")]
+position = Vector2(291, 74)

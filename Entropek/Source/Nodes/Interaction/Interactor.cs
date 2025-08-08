@@ -48,12 +48,12 @@ public partial class Interactor : Area2D{
             float minDistance = float.MaxValue;
 
             foreach (Interactable other in inRange){
-                Vector2 direction = other.GlobalPosition - Player.Instance.GlobalPosition;
+                Vector2 direction = other.GlobalPosition - GlobalPosition;
 
                 // check if there is an obstruction.
                 var result = GetViewport().World2D.DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters2D
                 {
-                    From = Player.Instance.GlobalPosition,
+                    From = GlobalPosition,
                     To = other.GlobalPosition,
                     CollisionMask = ObstructionLayer,
                     HitFromInside = true

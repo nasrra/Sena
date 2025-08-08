@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dn54fptyc8wy0"]
+
+[ext_resource type="Script" uid="uid://c73hs4m6rxcoo" path="res://source/interactables/PlayerActionAcquirer.cs" id="1_rdvu4"]
+[ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="2_ppsmf"]
+
+[node name="PlayerActionAcquirer" type="Node2D" node_paths=PackedStringArray("interactable")]
+script = ExtResource("1_rdvu4")
+interactable = NodePath("Interactable")
+
+[node name="Interactable" parent="." instance=ExtResource("2_ppsmf")]

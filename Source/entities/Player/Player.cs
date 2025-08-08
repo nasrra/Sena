@@ -1,10 +1,9 @@
 using Entropek.Ai;
 using Godot;
 using System;
-using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D{
-	public static Player Instance {get;private set;}
+	public const string NodeName = nameof(Player);
 
 	[ExportGroup("Nodes")]
 		
@@ -36,6 +35,8 @@ public partial class Player : CharacterBody2D{
 	private const float AttackPlayerKnockback = 80f;
 	private const float DashForce = 450f;
 	private PlayerState state = PlayerState.Standby;
+	private PlayerActions playerActions = PlayerActions.None;
+
 
 	///
 	/// Definitions.
@@ -49,7 +50,6 @@ public partial class Player : CharacterBody2D{
 		Evaluating
 	}
 
-
 	/// 
 	/// Base.
 	/// 
@@ -57,12 +57,19 @@ public partial class Player : CharacterBody2D{
 
 	public override void _EnterTree(){
 		base._EnterTree();
+		
 		#if TOOLS
 		Entropek.Util.Node.VerifyName(this, nameof(Player));
 		#endif        
+
 		LoadPersistentData();
+		
+		// EnablePlayerAction(PlayerActions.Attack);
+		// EnablePlayerAction(PlayerActions.Heal);
+		// EnablePlayerAction(PlayerActions.Dash);
+		// EnablePlayerAction(PlayerActions.FireFeather);
+		
 		LinkEvents();
-		Instance = this;
 	}
 
 	public override void _Ready(){
@@ -211,6 +218,8 @@ public partial class Player : CharacterBody2D{
 			PlayerPersistence.MaxNotchAmount,
 			PlayerPersistence.EmberValue
 		);
+
+		playerActions = PlayerPersistence.PlayerActions;
 	}
 
 	private void StorePersistentData(){
@@ -219,6 +228,7 @@ public partial class Player : CharacterBody2D{
 		PlayerPersistence.HealthValue       = Health.Value;
 		PlayerPersistence.EmberValue        = EmberStorage.EmberValue;
 		PlayerPersistence.MaxNotchAmount    = EmberStorage.MaxNotchAmount;
+		PlayerPersistence.PlayerActions 	= playerActions;
 	}
 
 	private void CheckHurtCollider(){
@@ -237,6 +247,18 @@ public partial class Player : CharacterBody2D{
 
 	private void ReturnToLastSafePosition(){
 		GlobalPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(lastSafeTile);
+	}
+
+	public void EnablePlayerAction(PlayerActions action){
+		playerActions |= action;
+	}
+
+	public void DisablePlayerAction(PlayerActions action){
+		playerActions &= ~action;
+	}
+
+	public bool IsPlayerActionEnabled(PlayerActions action){
+		return (playerActions & action) != 0;
 	}
 
 	/// 
@@ -273,24 +295,30 @@ public partial class Player : CharacterBody2D{
 
 
 	private void LinkInput(){
-		InputManager.Singleton.OnAttackInput     += HandleAttackInput;
-		InputManager.Singleton.OnMovementInput   += HandleMovementInput;
-		InputManager.Singleton.OnHealInput       += HandleHealInput;
-		InputManager.Singleton.OnDashInput       += DashState;
-		InputManager.Singleton.OnShootInput      += HandleShootInput;
+		InputManager.Singleton.OnAttackInput     += OnAttackInputCallback;
+		InputManager.Singleton.OnMovementInput   += OnMovementInputCallback;
+		InputManager.Singleton.OnHealInput       += OnHealInputCallback;
+		InputManager.Singleton.OnDashInput       += OnDashInputCallback;
+		InputManager.Singleton.OnShootInput      += OnShootInputCallback;
 		InputManager.Singleton.OnInteractInput   += Interactor.Interact;
 	}
 
 	private void UnlinkInput(){
-		InputManager.Singleton.OnAttackInput     -= HandleAttackInput;
-		InputManager.Singleton.OnMovementInput   -= HandleMovementInput;
-		InputManager.Singleton.OnHealInput       -= HandleHealInput;
-		InputManager.Singleton.OnDashInput       -= DashState;
-		InputManager.Singleton.OnShootInput      -= HandleShootInput;
+		InputManager.Singleton.OnAttackInput     -= OnAttackInputCallback;
+		InputManager.Singleton.OnMovementInput   -= OnMovementInputCallback;
+		InputManager.Singleton.OnHealInput       -= OnHealInputCallback;
+		InputManager.Singleton.OnDashInput       -= OnDashInputCallback;
+		InputManager.Singleton.OnShootInput      -= OnShootInputCallback;
 		InputManager.Singleton.OnInteractInput   -= Interactor.Interact;
 	}
 
-	private void HandleAttackInput(){
+	private void OnAttackInputCallback(){
+		
+		// if we currently do not know the action.
+		if(IsPlayerActionEnabled(PlayerActions.Attack)==false){
+			return;
+		}
+
 		int hitBoxId;
 		float angle = aimCursour.AimAngle;
 		if(angle >= -135 && angle <= -45){
@@ -318,25 +346,44 @@ public partial class Player : CharacterBody2D{
 		InputManager.Singleton.BlockAttackInput(time: 0.255f);
 	}
 
-	private void HandleMovementInput(Vector2 input){
+	private void OnMovementInputCallback(Vector2 input){
 		movement.Move(input);
 	}
 
-	private void HandleHealInput(){
+	private void OnHealInputCallback(){
+		
+		// if we currently do not know the action.
+		if(IsPlayerActionEnabled(PlayerActions.Heal)==false){
+			return;
+		}
+
 		if(EmberStorage.NotchAmount >= 1){
 			EmberStorage.Remove(EmberStorage.NotchMaxEmberValue);
 			Health.Heal(1);
 		}
 	}
 
-	private void HandleShootInput(){
-		if(EmberStorage.EmberValue >= 30){
-			Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
-			projectileSpawner.Fire(shootDirection, 10);
-			EmberStorage.Remove(30);
+	private void OnShootInputCallback(){
+		
+		// if we currently do not know the action.
+		if(IsPlayerActionEnabled(PlayerActions.FireFeather) == false || EmberStorage.EmberValue < 30){
+			return;
 		}
+
+		Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
+		projectileSpawner.Fire(shootDirection, 10);
+		EmberStorage.Remove(30);
 	}
 
+	private void OnDashInputCallback(){
+
+		// if we currently do not know the action.
+		if(IsPlayerActionEnabled(PlayerActions.Dash)==false){
+			return;
+		}
+		
+		DashState();
+	}
 
 	/// 
 	/// Hurtbox Linkage.
@@ -512,7 +559,6 @@ public partial class Player : CharacterBody2D{
 			default:
 			throw new Exception($"{layer} not implemented.");
 		}
-		audioPlayer.PlaySound("MeleeHit");
 	}
 	
 	private void HandleOnHitEnemy(Enemy enemy){

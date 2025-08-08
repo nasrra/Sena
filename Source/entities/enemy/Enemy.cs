@@ -484,7 +484,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		hitFlash.Flash();
 	}
 	
-	public void Kill(){
+	public virtual void Kill(){
 		EnemyManager.Instance.RemoveEnemy(this);
 		QueueFree();
 	}

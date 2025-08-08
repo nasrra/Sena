@@ -31,13 +31,6 @@ public partial class RespawnPoint : Node2D{
     /// 
 
 
-    public void Rest(){
-        RespawnScene = SceneManager.Instance.Current2DSceneName;
-        GD.Print("respawn point set: "+RespawnScene);
-        Player.Instance.Health.HealToMax();
-        EntityManager.Singleton.PauseEntityProcesses(0.33f);
-    }
-
     public static void Respawn(){
         GD.Print("Respawn At: "+RespawnScene);
         SceneManager.Instance.LoadScene2D(RespawnScene, SceneLoadType.Delete, 0.5f);
@@ -58,7 +51,16 @@ public partial class RespawnPoint : Node2D{
     }
 
     private void OnInteract(Interactor interactor){
-        Rest();
+        RespawnScene = SceneManager.Instance.Current2DSceneName;
+        
+        Health health = interactor.GetParent().GetNode<Health>(Health.NodeName);
+        if(health != null){
+            health.HealToMax();
+        }
+        
+        EntityManager.Singleton.PauseEntityProcesses(0.33f);
+        AudioManager.Singleton.PlayEvent("RespawnPointUsed");
+        GD.Print("respawn point set: "+RespawnScene);
     }
 
 }

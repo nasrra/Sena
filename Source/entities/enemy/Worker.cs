@@ -158,7 +158,14 @@ public partial class Worker : Enemy{
         base.OnDamagedCallback();
 		float stunTime = 0.33f;
 		StunState(stunTime);
+		audioPlayer.PlaySound("MeleeHit", GlobalPosition);
     }
+
+    public override void Kill(){
+		AudioManager.Singleton.PlayEvent("EnemyDeath", GlobalPosition, true);
+        base.Kill();
+    }
+
 
 
 }
