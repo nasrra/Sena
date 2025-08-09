@@ -17,15 +17,15 @@
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-size = Vector2(8, 10)
+[sub_resource type="CircleShape2D" id="CircleShape2D_vty87"]
+radius = 6.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ncpa"]
-size = Vector2(1, 1)
+[sub_resource type="CircleShape2D" id="CircleShape2D_deer0"]
+radius = 1.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boxie"]
-radius = 3.0
-height = 10.5
+radius = 6.0
+height = 24.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer")]
 collision_layer = 32
@@ -45,17 +45,27 @@ EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
 audioPlayer = NodePath("AudioPlayer")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+material = ExtResource("6_boxie")
+position = Vector2(0, 10)
+scale = Vector2(0.2, 0.2)
+sprite_frames = ExtResource("9_jh8vs")
+animation = &"IdleBackward"
+frame_progress = 0.0687357
+offset = Vector2(0, -100)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 4)
-shape = SubResource("RectangleShape2D_xhfnw")
+shape = SubResource("CircleShape2D_vty87")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 100.0
-BaseAcceleration = 800.0
-BaseDeceleration = 800.0
+BaseTopSpeed = 200.0
+BaseAcceleration = 1600.0
+BaseDeceleration = 1600.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
@@ -79,35 +89,24 @@ script = ExtResource("5_cxr5p")
 hitBoxes = [NodePath("SlashDown"), NodePath("SlashLeft"), NodePath("SlashRight"), NodePath("SlashUp")]
 
 [node name="SlashDown" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(0, 21)
-scale = Vector2(28, 20)
+position = Vector2(0, 31)
+scale = Vector2(56, 40)
 collision_mask = 12
 
 [node name="SlashLeft" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(-15, 0)
-scale = Vector2(20, 28)
+position = Vector2(-29, 0)
+scale = Vector2(40, 56)
 collision_mask = 12
 
 [node name="SlashRight" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(15, 1)
-scale = Vector2(20, 28)
+position = Vector2(29, 1)
+scale = Vector2(40, 56)
 collision_mask = 12
 
 [node name="SlashUp" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(0, -21)
-scale = Vector2(28, 20)
+position = Vector2(0, -43)
+scale = Vector2(56, 40)
 collision_mask = 12
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_as_relative = false
-y_sort_enabled = true
-material = ExtResource("6_boxie")
-position = Vector2(0, 10)
-scale = Vector2(0.1, 0.1)
-sprite_frames = ExtResource("9_jh8vs")
-animation = &"IdleBackward"
-frame_progress = 0.0687357
-offset = Vector2(0, -100)
 
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")
@@ -115,14 +114,15 @@ MaxNotchAmount = 3
 
 [node name="Interactor" type="Area2D" parent="."]
 visible = false
-scale = Vector2(24, 32)
+position = Vector2(0, -9)
+scale = Vector2(32, 32)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("9_wi0c6")
 ObstructionLayer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
-shape = SubResource("RectangleShape2D_5ncpa")
+shape = SubResource("CircleShape2D_deer0")
 
 [node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
 sprite = NodePath("../AnimatedSprite2D")
@@ -132,12 +132,12 @@ Max = 3
 Value = 3
 
 [node name="HurtBox" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 136
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, 4)
+visible = false
+position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_boxie")
 
 [node name="EmberDecayRate" type="Timer" parent="."]

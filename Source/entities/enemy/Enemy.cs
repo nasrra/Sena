@@ -41,7 +41,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected Vector2 directionToTarget 			= Vector2.Zero;
 	protected Vector2 normalDirectionToTarget 		= Vector2.Zero;
 	protected float distanceToTarget 				= float.MaxValue;
-	[Export(PropertyHint.Layers2DPhysics)] uint avoidanceIntentionChaseStateLineOfSightObstructions;
+	[Export(PropertyHint.Layers2DPhysics)] uint avoidanceChaseStateLineOfSightObstructions;
 	protected float damagedKnockback;
 	public float stunStateAttackHandlerStandbyAdditiveTime;
 	protected EnemyState state = EnemyState.None;
@@ -225,7 +225,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 
 		avoidanceIntentionChaseStateTimer.Stop();
 
-		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceIntentionChaseStateLineOfSightObstructions)){
+		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceChaseStateLineOfSightObstructions)){
 			chaseStateIntention = ChaseStateIntention.AvoidTarget;
 		}
 		else{
