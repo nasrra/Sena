@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ct8o3q4y7ymc4"]
+[gd_scene load_steps=9 format=3 uid="uid://ct8o3q4y7ymc4"]
 
 [ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/doors/templates/EnvironmentDoor.tscn" id="1_a5bdk"]
 [ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierDoor.cs" id="2_qrqup"]
-[ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="3_3x4aj"]
-[ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="4_sw243"]
-[ext_resource type="Texture2D" uid="uid://d1pwdo2evg11s" path="res://assets/test/DoorOpen.png" id="5_m60cc"]
-[ext_resource type="Texture2D" uid="uid://q3tn4k1itx50" path="res://assets/test/DoorClosed.png" id="6_fy6aj"]
+[ext_resource type="Texture2D" uid="uid://cw2caiyn28wwg" path="res://assets/DoorUnlitClosed.png" id="2_sxnhs"]
+[ext_resource type="Texture2D" uid="uid://bbutyiln1ulyv" path="res://assets/DoorUnlitOpen.png" id="4_iyxvf"]
+[ext_resource type="Texture2D" uid="uid://xwkdorb50ge7" path="res://assets/DoorLitClosed.png" id="5_3x4aj"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="7_043cj"]
 [ext_resource type="PackedScene" uid="uid://lfgrjn2vk4ss" path="res://Entropek/scenes/HitInteractable.tscn" id="8_4nw3d"]
 [ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="9_j6r0l"]
@@ -13,43 +12,32 @@
 [node name="BrazierEnvironmentDoorTemplate" instance=ExtResource("1_a5bdk")]
 Locked = true
 
-[node name="FireLeft" type="Sprite2D" parent="." index="0"]
-position = Vector2(-14, 0)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_sw243")
-
-[node name="FireRight" type="Sprite2D" parent="." index="1"]
-position = Vector2(14, 0)
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_sw243")
-
-[node name="Sprite2D" parent="." index="2"]
-position = Vector2(0, -10)
+[node name="Sprite2D" parent="." index="0"]
+y_sort_enabled = true
+position = Vector2(2, -35)
 scale = Vector2(0.075, 0.075)
-texture = ExtResource("6_fy6aj")
+texture = ExtResource("2_sxnhs")
 
-[node name="WayfindingStaticObstacle2D" parent="." index="3" node_paths=PackedStringArray("body")]
+[node name="WayfindingStaticObstacle2D" parent="." index="1" node_paths=PackedStringArray("body")]
 body = NodePath("../Container/Collider")
 
-[node name="BrazierDoor" type="Node" parent="." index="5" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers", "fireRight", "fireLeft")]
+[node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers")]
 script = ExtResource("2_qrqup")
 door = NodePath("..")
 sprite = NodePath("../Sprite2D")
 hitInteractable = NodePath("../HitInteractable/Interactable")
 interactable = NodePath("../Interactable")
 embers = NodePath("../EmberHolder")
-litFire = ExtResource("3_3x4aj")
-unlitFire = ExtResource("4_sw243")
-fireRight = NodePath("../FireRight")
-fireLeft = NodePath("../FireLeft")
-openedSprite = ExtResource("5_m60cc")
-closedSprite = ExtResource("6_fy6aj")
+litOpenSprite = ExtResource("4_iyxvf")
+litClosedSprite = ExtResource("5_3x4aj")
+unlitOpenSprite = ExtResource("4_iyxvf")
+unlitClosedSprite = ExtResource("2_sxnhs")
 
-[node name="Interactable" parent="." index="6" instance=ExtResource("7_043cj")]
+[node name="Interactable" parent="." index="4" instance=ExtResource("7_043cj")]
 
-[node name="HitInteractable" type="Node2D" parent="." index="7"]
+[node name="HitInteractable" type="Node2D" parent="." index="5"]
 
 [node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("8_4nw3d")]
 
-[node name="EmberHolder" type="Node" parent="." index="8"]
+[node name="EmberHolder" type="Node" parent="." index="6"]
 script = ExtResource("9_j6r0l")

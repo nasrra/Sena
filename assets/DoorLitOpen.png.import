@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://lifgojcfmuck"
-path="res://.godot/imported/EnvironmentTilemap.png-dec7780774d4888305a1da3d48980745.ctex"
+uid="uid://c12rsxj168nvu"
+path="res://.godot/imported/DoorLitOpen.png-95fbc506f1b6f77198c891dc266224e3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/Prototype/EnvironmentTilemap.png"
-dest_files=["res://.godot/imported/EnvironmentTilemap.png-dec7780774d4888305a1da3d48980745.ctex"]
+source_file="res://assets/DoorLitOpen.png"
+dest_files=["res://.godot/imported/DoorLitOpen.png-95fbc506f1b6f77198c891dc266224e3.ctex"]
 
 [params]
 

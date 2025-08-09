@@ -21,9 +21,9 @@ public partial class WayfindingGrid2D : Node2D{
 
 	[Export] private TileMapLayer tileMap;
 	[Export] private Font debugFont;
-	private Color debugBlockedColour        = new Color(1,0,0,0.5f);
-	private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,0.5f);
-	private Color debugOpenColour           = new Color(0f,0.5f,0.5f,0.5f);
+	private Color debugBlockedColour        = new Color(1,0,0,1f);
+	private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,1f);
+	private Color debugOpenColour           = new Color(1f,1f,1f,1f);
 	private Vector2 debugSquareSize         = new Vector2(4,4);
 	private Vector2I gridSize = Vector2I.Zero;
 	public Vector2I GridSize {get => gridSize;}
@@ -149,7 +149,11 @@ public partial class WayfindingGrid2D : Node2D{
 
 	public override void _PhysicsProcess(double delta){
 		base._PhysicsProcess(delta);
+		QueueRedraw();
+	}
 
+    public override void _Draw(){
+        base._Draw();
 		if(drawDebug == false){
 			return;
 		}
@@ -182,14 +186,16 @@ public partial class WayfindingGrid2D : Node2D{
 			}
 		}            
 
-	}
+    }
+
 
 	public void CalculateClearance(ref byte[,] clearanceData, int cx, int cy, NavigationType blockTypes){
-		if (navigationType[cx,cy] == NavigationType.Blocked){
-			clearanceData[cx,cy]=0;
+		if (navigationType[cx, cy] == NavigationType.Blocked){
+			clearanceData[cx, cy] = 0;
 			return;
 		}
 
+		// Calculate the maximum possible clearance from the center point (cx, cy)
 		int maxClearance = Math.Min(
 			Math.Min(cx, gridSize.X - 1 - cx),
 			Math.Min(cy, gridSize.Y - 1 - cy)
@@ -197,31 +203,42 @@ public partial class WayfindingGrid2D : Node2D{
 
 		byte clearance = 1;
 
-		for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++){
+		// Loop through potential clearances
+		for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++)
+		{
 			int left = cx - clearance;
 			int right = cx + clearance;
 			int top = cy - clearance;
 			int bottom = cy + clearance;
 
+			bool blocked = false;
+
+			// Check the four borders (left, right, top, bottom) at once
 			for (int i = -clearance; i <= clearance; i++)
 			{
 				if (
-					(navigationType[cx + i, top]    & blockTypes) != 0 ||
+					(navigationType[cx + i, top] & blockTypes) != 0 ||
 					(navigationType[cx + i, bottom] & blockTypes) != 0 ||
-					(navigationType[left, cy + i]   & blockTypes) != 0 ||
-					(navigationType[right, cy + i]  & blockTypes) != 0
+					(navigationType[left, cy + i] & blockTypes) != 0 ||
+					(navigationType[right, cy + i] & blockTypes) != 0
 				)
 				{
-					clearanceData[cx, cy] = clearance;
-					return;
+					blocked = true;
+					break;
 				}
+			}
+
+			// If blocked, break and set the clearance
+			if (blocked)
+			{
+				clearanceData[cx, cy] = clearance;
+				return;
 			}
 		}
 
-		// Full square fits inside bounds with no blocked tiles
-		clearanceData[cx,cy] = clearance;
+		// If we found no blockage, the full clearance is possible
+		clearanceData[cx, cy] = clearance;
 	}
-
 
 
 

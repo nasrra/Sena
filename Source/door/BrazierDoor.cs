@@ -7,12 +7,10 @@ public partial class BrazierDoor : Node{
     [Export] private Interactable hitInteractable;
     [Export] private Interactable interactable;
     [Export] private EmberHolder embers;
-    [Export] private Texture2D litFire;
-    [Export] private Texture2D unlitFire;
-    [Export] private Sprite2D fireRight;
-    [Export] private Sprite2D fireLeft;
-    [Export] private Texture2D openedSprite;
-    [Export] private Texture2D closedSprite;
+    [Export] private Texture2D litOpenSprite;
+    [Export] private Texture2D litClosedSprite;
+    [Export] private Texture2D unlitOpenSprite;
+    [Export] private Texture2D unlitClosedSprite;
 
 
     /// 
@@ -31,10 +29,10 @@ public partial class BrazierDoor : Node{
             UnlitState();
         }
         if(door.Opened==true){
-            HandleOpen();
+            OnOpenCallback();
         }
         else{
-            HandleClose();
+            OnCloseCallback();
         }
         LinkEvents();
     }
@@ -64,24 +62,22 @@ public partial class BrazierDoor : Node{
         }
     }   
 
-    private void HandleOpen(){
-        sprite.Texture = openedSprite;
+    private void OnOpenCallback(){
+        sprite.Texture = door.Locked == true? unlitOpenSprite : litOpenSprite;
     }
 
-    private void HandleClose(){
-        sprite.Texture = closedSprite;
+    private void OnCloseCallback(){
+        sprite.Texture = door.Locked == true? unlitClosedSprite : litClosedSprite;
     }
 
     private void LitState(){
+        sprite.Texture = door.Opened == true? litOpenSprite : litClosedSprite;
         interactable.DisableInteraction();
-        fireLeft.Texture    = litFire;
-        fireRight.Texture   = litFire;
     }
 
     private void UnlitState(){
-        interactable.EnableInteraction();        
-        fireLeft.Texture    = unlitFire;
-        fireRight.Texture   = unlitFire;
+        sprite.Texture = door.Opened == true? unlitOpenSprite : unlitClosedSprite;
+        interactable.EnableInteraction();
     }
 
     
@@ -95,8 +91,8 @@ public partial class BrazierDoor : Node{
         hitInteractable.OnInteract  += HitInteracted;
         embers.OnLit                += LitState;
         embers.OnUnlit              += UnlitState;
-        door.OnOpen                 += HandleOpen;
-        door.OnClose                += HandleClose;
+        door.OnOpen                 += OnOpenCallback;
+        door.OnClose                += OnCloseCallback;
         door.OnLock                 += UnlitState;
         door.OnUnlock               += LitState;
     }
@@ -106,8 +102,6 @@ public partial class BrazierDoor : Node{
         hitInteractable.OnInteract  -= HitInteracted;
         embers.OnLit                -= LitState;
         embers.OnUnlit              -= UnlitState;
-        door.OnOpen                 -= HandleOpen;
-        door.OnClose                -= HandleClose;
         door.OnLock                 -= UnlitState;
         door.OnUnlock               -= LitState;
     }
