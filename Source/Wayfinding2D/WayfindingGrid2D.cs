@@ -30,7 +30,7 @@ public partial class WayfindingGrid2D : Node2D{
 	private Vector2I cellSize = Vector2I.Zero;
 	public Vector2I CellSize {get => cellSize;}
 
-	private bool drawDebug = false;
+	private bool drawDebug = true;
 	private bool hideTiles = true;
 
 	// orthogonal (Manhattan)
@@ -123,21 +123,91 @@ public partial class WayfindingGrid2D : Node2D{
 	}
 
 	public void InitialiseGridClearance(NavigationType navigationType){
-		switch(navigationType){
-			case NavigationType.PassThrough:
-				for(int x = 0; x < gridSize.X-1; x++){
-					for(int y = 0; y < gridSize.Y-1; y++){
-						CalculateClearance(ref aerialClearance, x,y, NavigationType.Blocked);
-					}
+		byte[,] clearance = navigationType == NavigationType.PassThrough? aerialClearance : groundClearance;
+		NavigationType blocked = navigationType == NavigationType.PassThrough? NavigationType.Blocked | NavigationType.PassThrough : NavigationType.Blocked;
+		
+		for(int x = 0; x < gridSize.X-1; x++){
+			for(int y = 0; y < gridSize.Y-1; y++){
+				clearance[x,y] = CalculateClearance(x,y, blocked);
+			}
+		}
+	}
+
+	protected void UpdateClearance(NavigationType agentType, int cx, int cy){
+		byte[,] clearance = agentType == NavigationType.PassThrough ? aerialClearance : groundClearance;
+		NavigationType blockTypes = agentType == NavigationType.PassThrough
+			? NavigationType.Blocked | NavigationType.PassThrough
+			: NavigationType.Blocked;
+
+		// Calculate the maximum possible clearance from the center point (cx, cy)
+		int maxClearance = Math.Min(
+			Math.Min(cx, gridSize.X - 1 - cx),
+			Math.Min(cy, gridSize.Y - 1 - cy)
+		);
+
+		// GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
+
+		// Loop through potential clearances
+		for (int i = 0; i <= maxClearance; i++){
+			int left = cx - i;
+			int right = cx + i;
+			int top = cy - i;
+			int bottom = cy + i;
+			
+			bool noChange = true;
+
+			// Check the four borders (left, right, top, bottom) at once
+			for (int j = -i; j <= i; j++)
+			{
+				Vector2I topCell = new(cx + j, top);
+				byte newTopClearance = CalculateClearance(topCell.X, topCell.Y, blockTypes);
+				if(clearance[topCell.X, topCell.Y] != newTopClearance){
+					clearance[topCell.X, topCell.Y] = newTopClearance;
+					noChange = false;
+					// debugDraw.Call("rect",tileMap.MapToLocal(topCell), Vector2.One*8, new Color(0,1f,0f), 8f, 6f);
 				}
-			break;
-			case NavigationType.Open:
-				for(int x = 0; x < gridSize.X-1; x++){
-					for(int y = 0; y < gridSize.Y-1; y++){
-						CalculateClearance(ref groundClearance, x,y, NavigationType.Blocked | NavigationType.PassThrough);
-					}
+				else{
+					// debugDraw.Call("rect",tileMap.MapToLocal(topCell), Vector2.One*8, new Color(1,0f,0f), 8f, 6f);
 				}
-			break;
+
+				Vector2I botCell = new(cx + j, bottom);
+				byte newBotClearance = CalculateClearance(botCell.X, botCell.Y, blockTypes);
+				if(clearance[botCell.X, botCell.Y] != newBotClearance){
+					clearance[botCell.X, botCell.Y] = newBotClearance;
+					noChange = false;
+					// debugDraw.Call("rect",tileMap.MapToLocal(botCell), Vector2.One*8, new Color(0,1f,0f), 8f, 6f);
+				}
+				else{
+					// debugDraw.Call("rect",tileMap.MapToLocal(botCell), Vector2.One*8, new Color(1,0f,0f), 8f, 6f);
+				}
+
+				Vector2I leftCell = new(left, cy + j);
+				byte newLeftClearance = CalculateClearance(leftCell.X, leftCell.Y, blockTypes);
+				if(clearance[leftCell.X, leftCell.Y] != newLeftClearance){
+					clearance[leftCell.X,leftCell.Y] = newLeftClearance;
+					noChange = false;
+					// debugDraw.Call("rect",tileMap.MapToLocal(leftCell), Vector2.One*8, new Color(0,1f,0f), 8f, 6f);
+				}
+				else{
+					// debugDraw.Call("rect",tileMap.MapToLocal(leftCell), Vector2.One*8, new Color(1,0f,0f), 8f, 6f);
+				}
+
+				Vector2I rightCell = new(right, cy + j);
+				byte newRightClearance = CalculateClearance(rightCell.X, rightCell.Y, blockTypes);
+				if(clearance[rightCell.X, rightCell.Y] != newRightClearance){
+					clearance[rightCell.X, rightCell.Y] = newRightClearance;
+					noChange = false;
+					// debugDraw.Call("rect",tileMap.MapToLocal(rightCell), Vector2.One*8, new Color(0,1f,0f), 8f, 6f);
+				}
+				else{
+					// debugDraw.Call("rect",tileMap.MapToLocal(rightCell), Vector2.One*8, new Color(1,0f,0f), 8f, 6f);
+				}
+			}
+
+			// If blocked, break and set the clearance
+			if (noChange==true){
+				break;
+			}
 		}
 	}
 
@@ -175,12 +245,12 @@ public partial class WayfindingGrid2D : Node2D{
 						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugBlockedColour);
 					break;
 					case NavigationType.PassThrough:
-						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
-						// DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+						// DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugPassThroughColour);
+						// DrawString(debugFont, globalPosition, aerialClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 8);
 					break;
 					case NavigationType.Open:
-						DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
-						// DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 4);
+						// DrawRect(new Rect2(globalPosition-debugSquareSize, debugSquareSize), debugOpenColour);
+						// DrawString(debugFont, globalPosition, groundClearance[x,y].ToString(), HorizontalAlignment.Left, -1, 8);
 					break;
 				}
 			}
@@ -189,10 +259,9 @@ public partial class WayfindingGrid2D : Node2D{
     }
 
 
-	public void CalculateClearance(ref byte[,] clearanceData, int cx, int cy, NavigationType blockTypes){
+	public byte CalculateClearance(int cx, int cy, NavigationType blockTypes){
 		if (navigationType[cx, cy] == NavigationType.Blocked){
-			clearanceData[cx, cy] = 0;
-			return;
+			return 0;
 		}
 
 		// Calculate the maximum possible clearance from the center point (cx, cy)
@@ -229,15 +298,13 @@ public partial class WayfindingGrid2D : Node2D{
 			}
 
 			// If blocked, break and set the clearance
-			if (blocked)
-			{
-				clearanceData[cx, cy] = clearance;
-				return;
+			if (blocked){
+				break;
 			}
 		}
 
 		// If we found no blockage, the full clearance is possible
-		clearanceData[cx, cy] = clearance;
+		return clearance;
 	}
 
 
@@ -531,6 +598,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 		Vector2I minGridPosition = tileMap.LocalToMap(globalAABB.Position - (globalAABB.Size *0.5f));
 		Vector2I maxGridPosition = tileMap.LocalToMap(globalAABB.Position + (globalAABB.Size *0.5f));
+		Vector2I gridPos = tileMap.LocalToMap(globalAABB.Position);
 
 		for (int y = minGridPosition.Y; y <= maxGridPosition.Y; y++) {
 			for (int x = minGridPosition.X; x <= maxGridPosition.X; x++) {
@@ -561,11 +629,15 @@ public partial class WayfindingGrid2D : Node2D{
 			}
 		}
 
-		InitialiseGridClearance(NavigationType.Open);
-		InitialiseGridClearance(NavigationType.PassThrough);
+		// InitialiseGridClearance(NavigationType.Open);
+		// InitialiseGridClearance(NavigationType.PassThrough);
+		UpdateClearance(NavigationType.Open, gridPos.X, gridPos.Y);
+		UpdateClearance(NavigationType.PassThrough, gridPos.X, gridPos.Y);
 	}
 
-	public void Remove(List<Vector2I> indices){
+	public void Remove(Rect2 globalAABB, List<Vector2I> indices){
+		Vector2I gridPos = tileMap.LocalToMap(globalAABB.Position);
+
 		for(int i = 0 ; i < indices.Count; i++){
 			
 			Vector2I index = indices[i];
@@ -579,8 +651,10 @@ public partial class WayfindingGrid2D : Node2D{
 			}
 			navigationType[index.X, index.Y] = NavigationType.Open;
 		}
-		InitialiseGridClearance(NavigationType.Open);
-		InitialiseGridClearance(NavigationType.PassThrough);
+		// InitialiseGridClearance(NavigationType.Open);
+		// InitialiseGridClearance(NavigationType.PassThrough);
+		UpdateClearance(NavigationType.Open, gridPos.X, gridPos.Y);
+		UpdateClearance(NavigationType.PassThrough, gridPos.X, gridPos.Y);
 	}
 
 	public List<Vector2I> GetCellsInArea(Vector2 originPosition, Vector2I startOffset, Vector2I endOffset){

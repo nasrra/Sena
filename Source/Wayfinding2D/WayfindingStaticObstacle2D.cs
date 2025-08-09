@@ -32,7 +32,7 @@ public partial class WayfindingStaticObstacle2D : Node2D{
 
     private void Remove(){
         if(occupiedTiles.Count>0){
-            WayfindingGrid2D.Singleton.Remove(occupiedTiles);
+            WayfindingGrid2D.Singleton.Remove(globalAABB, occupiedTiles);
         }
     }
 
