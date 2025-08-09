@@ -7,7 +7,7 @@
 offset_right = 4.0
 offset_bottom = 12.0833
 theme_override_fonts/font = ExtResource("1_3kvkw")
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 20
 text = "E"
 script = ExtResource("2_qqi6l")
 inputAction = "Interact"

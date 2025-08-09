@@ -7,16 +7,17 @@
 [node name="SwordAcquirer" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.05, 0.05)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_ysg0r")
 
 [node name="PlayerActionAcquirer" parent="." node_paths=PackedStringArray("interactIcon") instance=ExtResource("2_08mym")]
-scale = Vector2(24, 24)
+scale = Vector2(48, 48)
 interactIcon = NodePath("../InputActionLabel")
 playerActions = 1
 
 [node name="InputActionLabel" parent="." instance=ExtResource("3_kloc6")]
 visible = false
-offset_left = -4.0
-offset_top = -19.0
-offset_bottom = -6.91667
+offset_left = -9.0
+offset_top = -43.0
+offset_right = 7.0
+offset_bottom = -18.8333

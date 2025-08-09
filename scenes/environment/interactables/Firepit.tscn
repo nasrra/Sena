@@ -16,18 +16,19 @@ sprite = NodePath("Sprite2D")
 embers = NodePath("EmberHolder")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("3_gd46t")
 
-[node name="Interactable" parent="." instance=ExtResource("4_6ahcc")]
-scale = Vector2(8, 12)
+[node name="Interactable" parent="." node_paths=PackedStringArray("interactIcon") instance=ExtResource("4_6ahcc")]
+scale = Vector2(24, 36)
+interactIcon = NodePath("../InputActionLabel")
 
 [node name="InputActionLabel" parent="." instance=ExtResource("5_h4qwx")]
 visible = false
-offset_left = -4.0
-offset_top = -16.0
-offset_bottom = -3.91667
-text = ""
+offset_left = -8.0
+offset_top = -38.0
+offset_right = 8.0
+offset_bottom = -13.8333
 
 [node name="EmberHolder" type="Node" parent="."]
 script = ExtResource("6_37krm")

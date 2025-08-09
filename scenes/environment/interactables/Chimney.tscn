@@ -15,14 +15,15 @@ interactable = NodePath("Interactable")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.633333, 1, 1)
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("1_oye58")
 
-[node name="Interactable" type="Area2D" parent="." node_paths=PackedStringArray("InteractIcon")]
+[node name="Interactable" type="Area2D" parent="." node_paths=PackedStringArray("interactIcon")]
+scale = Vector2(2.5, 2.5)
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("3_g20y1")
-InteractIcon = NodePath("../InputActionLabel")
+interactIcon = NodePath("../InputActionLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
 shape = SubResource("RectangleShape2D_prvul")
@@ -35,8 +36,7 @@ one_shot = true
 
 [node name="InputActionLabel" parent="." instance=ExtResource("5_8r0fy")]
 visible = false
-offset_left = -5.0
-offset_top = -20.0
-offset_right = 3.0
-offset_bottom = -7.91667
-text = ""
+offset_left = -9.0
+offset_top = -43.0
+offset_right = 7.0
+offset_bottom = -18.8333

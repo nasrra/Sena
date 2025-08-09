@@ -10,16 +10,16 @@ script = ExtResource("1_u05v7")
 interactable = NodePath("Interactable")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.03, 0.03)
+scale = Vector2(0.075, 0.075)
 texture = ExtResource("1_a1jvh")
 
-[node name="Interactable" parent="." node_paths=PackedStringArray("InteractIcon") instance=ExtResource("2_1vnsk")]
-scale = Vector2(16, 16)
-InteractIcon = NodePath("../InputActionLabel")
+[node name="Interactable" parent="." node_paths=PackedStringArray("interactIcon") instance=ExtResource("2_1vnsk")]
+scale = Vector2(40, 40)
+interactIcon = NodePath("../InputActionLabel")
 
 [node name="InputActionLabel" parent="." instance=ExtResource("4_f1768")]
 visible = false
-offset_left = -5.0
-offset_top = -24.0
-offset_right = -1.0
-offset_bottom = -11.9167
+offset_left = -9.0
+offset_top = -44.0
+offset_right = 7.0
+offset_bottom = -19.8333

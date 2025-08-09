@@ -53,11 +53,11 @@ public partial class WayfindingAgent2D : Node2D{
                 // GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
                 for(int j = 0; j < cellsAroundTarget.Count; j++){			
                     Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[j]);
-                    // debugDraw.Call("rect",cellPosition, Vector2.One*8, new Color(1,1,0f), 1f, 1f);
+                    // debugDraw.Call("rect",cellPosition, Vector2.One, new Color(0,0.5f,1f), 8f, 1f);
                 }
 
                 TargetPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[GD.RandRange(0, cellsAroundTarget.Count-1)]);
-                // debugDraw.Call("rect",TargetPosition, Vector2.One*8, new Color(1,0,0), 1f, 1f);
+                // debugDraw.Call("rect",TargetPosition, Vector2.One, new Color(1,0,0), 8f, 1f);
                 return true;
             }
         }
