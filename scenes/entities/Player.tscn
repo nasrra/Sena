@@ -17,8 +17,9 @@
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vty87"]
-radius = 6.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vty87"]
+radius = 3.0
+height = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_deer0"]
 radius = 1.0
@@ -56,9 +57,10 @@ animation = &"IdleBackward"
 frame_progress = 0.0687357
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(0, -1)
+rotation = 1.5708
 scale = Vector2(0.5, 0.5)
-shape = SubResource("CircleShape2D_vty87")
+shape = SubResource("CapsuleShape2D_vty87")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")

@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cm22hkw5lvyyu" path="res://source/shaders/VignetteShaderController.cs" id="3_mhmh1"]
 
 [node name="Camera" type="Camera2D" node_paths=PackedStringArray("Vignette", "fadeTransition", "fadeTimer", "shakeTimer")]
-zoom = Vector2(3, 3)
+zoom = Vector2(6, 6)
 script = ExtResource("1_e6e23")
 Vignette = NodePath("VignetteShaderController")
 fadeTransition = NodePath("CameraEffects/FadeTransition")

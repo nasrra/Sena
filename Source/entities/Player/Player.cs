@@ -64,7 +64,7 @@ public partial class Player : CharacterBody2D{
 
 		LoadPersistentData();
 		
-		EnablePlayerAction(PlayerActions.Attack);
+		// EnablePlayerAction(PlayerActions.Attack);
 		EnablePlayerAction(PlayerActions.Heal);
 		EnablePlayerAction(PlayerActions.Dash);
 		EnablePlayerAction(PlayerActions.FireFeather);
