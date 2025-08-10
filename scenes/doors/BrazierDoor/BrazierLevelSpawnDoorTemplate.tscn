@@ -13,18 +13,21 @@
 [node name="BrazierLevelSwapDoorTemplate" instance=ExtResource("1_5s8c3")]
 
 [node name="Sprite2D" parent="." index="0"]
-position = Vector2(6, -71)
-scale = Vector2(0.15, 0.15)
+position = Vector2(1, -19)
+scale = Vector2(0.038, 0.038)
 texture = ExtResource("2_allfw")
 
 [node name="ExitPoint" parent="Container" index="0"]
 position = Vector2(0, 20)
 
 [node name="EnterZone" parent="Container" index="1"]
-scale = Vector2(4, 1)
+visible = false
+position = Vector2(0, -4)
+scale = Vector2(3, 1)
 
 [node name="Collider" parent="Container" index="2"]
-scale = Vector2(12, 1)
+position = Vector2(0, -4)
+scale = Vector2(3, 1)
 
 [node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers")]
 script = ExtResource("7_allfw")
@@ -39,8 +42,10 @@ unlitOpenSprite = ExtResource("6_o5g35")
 unlitClosedSprite = ExtResource("2_allfw")
 
 [node name="Interactable" parent="." index="4" instance=ExtResource("4_allfw")]
+visible = false
 
 [node name="HitInteractable" type="Node2D" parent="." index="5"]
+visible = false
 
 [node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("4_r0bip")]
 

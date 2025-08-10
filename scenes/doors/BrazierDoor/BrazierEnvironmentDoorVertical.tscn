@@ -6,12 +6,18 @@
 [node name="BrazierEnvironmentDoorVertical" instance=ExtResource("1_sjgkp")]
 
 [node name="Sprite2D" parent="." index="0"]
-position = Vector2(4, -72)
-scale = Vector2(0.15, 0.15)
+position = Vector2(2, -36)
+
+[node name="Container" parent="." index="2"]
+visible = false
 
 [node name="Collider" parent="Container" index="0"]
-position = Vector2(0, -11)
-scale = Vector2(12, 1)
+position = Vector2(0, -4)
+scale = Vector2(6, 1)
 
 [node name="BrazierDoor" parent="." index="3"]
 litOpenSprite = ExtResource("2_h7ofq")
+
+[node name="HitInteractable" parent="." index="5"]
+position = Vector2(0, -4)
+scale = Vector2(48, 8)

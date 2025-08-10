@@ -26,7 +26,7 @@ public partial class Worker : Enemy{
 		leadInTime: 		0.5f,
 		attackTime:			0.05f,
 		followThroughTime:  0.75f,
-		minTargetDistance:  100,
+		minTargetDistance:  50,
 		damage: 			1,
 		id:					(byte)AttackId.Punch
 	);
@@ -85,7 +85,7 @@ public partial class Worker : Enemy{
 					break;
 				}
                 PlayAnimation("Attack", attackFacingDirection);
-				characterMovement.Impulse(normalDirectionToTarget * 200f);
+				characterMovement.Impulse(normalDirectionToTarget * 100f);
 			break;
 			default:
 			throw new Exception($"Attack id[{attackId}] has not been implemented!");

@@ -24,8 +24,8 @@ radius = 6.0
 radius = 1.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boxie"]
-radius = 6.0
-height = 24.0
+radius = 3.0
+height = 12.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer")]
 collision_layer = 32
@@ -49,25 +49,27 @@ audioPlayer = NodePath("AudioPlayer")
 z_as_relative = false
 y_sort_enabled = true
 material = ExtResource("6_boxie")
-position = Vector2(0, -20)
-scale = Vector2(0.2, 0.2)
+position = Vector2(0, -10)
+scale = Vector2(0.1, 0.1)
 sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
 frame_progress = 0.0687357
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)
+scale = Vector2(0.5, 0.5)
 shape = SubResource("CircleShape2D_vty87")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 200.0
-BaseAcceleration = 1600.0
-BaseDeceleration = 1600.0
+BaseTopSpeed = 100.0
+BaseAcceleration = 800.0
+BaseDeceleration = 800.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
+position = Vector2(0, -3)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
 CursourDistance = 12.0
@@ -88,23 +90,23 @@ script = ExtResource("5_cxr5p")
 hitBoxes = [NodePath("SlashDown"), NodePath("SlashLeft"), NodePath("SlashRight"), NodePath("SlashUp")]
 
 [node name="SlashDown" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(1, 14)
-scale = Vector2(56, 40)
+position = Vector2(0, 8)
+scale = Vector2(28, 20)
 collision_mask = 12
 
 [node name="SlashLeft" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(-27, -10)
-scale = Vector2(40, 56)
+position = Vector2(-15, -6)
+scale = Vector2(20, 28)
 collision_mask = 12
 
 [node name="SlashRight" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(27, -10)
-scale = Vector2(40, 56)
+position = Vector2(15, -6)
+scale = Vector2(20, 28)
 collision_mask = 12
 
 [node name="SlashUp" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(0, -38)
-scale = Vector2(56, 40)
+position = Vector2(0, -21)
+scale = Vector2(28, 20)
 collision_mask = 12
 
 [node name="EmberStorage" type="Node" parent="."]
@@ -114,7 +116,7 @@ MaxNotchAmount = 3
 [node name="Interactor" type="Area2D" parent="."]
 visible = false
 position = Vector2(0, -6)
-scale = Vector2(32, 32)
+scale = Vector2(16, 16)
 collision_layer = 0
 collision_mask = 16
 script = ExtResource("9_wi0c6")
@@ -136,7 +138,7 @@ collision_layer = 0
 collision_mask = 136
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, -12)
+position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_boxie")
 
 [node name="EmberDecayRate" type="Timer" parent="."]

@@ -38,20 +38,19 @@ maxIdleTime = 2.0
 
 [node name="AnimatedSprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_10gc1")
-position = Vector2(0, 3)
-scale = Vector2(0.25, 0.25)
 sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"
 offset = Vector2(0, -75)
 
 [node name="CollisionShape2D" parent="." index="1"]
-scale = Vector2(16, 16)
+position = Vector2(0, -2)
+scale = Vector2(8, 8)
 
 [node name="CharacterMovement" parent="." index="2" node_paths=PackedStringArray("character")]
 character = NodePath("..")
-BaseTopSpeed = 100.0
-BaseAcceleration = 400.0
-BaseDeceleration = 400.0
+BaseTopSpeed = 50.0
+BaseAcceleration = 200.0
+BaseDeceleration = 200.0
 
 [node name="AiAttackHandler" parent="." index="3" node_paths=PackedStringArray("attackCooldowns")]
 attackCooldowns = [NodePath("PunchTimer")]
@@ -60,39 +59,41 @@ attackCooldowns = [NodePath("PunchTimer")]
 one_shot = true
 
 [node name="HitBoxHandler" parent="." index="6" node_paths=PackedStringArray("hitBoxes")]
+visible = true
 hitBoxes = [NodePath("PunchDown"), NodePath("PunchLeft"), NodePath("PunchRight"), NodePath("PunchUp")]
 
 [node name="PunchDown" parent="HitBoxHandler" index="0" instance=ExtResource("4_10gc1")]
-position = Vector2(0, 29)
-scale = Vector2(48, 36)
+position = Vector2(0, 14)
+scale = Vector2(24, 18)
 
 [node name="PunchLeft" parent="HitBoxHandler" index="1" instance=ExtResource("4_10gc1")]
-position = Vector2(-35, -1)
-scale = Vector2(36, 48)
+position = Vector2(-17, -1)
+scale = Vector2(18, 24)
 
 [node name="PunchRight" parent="HitBoxHandler" index="2" instance=ExtResource("4_10gc1")]
-position = Vector2(35, 0)
-scale = Vector2(36, 48)
+position = Vector2(17, -1)
+scale = Vector2(18, 24)
 
 [node name="PunchUp" parent="HitBoxHandler" index="3" instance=ExtResource("4_10gc1")]
-position = Vector2(0, -31)
-scale = Vector2(48, 36)
+position = Vector2(0, -17)
+scale = Vector2(24, 18)
 
 [node name="Health" parent="." index="8"]
 Max = 3
 Value = 3
 
 [node name="PassiveZone" parent="AgressionZone" index="0"]
-scale = Vector2(200, 200)
+scale = Vector2(100, 100)
 
 [node name="ActiveZone" parent="AgressionZone" index="1"]
-scale = Vector2(400, 400)
+scale = Vector2(200, 200)
 
 [node name="AvoidanceAgent" parent="." index="12"]
 visible = false
+position = Vector2(0, -3)
 
 [node name="CollisionShape2D" parent="AvoidanceAgent" index="0"]
-scale = Vector2(48, 48)
+scale = Vector2(24, 24)
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
 
