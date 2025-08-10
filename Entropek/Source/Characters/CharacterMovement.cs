@@ -58,25 +58,25 @@ public partial class CharacterMovement : Node{
     public override void _Process(double delta){
         base._Process(delta);
 
-        if(paused == true){
-            return;
-        }
+            if(paused == true){
+                return;
+            }
 
-        Vector2 trueDirection = moveDirection;
+            Vector2 trueDirection = moveDirection;
 
-        // if there is movement.
+            // if there is movement.
 
-        if (moveDirection.Length() > 0f){
-            trueDirection = trueDirection.Normalized();
-            Vector2 newVelocity = Velocity.MoveToward(trueDirection * TopSpeed, Acceleration * (float)delta);
-            Velocity = newVelocity;
-        }
-        else{
-            Vector2 newVelocity = Velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
-            Velocity = newVelocity;
-        }
+            if (moveDirection.Length() > 0f){
+                trueDirection = trueDirection.Normalized();
+                Vector2 newVelocity = Velocity.MoveToward(trueDirection * TopSpeed, Acceleration * (float)delta);
+                Velocity = newVelocity;
+            }
+            else{
+                Vector2 newVelocity = Velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
+                Velocity = newVelocity;
+            }
 
-        character.MoveAndSlide();
+            character.MoveAndSlide();
     }
 
 

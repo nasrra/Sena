@@ -479,7 +479,11 @@ public partial class InputManager : Node2D{
 
         Godot.Collections.Array<StringName> inputActions = InputMap.GetActions();
         for(int i =0; i < inputActions.Count; i++){
-            if(RetrieveInputActionGlyphUnicode(inputActions[i], out string glyphUnicode) == true){
+            string inputAction = inputActions[i];
+            if (inputAction.Contains("Debug")){
+                continue;
+            }
+            else if(RetrieveInputActionGlyphUnicode(inputActions[i], out string glyphUnicode) == true){
                 inputActionGlyphUnicodes.Add(inputActions[i], glyphUnicode);
             }
         }

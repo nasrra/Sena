@@ -51,11 +51,31 @@ public partial class CameraController : Camera2D{
 	public override void _Process(double delta){
 		base._Process(delta);
 
-
 		// call on late.
 
 		CallDeferred("UpdateCamera", (float)delta);
 	}
+
+
+
+	public override void _Input(InputEvent @event){
+		#if TOOLS
+
+		if (@event is InputEventMouseButton mouseEvent)
+		{
+			if (mouseEvent.ButtonIndex == MouseButton.WheelDown && mouseEvent.Pressed)
+			{
+				Zoom *= 0.9f; // Zoom in
+			}
+			else if (mouseEvent.ButtonIndex == MouseButton.WheelUp && mouseEvent.Pressed)
+			{
+				Zoom *= 1.1f; // Zoom out
+			}
+		}
+
+		#endif
+	}
+
 
 	public override void _PhysicsProcess(double delta){
 		base._PhysicsProcess(delta);

@@ -36,14 +36,6 @@ public partial class EntityManager : Node{
         if(paused==false){
             OnProcess?.Invoke(delta);
         }
-
-        if(Input.IsActionJustPressed("Debug1")){
-            PauseEntityProcesses();
-        }
-
-        if(Input.IsActionJustPressed("Debug2")){
-            ResumeEntityProcesses();
-        }
     }
 
     public override void _PhysicsProcess(double delta){
