@@ -6,10 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="4_f1768"]
 
 [node name="RespawnPoint" type="Node2D" node_paths=PackedStringArray("interactable")]
+y_sort_enabled = true
 script = ExtResource("1_u05v7")
 interactable = NodePath("Interactable")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 scale = Vector2(0.075, 0.075)
 texture = ExtResource("1_a1jvh")
 

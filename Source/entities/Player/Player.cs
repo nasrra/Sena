@@ -371,6 +371,7 @@ public partial class Player : CharacterBody2D{
 		}
 
 		Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
+		// Vector2 shootDirection = (GetGlobalMousePosition() - GlobalPosition).Normalized();
 		projectileSpawner.Fire(shootDirection, 10);
 		EmberStorage.Remove(30);
 	}

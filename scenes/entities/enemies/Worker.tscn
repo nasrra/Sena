@@ -88,12 +88,9 @@ scale = Vector2(100, 100)
 [node name="ActiveZone" parent="AgressionZone" index="1"]
 scale = Vector2(200, 200)
 
-[node name="AvoidanceAgent" parent="." index="12"]
-visible = false
-position = Vector2(0, -3)
-
 [node name="CollisionShape2D" parent="AvoidanceAgent" index="0"]
-scale = Vector2(24, 24)
+position = Vector2(0, -3)
+scale = Vector2(12, 12)
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
 

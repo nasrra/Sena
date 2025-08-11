@@ -10,11 +10,15 @@
 size = Vector2(14, 14)
 
 [node name="Chimney" type="Node2D" node_paths=PackedStringArray("interactable")]
+z_as_relative = false
+y_sort_enabled = true
 script = ExtResource("1_prvul")
 interactable = NodePath("Interactable")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.633333, 1, 1)
+z_as_relative = false
+y_sort_enabled = true
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("1_oye58")
 

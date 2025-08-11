@@ -46,9 +46,9 @@ public partial class Worker : Enemy{
 			rightAttacks: 	[PunchAttack],
 			upAttacks: 		[PunchAttack]
 		);
-		GameplayGui.Singleton.BossHealthBarHud.LinkToHealth(health);
-		GameplayGui.Singleton.BossHealthBarHud.EnableBar();
-		GameplayGui.Singleton.BossHealthBarHud.SetNameTag("Worker");
+		// GameplayGui.Singleton.BossHealthBarHud.LinkToHealth(health);
+		// GameplayGui.Singleton.BossHealthBarHud.EnableBar();
+		// GameplayGui.Singleton.BossHealthBarHud.SetNameTag("Worker");
 	}
 
 
@@ -165,7 +165,7 @@ public partial class Worker : Enemy{
 
     public override void Kill(){
 		AudioManager.Singleton.PlayEvent("EnemyDeath", GlobalPosition, true);
-		GameplayGui.Singleton.BossHealthBarHud.DisableBar();
+		// GameplayGui.Singleton.BossHealthBarHud.DisableBar();
         base.Kill();
     }
 

@@ -58,6 +58,7 @@ public partial class AvoidanceAgent : Area2D{
         
         if(avoidancePoints.Count == 0){
             AvoidanceDirection = Vector2.Zero;
+            ProximityStrength = 0f;
             return;
         }
 

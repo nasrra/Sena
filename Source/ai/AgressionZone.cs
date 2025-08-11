@@ -50,6 +50,10 @@ public partial class AgressionZone : Node2D{
         PhysicsDirectSpaceState2D spaceState = GetWorld2D().DirectSpaceState;
 
         foreach(Node2D node in collisions){
+            if(IsInstanceValid(node)==false){
+                continue;
+            }
+
             PhysicsRayQueryParameters2D parameters = new PhysicsRayQueryParameters2D{
                 From                = GlobalPosition,
                 To                  = node.GlobalPosition,

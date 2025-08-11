@@ -79,7 +79,7 @@ public partial class WayfindingAgent2D : Node2D{
             }
             Vector2 distance = NextPathPoint - GlobalPosition;
             float distSqrd = distance.LengthSquared();
-            if( distSqrd<= 50f && Path.Count > 0){
+            if( distSqrd <= 100f && Path.Count > 0){
                 NextPathPoint = Path.Pop();
             }
             if(Path.Count == 0){

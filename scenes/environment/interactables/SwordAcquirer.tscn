@@ -22,8 +22,6 @@ playerActions = 1
 [node name="InputActionLabel" parent="." instance=ExtResource("3_kloc6")]
 visible = false
 z_index = 10
-z_as_relative = false
-y_sort_enabled = true
 offset_left = -9.0
 offset_top = -43.0
 offset_right = 7.0

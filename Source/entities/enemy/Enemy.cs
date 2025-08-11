@@ -303,6 +303,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 			navAgent.UpdateCurrentPathToTarget();
 			avoidanceAgent.CalculatAvoidanceDirection();
 			characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
+
 		}
 		else{
 			IdleState();
@@ -310,6 +311,11 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected void CalculateRelationshipToTarget(){
+		
+		if(IsInstanceValid(Target)==false || Target == null){
+			return;
+		}
+
 		directionToTarget = Target.GlobalPosition- GlobalPosition;
 		normalDirectionToTarget = directionToTarget.Normalized();
 		distanceToTarget = directionToTarget.Length();

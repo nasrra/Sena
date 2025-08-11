@@ -71,7 +71,6 @@ BaseDeceleration = 800.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
-position = Vector2(0, -3)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
 CursourDistance = 12.0
