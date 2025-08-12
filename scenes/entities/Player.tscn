@@ -47,6 +47,7 @@ Interactor = NodePath("Interactor")
 audioPlayer = NodePath("AudioPlayer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 2
 z_as_relative = false
 y_sort_enabled = true
 material = ExtResource("6_boxie")

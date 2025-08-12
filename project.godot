@@ -185,6 +185,9 @@ DebugCameraZoom={
 
 [layer_names]
 
+2d_render/layer_1="Top"
+2d_render/layer_2="Middle"
+2d_render/layer_3="Bot"
 2d_navigation/layer_1="Open"
 2d_physics/layer_2="BlockedEnvironment"
 2d_navigation/layer_2="Blocked"
