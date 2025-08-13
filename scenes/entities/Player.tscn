@@ -50,13 +50,13 @@ BaseDeceleration = 300.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node3D" parent="." node_paths=PackedStringArray("Cursour")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.696221, -0.0530164, 0.116139)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, -0.5)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
-CursourDistance = 12.0
 
 [node name="Sprite2D" type="Sprite3D" parent="PlayerAimCursour"]
-transform = Transform3D(0.25, 0, 0, 0, 0.176777, 0.176777, 0, -0.176777, 0.176777, 0.166145, -0.0566152, 0.00640857)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.166145, -0.0566152, 0.00640857)
+sorting_offset = 100.0
 texture = ExtResource("1_xhfnw")
 
 [node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour/Sprite2D"]
