@@ -1,12 +1,12 @@
 using Godot;
 using System;
 
-public partial class AiWander : Node2D{
+public partial class AiWander : Node3D{
     public const string NodeName = nameof(AiWander);
 
     [Export] private Timer timer;
-    public event Action<Vector2> OnDirectionChosen;
-    private Vector2 origin;
+    public event Action<Vector3> OnDirectionChosen;
+    private Vector3 origin;
     private double previousPathTime;
     [Export] private double minPathTime;
     [Export] private double maxPathTime;
@@ -59,7 +59,7 @@ public partial class AiWander : Node2D{
     }
 
 
-    public void SetOrigin(Vector2 Position){
+    public void SetOrigin(Vector3 Position){
         origin = Position;
     }
 
@@ -89,16 +89,18 @@ public partial class AiWander : Node2D{
         currentState = State.Wander;
         timer.Start(GD.RandRange(minPathTime, maxPathTime));
         previousPathTime = timer.TimeLeft;
-        OnDirectionChosen?.Invoke(new Vector2(
+        OnDirectionChosen?.Invoke(new Vector3(
             (float)GD.RandRange((double)minDirection.X, (double)maxDirection.X), 
-            (float)GD.RandRange((double)minDirection.X, (double)maxDirection.X)));
+            (float)GD.RandRange((double)minDirection.X, (double)maxDirection.X),
+            0
+        ));
     }
 
     private void IdleState(){
         previousState = currentState;
         currentState = State.Idle;
         timer.Start(GD.RandRange(minIdleTime, maxIdleTime));
-        OnDirectionChosen?.Invoke(Vector2.Zero);
+        OnDirectionChosen?.Invoke(Vector3.Zero);
     }
 
     public void PauseState(){

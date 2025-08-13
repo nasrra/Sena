@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using Godot;
 
 public partial class CharacterMovement : Node{
-    [Export] CharacterBody2D character;    
+    [Export] CharacterBody3D character;    
     public const string NodeName = nameof(CharacterMovement);
     
-    private Vector2 pausedVelocity = Vector2.Zero;
-    private Vector2 pausedDirection = Vector2.Zero;
-    private Vector2 moveDirection  = Vector2.Zero;
-    public  Vector2 MoveDirection {
+    private Vector3 pausedVelocity  = Vector3.Zero;
+    private Vector3 pausedDirection = Vector3.Zero;
+    private Vector3 moveDirection   = Vector3.Zero;
+    public  Vector3 MoveDirection {
         get => moveDirection;
         private set{
             moveDirection = value;
         }
     }
-    public Vector2 Velocity {
+    public Vector3 Velocity {
         get => character.Velocity;
         private set{
             character.Velocity = value;
@@ -62,17 +62,17 @@ public partial class CharacterMovement : Node{
                 return;
             }
 
-            Vector2 trueDirection = moveDirection;
+            Vector3 trueDirection = moveDirection;
 
             // if there is movement.
 
             if (moveDirection.Length() > 0f){
                 trueDirection = trueDirection.Normalized();
-                Vector2 newVelocity = Velocity.MoveToward(trueDirection * TopSpeed, Acceleration * (float)delta);
+                Vector3 newVelocity = Velocity.MoveToward(trueDirection * TopSpeed, Acceleration * (float)delta);
                 Velocity = newVelocity;
             }
             else{
-                Vector2 newVelocity = Velocity.MoveToward(Vector2.Zero, Deceleration * (float)delta);
+                Vector3 newVelocity = Velocity.MoveToward(Vector3.Zero, Deceleration * (float)delta);
                 Velocity = newVelocity;
             }
 
@@ -85,25 +85,25 @@ public partial class CharacterMovement : Node{
     /// 
 
 
-    public void Move(Vector2 direction){
+    public void Move(Vector3 direction){
         moveDirection = direction.Normalized();
         OnMoveDirectionUpdated?.Invoke();
     }
 
-    public void Impulse(Vector2 velocity){
+    public void Impulse(Vector3 velocity){
         character.Velocity += velocity;
     }
 
     public void ZeroDirection(){
-        moveDirection = Vector2.Zero;
+        moveDirection = Vector3.Zero;
         OnMoveDirectionUpdated?.Invoke();
     }
 
     public void ZeroVelocity(){
-        character.Velocity = Vector2.Zero;
+        character.Velocity = Vector3.Zero;
     }
 
-    public void Knockback(Vector2 velocity){
+    public void Knockback(Vector3 velocity){
         ZeroDirection();
         ZeroVelocity();
         character.Velocity += velocity;
@@ -117,23 +117,23 @@ public partial class CharacterMovement : Node{
     }
 
     public float GetMoveAngleRadians(){        
-        float angle = Mathf.Atan2(moveDirection.Y, moveDirection.X);
+        float angle = Mathf.Atan2(moveDirection.Z, moveDirection.X);
         return angle;
     }
 
     public float GetMoveAngleDegrees(){
-        float angle = Mathf.Atan2(moveDirection.Y, moveDirection.X);
+        float angle = Mathf.Atan2(moveDirection.Z, moveDirection.X);
         angle = Mathf.RadToDeg(angle);
         return angle;
     }
 
     public float GetVelocityAngleDegrees(){
-        float angle = Mathf.Atan2(Velocity.Y, Velocity.X);
+        float angle = Mathf.Atan2(Velocity.Z, Velocity.X);
         angle = Mathf.RadToDeg(angle);
         return angle;
     }
 
-    public bool HasCollisions(out List<KinematicCollision2D> collisions){
+    public bool HasCollisions(out List<KinematicCollision3D> collisions){
         collisions = null;
         
         int collisionCount = character.GetSlideCollisionCount();
@@ -142,10 +142,10 @@ public partial class CharacterMovement : Node{
             return false;
         }
         
-        collisions = new List<KinematicCollision2D>();
+        collisions = new List<KinematicCollision3D>();
 
         for(int i = 0; i < collisionCount; i++){
-            KinematicCollision2D collision = character.GetSlideCollision(i);
+            KinematicCollision3D collision = character.GetSlideCollision(i);
             collisions.Add(collision);
         }
 
@@ -163,15 +163,16 @@ public partial class CharacterMovement : Node{
         paused = true;
         pausedDirection = moveDirection;
         pausedVelocity  = Velocity;
-        moveDirection   = Vector2.Zero;
-        Velocity        = Vector2.Zero;
+        moveDirection   = Vector3.Zero;
+        Velocity        = Vector3.Zero;
     }
 
     public void ResumeState(){
         paused = false;
         moveDirection   = pausedDirection;
         Velocity        = pausedVelocity;
-        pausedDirection = Vector2.Zero;
-        pausedVelocity  = Vector2.Zero;
+        pausedDirection = Vector3.Zero;
+        pausedVelocity  = Vector3.Zero;
     }
+
 }

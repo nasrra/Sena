@@ -1,62 +1,62 @@
 using Godot;
 using System;
 
-public partial class PlayerAimCursour : Node2D{
+public partial class PlayerAimCursour : Node3D{
 
-    [Export] public Node2D Cursour {get;private set;}
-    [Export] public Vector2 AimDirection {get;private set;} = Vector2.Zero;
-    [Export] public float CursourDistance {get; private set;} = 2;
-    [Export] public float AimAngle {get; private set;} = 0f;
-
-
-    /// 
-    /// Base.
-    /// 
+	[Export] public Node3D Cursour {get;private set;}
+	[Export] public Vector3 AimDirection {get;private set;} = Vector3.Zero;
+	[Export] public float CursourDistance {get; private set;} = 2;
+	[Export] public float AimAngle {get; private set;} = 0f;
 
 
-    public override void _EnterTree(){
-        base._EnterTree();
-        LinkEvents();
-    }
-
-    public override void _ExitTree(){
-        base._ExitTree();
-        UnlinkEvents();
-    }
+	/// 
+	/// Base.
+	/// 
 
 
-    /// 
-    /// Functions.
-    /// 
+	public override void _EnterTree(){
+		base._EnterTree();
+		LinkEvents();
+	}
+
+	public override void _ExitTree(){
+		base._ExitTree();
+		UnlinkEvents();
+	}
 
 
-    public override void _Process(double delta){
-        base._PhysicsProcess(delta);
-        AimAngle = Mathf.Atan2(AimDirection.Y, AimDirection.X);
-        AimAngle = Mathf.RadToDeg(AimAngle);
-        Cursour.GlobalPosition = GlobalPosition+AimDirection * CursourDistance;
-    }
-
-    private void HandleAimDirection(Vector2 direction){
-        if(InputManager.Singleton.IsGamepadConnected == true){
-            AimDirection = direction.Normalized();
-        }else{
-            AimDirection = (direction-GlobalPosition).Normalized();
-        }
-    }
+	/// 
+	/// Functions.
+	/// 
 
 
-    /// 
-    /// Linkage.
-    /// 
+	public override void _Process(double delta){
+		base._PhysicsProcess(delta);
+		AimAngle = Mathf.Atan2(AimDirection.Y, AimDirection.X);
+		AimAngle = Mathf.RadToDeg(AimAngle);
+		Cursour.GlobalPosition = GlobalPosition+AimDirection * CursourDistance;
+	}
+
+	private void HandleAimDirection(Vector2 direction){
+		Vector3 trueDirection = new Vector3(direction.X, direction.Y, 0);
+		if(InputManager.Singleton.IsGamepadConnected == true){
+			AimDirection = trueDirection.Normalized();
+		}else{
+			AimDirection = (trueDirection-GlobalPosition).Normalized();
+		}
+	}
 
 
-    private void LinkEvents(){
-        InputManager.Singleton.OnAimInput += HandleAimDirection;
-    }
+	/// 
+	/// Linkage.
+	/// 
 
-    private void UnlinkEvents(){
-        InputManager.Singleton.OnAimInput -= HandleAimDirection;
-    }
+
+	private void LinkEvents(){
+		InputManager.Singleton.OnAimInput += HandleAimDirection;
+	}
+
+	private void UnlinkEvents(){
+		InputManager.Singleton.OnAimInput -= HandleAimDirection;
+	}
 }
-

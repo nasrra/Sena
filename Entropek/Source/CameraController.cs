@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CameraController : Camera2D{
+public partial class CameraController : Camera3D{
 	
 	public static CameraController Instance {get;private set;}
 
@@ -10,12 +10,12 @@ public partial class CameraController : Camera2D{
 	[Export] private ColorRect fadeTransition;
 	[Export] private Timer fadeTimer;
 	[Export] private Timer shakeTimer;
-	[Export] public Node2D Target;
+	[Export] public Node3D Target;
 	
 	private event Action fadeStatePhysicsProcess;
 
-	private Vector2 shakeOffset = Vector2.Zero;
-	[Export] public Vector2 FollowOffset = Vector2.Zero;
+	private Vector3 shakeOffset = Vector3.Zero;
+	[Export] public Vector3 FollowOffset = Vector3.Zero;
 	
 	private float shakeStrength = 0.0f;
 	[Export] private float followSpeed = 0.88f;
@@ -65,11 +65,11 @@ public partial class CameraController : Camera2D{
 		{
 			if (mouseEvent.ButtonIndex == MouseButton.WheelDown && mouseEvent.Pressed)
 			{
-				Zoom *= 0.9f; // Zoom in
+				Size *= 1.1f; // Zoom out
 			}
 			else if (mouseEvent.ButtonIndex == MouseButton.WheelUp && mouseEvent.Pressed)
 			{
-				Zoom *= 1.1f; // Zoom out
+				Size *= 0.9f; // Zoom in
 			}
 		}
 
@@ -81,9 +81,10 @@ public partial class CameraController : Camera2D{
 		base._PhysicsProcess(delta);
 		fadeStatePhysicsProcess?.Invoke();
 		if(shake == true){
-			shakeOffset = new Vector2(
+			shakeOffset = new Vector3(
 				rng.RandfRange(-shakeStrength, shakeStrength),
-				rng.RandfRange(-shakeStrength, shakeStrength)
+				rng.RandfRange(-shakeStrength, shakeStrength),
+				0
 			);
 		}
 	}
@@ -96,7 +97,7 @@ public partial class CameraController : Camera2D{
 
 	private void UpdateCamera(float delta){
 		if(IsInstanceValid(Target) && Target.IsInsideTree()){
-			GlobalPosition = GlobalPosition.Lerp(Target.GlobalPosition + Offset + FollowOffset + shakeOffset, followSpeed * delta);
+			GlobalPosition = GlobalPosition.Lerp(Target.GlobalPosition + FollowOffset + shakeOffset, followSpeed * delta);
 		}
 	}
 
@@ -113,7 +114,7 @@ public partial class CameraController : Camera2D{
 
 	public void StopShake(){
 		shake = false;
-		shakeOffset = Vector2.Zero;
+		shakeOffset = Vector3.Zero;
 	}
 
 	public void FadeToBlack(float time){

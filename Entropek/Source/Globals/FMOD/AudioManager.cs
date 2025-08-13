@@ -213,10 +213,12 @@ public partial class AudioManager : Node{
         return volume;
     }
 
-    /// <summary>
-    /// Plays a one-shot instance of a sound.
-    /// </summary>
-    /// <param name="eventName">The name of the event to play, excluding its relative path.</param>
+
+    /// 
+    /// Event Handling.
+    /// 
+
+
     public AudioInstance PlayEvent(string eventName, bool release = true){
         
         // Get the loaded event description.
@@ -240,18 +242,12 @@ public partial class AudioManager : Node{
         return new AudioInstance(inst, eventName);
     }
 
-    /// <summary>
-    /// Plays a one-shot instance of a sound.
-    /// </summary>
-    /// <param name="eventName"></param>
-    /// <param name="globalPosition"></param>
-    public AudioInstance PlayEvent(string eventName, Vector2 globalPosition, bool release = true){
-        
+    private AudioInstance PlayEvent(string eventName, VECTOR globalPosition, bool release = true){
         FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
         desc.createInstance(out FMOD.Studio.EventInstance inst);
 
         ATTRIBUTES_3D attributes = new ATTRIBUTES_3D{
-            position = GodotToFmodPosition(globalPosition),
+            position = globalPosition,
             velocity = new FMOD.VECTOR { x = 0, y = 0, z = 0 },
             forward = new FMOD.VECTOR { x = 0, y = 0, z = 1 },
             up = new FMOD.VECTOR { x = 0, y = 1, z = 0 }
@@ -265,8 +261,22 @@ public partial class AudioManager : Node{
 
         StudioSystem.update();
 
-        return new AudioInstance(inst, eventName);
+        return new AudioInstance(inst, eventName);        
     }
+
+    public AudioInstance PlayEvent(string eventName, Vector2 globalPosition, bool release = true){
+        return PlayEvent(eventName, GodotToFmodPosition(globalPosition), release);
+    }
+
+    public AudioInstance PlayEvent(string eventName, Vector3 globalPosition, bool release = true){
+        return PlayEvent(eventName, GodotToFmodPosition(globalPosition), release);
+    }
+
+    public string GetEventName(FMOD.Studio.EventDescription eventDescription){
+        eventDescription.getPath(out string path);
+        return System.IO.Path.GetFileNameWithoutExtension(path);
+    }
+
 
     public bool IsBankLoaded(string bankName){
         return _loadedBanks.ContainsKey(bankName);
@@ -286,18 +296,15 @@ public partial class AudioManager : Node{
         return absolutePath;
     }
 
-    private VECTOR GodotToFmodPosition(Vector2 globalPosition){
-        return new VECTOR{
-            x = globalPosition.X,
-            y = 0,
-            z = -globalPosition.Y
-        };
-    }
+
+    /// 
+    /// Listener Handling.
+    /// 
 
 
-    public void SetListenerPosition(Vector2 globalPosition){
+    public void SetListenerPosition(VECTOR globalPosition){
         ATTRIBUTES_3D listenerAttributes = new ATTRIBUTES_3D{
-            position = GodotToFmodPosition(globalPosition),
+            position = globalPosition,
             velocity = new VECTOR { x = 0, y = 0, z = 0 },
             forward  = new VECTOR { x = 0, y = 0, z = 1 },
             up       = new VECTOR { x = 0, y = 1, z = 0 }
@@ -311,8 +318,33 @@ public partial class AudioManager : Node{
         StudioSystem.update();
     }
 
-    public string GetEventName(FMOD.Studio.EventDescription eventDescription){
-        eventDescription.getPath(out string path);
-        return System.IO.Path.GetFileNameWithoutExtension(path);
+    public void SetListenerPosition(Vector2 globalPosition){
+        SetListenerPosition(GodotToFmodPosition(globalPosition));
     }
+
+    public void SetListenerPosition(Vector3 globalPosition){
+        SetListenerPosition(GodotToFmodPosition(globalPosition));
+    }
+
+
+    ///
+    /// Godot Conversions. 
+    /// 
+
+    private VECTOR GodotToFmodPosition(Vector2 globalPosition){
+        return new VECTOR{
+            x = globalPosition.X,
+            y = 0,
+            z = -globalPosition.Y
+        };
+    }
+
+    private VECTOR GodotToFmodPosition(Vector3 globalPosition){
+        return new VECTOR{
+            x = globalPosition.X,
+            y = globalPosition.Y,
+            z = globalPosition.Z
+        };
+    }
+
 }

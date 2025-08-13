@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class EnemySpawner : Node2D{
+public partial class EnemySpawner : Node3D{
     [ExportGroup(nameof(EnemySpawner))]
     [Export] PackedScene packedScene;
 

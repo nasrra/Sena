@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=19 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -6,22 +6,15 @@
 [ext_resource type="Script" uid="uid://dqg6xeyp2a0cj" path="res://source/entities/PlayerAimCursour.cs" id="4_e80uo"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="5_cxr5p"]
 [ext_resource type="Script" uid="uid://bw7drms7g4wce" path="res://source/projectile/ProjectileSpawner.cs" id="5_sdcm4"]
-[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="6_boxie"]
 [ext_resource type="PackedScene" uid="uid://dwkf62bbh1dli" path="res://scenes/projectiles/FireFeather.tscn" id="6_jh8vs"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/animations/sena/Sena.tres" id="9_jh8vs"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
-[ext_resource type="Script" uid="uid://bs1smpepd2hqc" path="res://Entropek/source/globals/fmod/AudioListener2D.cs" id="14_rfitb"]
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
+[ext_resource type="Script" uid="uid://bn5g5x8duv4dq" path="res://Entropek/source/globals/fmod/AudioListener3D.cs" id="15_vty87"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
-[ext_resource type="PackedScene" uid="uid://bvh0ylxkx8wu7" path="res://scenes/lighting/ShadowLight2d.tscn" id="17_deer0"]
-[ext_resource type="PackedScene" uid="uid://b0vmeuulwumn1" path="res://scenes/lighting/SpriteLight2d.tscn" id="18_gpcb7"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vty87"]
-radius = 3.0
-height = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_deer0"]
 radius = 1.0
@@ -30,61 +23,40 @@ radius = 1.0
 radius = 3.0
 height = 12.0
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "projectileSpawner", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer")]
-light_mask = 2
-z_as_relative = false
-y_sort_enabled = true
+[sub_resource type="SphereShape3D" id="SphereShape3D_37p5y"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor")]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource("1_kne1u")
 emberDecayRate = NodePath("EmberDecayRate")
 evaluateStateTimer = NodePath("EvaluateStateTimer")
 hurtBox = NodePath("HurtBox")
-animator = NodePath("AnimatedSprite2D")
+animator = NodePath("AnimatedSprite3D")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
-projectileSpawner = NodePath("PlayerAimCursour/Sprite2D/ProjectileSpawner")
 hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
 Interactor = NodePath("Interactor")
-audioPlayer = NodePath("AudioPlayer")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-light_mask = 2
-visibility_layer = 2
-z_as_relative = false
-y_sort_enabled = true
-material = ExtResource("6_boxie")
-position = Vector2(0, -10)
-scale = Vector2(0.1, 0.1)
-sprite_frames = ExtResource("9_jh8vs")
-animation = &"IdleBackward"
-frame_progress = 0.0687357
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
-rotation = 1.5708
-scale = Vector2(0.5, 0.5)
-shape = SubResource("CapsuleShape2D_vty87")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 100.0
-BaseAcceleration = 800.0
-BaseDeceleration = 800.0
+BaseTopSpeed = 10.0
+BaseAcceleration = 300.0
+BaseDeceleration = 300.0
 gravityModifier = 6.0
 
-[node name="PlayerAimCursour" type="Node2D" parent="." node_paths=PackedStringArray("Cursour")]
+[node name="PlayerAimCursour" type="Node3D" parent="." node_paths=PackedStringArray("Cursour")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.696221, -0.0530164, 0.116139)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
 CursourDistance = 12.0
 
-[node name="Sprite2D" type="Sprite2D" parent="PlayerAimCursour"]
-position = Vector2(5, 1)
-scale = Vector2(0.025, 0.025)
+[node name="Sprite2D" type="Sprite3D" parent="PlayerAimCursour"]
+transform = Transform3D(0.25, 0, 0, 0, 0.176777, 0.176777, 0, -0.176777, 0.176777, 0.166145, -0.0566152, 0.00640857)
 texture = ExtResource("1_xhfnw")
 
 [node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour/Sprite2D"]
@@ -134,8 +106,7 @@ ObstructionLayer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
 shape = SubResource("CircleShape2D_deer0")
 
-[node name="HitFlashShaderController" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("10_rafx0")]
-sprite = NodePath("../AnimatedSprite2D")
+[node name="HitFlashShaderController" parent="." instance=ExtResource("10_rafx0")]
 
 [node name="Health" parent="." instance=ExtResource("11_boxie")]
 Max = 3
@@ -157,29 +128,17 @@ one_shot = true
 [node name="EvaluateStateTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="AudioListener2D" type="Node2D" parent="."]
-script = ExtResource("14_rfitb")
-
-[node name="AudioPlayer" type="Node2D" parent="."]
+[node name="AudioPlayer" type="Node" parent="."]
 script = ExtResource("16_vty87")
 
-[node name="Light2D" type="Node2D" parent="."]
-z_index = -1
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(0, -1)
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.732336, -0.743642)
+sprite_frames = ExtResource("9_jh8vs")
+animation = &"IdleBackward"
 
-[node name="FloorShadowLight2D" parent="Light2D" instance=ExtResource("17_deer0")]
-z_as_relative = false
+[node name="AudioListener" type="Node3D" parent="."]
+script = ExtResource("15_vty87")
 
-[node name="FloorLight2D2" parent="Light2D" instance=ExtResource("17_deer0")]
-visible = false
-z_as_relative = false
-shadow_enabled = false
-shadow_item_cull_mask = 48
-
-[node name="SpriteLight2D" parent="Light2D" instance=ExtResource("18_gpcb7")]
-z_as_relative = false
-range_item_cull_mask = 2
-shadow_enabled = true
-shadow_item_cull_mask = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507703, -0.498717)
+shape = SubResource("SphereShape3D_37p5y")

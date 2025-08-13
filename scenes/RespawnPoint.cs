@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class RespawnPoint : Node2D{
+public partial class RespawnPoint : Node3D{
     public static string RespawnScene {get;private set;} = "TestLevel";
     public static RespawnPoint Instance {get;private set;} = null;
 

@@ -1,8 +1,9 @@
 using Entropek.Ai;
+using FMOD;
 using Godot;
 using System;
 
-public partial class Player : CharacterBody2D{
+public partial class Player : CharacterBody3D{
 	public const string NodeName = nameof(Player);
 
 	[ExportGroup("Nodes")]
@@ -15,10 +16,10 @@ public partial class Player : CharacterBody2D{
 	
 	[Export] private CameraController camera;
 	[Export] private Area2D hurtBox;
-	[Export] private AnimatedSprite2D animator;
+	[Export] private AnimatedSprite3D animator;
 	[Export] public CharacterMovement movement {get; private set;}
 	[Export] public PlayerAimCursour aimCursour {get; private set;}
-	[Export] public ProjectileSpawner projectileSpawner {get; private set;}
+	// [Export] public ProjectileSpawner projectileSpawner {get; private set;}
 	[Export] public HitBoxHandler hitBoxes {get; private set;}
 	[Export] public HitFlashShaderController hitFlash {get;private set;} 
 	[Export] public Health Health {get; private set;}
@@ -102,7 +103,7 @@ public partial class Player : CharacterBody2D{
 	private async void EvaluateState(){
 		if (state == PlayerState.Dashing){
 			movement.Deceleration = 800f;
-			hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), true);
+			hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics3DLayerId("Pitfall"), true);
 		}
 
 		state = PlayerState.Evaluating;
@@ -132,7 +133,7 @@ public partial class Player : CharacterBody2D{
 		state = PlayerState.Dashing;
 		statePhysicsProcess = DashStatePhysicsProcess;
 
-		hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics2DLayerId("Pitfall"), false);
+		hurtBox.SetCollisionMaskValue(PhysicsManager.Singleton.GetPhysics3DLayerId("Pitfall"), false);
 		movement.ZeroVelocity();
 		movement.Impulse(movement.MoveDirection * DashForce);
 		movement.ZeroDirection(); // <-- here so Deceleration is applied.
@@ -156,7 +157,7 @@ public partial class Player : CharacterBody2D{
 
 	private void UpdateAnimation(){
 		float angle = movement.GetMoveAngleDegrees();
-		if(movement.MoveDirection == Vector2.Zero){
+		if(movement.MoveDirection == Vector3.Zero){
 			return;
 		}
 		if(angle >= -135 && angle <= -45){
@@ -239,14 +240,14 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void CheckPositionSafety(){
-		Vector2I currentCell = WayfindingGrid2D.Singleton.GlobalToIdPosition(GlobalPosition);
-		if(WayfindingGrid2D.Singleton.IsCellNavigationType(currentCell, NavigationType.Open)){
-			lastSafeTile = currentCell;
-		}
+		// Vector2I currentCell = WayfindingGrid2D.Singleton.GlobalToIdPosition(GlobalPosition);
+		// if(WayfindingGrid2D.Singleton.IsCellNavigationType(currentCell, NavigationType.Open)){
+			// lastSafeTile = currentCell;
+		// }
 	}
 
 	private void ReturnToLastSafePosition(){
-		GlobalPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(lastSafeTile);
+		// GlobalPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(lastSafeTile);
 	}
 
 	public void EnablePlayerAction(PlayerActions action){
@@ -347,7 +348,8 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void OnMovementInputCallback(Vector2 input){
-		movement.Move(input);
+		Vector3 trueInput = new Vector3(input.X, 0, input.Y);
+		movement.Move(trueInput);
 	}
 
 	private void OnHealInputCallback(){
@@ -365,15 +367,15 @@ public partial class Player : CharacterBody2D{
 
 	private void OnShootInputCallback(){
 		
-		// if we currently do not know the action.
-		if(IsPlayerActionEnabled(PlayerActions.FireFeather) == false || EmberStorage.EmberValue < 30){
-			return;
-		}
+		// // if we currently do not know the action.
+		// if(IsPlayerActionEnabled(PlayerActions.FireFeather) == false || EmberStorage.EmberValue < 30){
+		// 	return;
+		// }
 
-		Vector2 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
-		// Vector2 shootDirection = (GetGlobalMousePosition() - GlobalPosition).Normalized();
-		projectileSpawner.Fire(shootDirection, 10);
-		EmberStorage.Remove(30);
+		// Vector3 shootDirection = (aimCursour.Cursour.GlobalPosition - GlobalPosition).Normalized();
+		// // Vector2 shootDirection = (GetGlobalMousePosition() - GlobalPosition).Normalized();
+		// projectileSpawner.Fire(shootDirection, 10);
+		// EmberStorage.Remove(30);
 	}
 
 	private void OnDashInputCallback(){
@@ -403,7 +405,7 @@ public partial class Player : CharacterBody2D{
 
 	private void HandleHurtBoxCollision(Node2D node){
 		
-		switch(PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer)){
+		switch(PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject2D).CollisionLayer)){
 			case "Enemy":
 				Health.Damage(1);
 			break;
@@ -543,27 +545,29 @@ public partial class Player : CharacterBody2D{
 	}
 
 	private void OnHitBoxHit(Node2D node, int id){
+		throw new Exception("player hit enemy not implemented!");
 
-		// validate physics layer name.
+		// // validate physics layer name.
 		
-		string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-		switch(layer){
-			case "Enemy":
-				HandleOnHitEnemy((Enemy)node);
-			break;
-			case "HitInteractable":
-				Interactable interactable = (Interactable)node;
-				interactable.Interact(Interactor);
-			break;
-			default:
-			throw new Exception($"{layer} not implemented.");
-		}
+		// string layer = PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject2D).CollisionLayer);
+		// switch(layer){
+		// 	case "Enemy":
+		// 		HandleOnHitEnemy((Enemy)node);
+		// 	break;
+		// 	case "HitInteractable":
+		// 		Interactable interactable = (Interactable)node;
+		// 		interactable.Interact(Interactor);
+		// 	break;
+		// 	default:
+		// 	throw new Exception($"{layer} not implemented.");
+		// }
 	}
 	
 	private void HandleOnHitEnemy(Enemy enemy){
-		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-		enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName).Knockback(directionToHit * AttackEnemyKnockback); 
-		enemy.GetNode<Health>(Health.NodeName).Damage(1);
-		EmberStorage.Add(50);
+		throw new Exception("player hit enemy not implemented!");
+		// Vector3 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+		// enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName).Knockback(directionToHit * AttackEnemyKnockback); 
+		// enemy.GetNode<Health>(Health.NodeName).Damage(1);
+		// EmberStorage.Add(50);
 	}
 }

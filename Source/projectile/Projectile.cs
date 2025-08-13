@@ -1,108 +1,108 @@
-using Godot;
-using System;
-using System.Collections.Generic;
+// using Godot;
+// using System;
+// using System.Collections.Generic;
 
-public partial class Projectile : CharacterBody2D{
-	[ExportGroup(nameof(Projectile))]
-	[Export] public CharacterMovement Movement {get; private set;}
-	[Export] private Sprite2D sprite;
-	[Export] private Area2D collider;
-	[Export] private float knockback;     
-	[Export] private int damage;
-
-
-	/// 
-	/// Base.
-	/// 
-
-	public override void _EnterTree(){
-		base._EnterTree();
-		ProjectileManager.Instance.AddProjectile(this);
-		LinkEvents();
-	}
-
-	public override void _Ready(){
-		base._Ready();
-		RotateToMoveDirection();
-	}
+// public partial class Projectile : CharacterBody2D{
+// 	[ExportGroup(nameof(Projectile))]
+// 	[Export] public CharacterMovement Movement {get; private set;}
+// 	[Export] private Sprite2D sprite;
+// 	[Export] private Area2D collider;
+// 	[Export] private float knockback;     
+// 	[Export] private int damage;
 
 
-	public override void _ExitTree(){
-		base._ExitTree();
-		ProjectileManager.Instance.RemoveProjectile(this);
-		UnlinkEvents();
-	}
+// 	/// 
+// 	/// Base.
+// 	/// 
+
+// 	public override void _EnterTree(){
+// 		base._EnterTree();
+// 		ProjectileManager.Instance.AddProjectile(this);
+// 		LinkEvents();
+// 	}
+
+// 	public override void _Ready(){
+// 		base._Ready();
+// 		RotateToMoveDirection();
+// 	}
 
 
-	///
-	/// Functions.
-	/// 
+// 	public override void _ExitTree(){
+// 		base._ExitTree();
+// 		ProjectileManager.Instance.RemoveProjectile(this);
+// 		UnlinkEvents();
+// 	}
 
 
-	protected void RotateToMoveDirection(){
-		float angle = Movement.GetMoveAngleRadians();
-		GlobalRotation = angle;
-		GD.Print($"{GlobalRotation} {angle}");
-	} 
+// 	///
+// 	/// Functions.
+// 	/// 
 
 
-	/// 
-	/// Linkage.
-	/// 
+// 	protected void RotateToMoveDirection(){
+// 		float angle = Movement.GetMoveAngleRadians();
+// 		GlobalRotation = angle;
+// 		GD.Print($"{GlobalRotation} {angle}");
+// 	} 
 
 
-	protected virtual void LinkEvents(){
+// 	/// 
+// 	/// Linkage.
+// 	/// 
+
+
+// 	protected virtual void LinkEvents(){
 		
-		EntityManager.Singleton.OnPause  += HandlePause;
-		EntityManager.Singleton.OnResume += HandleResume;
+// 		EntityManager.Singleton.OnPause  += HandlePause;
+// 		EntityManager.Singleton.OnResume += HandleResume;
 		
-		Movement.OnMoveDirectionUpdated += RotateToMoveDirection;
+// 		Movement.OnMoveDirectionUpdated += RotateToMoveDirection;
 
-		collider.BodyEntered += OnCollision;
-		collider.AreaEntered += OnCollision;
-	}
+// 		collider.BodyEntered += OnCollision;
+// 		collider.AreaEntered += OnCollision;
+// 	}
 
-	protected virtual void UnlinkEvents(){
+// 	protected virtual void UnlinkEvents(){
 		
-		EntityManager.Singleton.OnPause  -= HandlePause;
-		EntityManager.Singleton.OnResume -= HandleResume;
+// 		EntityManager.Singleton.OnPause  -= HandlePause;
+// 		EntityManager.Singleton.OnResume -= HandleResume;
 
-		Movement.OnMoveDirectionUpdated -= RotateToMoveDirection;
+// 		Movement.OnMoveDirectionUpdated -= RotateToMoveDirection;
 
-		collider.BodyEntered -= OnCollision;
-		collider.AreaEntered -= OnCollision;
-	}
+// 		collider.BodyEntered -= OnCollision;
+// 		collider.AreaEntered -= OnCollision;
+// 	}
 
-	///
-	/// Linkage Functions.
-	/// 
+// 	///
+// 	/// Linkage Functions.
+// 	/// 
 
-	private void HandlePause(){
-		Movement.PauseState();
-	}
+// 	private void HandlePause(){
+// 		Movement.PauseState();
+// 	}
 
-	private void HandleResume(){
-		Movement.ResumeState();
-	}
+// 	private void HandleResume(){
+// 		Movement.ResumeState();
+// 	}
 
-	protected virtual void OnCollision(Node2D node){
-		string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
-		switch (layer){
-			case "Enemy":
-				HandleOnHitEnemy(node as Enemy);
-			break;
-		}
+// 	protected virtual void OnCollision(Node2D node){
+// 		string layer = PhysicsManager.Singleton.GetPhysics2DLayerName((node as CollisionObject2D).CollisionLayer);
+// 		switch (layer){
+// 			case "Enemy":
+// 				HandleOnHitEnemy(node as Enemy);
+// 			break;
+// 		}
 
-		QueueFree();
-	}
+// 		QueueFree();
+// 	}
 
-	protected virtual void HandleOnHitEnemy(Enemy enemy){
-		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+// 	protected virtual void HandleOnHitEnemy(Enemy enemy){
+// 		Vector2 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
 		
-		enemy.GetNode<Health>(Health.NodeName).Damage(damage);
+// 		enemy.GetNode<Health>(Health.NodeName).Damage(damage);
 		
-		CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
-		enemyMovement.ZeroVelocity();
-		enemyMovement.Impulse(directionToHit * knockback);
-	} 
-}
+// 		CharacterMovement enemyMovement = enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName); 
+// 		enemyMovement.ZeroVelocity();
+// 		enemyMovement.Impulse(directionToHit * knockback);
+// 	} 
+// }

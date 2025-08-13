@@ -81,7 +81,7 @@ tile_map_data = PackedByteArray("AAADAP7/AAABAAIAAAAKAP7/AAABAAIAAAADAP3/AAABAAA
 tile_set = ExtResource("4_e324m")
 
 [node name="Player" parent="EntityManager" index="1" node_paths=PackedStringArray("camera") instance=ExtResource("5_jwkk4")]
-position = Vector2(166, 113)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 166, 113, 0)
 camera = NodePath("../../Camera")
 
 [node name="Doors" type="Node2D" parent="EntityManager" index="2"]

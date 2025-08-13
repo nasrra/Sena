@@ -3,7 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class AudioPlayer : Node2D{
+public partial class AudioPlayer : Node{
     private SwapbackList<AudioInstance> audioInstances = new SwapbackList<AudioInstance>();
     private SwapbackList<FMOD.Studio.EVENT_CALLBACK> callbacks = new SwapbackList<FMOD.Studio.EVENT_CALLBACK>();
 
@@ -23,7 +23,7 @@ public partial class AudioPlayer : Node2D{
         TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, oneshot));
     }
 
-    public void PlaySound(string eventName, Vector2 globalPosition, bool oneshot = true){
+    public void PlaySound(string eventName, Vector3 globalPosition, bool oneshot = true){
         TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, globalPosition, oneshot));
     }
 

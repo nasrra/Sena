@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=7 format=3 uid="uid://cpmdc8rfjol6m"]
 
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="1_xj1pp"]
+[ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_v8ena"]
+[ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="3_8kirm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xj1pp"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -24,12 +26,9 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8kirm")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
-projection = 1
-size = 6.0
-
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+size = Vector3(10, 1, 10)
 
 [node name="EntityManager" type="Node" parent="." node_paths=PackedStringArray("pausedTimer")]
 script = ExtResource("1_xj1pp")
@@ -37,3 +36,10 @@ pausedTimer = NodePath("PausedTimer")
 
 [node name="PausedTimer" type="Timer" parent="EntityManager"]
 one_shot = true
+
+[node name="Player" parent="." instance=ExtResource("2_v8ena")]
+
+[node name="Camera" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_8kirm")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15)
+Target = NodePath("../Player")
+FollowOffset = Vector3(0, 15, 13)

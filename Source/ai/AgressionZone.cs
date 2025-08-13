@@ -3,18 +3,18 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class AgressionZone : Node2D{
-    [Export] private Area2D passiveZone;
-    [Export] private Area2D activeZone;
-    [Export(PropertyHint.Layers2DPhysics)] private uint obstructionLayer;
+public partial class AgressionZone : Node3D{
+    [Export] private Area3D passiveZone;
+    [Export] private Area3D activeZone;
+    [Export(PropertyHint.Layers3DPhysics)] private uint obstructionLayer;
 
-    private HashSet<Node2D> collisions = new HashSet<Node2D>();
-    private HashSet<Node2D> isInSight  = new HashSet<Node2D>();
-    private HashSet<Node2D> notInSight = new HashSet<Node2D>();
-    public event Action<Node2D> OnInSight;
-    public event Action<Node2D> OnLeftSight;
-    public event Action<Node2D> OnEnteredZone;
-    public event Action<Node2D> OnExitedZone;
+    private HashSet<Node3D> collisions = new HashSet<Node3D>();
+    private HashSet<Node3D> isInSight  = new HashSet<Node3D>();
+    private HashSet<Node3D> notInSight = new HashSet<Node3D>();
+    public event Action<Node3D> OnInSight;
+    public event Action<Node3D> OnLeftSight;
+    public event Action<Node3D> OnEnteredZone;
+    public event Action<Node3D> OnExitedZone;
     public event Action<double> PhysicsProcess;
     private bool paused = false;
 
@@ -47,14 +47,14 @@ public partial class AgressionZone : Node2D{
 
     private void Evaluate(double delta){
 
-        PhysicsDirectSpaceState2D spaceState = GetWorld2D().DirectSpaceState;
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 
-        foreach(Node2D node in collisions){
+        foreach(Node3D node in collisions){
             if(IsInstanceValid(node)==false){
                 continue;
             }
 
-            PhysicsRayQueryParameters2D parameters = new PhysicsRayQueryParameters2D{
+            PhysicsRayQueryParameters3D parameters = new PhysicsRayQueryParameters3D{
                 From                = GlobalPosition,
                 To                  = node.GlobalPosition,
                 CollideWithAreas    = true,
@@ -82,7 +82,7 @@ public partial class AgressionZone : Node2D{
         }
     }
 
-    private void HandlePassiveZoneEntered(Node2D node){
+    private void HandlePassiveZoneEntered(Node3D node){
         
         collisions.Add(node);
 
@@ -91,7 +91,7 @@ public partial class AgressionZone : Node2D{
         }
     }
 
-    private void HandleActiveZoneExited(Node2D node){
+    private void HandleActiveZoneExited(Node3D node){
         
         collisions.Remove(node);
         
@@ -100,7 +100,7 @@ public partial class AgressionZone : Node2D{
         }
     }
 
-    public bool IsInSight(Node2D node){
+    public bool IsInSight(Node3D node){
         return isInSight.Contains(node);
     }
 

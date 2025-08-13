@@ -51,4 +51,3 @@ one_shot = true
 script = ExtResource("5_h5lis")
 
 [node name="Camera" parent="." instance=ExtResource("2_i0qjc")]
-offset = Vector2(0, -8)

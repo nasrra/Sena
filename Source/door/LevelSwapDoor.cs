@@ -5,7 +5,7 @@ public partial class LevelSwapDoor : Door{
 
     [ExportGroup("LevelSwapDoor")]
     [Export] private Area2D enterZone;
-    [Export] public Node2D ExitPoint {get; private set;}
+    [Export] public Node3D ExitPoint {get; private set;}
     [Export] private string levelToLoad;
     [Export] private int doorToLoadTo; // <-- id in the door manager array. 
 

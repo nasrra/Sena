@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization.Metadata;
 
-public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
+public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inherit from CollisionObect2D for hitbox handler and Player.
 	
 	[ExportGroup("Nodes")]
 	[Export] protected Timer stunTimer;
@@ -19,7 +19,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
 	[Export] protected AvoidanceAgent avoidanceAgent;
-	[Export] public Node2D Target;
+	[Export] public Node3D Target;
 	
 	[ExportGroup("Wanderer")]
 	[Export] protected AiWander wanderer;
@@ -38,8 +38,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	protected const string IdleAnimationName 		= "Idle";
 	protected const string WanderAnimationName 		= "Wander";
 	protected const string StunAnimationName 		= "Stun";
-	protected Vector2 directionToTarget 			= Vector2.Zero;
-	protected Vector2 normalDirectionToTarget 		= Vector2.Zero;
+	protected Vector3 directionToTarget 			= Vector3.Zero;
+	protected Vector3 normalDirectionToTarget 		= Vector3.Zero;
 	protected float distanceToTarget 				= float.MaxValue;
 	[Export(PropertyHint.Layers2DPhysics)] uint avoidanceChaseStateLineOfSightObstructions;
 	protected float damagedKnockback;
@@ -152,8 +152,8 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected void IdleStatePhysicsProcess(double delta){
-		Vector2 Velocity = characterMovement.Velocity; 
-		if(Velocity == Vector2.Zero){
+		Vector3 Velocity = characterMovement.Velocity; 
+		if(Velocity == Vector3.Zero){
 			PlayAnimation(IdleAnimationName, facingDirection);
 		}
 		else{
@@ -168,7 +168,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// 
 
 
-	protected void ChaseState(Node2D target){
+	protected void ChaseState(Node3D target){
 		SetTarget(target);
 		wanderer.PauseState();
 		ChaseState();
@@ -191,26 +191,27 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		attackHandler.ResumeState();
 	}
 	protected void ChaseStatePhysicsProcess(double delta){
-		if(IsInstanceValid(Target) == false || Target == null){
-			return;
-		}
+		throw new NotImplementedException("method is not implemented");
+		// if(IsInstanceValid(Target) == false || Target == null){
+		// 	return;
+		// }
 		
-		CalculateRelationshipToTarget();
+		// CalculateRelationshipToTarget();
 
-		if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
-			navAgent.SetTargetPosition(Target.Position);
-		}
+		// if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
+		// 	navAgent.SetTargetPosition(Target.Position);
+		// }
 
-		MoveAlongPath();
+		// MoveAlongPath();
 	
-		Vector2 velocity = characterMovement.Velocity;
-		if(velocity == Vector2.Zero){
-			PlayAnimation(IdleAnimationName, facingDirection);
-		}
-		else{
-			CalculateFacingDirection(velocity, out facingDirection);
-			PlayAnimation(ChaseMoveAnimationName, facingDirection);
-		}
+		// Vector3 velocity = characterMovement.Velocity;
+		// if(velocity == Vector3.Zero){
+		// 	PlayAnimation(IdleAnimationName, facingDirection);
+		// }
+		// else{
+		// 	CalculateFacingDirection(velocity, out facingDirection);
+		// 	PlayAnimation(ChaseMoveAnimationName, facingDirection);
+		// }
 	}
 
 	protected void ApproachIntentionChaseState(){
@@ -219,18 +220,19 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	}
 
 	protected void AvoidanceIntentionChaseState(){
-		if(GD.RandRange(0,2)==0){
-			return;
-		}
+		throw new NotImplementedException("method is not implemented");
+		// if(GD.RandRange(0,2)==0){
+		// 	return;
+		// }
 
-		avoidanceIntentionChaseStateTimer.Stop();
+		// avoidanceIntentionChaseStateTimer.Stop();
 
-		if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceChaseStateLineOfSightObstructions)){
-			chaseStateIntention = ChaseStateIntention.AvoidTarget;
-		}
-		else{
-			chaseStateIntention = ChaseStateIntention.ApproachTarget;
-		}
+		// if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceChaseStateLineOfSightObstructions)){
+		// 	chaseStateIntention = ChaseStateIntention.AvoidTarget;
+		// }
+		// else{
+		// 	chaseStateIntention = ChaseStateIntention.ApproachTarget;
+		// }
 	}
 
 
@@ -299,39 +301,40 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 	/// 
 
 	protected void MoveAlongPath(){
-		if(navAgent.CalculateNewPath()==true){
-			navAgent.UpdateCurrentPathToTarget();
-			avoidanceAgent.CalculatAvoidanceDirection();
-			characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
+		throw new NotImplementedException("method is not implemented");
+		// if(navAgent.CalculateNewPath()==true){
+		// 	navAgent.UpdateCurrentPathToTarget();
+		// 	avoidanceAgent.CalculatAvoidanceDirection();
+		// 	characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
 
-		}
-		else{
-			IdleState();
-		}
+		// }
+		// else{
+		// 	IdleState();
+		// }
 	}
 
-	protected void CalculateRelationshipToTarget(){
-		
-		if(IsInstanceValid(Target)==false || Target == null){
-			return;
-		}
+	protected void CalculateRelationshipToTarget(){		
+		throw new NotImplementedException("method is not implemented");
+		// if(IsInstanceValid(Target)==false || Target == null){
+		// 	return;
+		// }
 
-		directionToTarget = Target.GlobalPosition- GlobalPosition;
-		normalDirectionToTarget = directionToTarget.Normalized();
-		distanceToTarget = directionToTarget.Length();
-		attackHandler.SetDirectionToTarget(directionToTarget);
-		attackHandler.SetDistanceToTarget(distanceToTarget);
+		// directionToTarget = Target.GlobalPosition- GlobalPosition;
+		// normalDirectionToTarget = directionToTarget.Normalized();
+		// distanceToTarget = directionToTarget.Length();
+		// attackHandler.SetDirectionToTarget(directionToTarget);
+		// attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
 
-	protected bool CalculateFacingDirection(Vector2 direction, out FacingDirection facing){
+	protected bool CalculateFacingDirection(Vector3 direction, out FacingDirection facing){
 		
 		facing = FacingDirection.Backward;
 		
-		if(direction == Vector2.Zero){
+		if(direction == Vector3.Zero){
 			return false;
 		}
 		
-		float angle = Mathf.Atan2(direction.Y, direction.X);
+		float angle = Mathf.Atan2(direction.Y, direction.Z);
 		angle = Mathf.RadToDeg(angle);
 		// Ceil to nearest multiple of 2
 		angle = Mathf.Ceil(angle * 0.5f) * 2f;
@@ -390,7 +393,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		}
 	}
 
-	public void SetTarget(Node2D target){
+	public void SetTarget(Node3D target){
 		Target = target;
 	}
 
@@ -588,7 +591,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		agressionZone.OnExitedZone 	-= TargetLeft;
 	}
 
-	protected virtual void TargetLeft(Node2D node){
+	protected virtual void TargetLeft(Node3D node){
 		Target = null;
 		characterMovement.ZeroDirection();
 		attackHandler.HaltState();
@@ -630,7 +633,7 @@ public abstract partial class Enemy : CharacterBody2D{ // <-- make sure to inher
 		ApproachIntentionChaseState();
 	}
 
-	protected void OnNextPathPointSetCallback(Vector2 nextPathPoint){
+	protected void OnNextPathPointSetCallback(Vector3 nextPathPoint){
 		CalculateFacingDirection(nextPathPoint - GlobalPosition, out facingDirection);
 	}
 }

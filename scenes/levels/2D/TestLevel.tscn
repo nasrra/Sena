@@ -93,7 +93,7 @@ tile_map_data = PackedByteArray("AAAGAAQAAAAAAAAAAAAGAAcAAAADAAAAAAAGAAoAAAAAAAA
 tile_set = ExtResource("3_53vmr")
 
 [node name="Player" parent="EntityManager" index="1" node_paths=PackedStringArray("camera") instance=ExtResource("4_yayn4")]
-position = Vector2(71, 113)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71, 113, 0)
 camera = NodePath("../../Camera")
 
 [node name="Worker" parent="EntityManager" index="2" instance=ExtResource("5_7rrsj")]
