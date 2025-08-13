@@ -8,21 +8,28 @@
 
 [node name="World2D" type="Node2D" parent="."]
 
+[node name="World3D" type="Node3D" parent="."]
+
 [node name="GUI" type="CanvasLayer" parent="."]
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "gui", "loadScene2DDelayTimer", "loadGuiDelayTimer")]
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "world3D", "gui", "loadScene2DDelayTimer", "loadScene3DDelayTimer", "loadGuiDelayTimer")]
 script = ExtResource("1_3ypkp")
 world2D = NodePath("../World2D")
+world3D = NodePath("../World3D")
 gui = NodePath("../GUI")
 loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
+loadScene3DDelayTimer = NodePath("LoadScene3DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene2DStart = "1-1"
+scene3DStart = "Test3D"
 guiStart = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
 
 [node name="LoadScene2DDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true
+
+[node name="LoadScene3DDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
 
 [node name="InputManager" type="Node2D" parent="." node_paths=PackedStringArray("blockAimInputTimer", "blockAttackInputTimer", "blockDashInputTimer", "blockHealInputTimer", "blockInteractInputTimer", "blockMovementInputTimer", "blockShootInputTimer")]
