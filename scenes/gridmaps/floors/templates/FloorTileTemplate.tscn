@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6el5j8ufqphw"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ateww"]
+orientation = 1
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+cast_shadow = 0
+mesh = SubResource("QuadMesh_ateww")

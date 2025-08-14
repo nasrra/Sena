@@ -44,13 +44,13 @@ Interactor = NodePath("Interactor")
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 10.0
-BaseAcceleration = 300.0
-BaseDeceleration = 300.0
+BaseTopSpeed = 5.0
+BaseAcceleration = 200.0
+BaseDeceleration = 200.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node3D" parent="." node_paths=PackedStringArray("Cursour")]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, -0.5)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
 
@@ -132,7 +132,9 @@ one_shot = true
 script = ExtResource("16_vty87")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.732336, -0.743642)
+transform = Transform3D(0.5, 0, 0, 0, 0.17101, 0.469846, 0, -0.469846, 0.17101, 0, 0.226743, -0.461183)
+gi_mode = 2
+shaded = true
 sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
 
