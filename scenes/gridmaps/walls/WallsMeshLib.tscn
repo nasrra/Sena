@@ -1,7 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvvb61j2fw1rx"]
+[gd_scene load_steps=7 format=3 uid="uid://dvvb61j2fw1rx"]
 
-[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/walls/Wall1Bl.tscn" id="1_7p3nm"]
+[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/walls/scenes/Wall1Bl.tscn" id="1_7p3nm"]
+[ext_resource type="PackedScene" uid="uid://une7r8jqcl5d" path="res://scenes/gridmaps/walls/scenes/Wall1Br.tscn" id="2_kec5m"]
+[ext_resource type="PackedScene" uid="uid://b7e536bdin5r2" path="res://scenes/gridmaps/walls/scenes/Wall1Ml.tscn" id="3_csm8m"]
+[ext_resource type="PackedScene" uid="uid://13x7p2i2mj8p" path="res://scenes/gridmaps/walls/scenes/Wall1Mr.tscn" id="4_xkan1"]
+[ext_resource type="PackedScene" uid="uid://dwumloodprhb8" path="res://scenes/gridmaps/walls/scenes/Wall1Tl.tscn" id="5_1k38g"]
+[ext_resource type="PackedScene" uid="uid://b7hynfmjpp4ru" path="res://scenes/gridmaps/walls/scenes/Wall1Tr.tscn" id="6_chdjt"]
 
 [node name="WallsMeshLib" type="Node3D"]
 
 [node name="Wall1Bl" parent="." instance=ExtResource("1_7p3nm")]
+
+[node name="Wall1Bl2" parent="." instance=ExtResource("1_7p3nm")]
+
+[node name="Wall1Br" parent="." instance=ExtResource("2_kec5m")]
+
+[node name="Wall1Ml" parent="." instance=ExtResource("3_csm8m")]
+
+[node name="Wall1Mr" parent="." instance=ExtResource("4_xkan1")]
+
+[node name="Wall1Tl" parent="." instance=ExtResource("5_1k38g")]
+
+[node name="Wall1Tr" parent="." instance=ExtResource("6_chdjt")]

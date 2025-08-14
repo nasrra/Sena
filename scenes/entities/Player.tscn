@@ -132,9 +132,12 @@ one_shot = true
 script = ExtResource("16_vty87")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.17101, 0.469846, 0, -0.469846, 0.17101, 0, 0.226743, -0.461183)
+transform = Transform3D(0.5, 0, 0, 0, 0.65, 0, 0, 0, 0.5, 0, 0.65, -0.461)
+sorting_offset = 100.0
 gi_mode = 2
+billboard = 2
 shaded = true
+render_priority = 100
 sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
 
