@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgtec1xfpd2f5"]
 
-[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/floors/templates/FloorTileTemplate.tscn" id="1_y6yad"]
+[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/floors/FloorTileTemplate.tscn" id="1_y6yad"]
 [ext_resource type="Material" uid="uid://dkho5oq3wx32a" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4TlMaterial.tres" id="2_5j3yd"]
 
 [node name="StoneFloor4Tl" instance=ExtResource("1_y6yad")]

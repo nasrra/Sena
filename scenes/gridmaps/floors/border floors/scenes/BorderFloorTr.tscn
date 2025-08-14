@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://fat2uyo33tai"]
 
-[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/floors/templates/FloorTileTemplate.tscn" id="1_itam2"]
+[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/floors/FloorTileTemplate.tscn" id="1_itam2"]
 [ext_resource type="Material" uid="uid://d2ir55xk58hrp" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorTr.tres" id="2_itam2"]
 
 [node name="BorderFloorTr" instance=ExtResource("1_itam2")]

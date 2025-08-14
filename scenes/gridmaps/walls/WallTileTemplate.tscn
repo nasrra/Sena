@@ -3,5 +3,5 @@
 [sub_resource type="QuadMesh" id="QuadMesh_ateww"]
 
 [node name="MeshInstance3D" type="MeshInstance3D"]
-cast_shadow = 0
+cast_shadow = 2
 mesh = SubResource("QuadMesh_ateww")

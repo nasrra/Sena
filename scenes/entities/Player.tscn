@@ -50,13 +50,12 @@ BaseDeceleration = 200.0
 gravityModifier = 6.0
 
 [node name="PlayerAimCursour" type="Node3D" parent="." node_paths=PackedStringArray("Cursour")]
-transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, -0.5)
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0.2, -0.5)
 script = ExtResource("4_e80uo")
 Cursour = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite3D" parent="PlayerAimCursour"]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0.166145, -0.0566152, 0.00640857)
-sorting_offset = 100.0
 texture = ExtResource("1_xhfnw")
 
 [node name="ProjectileSpawner" type="Node2D" parent="PlayerAimCursour/Sprite2D"]
@@ -132,7 +131,7 @@ one_shot = true
 script = ExtResource("16_vty87")
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.65, 0, 0, 0, 0.5, 0, 0.65, -0.461)
+transform = Transform3D(0.5, 0, 0, 0, 0.65, 0, 0, 0, 0.5, 0, 0.65, 0)
 sorting_offset = 100.0
 gi_mode = 2
 billboard = 2
@@ -145,10 +144,10 @@ animation = &"IdleBackward"
 script = ExtResource("15_vty87")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507703, -0.498717)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
 shape = SubResource("SphereShape3D_37p5y")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.548706, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.549, 0.33)
 light_color = Color(1, 1, 0.686275, 1)
 light_energy = 0.33
