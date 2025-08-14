@@ -1,8 +1,11 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://gbf4q6jadv6x"]
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://gbf4q6jadv6x"]
 
 [ext_resource type="Texture2D" uid="uid://ddww0b5wkm13k" path="res://assets/tilesets/FloorTilemap.png" id="1_tkwf5"]
+[ext_resource type="Texture2D" uid="uid://bjx2fq7k3vbrc" path="res://scenes/gridmaps/floors/stone floors/materials/FloorTilemap_n.png" id="2_1hckt"]
 
 [resource]
 albedo_texture = ExtResource("1_tkwf5")
+normal_enabled = true
+normal_texture = ExtResource("2_1hckt")
 uv1_scale = Vector3(0.125, 0.125, 0.125)
 uv1_offset = Vector3(0.375, 0.125, 0)

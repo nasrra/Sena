@@ -144,3 +144,8 @@ script = ExtResource("15_vty87")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.507703, -0.498717)
 shape = SubResource("SphereShape3D_37p5y")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.548706, 0)
+light_color = Color(1, 1, 0.686275, 1)
+light_energy = 0.33

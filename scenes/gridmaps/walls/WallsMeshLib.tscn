@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvvb61j2fw1rx"]
+
+[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/walls/Wall1Bl.tscn" id="1_7p3nm"]
+
+[node name="WallsMeshLib" type="Node3D"]
+
+[node name="Wall1Bl" parent="." instance=ExtResource("1_7p3nm")]
