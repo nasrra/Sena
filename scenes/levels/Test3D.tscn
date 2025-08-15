@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="1_xj1pp"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_v8ena"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="3_8kirm"]
+[ext_resource type="Texture2D" uid="uid://dmernymc26wun" path="res://assets/atlases/Level 1/Level1DecorTilemap.sprites/Column2.tres" id="3_o7jrf"]
 [ext_resource type="MeshLibrary" uid="uid://brhyn0mtfdpxg" path="res://scenes/gridmaps/floors/FloorsMeshLib.tres" id="4_2pu2u"]
+[ext_resource type="Texture2D" uid="uid://c7qnhu516h1q3" path="res://assets/atlases/Level 1/Level1DecorTilemap_n.sprites/Column2_n.tres" id="4_si7qa"]
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="4_todav"]
 [ext_resource type="MeshLibrary" uid="uid://ciup12585yyb5" path="res://scenes/gridmaps/walls/WallMeshLibrary.tres" id="5_ah2b6"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="5_si7qa"]
-[ext_resource type="Texture2D" uid="uid://b5y0u4w5hxeuf" path="res://assets/Column2.png" id="7_labqm"]
-[ext_resource type="Texture2D" uid="uid://2iwhlld2o4eh" path="res://assets/Column2_n.png" id="8_o7jrf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xj1pp"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -42,11 +42,13 @@ volumetric_fog_length = 4.64
 volumetric_fog_detail_spread = 3.33
 volumetric_fog_sky_affect = 0.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_si7qa"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7jrf"]
 transparency = 1
-albedo_texture = ExtResource("7_labqm")
+albedo_texture = ExtResource("3_o7jrf")
+metallic_specular = 0.0
+roughness = 0.0
 normal_enabled = true
-normal_texture = ExtResource("8_o7jrf")
+normal_texture = ExtResource("4_si7qa")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_si7qa"]
 size = Vector3(2.5, 1, 1.5)
@@ -73,107 +75,138 @@ one_shot = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7802, 0, 1.66511)
 
 [node name="Sprite3D5" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, -1.25066, -0.0160162, 3)
-material_override = SubResource("StandardMaterial3D_si7qa")
-offset = Vector2(0, 375.05)
+transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, -1.25066, 1.90652, 1.53963)
+material_override = SubResource("StandardMaterial3D_o7jrf")
 shaded = true
 alpha_cut = 1
-texture = ExtResource("7_labqm")
+texture = ExtResource("3_o7jrf")
 
 [node name="SpriteSorter3D" type="Node3D" parent="Sprite3D5" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6138, -2.5)
 script = ExtResource("5_si7qa")
 sprite = NodePath("..")
 
 [node name="Node3D" type="StaticBody3D" parent="Sprite3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80297, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.81083, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D5/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, -0.75)
 shape = SubResource("BoxShape3D_si7qa")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Sprite3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Sprite3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Sprite3D5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0561128, 4.56201, -0.726953)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.056113, 0.948204, -0.726953)
 cast_shadow = 3
 size = Vector3(0.94281, 5.16492, 1.42891)
 
 [node name="Sprite3D6" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 2.83704, -0.0160162, 3)
-material_override = SubResource("StandardMaterial3D_si7qa")
-offset = Vector2(0, 375.05)
+transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 1.90833, 1.90652, 1.53963)
+material_override = SubResource("StandardMaterial3D_o7jrf")
 shaded = true
 alpha_cut = 1
-texture = ExtResource("7_labqm")
+texture = ExtResource("3_o7jrf")
 
 [node name="SpriteSorter3D" type="Node3D" parent="Sprite3D6" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6138, -2.5)
 script = ExtResource("5_si7qa")
 sprite = NodePath("..")
 
 [node name="Node3D" type="StaticBody3D" parent="Sprite3D6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80297, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.81083, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D6/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, -0.75)
 shape = SubResource("BoxShape3D_si7qa")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Sprite3D6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Sprite3D6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Sprite3D6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0561128, 4.56201, -0.726953)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.056113, 0.948204, -0.726953)
 cast_shadow = 3
 size = Vector3(0.94281, 5.16492, 1.42891)
 
 [node name="Sprite3D7" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 0.616852, -0.0160162, 0.215482)
-material_override = SubResource("StandardMaterial3D_si7qa")
-offset = Vector2(0, 375.05)
+transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 1.90833, 1.90652, 4.03701)
+material_override = SubResource("StandardMaterial3D_o7jrf")
 shaded = true
 alpha_cut = 1
-texture = ExtResource("7_labqm")
+texture = ExtResource("3_o7jrf")
 
 [node name="SpriteSorter3D" type="Node3D" parent="Sprite3D7" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6138, -2.5)
 script = ExtResource("5_si7qa")
 sprite = NodePath("..")
 
 [node name="Node3D" type="StaticBody3D" parent="Sprite3D7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80297, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.81083, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D7/Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, -0.75)
 shape = SubResource("BoxShape3D_si7qa")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Sprite3D7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Sprite3D7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
 cast_shadow = 3
 size = Vector3(2, 2.61237, 1.43135)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Sprite3D7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0561128, 4.56201, -0.726953)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.056113, 0.948204, -0.726953)
+cast_shadow = 3
+size = Vector3(0.94281, 5.16492, 1.42891)
+
+[node name="Sprite3D8" type="Sprite3D" parent="."]
+transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, -0.195533, 1.90652, 4.03746)
+material_override = SubResource("StandardMaterial3D_o7jrf")
+shaded = true
+alpha_cut = 1
+texture = ExtResource("3_o7jrf")
+
+[node name="SpriteSorter3D" type="Node3D" parent="Sprite3D8" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6138, -2.5)
+script = ExtResource("5_si7qa")
+sprite = NodePath("..")
+
+[node name="Node3D" type="StaticBody3D" parent="Sprite3D8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.81083, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D8/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, -0.75)
+shape = SubResource("BoxShape3D_si7qa")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Sprite3D8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
+cast_shadow = 3
+size = Vector3(2, 2.61237, 1.43135)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Sprite3D8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, -2.34047, -0.728174)
+cast_shadow = 3
+size = Vector3(2, 2.61237, 1.43135)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Sprite3D8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.056113, 0.948204, -0.726953)
 cast_shadow = 3
 size = Vector3(0.94281, 5.16492, 1.42891)
 
