@@ -1,0 +1,97 @@
+[gd_scene load_steps=32 format=3 uid="uid://ccrgyummnv4d3"]
+
+[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Bl.tscn" id="1_7p3nm"]
+[ext_resource type="PackedScene" uid="uid://cu7nnfo8y4oyu" path="res://scenes/gridmaps/level 1/ceiling/CeilingFl.tscn" id="2_ampgt"]
+[ext_resource type="PackedScene" uid="uid://une7r8jqcl5d" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Br.tscn" id="2_kec5m"]
+[ext_resource type="PackedScene" uid="uid://b7e536bdin5r2" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Ml.tscn" id="3_csm8m"]
+[ext_resource type="PackedScene" uid="uid://cxgh1gp58acu0" path="res://scenes/gridmaps/level 1/ceiling/CeilingFr.tscn" id="3_x1vt0"]
+[ext_resource type="PackedScene" uid="uid://13x7p2i2mj8p" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Mr.tscn" id="4_xkan1"]
+[ext_resource type="PackedScene" uid="uid://dwumloodprhb8" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Tl.tscn" id="5_1k38g"]
+[ext_resource type="PackedScene" uid="uid://b7hynfmjpp4ru" path="res://scenes/gridmaps/level 1/walls/scenes/wall 1/Wall1Tr.tscn" id="6_chdjt"]
+[ext_resource type="PackedScene" uid="uid://cstohckr6tv08" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Bl.tscn" id="7_f36f1"]
+[ext_resource type="PackedScene" uid="uid://dn5hlqh1fv6lk" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Br.tscn" id="8_m7ngq"]
+[ext_resource type="PackedScene" uid="uid://bmcjkjxu7cw7a" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Ml.tscn" id="9_mvuhb"]
+[ext_resource type="PackedScene" uid="uid://4mgtrek2jhw1" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Mr.tscn" id="10_lm6h2"]
+[ext_resource type="PackedScene" uid="uid://cd8o0l3lvkklj" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Tl.tscn" id="11_artum"]
+[ext_resource type="PackedScene" uid="uid://djn1hqxcy3lkn" path="res://scenes/gridmaps/level 1/walls/scenes/wall 2/Wall2Tr.tscn" id="12_i8uyg"]
+[ext_resource type="PackedScene" uid="uid://bml4lpsofmryb" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Bl.tscn" id="13_wn45a"]
+[ext_resource type="PackedScene" uid="uid://budo2sxxj2gdj" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Br.tscn" id="14_5mwhc"]
+[ext_resource type="PackedScene" uid="uid://s8fru5ckn1mn" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Ml.tscn" id="15_ruo3q"]
+[ext_resource type="PackedScene" uid="uid://bc77wpbypbugb" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Mr.tscn" id="16_3frbe"]
+[ext_resource type="PackedScene" uid="uid://cpvkjs8n3naoc" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Tl.tscn" id="17_q0a0m"]
+[ext_resource type="PackedScene" uid="uid://cjh6pduckxejm" path="res://scenes/gridmaps/level 1/walls/scenes/wall 3/Wall3Tr.tscn" id="18_usqec"]
+[ext_resource type="PackedScene" uid="uid://s4nejcjbg2ja" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Bl.tscn" id="19_8dgur"]
+[ext_resource type="PackedScene" uid="uid://jncx7it1btb6" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Br.tscn" id="20_r1lag"]
+[ext_resource type="PackedScene" uid="uid://6fglwdl0kje1" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Ml.tscn" id="21_yrjlr"]
+[ext_resource type="PackedScene" uid="uid://cf5hq58tlrta3" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Mr.tscn" id="22_bk21l"]
+[ext_resource type="PackedScene" uid="uid://bnr1tw166dirl" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Tl.tscn" id="23_8wxnv"]
+[ext_resource type="PackedScene" uid="uid://cmdnqhbth0v64" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Tr.tscn" id="24_xqnro"]
+[ext_resource type="PackedScene" uid="uid://cb73sx7bl86ux" path="res://scenes/gridmaps/level 1/ceiling/Ceiling.tscn" id="25_ampgt"]
+[ext_resource type="PackedScene" uid="uid://diocu8kdpdjv" path="res://scenes/gridmaps/level 1/ceiling/CeilingLb.tscn" id="28_imjvv"]
+[ext_resource type="PackedScene" uid="uid://02hjdgb3780k" path="res://scenes/gridmaps/level 1/ceiling/CeilingLt.tscn" id="29_q7gcn"]
+[ext_resource type="PackedScene" uid="uid://ctwpanhkxbmd6" path="res://scenes/gridmaps/level 1/ceiling/CeilingRb.tscn" id="30_7jou8"]
+[ext_resource type="PackedScene" uid="uid://d45hyqs3q57y" path="res://scenes/gridmaps/level 1/ceiling/CeilingRt.tscn" id="31_0qvt0"]
+
+[node name="WallsMeshLib" type="Node3D"]
+
+[node name="Ceiling" parent="." instance=ExtResource("25_ampgt")]
+
+[node name="CeilingFl" parent="." instance=ExtResource("2_ampgt")]
+
+[node name="CeilingFr" parent="." instance=ExtResource("3_x1vt0")]
+
+[node name="CeilingLb" parent="." instance=ExtResource("28_imjvv")]
+
+[node name="CeilingLt" parent="." instance=ExtResource("29_q7gcn")]
+
+[node name="CeilingRb" parent="." instance=ExtResource("30_7jou8")]
+
+[node name="CeilingRt" parent="." instance=ExtResource("31_0qvt0")]
+
+[node name="Wall1Bl" parent="." instance=ExtResource("1_7p3nm")]
+
+[node name="Wall1Br" parent="." instance=ExtResource("2_kec5m")]
+
+[node name="Wall1Ml" parent="." instance=ExtResource("3_csm8m")]
+
+[node name="Wall1Mr" parent="." instance=ExtResource("4_xkan1")]
+
+[node name="Wall1Tl" parent="." instance=ExtResource("5_1k38g")]
+
+[node name="Wall1Tr" parent="." instance=ExtResource("6_chdjt")]
+
+[node name="Wall2Bl" parent="." instance=ExtResource("7_f36f1")]
+
+[node name="Wall2Br" parent="." instance=ExtResource("8_m7ngq")]
+
+[node name="Wall2Ml" parent="." instance=ExtResource("9_mvuhb")]
+
+[node name="Wall2Mr" parent="." instance=ExtResource("10_lm6h2")]
+
+[node name="Wall2Tl" parent="." instance=ExtResource("11_artum")]
+
+[node name="Wall2Tr" parent="." instance=ExtResource("12_i8uyg")]
+
+[node name="Wall3Bl" parent="." instance=ExtResource("13_wn45a")]
+
+[node name="Wall3Br" parent="." instance=ExtResource("14_5mwhc")]
+
+[node name="Wall3Ml" parent="." instance=ExtResource("15_ruo3q")]
+
+[node name="Wall3Mr" parent="." instance=ExtResource("16_3frbe")]
+
+[node name="Wall3Tl" parent="." instance=ExtResource("17_q0a0m")]
+
+[node name="Wall3Tr" parent="." instance=ExtResource("18_usqec")]
+
+[node name="Wall4Bl" parent="." instance=ExtResource("19_8dgur")]
+
+[node name="Wall4Br" parent="." instance=ExtResource("20_r1lag")]
+
+[node name="Wall4Ml" parent="." instance=ExtResource("21_yrjlr")]
+
+[node name="Wall4Mr" parent="." instance=ExtResource("22_bk21l")]
+
+[node name="Wall4Tl" parent="." instance=ExtResource("23_8wxnv")]
+
+[node name="Wall4Tr" parent="." instance=ExtResource("24_xqnro")]

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://y2r366hysjjw"]
+
+[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/templates/FloorTileTemplate.tscn" id="1_fske4"]
+[ext_resource type="Material" uid="uid://c4hik4ket6yth" path="res://scenes/gridmaps/level 1/floors/stone floors/materials/stone floor 2/StoneFloor2TlMaterial.tres" id="2_6fltb"]
+
+[node name="StoneFloor2Tl" instance=ExtResource("1_fske4")]
+surface_material_override/0 = ExtResource("2_6fltb")
