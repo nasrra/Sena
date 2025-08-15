@@ -26,7 +26,7 @@ public partial class Player : CharacterBody3D{
 	[Export] public EmberStorage EmberStorage {get; private set;}
 	[Export] public Interactor Interactor {get; private set;}
 	[Export] private AudioPlayer audioPlayer;
-
+	[Export] private SpriteSorter3D spriteSorter;
 	private event Action<double> statePhysicsProcess = null;
 
 	[ExportGroup("Variables")]
@@ -91,6 +91,7 @@ public partial class Player : CharacterBody3D{
 	}
 
 	private void PhysicsProcess(double delta){
+		spriteSorter.UpdateRenderPriority();
 		statePhysicsProcess?.Invoke(delta);
 	}
 

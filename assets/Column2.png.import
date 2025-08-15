@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csxico5evdex0"
-path.s3tc="res://.godot/imported/Column_n.png-88fb9db0bdb04b437795ee31d2f7dc90.s3tc.ctex"
+uid="uid://b5y0u4w5hxeuf"
+path.s3tc="res://.godot/imported/Column2.png-0ab95a0b778b1eb23d8743790345faa5.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Column_n.png"
-dest_files=["res://.godot/imported/Column_n.png-88fb9db0bdb04b437795ee31d2f7dc90.s3tc.ctex"]
+source_file="res://assets/Column2.png"
+dest_files=["res://.godot/imported/Column2.png-0ab95a0b778b1eb23d8743790345faa5.s3tc.ctex"]
 
 [params]
 
