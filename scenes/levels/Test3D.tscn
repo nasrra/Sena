@@ -177,41 +177,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0561128, 4.56201, -0.72695
 cast_shadow = 3
 size = Vector3(0.94281, 5.16492, 1.42891)
 
-[node name="Sprite3D8" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 1.28442, -0.0160162, 4.81678)
-material_override = SubResource("StandardMaterial3D_si7qa")
-offset = Vector2(0, 375.05)
-shaded = true
-alpha_cut = 1
-texture = ExtResource("7_labqm")
-
-[node name="SpriteSorter3D" type="Node3D" parent="Sprite3D8" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
-script = ExtResource("5_si7qa")
-sprite = NodePath("..")
-
-[node name="Node3D" type="StaticBody3D" parent="Sprite3D8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.80297, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D8/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, -0.75)
-shape = SubResource("BoxShape3D_si7qa")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="Sprite3D8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
-cast_shadow = 3
-size = Vector3(2, 2.61237, 1.43135)
-
-[node name="CSGBox3D3" type="CSGBox3D" parent="Sprite3D8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0160007, 1.27333, -0.728174)
-cast_shadow = 3
-size = Vector3(2, 2.61237, 1.43135)
-
-[node name="CSGBox3D2" type="CSGBox3D" parent="Sprite3D8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0561128, 4.56201, -0.726953)
-cast_shadow = 3
-size = Vector3(0.94281, 5.16492, 1.42891)
-
 [node name="Camera" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_8kirm")]
 transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 3, 12, 15.5)
 attributes = ExtResource("4_todav")

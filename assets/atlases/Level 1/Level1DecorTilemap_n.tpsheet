@@ -1,0 +1,93 @@
+{
+	"textures": [
+		{
+			"image": "Level1DecorTilemap_n.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "BirdCage_n.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 1024,
+						"h": 1792
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Column1_n.png",
+					"region": {
+						"x": 1024,
+						"y": 0,
+						"w": 256,
+						"h": 768
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Column2_n.png",
+					"region": {
+						"x": 1024,
+						"y": 768,
+						"w": 256,
+						"h": 768
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "StoneLantern_n.png",
+					"region": {
+						"x": 1280,
+						"y": 0,
+						"w": 256,
+						"h": 768
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "PumpkinLantern_n.png",
+					"region": {
+						"x": 1280,
+						"y": 768,
+						"w": 256,
+						"h": 512
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}
