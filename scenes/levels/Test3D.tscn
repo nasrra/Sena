@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=10 format=3 uid="uid://cpmdc8rfjol6m"]
 
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="1_xj1pp"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="2_v8ena"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="3_8kirm"]
 [ext_resource type="MeshLibrary" uid="uid://brhyn0mtfdpxg" path="res://scenes/gridmaps/floors/FloorsMeshLib.tres" id="4_2pu2u"]
+[ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="4_todav"]
 [ext_resource type="MeshLibrary" uid="uid://ciup12585yyb5" path="res://scenes/gridmaps/walls/WallMeshLibrary.tres" id="5_ah2b6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xj1pp"]
@@ -14,15 +15,30 @@ ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
 sky_material = SubResource("ProceduralSkyMaterial_xj1pp")
 
 [sub_resource type="Environment" id="Environment_8kirm"]
-background_mode = 2
+background_mode = 1
 background_energy_multiplier = 0.0
 sky = SubResource("Sky_v8ena")
 ambient_light_source = 2
 ambient_light_color = Color(0, 0.882353, 1, 1)
-ambient_light_energy = 0.03
+ambient_light_energy = 0.17
+reflected_light_source = 1
 tonemap_mode = 1
 tonemap_exposure = 2.0
+ssao_enabled = true
 glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_energy = 0.5
+fog_density = 0.66
+fog_sky_affect = 0.0
+fog_height_density = -0.0165
+fog_depth_curve = 0.333333
+fog_depth_begin = 19.0
+fog_depth_end = 26.0
+volumetric_fog_density = 0.33
+volumetric_fog_length = 4.64
+volumetric_fog_detail_spread = 3.33
+volumetric_fog_sky_affect = 0.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -46,9 +62,8 @@ one_shot = true
 
 [node name="Camera" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_8kirm")]
 transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 0, 12, 12.5)
+attributes = ExtResource("4_todav")
 fov = 24.0
-size = 7.0
-near = 0.001
 Target = NodePath("../Player")
 FollowOffset = Vector3(0, 12, 12.5)
 
