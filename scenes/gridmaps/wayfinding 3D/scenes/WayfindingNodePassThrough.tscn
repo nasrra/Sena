@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1pqfg8vvkstr"]
+
+[ext_resource type="Material" uid="uid://bun1u0ex2y540" path="res://scenes/gridmaps/wayfinding 3D/materials/WayfindingNodePassThrough.tres" id="1_u7gu5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yl0oy"]
+
+[node name="WayfindingNodePassThrough" type="MeshInstance3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("BoxMesh_yl0oy")
+surface_material_override/0 = ExtResource("1_u7gu5")
