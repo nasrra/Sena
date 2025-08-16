@@ -45,9 +45,9 @@ public partial class WayfindingGrid3D : GridMap{
 	private Color debugBlockedColour        = new Color(1,0,0,1f);
 	private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,1f);
 	private Color debugOpenColour           = new Color(1f,1f,1f,1f);
-	private Vector2 debugSquareSize         = new Vector2(4,4);
-	private Vector3I gridSize 				= Vector3I.Zero;
-	public Vector3 GridSize {get => gridSize;}
+	private Color debugNoneColour           = new Color(0.5f,0.5f,0.5f,1f);
+	public Vector3I GridSize {get => gridSize;}
+	private Vector3I gridSize 				= Vector3I.Zero;	
 
 	private bool drawDebug = true;
 	private bool hideTiles = true;
@@ -95,7 +95,7 @@ public partial class WayfindingGrid3D : GridMap{
 		CalculateGridProperties();
 		AllocateArrayData();
 		SetCellNavigationFromGrid();
-		// InitialiseGridClearance();
+		InitialiseGridClearance();
 	}
 
 	private void CalculateGridProperties(){
@@ -127,7 +127,7 @@ public partial class WayfindingGrid3D : GridMap{
 		for(int y = 0; y < gridSize.Y; y++){
 		for(int z = 0; z < gridSize.Z; z++){
 			if(CellIsInUse(x,y,z, out int meshIndex) == false){
-				navigationType[x,y,z] = NavigationType.Blocked;
+				navigationType[x,y,z] = NavigationType.None;
 				locked[x,y,z] = true;
 				continue;
 			}
@@ -151,13 +151,15 @@ public partial class WayfindingGrid3D : GridMap{
 		}}}
 	}
 
-	// private void InitialiseGridClearance(){
-	// 	for(int x = 0; x < gridSize.X-1; x++){
-	// 		for(int y = 0; y < gridSize.Y-1; y++){
-	// 			clearance[x,y] = CalculateClearance(x,y, blocked);
-	// 		}
-	// 	}
-	// }
+	private void InitialiseGridClearance(){
+		for(int i = 0; i < clearanceLayers.Count; i++){
+		for(int x = 0; x < gridSize.X; x++){
+		for(int y = 0; y < gridSize.Y; y++){
+		for(int z = 0; z < gridSize.Z; z++){
+			clearance[i,x,y,z] = CalculateClearance(x,y,z,clearanceLayers[i]);
+		
+		}}}}
+	}
 
 
 	//
@@ -258,23 +260,33 @@ public partial class WayfindingGrid3D : GridMap{
 		if(drawDebug == false){
 			return;
 		}
+
+		int clearanceLayer = 0;
+		int textSize = 24;
+		float drawDuration = 0.167f;
+
 		for(int x = 0; x < gridSize.X; x++){
 		for(int y = 0; y < gridSize.Y; y++){
 		for(int z = 0; z < gridSize.Z; z++){
-			if(CellIsInUse(x, y, z, out int meshIndex)==false){
-				continue;
-			}
-
+			
+			string clearanceText = ""+clearance[clearanceLayer, x,y,z];
 			Vector3 globalPosition = MapToLocal(new Vector3I(x,y,z));
+
 			switch(navigationType[x,y,z]){
 				case NavigationType.Blocked:
-					DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1675f, debugBlockedColour, true, 0.1675f);
+					// DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1f, debugBlockedColour, true, drawDuration);
+					DebugDraw3D.DrawText(globalPosition,clearanceText, textSize, debugBlockedColour, drawDuration);
 				break;
 				case NavigationType.PassThrough:
-					DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1675f, debugPassThroughColour, true, 0.1675f);
+					// DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1f, debugPassThroughColour, true, drawDuration);
+					DebugDraw3D.DrawText(globalPosition,clearanceText, textSize, debugPassThroughColour, drawDuration);
 				break;
 				case NavigationType.Open:
-					DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1675f, debugOpenColour, true, 0.1675f);
+					// DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1f, debugOpenColour, true, drawDuration);
+					DebugDraw3D.DrawText(globalPosition,clearanceText, textSize, debugOpenColour, drawDuration);
+				break;
+				case NavigationType.None:
+					// DebugDraw3D.DrawBox(globalPosition, Quaternion.Identity, Vector3.One * 0.1f, debugNoneColour, true, drawDuration);
 				break;
 			}
 		}}}                
@@ -288,64 +300,88 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// 
 
 
-	// public byte CalculateClearance(Vector3I cell, NavigationType capability){
-	// 	return CalculateClearance(cell.X, cell.Y, cell.Z, capability);
-	// }
+	public byte CalculateClearance(Vector3I cell, NavigationType capability){
+		return CalculateClearance(cell.X, cell.Y, cell.Z, capability);
+	}
 
-	// public byte CalculateClearance(int cx, int cy, int cz, NavigationType capability){
-	// 	if (IsCellNavigable(cx, cy, cz, capability) == false){
-	// 		return 0;
-	// 	}
+	public byte CalculateClearance(int cx, int cy, int cz, NavigationType capability){
 
-	// 	// Calculate the maximum possible clearance from the center point (cx, cy)
-	// 	int maxClearance = Math.Min(
-	// 		Math.Min(cx, gridSize.X - 1 - cx),
-	// 		Math.Min(cy, gridSize.Y - 1 - cy)
-	// 	);
-
-	// 	byte clearance = 1;
-
-	// 	// Loop through potential clearances
-	// 	for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++)
-	// 	{
-	// 		int left = cx - clearance;
-	// 		int right = cx + clearance;
-	// 		int top = cy - clearance;
-	// 		int bottom = cy + clearance;
-
-	// 		bool blocked = false;
-
-	// 		// Check the four borders (left, right, top, bottom) at once
-	// 		for (int i = -clearance; i <= clearance; i++)
-	// 		{
-	// 			if (
-	// 				(navigationType[cx + i, top] & blockTypes) != 0 ||
-	// 				(navigationType[cx + i, bottom] & blockTypes) != 0 ||
-	// 				(navigationType[left, cy + i] & blockTypes) != 0 ||
-	// 				(navigationType[right, cy + i] & blockTypes) != 0
-	// 			)
-	// 			{
-	// 				blocked = true;
-	// 				break;
-	// 			}
-	// 		}
-
-	// 		// If blocked, break and set the clearance
-	// 		if (blocked){
-	// 			break;
-	// 		}
-	// 	}
-
-	// 	// If we found no blockage, the full clearance is possible
-	// 	return clearance;
-	// }
-
-	// private bool IsCellNavigable(int x, int y, int z, NavigationType capability){
+		// clear previous iterations data.
+		int currentElevation = cy;
 		
-	// 	// if the cell contains any flag in capability.
+		if (IsCellNavigable(cx, cy, cz, capability) == false){
+			return 0;
+		}
+
+		// Calculate the maximum possible clearance from the center point (cx, cy)
+		int maxClearance = Math.Min(
+			Math.Min(cx, gridSize.X - 1 - cx),
+			Math.Min(cz, gridSize.Z - 1 - cz)
+		);
+
+
+		byte clearance = 1;
+
+		// Loop through potential clearances
+		for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++){
+			// loop through all elevation layers we are on.			
+			if(IsClearanceViable(cx, currentElevation, cz, clearance, capability) == false){
+				int aboveLayer = currentElevation + 1;
+				int belowLayer = currentElevation - 1;
+				currentElevation = -1;					
+
+				// check if we connect to the above elevation layer.
+				if(aboveLayer < gridSize.Y && IsClearanceViable(cx, aboveLayer, cz, clearance, capability)){
+					currentElevation = aboveLayer;
+				}				
+				
+				// check if we connect to the below elevation layer.
+				else if(belowLayer >= 0 && IsClearanceViable(cx, belowLayer, cz, clearance, capability)){
+					currentElevation = belowLayer;
+				}
+				
+				// if there is no connection, we have reached our max clearance.
+				if(currentElevation == -1){
+					break;
+				}
+			}
+		}
+
+		// If we found no blockage, the full clearance is possible
+		return clearance;
+	}
+
+	private bool IsClearanceViable(int cx, int cy, int cz, byte clearance, NavigationType capability){		
+		int left 	= cx - clearance;
+		int right 	= cx + clearance;
+		int top 	= cz - clearance;
+		int bottom 	= cz + clearance;
+
+		// add None navigation type to capability
+		// for correct elevation aware clearance.
+
+		// Check the four borders (left, right, top, bottom) at once
+		for (int i = -clearance; i <= clearance; i++){
+			if (
+				IsCellNavigable(cx + i, cy, 	top, 	capability) == false 	||
+				IsCellNavigable(cx + i, cy,		bottom, capability) == false 	||
+				IsCellNavigable(left, 	cy, 	cz+i, 	capability)	== false 	||
+				IsCellNavigable(right, 	cy, 	cz+i,	capability) == false
+			)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private bool IsCellNavigable(int x, int y, int z, NavigationType capability){
 		
-	// 	return (navigationType[x,y,z] & capability) != 0; 
-	// }
+		// if the cell contains any flag in capability.
+		
+		return (capability & navigationType[x,y,z]) != 0; 
+	}
 
 
 

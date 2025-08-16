@@ -5,7 +5,8 @@ namespace Entropek.Ai;
 
 [Flags]
 public enum NavigationType : byte{
-    Blocked     = 1 << 0, // 1
-    PassThrough = 1 << 1, // 2
-    Open        = 1 << 2, // 4
+    None        = 1 << 0,  // 1
+    Blocked     = 1 << 1, // 2
+    PassThrough = 1 << 2, // 4
+    Open        = 1 << 3, // 8
 }
