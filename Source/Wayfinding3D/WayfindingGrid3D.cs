@@ -7,9 +7,11 @@ namespace Entropek.Ai;
 
 public partial class WayfindingGrid3D : GridMap{
 
-	public const byte MaxAgentSize = 16;
+	public const byte MaxAgentSize = 8;
 
 	public static WayfindingGrid3D Singleton {get;private set;}
+
+	List<int> clearanceCheckElevationLayers = new List<int>();
 
 	/// 
 	/// links the mesh index of a grid maps mesh library to a NavigationType.
@@ -50,7 +52,6 @@ public partial class WayfindingGrid3D : GridMap{
 	private Vector3I gridSize 				= Vector3I.Zero;	
 
 	private bool drawDebug = true;
-	private bool hideTiles = true;
 
 	// orthogonal (Manhattan)
 
@@ -63,19 +64,20 @@ public partial class WayfindingGrid3D : GridMap{
 
 	// diagonal (Ocitile)
 
-	private Vector2I[] directions = new Vector2I[]{
-		new Vector2I(1, 0),     // left 
-		new Vector2I(1, 1),     // top left 
-		new Vector2I(1, -1),    // bot left
+	private static readonly Vector3I[] directions = [
+		new(-1, -1, -1), new(-1, -1,  0), new(-1, -1,  1),
+		new(-1,  0, -1), new(-1,  0,  0), new(-1,  0,  1),
+		new(-1,  1, -1), new(-1,  1,  0), new(-1,  1,  1),
 
-		new Vector2I(-1, 0),    // right
-		new Vector2I(-1, 1),    // top right
-		new Vector2I(-1, -1),   // bot right
+		new( 0, -1, -1), new( 0, -1,  0), new( 0, -1,  1),
+		new( 0,  0, -1),                 new( 0,  0,  1),
+		new( 0,  1, -1), new( 0,  1,  0), new( 0,  1,  1),
 
-		new Vector2I(0, 1),     // up
-		
-		new Vector2I(0, -1)     // down
-	};
+		new( 1, -1, -1), new( 1, -1,  0), new( 1, -1,  1),
+		new( 1,  0, -1), new( 1,  0,  0), new( 1,  0,  1),
+		new( 1,  1, -1), new( 1,  1,  0), new( 1,  1,  1)
+	];
+
 
 
 	public override void _Ready(){
@@ -300,80 +302,138 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// 
 
 
-	public byte CalculateClearance(Vector3I cell, NavigationType capability){
-		return CalculateClearance(cell.X, cell.Y, cell.Z, capability);
-	}
+	// public byte CalculateClearance(int cx, int cy, int cz, NavigationType capability){
+
+	// 	if (IsCellNavigable(cx, cy, cz, capability) == false){
+	// 		return 0;
+	// 	}
+
+	// 	// Calculate the maximum possible clearance from the center point (cx, cy)
+	// 	int maxClearance = Math.Min(
+	// 		Math.Min(cx, gridSize.X - 1 - cx),
+	// 		Math.Min(cz, gridSize.Z - 1 - cz)
+	// 	);
+
+	// 	// clear previous iterations data.
+	// 	clearanceCheckElevationLayers.Clear();
+	// 	clearanceCheckElevationLayers.Add(cy);
+		
+
+	// 	byte clearance = 1;
+
+	// 	// Loop through potential clearances
+	// 	for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++){
+	// 		// loop through all elevation layers we are on.			
+	// 		if(IsClearanceViable(clearanceCheckElevationLayers, cx, cz, clearance, capability) == false){
+				
+	// 			int first = 0;
+	// 			int aboveLayer = clearanceCheckElevationLayers[first] + 1;
+	// 			if(aboveLayer < gridSize.Y){
+	// 				clearanceCheckElevationLayers.Insert(first, aboveLayer);
+	// 			}
+
+	// 			int last = clearanceCheckElevationLayers.Count-1;
+	// 			int belowLayer = clearanceCheckElevationLayers[last] - 1;
+	// 			if(belowLayer >= 0){
+	// 				clearanceCheckElevationLayers.Add(belowLayer);
+	// 			}
+				
+	// 			// check if we connect to the above elevation layer.
+	// 			if(IsClearanceViable(clearanceCheckElevationLayers, cx, cz, clearance, capability)==false){
+	// 				break;
+	// 			}								
+	// 		}
+	// 	}
+
+	// 	// If we found no blockage, the full clearance is possible
+	// 	return clearance;
+	// }
 
 	public byte CalculateClearance(int cx, int cy, int cz, NavigationType capability){
+		return CalculateClearance(new Vector3I(cx, cy, cz), capability);
+	}
 
-		// clear previous iterations data.
-		int currentElevation = cy;
-		
-		if (IsCellNavigable(cx, cy, cz, capability) == false){
+	public byte CalculateClearance(Vector3I cell, NavigationType capability){
+		if(IsCellValid(cell) == false || IsCellNavigable(cell,capability)==false){
 			return 0;
 		}
 
-		// Calculate the maximum possible clearance from the center point (cx, cy)
-		int maxClearance = Math.Min(
-			Math.Min(cx, gridSize.X - 1 - cx),
-			Math.Min(cz, gridSize.Z - 1 - cz)
-		);
+		byte maxDistanceReached = 0;
+		byte minDistanceReached = MaxAgentSize;
 
+		HashSet<Vector3I> visited = new HashSet<Vector3I>();
+		Queue<(Vector3I cell, byte distance)> fillRoots = new Queue<(Vector3I, byte)>();
 
-		byte clearance = 1;
+		fillRoots.Enqueue((cell, 0));
+		visited.Add(cell);
 
-		// Loop through potential clearances
-		for (; clearance <= maxClearance && clearance < MaxAgentSize; clearance++){
-			// loop through all elevation layers we are on.			
-			if(IsClearanceViable(cx, currentElevation, cz, clearance, capability) == false){
-				int aboveLayer = currentElevation + 1;
-				int belowLayer = currentElevation - 1;
-				currentElevation = -1;					
+		while(fillRoots.Count > 0){
+			(Vector3I position, byte distance) current = fillRoots.Dequeue();
+			
+			if(	IsCellValid(current.position) == false ||
+				IsCellNavigable(current.position, capability) == false){ 
+				continue;
+			}
 
-				// check if we connect to the above elevation layer.
-				if(aboveLayer < gridSize.Y && IsClearanceViable(cx, aboveLayer, cz, clearance, capability)){
-					currentElevation = aboveLayer;
-				}				
-				
-				// check if we connect to the below elevation layer.
-				else if(belowLayer >= 0 && IsClearanceViable(cx, belowLayer, cz, clearance, capability)){
-					currentElevation = belowLayer;
-				}
-				
-				// if there is no connection, we have reached our max clearance.
-				if(currentElevation == -1){
-					break;
+			maxDistanceReached = Math.Max(maxDistanceReached, current.distance);
+			if(maxDistanceReached >= MaxAgentSize){
+				break;
+			}
+
+			for(int i = 0; i < directions.Length; i++){
+				Vector3I neighbour = current.position + directions[i];
+				if(	IsCellValid(neighbour) && visited.Contains(neighbour) == false){
+					visited.Add(neighbour);
+					if(IsCellNavigable(neighbour, capability | NavigationType.None)){
+						if(IsCellNavigable(neighbour, capability) == true){
+							fillRoots.Enqueue((neighbour, (byte)(current.distance + 1)));
+						}
+					}
+					else{
+						minDistanceReached = Math.Min(minDistanceReached, current.distance);
+					}
 				}
 			}
 		}
-
-		// If we found no blockage, the full clearance is possible
-		return clearance;
+		return (byte)(minDistanceReached + 1);
 	}
 
-	private bool IsClearanceViable(int cx, int cy, int cz, byte clearance, NavigationType capability){		
-		int left 	= cx - clearance;
-		int right 	= cx + clearance;
-		int top 	= cz - clearance;
-		int bottom 	= cz + clearance;
+	// private bool IsClearanceViable(List<int> elevationLayers, int cx, int cz, byte clearance, NavigationType capability){		
+	// 	int left 	= cx - clearance;
+	// 	int right 	= cx + clearance;
+	// 	int top 	= cz - clearance;
+	// 	int bottom 	= cz + clearance;
 
-		// add None navigation type to capability
-		// for correct elevation aware clearance.
+	// 	// add None navigation type to capability
+	// 	// for correct elevation aware clearance.
 
-		// Check the four borders (left, right, top, bottom) at once
-		for (int i = -clearance; i <= clearance; i++){
-			if (
-				IsCellNavigable(cx + i, cy, 	top, 	capability) == false 	||
-				IsCellNavigable(cx + i, cy,		bottom, capability) == false 	||
-				IsCellNavigable(left, 	cy, 	cz+i, 	capability)	== false 	||
-				IsCellNavigable(right, 	cy, 	cz+i,	capability) == false
-			)
-			{
-				return false;
-			}
-		}
+	// 	// Check the four borders (left, right, top, bottom) at once
+	// 	for (int c = -clearance; c <= clearance; c++){
+	// 		if (
+	// 			IsCellNavigable(elevationLayers, cx + c,	top, 	capability) == false 	||
+	// 			IsCellNavigable(elevationLayers, cx + c,	bottom, capability) == false 	||
+	// 			IsCellNavigable(elevationLayers, left, 		cz+c, 	capability)	== false 	||
+	// 			IsCellNavigable(elevationLayers, right, 	cz+c,	capability) == false
+	// 		)
+	// 		{
+	// 			return false;
+	// 		}
+	// 	}
 
-		return true;
+	// 	return true;
+	// }
+
+	// private bool IsCellNavigable(List<int> depth, int cx, int cz, NavigationType capability){
+	// 	for(int i = 0; i < depth.Count; i++){
+	// 		if(IsCellNavigable(cx, depth[i], cz, capability)==false){
+	// 			return false;
+	// 		}
+	// 	}
+	// 	return true;
+	// }
+
+	private bool IsCellNavigable(Vector3I cell, NavigationType capability){
+		return IsCellNavigable(cell.X, cell.Y, cell.Z, capability);
 	}
 
 	private bool IsCellNavigable(int x, int y, int z, NavigationType capability){
@@ -798,4 +858,14 @@ public partial class WayfindingGrid3D : GridMap{
 		meshIndex = GetCellItem(cell);
 		return meshIndex != -1;
 	}
+
+	private bool IsCellValid(Vector3I cell){
+		return 
+			cell.X >= 0 
+		&& 	cell.X < gridSize.X 
+		&& 	cell.Y >= 0
+		&& 	cell.Y < gridSize.Y
+		&& 	cell.Z >= 0
+		&& 	cell.Z < gridSize.Z;
+	}	
 }
