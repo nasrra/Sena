@@ -10,7 +10,7 @@ public partial class WayfindingGrid3D : GridMap{
 	public const byte MaxAgentSize = 8;
 
 	public static WayfindingGrid3D Singleton {get;private set;}
-	
+
 	/// 
 	/// links the mesh index of a grid maps mesh library to a NavigationType.
 	/// 
@@ -36,10 +36,45 @@ public partial class WayfindingGrid3D : GridMap{
 
 	private byte[,,,] clearance;
 
-	private PathCell[,,] paths;
+	private PathCell3D[,,] paths;
 	private bool[,,] locked;
 	private NavigationType[,,] navigationType;
-	
+
+	private static readonly Vector3I[] directions = [
+		new(-1, -1, -1), // LeftDownBack
+		new(-1, -1,  0), // LeftDown
+		new(-1, -1,  1), // LeftDownFront
+
+		new(-1,  0, -1), // LeftBack
+		new(-1,  0,  0), // Left
+		new(-1,  0,  1), // LeftFront
+
+		new(-1,  1, -1), // LeftUpBack
+		new(-1,  1,  0), // LeftUp
+		new(-1,  1,  1), // LeftUpFront
+
+		new( 0, -1, -1), // DownBack
+		new( 0, -1,  1), // DownFront
+
+		new( 0,  0, -1), // Back
+		new( 0,  0,  1), // Front
+
+		new( 0,  1, -1), // UpBack
+		new( 0,  1,  1), // UpFront
+
+		new( 1, -1, -1), // RightDownBack
+		new( 1, -1,  0), // RightDown
+		new( 1, -1,  1), // RightDownFront
+
+		new( 1,  0, -1), // RightBack
+		new( 1,  0,  0), // Right
+		new( 1,  0,  1), // RightFront
+
+		new( 1,  1, -1), // RightUpBack
+		new( 1,  1,  0), // RightUp
+		new( 1,  1,  1)  // RightUpFront
+	];
+
 
 	[Export] private Font debugFont;
 	private Color debugBlockedColour        = new Color(1,0,0,1f);
@@ -49,7 +84,7 @@ public partial class WayfindingGrid3D : GridMap{
 	public Vector3I GridSize {get => gridSize;}
 	private Vector3I gridSize 				= Vector3I.Zero;	
 
-	private bool drawDebug = true;
+	private bool drawDebug = false;
 
 	// orthogonal (Manhattan)
 
@@ -107,7 +142,7 @@ public partial class WayfindingGrid3D : GridMap{
 	private void AllocateArrayData(){
 		clearance 		= new byte[clearanceLayers.Count, gridSize.X, gridSize.Y, gridSize.Z];
 		locked          = new bool[gridSize.X, gridSize.Y, gridSize.Z];
-		paths 			= new PathCell[gridSize.X, gridSize.Y, gridSize.Z];
+		paths 			= new PathCell3D[gridSize.X, gridSize.Y, gridSize.Z];
 		navigationType  = new NavigationType[gridSize.X, gridSize.Y, gridSize.Z];
 	}
 
@@ -404,31 +439,10 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="tolerance">tolerance is the amount of leeway given for the end point check.</param>
 	// /// <returns></returns>
 
-	// public Stack<Vector2> GetPath(Vector2 startGlobalPosition, Vector2 endGlobalPosition, NavigationType agentType, byte agentSize, byte tolerance = 0){
-	// 	switch(agentType){
-	// 		case NavigationType.Open:
-	// 			return GetPath(
-	// 				ref groundClearance,
-	// 				GlobalToIdPosition(startGlobalPosition), 
-	// 				GlobalToIdPosition(endGlobalPosition), 
-	// 				NavigationType.Open,
-	// 				agentSize,
-	// 				tolerance
-	// 			);
-	// 		case NavigationType.PassThrough:
-	// 			return GetPath(
-	// 				ref aerialClearance,
-	// 				GlobalToIdPosition(startGlobalPosition), 
-	// 				GlobalToIdPosition(endGlobalPosition), 
-	// 				NavigationType.Open | NavigationType.PassThrough,
-	// 				agentSize,
-	// 				tolerance
-	// 			);
-	// 		default:
-	// 			throw new Exception($"{agentType} not implemented!");
-	// 	}
-		
-	// }  
+	public Stack<Vector3> GetPath(Vector3 startGlobalPosition, Vector3 endGlobalPosition, NavigationType agentType, byte agentSize, byte tolerance = 0){
+		int clearanceLayer = GetClearanceLayer(agentType);
+		return GetPath(LocalToMap(startGlobalPosition), LocalToMap(endGlobalPosition), clearanceLayer, agentType, agentSize, tolerance);		
+	}  
 
 	// /// <summary>
 	// /// Gets a path along the grid towards a given end point.
@@ -439,117 +453,136 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="tolerance">the amount of leeway given for the end point check.</param>
 	// /// <returns></returns>
 
-	// private Stack<Vector2> GetPath(ref byte[,] clearanceData, Vector2I start, Vector2I end, NavigationType capability, byte agentSize, byte tolerance = 0){
+	private Stack<Vector3> GetPath(Vector3I start, Vector3I end, int clearanceLayer, NavigationType capability, byte agentSize, byte tolerance = 0){
+		if(IsCellValid(start) == false || IsCellValid(end) == false || IsCellNavigable(start, capability) == false  || IsCellNavigable(end,capability) == false){
+			return new();
+		}
 
-	// 	// if either point is out of bounds.
-
-	// 	if(start.X >= gridSize.X || start.Y >= gridSize.Y || start.X < 0 || start.Y < 0
-	// 	|| end.X >= gridSize.X || end.Y >= gridSize.Y || end.X < 0 || end.Y < 0){
-	// 		return new();
-	// 	}
-
-	// 	// if either point is within a blocked cell.
-
-	// 	if(navigationType[start.X, start.Y] == NavigationType.Blocked 
-	// 	|| navigationType[end.X, end.Y]     == NavigationType.Blocked){
-	// 		return new();
-	// 	}
-
-	// 	List<Vector2I> openList = new List<Vector2I>();
-	// 	HashSet<Vector2I> closedSet = new HashSet<Vector2I>();
+		List<Vector3I> openList = new List<Vector3I>();
+		HashSet<Vector3I> closedSet = new HashSet<Vector3I>();
 		
-	// 	ref PathCell endPathCell    = ref paths[end.X, end.Y];
-	// 	ref PathCell startPathCell  = ref paths[start.X, start.Y];
-	// 	startPathCell = new PathCell(
-	// 		id: start,
-	// 		cost: 0, 
-	// 		heuristic: CalculateHeuristic(start, end)
-	// 	);
+		ref PathCell3D endPathCell    = ref paths[end.X, end.Y, end.Z];
+		ref PathCell3D startPathCell  = ref paths[start.X, start.Y, start.Z];
+		startPathCell = new PathCell3D(
+			cost: 0, 
+			heuristic: CalculateHeuristic(start, end)
+		);
 
-	// 	openList.Add(start);
-	// 	closedSet.Add(start);
+		openList.Add(start);
+		closedSet.Add(start);
 
-	// 	Vector2 toleranceLowerBound = Vector2.Zero;
-	// 	Vector2 toleranceUpperBound = Vector2.Zero;
+		Vector3I toleranceLowerBound = Vector3I.Zero;
+		Vector3I toleranceUpperBound = Vector3I.Zero;
 
-	// 	if(tolerance > 0){
-	// 		toleranceLowerBound.X = end.X - tolerance;
-	// 		toleranceUpperBound.X = end.X + tolerance;
-	// 		toleranceLowerBound.Y = end.Y - tolerance;
-	// 		toleranceUpperBound.Y = end.Y + tolerance;
-	// 	}
+		if(tolerance > 0){
+			Vector3I toleranceVector = Vector3I.One * tolerance;;
+			toleranceUpperBound += toleranceVector;
+			toleranceLowerBound -= toleranceVector;
+		}
 
 
-	// 	while(openList.Count > 0){
-	// 		PathCell current = GetLowestTotalCostPathCell(openList);
+		while(openList.Count > 0){
+			Vector3I currentIndex = GetLowestTotalCostPathCell(openList);
+			PathCell3D current = paths[currentIndex.X, currentIndex.Y, currentIndex.Z];
 
-	// 		if(tolerance > 0){
-	// 			if(WithinTolerance(toleranceLowerBound, toleranceUpperBound, ref current) == true
-	// 			&& CalcToleranceBetweenPathCells(current.Id, end) == true){
-	// 				return ReconstructPath(current);
-	// 			}
-	// 		}
-	// 		else if(current.Id == end){
-	// 			return ReconstructPath(current);
-	// 		}
+			if(tolerance > 0){
+				if(currentIndex <= toleranceUpperBound && currentIndex >= toleranceLowerBound
+				&& CalcToleranceBetweenPathCells(currentIndex, end, capability) == true){
+					return ReconstructPath(current, currentIndex);
+				}
+			}
+			else if(currentIndex == end){
+				return ReconstructPath(current, currentIndex);
+			}
 
-	// 		openList.Remove(current.Id);
-	// 		closedSet.Add(current.Id);
+			openList.Remove(currentIndex);
+			closedSet.Add(currentIndex);
 
-	// 		foreach(Vector2I direction in directions){
-	// 			Vector2I neighbour = current.Id + direction;
+			foreach(Vector3I direction in directions){
+				Vector3I neighbour = currentIndex + direction;
 
-	// 			// check bounds.
+				// check bounds.
 				
-	// 			if(closedSet.Contains(neighbour) 
-	// 			|| neighbour.X >= gridSize.X  
-	// 			|| neighbour.Y >= gridSize.Y){
-	// 				continue;
-	// 			}
+				if(closedSet.Contains(neighbour) || IsCellValid(neighbour)==false){
+					continue;
+				}
 
-	// 			// Check if terrain is in agent's capability
-	// 			if ((navigationType[neighbour.X, neighbour.Y] & capability) == 0)
-	// 				continue;
+				// Check if terrain is in agent's capability
+				if (IsCellNavigable(neighbour, capability)==false){
+					continue;
+				}
 
-	// 			// check clearance.
+				// check clearance.
 
-	// 			if(clearanceData[neighbour.X, neighbour.Y] < agentSize){
-	// 				continue;
-	// 			}
+				if(clearance[clearanceLayer, neighbour.X, neighbour.Y, neighbour.Z] < agentSize){
+					continue;
+				}
 
-	// 			// ref PathCell neighbourPathCell = ref paths[neighbourId.X, neighbourId.Y]; 
+				PathCell3D neighbourPathCell  = new PathCell3D(
+					parentId: currentIndex,
+					cost: current.Cost + 1,
+					heuristic: CalculateHeuristic(neighbour, end)
+				);
 
-	// 			PathCell neighbourPathCell  = new PathCell(
-	// 				id: neighbour,
-	// 				parentId: current.Id,
-	// 				cost: current.Cost + 1,
-	// 				heuristic: CalculateHeuristic(neighbour, end)
-	// 			);
+				// if already in open list with lower total cost.
 
-	// 			// if already in open list with lower total cost.
+				ref PathCell3D existing = ref paths[neighbour.X, neighbour.Y, neighbour.Z];
+				if(openList.Contains(neighbour) && neighbourPathCell.Total >= neighbourPathCell.Total){    
+					continue;
+				}
 
-	// 			ref PathCell existing = ref paths[neighbour.X, neighbour.Y];
-	// 			if(openList.Contains(neighbour) && neighbourPathCell.Total >= neighbourPathCell.Total){    
-	// 				continue;
-	// 			}
+				// assign the neighbour data.
 
-	// 			// assign the neighbour data.
+				existing = neighbourPathCell;
 
-	// 			existing = neighbourPathCell;
+				openList.Add(neighbour);
+			}
+		}
+		return new();
+	}
 
-	// 			openList.Add(neighbour);
-	// 		}
-	// 	}
-	// 	return new();
+	private Vector3I GetLowestTotalCostPathCell(List<Vector3I> indexes){
+		
+		Vector3I index 		= indexes[0];		
+		Vector3I bestIndex 	= index;
+		PathCell3D bestCell = paths[index.X, index.Y, index.Z];
+
+		for(int i = 1; i < indexes.Count; i++){
+			index = indexes[i];
+			PathCell3D other = paths[index.X, index.Y, index.Z];
+			if(other.Total < bestCell.Total){
+				bestCell = other;
+				bestIndex = index;
+			}
+		}
+
+		return bestIndex;
+	}
+
+	// 	return best;
 	// }
+	
+	private int CalculateHeuristic(Vector3I a, Vector3I b) {
+		int dx = Math.Abs(a.X - b.X);
+		int dy = Math.Abs(a.Y - b.Y);
+		int dz = Math.Abs(a.Z - b.Z);
 
-	// public Vector2I GlobalToIdPosition(Vector2 globalPosition){
-	// 	return tileMap.LocalToMap(globalPosition);
-	// }
+		const int D = 10;   // Straight move
+		// const int D2 = 14;  // 2D diagonal
+		// const int D3 = 17;  // 3D diagonal (approx sqrt(3) * 10)
+		const int D2 = 20;  // 2D diagonal
+		const int D3 = 30;  // 3D diagonal (approx sqrt(3) * 10)
 
-	// public Vector2 IdToGlobalPosition(Vector2I gridIdPosition){
-	// 	return tileMap.MapToLocal(gridIdPosition);
-	// }
+		int minXY = Math.Min(dx, dy);
+		int maxXY = Math.Max(dx, dy);
+		int straightXY = maxXY - minXY;
+
+		int minXYZ = Math.Min(minXY, dz);
+		int midXYZ = Math.Max(Math.Min(Math.Max(dx, dy), dz), minXYZ);
+		int maxXYZ = Math.Max(dx, Math.Max(dy, dz));
+
+		return D3 * minXYZ + D2 * (midXYZ - minXYZ) + D * (maxXYZ - midXYZ);
+	}
 
 	// /// <summary>
 	// /// Check if a path cell is within a given tolerance radius in the grid.
@@ -558,12 +591,6 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="upperBound"></param>
 	// /// <param name="currentPathCell"></param>
 	// /// <returns></returns>
-
-	// private bool WithinTolerance(Vector2 lowerBound, Vector2 upperBound, ref PathCell currentPathCell){
-	// 	return
-	// 	currentPathCell.Id.X >= lowerBound.X && currentPathCell.Id.X <= upperBound.X
-	// 	&& currentPathCell.Id.Y >= lowerBound.Y && currentPathCell.Id.Y <= upperBound.Y;
-	// }
 
 	// /// <summary>
 	// /// line-of-sight style check that determines if there's and unobstructed straight line between two cells.
@@ -574,58 +601,104 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="to"></param>
 	// /// <returns></returns>
 
-	// private bool CalcToleranceBetweenPathCells(Vector2I from, Vector2I to){
-	// 	int x0 = from.X;
-	// 	int y0 = from.Y;
-	// 	int x1 = to.X;
-	// 	int y1 = to.Y;
+	private bool CalcToleranceBetweenPathCells(Vector3I from, Vector3I to, NavigationType capability) {
+		int x0 = from.X, y0 = from.Y, z0 = from.Z;
+		int x1 = to.X, y1 = to.Y, z1 = to.Z;
 
-	// 	// distance between cells.
+		int dx = Mathf.Abs(x1 - x0);
+		int dy = Mathf.Abs(y1 - y0);
+		int dz = Mathf.Abs(z1 - z0);
 
-	// 	int dx = Mathf.Abs(x1 - x0);
-	// 	int dy = Mathf.Abs(y1 - y0);
+		int sx = x0 < x1 ? 1 : -1;
+		int sy = y0 < y1 ? 1 : -1;
+		int sz = z0 < z1 ? 1 : -1;
 
-	// 	// direction to step in.
+		int dx2 = dx * 2;
+		int dy2 = dy * 2;
+		int dz2 = dz * 2;
 
-	// 	int sx = x0 < x1 ? 1 : -1;
-	// 	int sy = y0 < y1 ? 1 : -1;
+		int err1, err2;
 
-	// 	// error term used by Bresenham's algorithm to determine when to step Y in addition to X.
-	// 	// (or vice versa), keeping the line straight even when slope is not 1.
+		// Find the dominant direction (longest axis)
+		if (dx >= dy && dx >= dz) {
+			err1 = dy2 - dx;
+			err2 = dz2 - dx;
 
-	// 	int err = dx - dy;
+			while (x0 != x1) {
+				GD.Print("1");
+				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
+					return false;
 
-	// 	while (true){
-	// 		// Bounds check
-	// 		if (x0 < 0 || x0 >= gridSize.X || y0 < 0 || y0 >= gridSize.Y){
-	// 			return false;
-	// 		}
+				if (err1 > 0) {
+					y0 += sy;
+					err1 -= dx2;
+				}
+				if (err2 > 0) {
+					z0 += sz;
+					err2 -= dx2;
+				}
 
+				err1 += dy2;
+				err2 += dz2;
+				x0 += sx;
+			}
+		}
+		else if (dy >= dx && dy >= dz) {
+			err1 = dx2 - dy;
+			err2 = dz2 - dy;
 
-	// 		// Blocked check
-	// 		if (navigationType[x0,y0] == NavigationType.Blocked){
-	// 			return false;
-	// 		}
+			while (y0 != y1) {
+				GD.Print("2");
+				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
+					return false;
 
-	// 		// Reached destination
-	// 		if (x0 == x1 && y0 == y1){
-	// 			break;
-	// 		}
+				if (err1 > 0) {
+					x0 += sx;
+					err1 -= dy2;
+				}
+				if (err2 > 0) {
+					z0 += sz;
+					err2 -= dy2;
+				}
 
-	// 		// step.
-	// 		int e2 = 2 * err;
-	// 		if (e2 > -dy){
-	// 			err -= dy;
-	// 			x0 += sx;
-	// 		}
-	// 		if (e2 < dx){
-	// 			err += dx;
-	// 			y0 += sy;
-	// 		}
-	// 	}
+				err1 += dx2;
+				err2 += dz2;
+				y0 += sy;
+			}
+		}
+		else {
+			err1 = dx2 - dz;
+			err2 = dy2 - dz;
 
-	// 	return true;
-	// }
+			while (z0 != z1) {
+				GD.Print("3");
+				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
+					return false;
+
+				if (err1 > 0) {
+					x0 += sx;
+					err1 -= dz2;
+				}
+				if (err2 > 0) {
+					y0 += sy;
+					err2 -= dz2;
+				}
+
+				err1 += dx2;
+				err2 += dy2;
+				z0 += sz;
+			}
+		}
+
+		GD.Print("end");
+
+		// Final cell check (destination)
+		if (IsCellValid(x1, y1, z1) == false || IsCellNavigable(x1, y1, z1, capability) == false)
+			return false;
+
+		return true;
+	}
+
 
 	// /// <summary>
 	// /// Constructs a path from a given path cell after a path has been found using GetPath().
@@ -633,51 +706,23 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="endPathCell"></param>
 	// /// <returns></returns>
 
-	// private Stack<Vector2> ReconstructPath(PathCell endPathCell){
-	// 	Stack<Vector2> path = new Stack<Vector2>();
-	// 	PathCell current = endPathCell;
-	// 	while(true){
-	// 		// current.Id + (Vector2I.One * (agentSize-1));
-	// 		path.Push(IdToGlobalPosition(current.Id));    
-	// 		if(current.ParentId == new Vector2I(-1,-1)){
-	// 			break;
-	// 		}
-	// 		else{
-	// 			current = paths[current.ParentId.X, current.ParentId.Y];
-	// 		}
-	// 	}
-	// 	return path;
-	// }
+	private Stack<Vector3> ReconstructPath(PathCell3D endPathCell, Vector3I endPathIndex){
+		Stack<Vector3> path = new Stack<Vector3>();
+		PathCell3D current = endPathCell;
+		path.Push(MapToLocal(endPathIndex));
+		while(true){
+			if(current.ParentId == new Vector3I(-1,-1,-1)){
+				break;
+			}
+			else{
+				path.Push(MapToLocal(current.ParentId));
+				current = paths[current.ParentId.X, current.ParentId.Y, current.ParentId.Z];
+			}
+		}
+		return path;
+	}
 
-	// private PathCell GetLowestTotalCostPathCell(List<Vector2I> indexes){
-	// 	Vector2I index = indexes[0];
-	// 	PathCell best = paths[index.X, index.Y];
-	
-	// 	for(int i = 1; i < indexes.Count; i++){
-	// 		index = indexes[i];
-	// 		PathCell other = paths[index.X, index.Y];
-	// 		if(other.Total < best.Total){
-	// 			best = other;
-	// 		}
-	// 	}
 
-	// 	return best;
-	// }
-
-	// private int CalculateHeuristic(Vector2I a, Vector2I b){
-	// 	// Manhattan distance (orthogonal).
-	// 	// return Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
-	
-	// 	// ocitile distance (diagonal)
-	// 	int dx = Math.Abs(a.X - b.X);
-	// 	int dy = Math.Abs(a.Y - b.Y);
-
-	// 	int D = 10;     // Cost for straight (orthogonal) movement
-	// 	int D2 = 14;    // Approx. sqrt(2) * 10 for diagonal movement
-
-	// 	return D * (dx + dy) + (D2 - 2 * D) * Math.Min(dx, dy);
-	// }
-	
 	// public void Insert(Rect2 globalAABB,  NavigationType agentNavigationType, out List<Vector2I> currentFrameIndices){
 	// 	currentFrameIndices = new List<Vector2I>();
 
@@ -808,6 +853,16 @@ public partial class WayfindingGrid3D : GridMap{
 		return meshIndex != -1;
 	}
 
+	private bool IsCellValid(int x, int y, int z){
+		return 
+			x >= 0 
+		&& 	x < gridSize.X 
+		&& 	y >= 0
+		&& 	y < gridSize.Y
+		&& 	z >= 0
+		&& 	z < gridSize.Z;
+	}
+
 	private bool IsCellValid(Vector3I cell){
 		return 
 			cell.X >= 0 
@@ -817,4 +872,13 @@ public partial class WayfindingGrid3D : GridMap{
 		&& 	cell.Z >= 0
 		&& 	cell.Z < gridSize.Z;
 	}	
+
+	private int GetClearanceLayer(NavigationType navigationType){
+		for(int i = 0; i < clearanceLayers.Count; i++){
+			if(navigationType == clearanceLayers[i]){
+				return i;
+			}
+		}
+		throw new Exception($"{navigationType} has not been setup with a clearance layer!");
+	}
 }

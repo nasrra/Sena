@@ -11,7 +11,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 	public static WayfindingGrid2D Singleton {get;private set;}
 
-	PathCell[,] paths;
+	PathCell2D[,] paths;
 
 	private bool[,] locked;
 	private byte[,] groundClearance;
@@ -84,7 +84,7 @@ public partial class WayfindingGrid2D : Node2D{
 		locked          = new bool[gridSize.X, gridSize.Y];
 		navigationType  = new NavigationType[gridSize.X, gridSize.Y];
 		
-		paths = new PathCell[gridSize.X, gridSize.Y];
+		paths = new PathCell2D[gridSize.X, gridSize.Y];
 	
 	
 		SetStaticNavigationsFromTilemap();
@@ -373,9 +373,9 @@ public partial class WayfindingGrid2D : Node2D{
 		List<Vector2I> openList = new List<Vector2I>();
 		HashSet<Vector2I> closedSet = new HashSet<Vector2I>();
 		
-		ref PathCell endPathCell    = ref paths[end.X, end.Y];
-		ref PathCell startPathCell  = ref paths[start.X, start.Y];
-		startPathCell = new PathCell(
+		ref PathCell2D endPathCell    = ref paths[end.X, end.Y];
+		ref PathCell2D startPathCell  = ref paths[start.X, start.Y];
+		startPathCell = new PathCell2D(
 			id: start,
 			cost: 0, 
 			heuristic: CalculateHeuristic(start, end)
@@ -396,7 +396,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 
 		while(openList.Count > 0){
-			PathCell current = GetLowestTotalCostPathCell(openList);
+			PathCell2D current = GetLowestTotalCostPathCell(openList);
 
 			if(tolerance > 0){
 				if(WithinTolerance(toleranceLowerBound, toleranceUpperBound, ref current) == true
@@ -434,7 +434,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 				// ref PathCell neighbourPathCell = ref paths[neighbourId.X, neighbourId.Y]; 
 
-				PathCell neighbourPathCell  = new PathCell(
+				PathCell2D neighbourPathCell  = new PathCell2D(
 					id: neighbour,
 					parentId: current.Id,
 					cost: current.Cost + 1,
@@ -443,7 +443,7 @@ public partial class WayfindingGrid2D : Node2D{
 
 				// if already in open list with lower total cost.
 
-				ref PathCell existing = ref paths[neighbour.X, neighbour.Y];
+				ref PathCell2D existing = ref paths[neighbour.X, neighbour.Y];
 				if(openList.Contains(neighbour) && neighbourPathCell.Total >= neighbourPathCell.Total){    
 					continue;
 				}
@@ -474,7 +474,7 @@ public partial class WayfindingGrid2D : Node2D{
 	/// <param name="currentPathCell"></param>
 	/// <returns></returns>
 
-	private bool WithinTolerance(Vector2 lowerBound, Vector2 upperBound, ref PathCell currentPathCell){
+	private bool WithinTolerance(Vector2 lowerBound, Vector2 upperBound, ref PathCell2D currentPathCell){
 		return
 		currentPathCell.Id.X >= lowerBound.X && currentPathCell.Id.X <= upperBound.X
 		&& currentPathCell.Id.Y >= lowerBound.Y && currentPathCell.Id.Y <= upperBound.Y;
@@ -548,9 +548,9 @@ public partial class WayfindingGrid2D : Node2D{
 	/// <param name="endPathCell"></param>
 	/// <returns></returns>
 
-	private Stack<Vector2> ReconstructPath(PathCell endPathCell){
+	private Stack<Vector2> ReconstructPath(PathCell2D endPathCell){
 		Stack<Vector2> path = new Stack<Vector2>();
-		PathCell current = endPathCell;
+		PathCell2D current = endPathCell;
 		while(true){
 			// current.Id + (Vector2I.One * (agentSize-1));
 			path.Push(IdToGlobalPosition(current.Id));    
@@ -564,13 +564,13 @@ public partial class WayfindingGrid2D : Node2D{
 		return path;
 	}
 
-	private PathCell GetLowestTotalCostPathCell(List<Vector2I> indexes){
+	private PathCell2D GetLowestTotalCostPathCell(List<Vector2I> indexes){
 		Vector2I index = indexes[0];
-		PathCell best = paths[index.X, index.Y];
+		PathCell2D best = paths[index.X, index.Y];
 	
 		for(int i = 1; i < indexes.Count; i++){
 			index = indexes[i];
-			PathCell other = paths[index.X, index.Y];
+			PathCell2D other = paths[index.X, index.Y];
 			if(other.Total < best.Total){
 				best = other;
 			}
