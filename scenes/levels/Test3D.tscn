@@ -74,7 +74,7 @@ pausedTimer = NodePath("PausedTimer")
 one_shot = true
 
 [node name="Player" parent="." instance=ExtResource("2_v8ena")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.7802, 0, 6.66511)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.28, 2, 5.665)
 
 [node name="Sprite3D5" type="Sprite3D" parent="."]
 transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.5, 11.4387, 1.90652, 8.84573)
@@ -252,8 +252,9 @@ meshIndexToNavigationType = Array[int]([2, 4, 8])
 clearanceLayers = Array[int]([8])
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="Node3D" type="Node3D" parent="." node_paths=PackedStringArray("target")]
+[node name="Node3D3" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0, 2.5)
 script = ExtResource("11_eedjh")
 target = NodePath("../Player")
+size = 2
 Capability = 8

@@ -27,7 +27,7 @@ public partial class WayfindingAgent3D : Node3D{
 
         if(Path!=null){
             foreach(Vector3 point in Path){
-                DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.25f, new Color(1, 1, 0), true, 0.0167f);
+                // DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.25f, new Color(1, 1, 0), true, 0.0167f);
             }
         }
     }
