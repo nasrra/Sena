@@ -40,42 +40,6 @@ public partial class WayfindingGrid3D : GridMap{
 	private bool[,,] locked;
 	private NavigationType[,,] navigationType;
 
-	private static readonly Vector3I[] directions = [
-		new(-1, -1, -1), // LeftDownBack
-		new(-1, -1,  0), // LeftDown
-		new(-1, -1,  1), // LeftDownFront
-
-		new(-1,  0, -1), // LeftBack
-		new(-1,  0,  0), // Left
-		new(-1,  0,  1), // LeftFront
-
-		new(-1,  1, -1), // LeftUpBack
-		new(-1,  1,  0), // LeftUp
-		new(-1,  1,  1), // LeftUpFront
-
-		new( 0, -1, -1), // DownBack
-		new( 0, -1,  1), // DownFront
-
-		new( 0,  0, -1), // Back
-		new( 0,  0,  1), // Front
-
-		new( 0,  1, -1), // UpBack
-		new( 0,  1,  1), // UpFront
-
-		new( 1, -1, -1), // RightDownBack
-		new( 1, -1,  0), // RightDown
-		new( 1, -1,  1), // RightDownFront
-
-		new( 1,  0, -1), // RightBack
-		new( 1,  0,  0), // Right
-		new( 1,  0,  1), // RightFront
-
-		new( 1,  1, -1), // RightUpBack
-		new( 1,  1,  0), // RightUp
-		new( 1,  1,  1)  // RightUpFront
-	];
-
-
 	[Export] private Font debugFont;
 	private Color debugBlockedColour        = new Color(1,0,0,1f);
 	private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,1f);
@@ -416,6 +380,23 @@ public partial class WayfindingGrid3D : GridMap{
 		return false;
 	}
 
+	private void GetDetailedCellSliceNavigability( Vector3I startIndex, NavigationType capability, out (Vector3I, bool) belowCell, out (Vector3I, bool) startCell, out (Vector3I, bool) aboveCell){
+		
+		aboveCell 	= (startIndex + Vector3I.Up, false);
+		belowCell 	= (startIndex + Vector3I.Down, false);
+		startCell 	= (startIndex, false);
+		
+		// check if the cell is None as well for proper elevation navigation checking.
+
+		bool belowIsValid 		= IsCellValid(belowCell.Item1) && IsCellNavigable(belowCell.Item1, capability | NavigationType.None);
+		bool startIsValid 		= IsCellValid(startCell.Item1) && IsCellNavigable(startCell.Item1, capability | NavigationType.None);
+		bool aboveIsValid 		= IsCellValid(aboveCell.Item1) && IsCellNavigable(aboveCell.Item1, capability | NavigationType.None);
+
+		belowCell.Item2 = belowIsValid && startIsValid && IsCellNavigable(belowCell.Item1, capability);
+		startCell.Item2 = startIsValid && IsCellNavigable(startCell.Item1, capability);
+		aboveCell.Item2 = aboveIsValid && IsCellNavigable(aboveCell.Item1, capability);
+	}
+
 	private bool IsCellNavigable(Vector3I cell, NavigationType capability){
 		return IsCellNavigable(cell.X, cell.Y, cell.Z, capability);
 	}
@@ -453,23 +434,26 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="tolerance">the amount of leeway given for the end point check.</param>
 	// /// <returns></returns>
 
-	private Stack<Vector3> GetPath(Vector3I start, Vector3I end, int clearanceLayer, NavigationType capability, byte agentSize, byte tolerance = 0){
-		if(IsCellValid(start) == false || IsCellValid(end) == false || IsCellNavigable(start, capability) == false  || IsCellNavigable(end,capability) == false){
+	private Stack<Vector3> GetPath(Vector3I startIndex, Vector3I endIndex, int clearanceLayer, NavigationType capability, byte agentSize, byte tolerance = 0){
+		if(IsCellValid(startIndex) == false 
+		|| IsCellValid(endIndex) == false 
+		|| IsCellNavigable(startIndex, capability) == false  
+		|| IsCellNavigable(endIndex,capability) == false){
 			return new();
 		}
 
 		List<Vector3I> openList = new List<Vector3I>();
 		HashSet<Vector3I> closedSet = new HashSet<Vector3I>();
 		
-		ref PathCell3D endPathCell    = ref paths[end.X, end.Y, end.Z];
-		ref PathCell3D startPathCell  = ref paths[start.X, start.Y, start.Z];
+		ref PathCell3D endPathCell    = ref paths[endIndex.X, endIndex.Y, endIndex.Z];
+		ref PathCell3D startPathCell  = ref paths[startIndex.X, startIndex.Y, startIndex.Z];
 		startPathCell = new PathCell3D(
 			cost: 0, 
-			heuristic: CalculateHeuristic(start, end)
+			heuristic: CalculateHeuristic(startIndex, endIndex)
 		);
 
-		openList.Add(start);
-		closedSet.Add(start);
+		openList.Add(startIndex);
+		closedSet.Add(startIndex);
 
 		Vector3I toleranceLowerBound = Vector3I.Zero;
 		Vector3I toleranceUpperBound = Vector3I.Zero;
@@ -487,58 +471,193 @@ public partial class WayfindingGrid3D : GridMap{
 
 			if(tolerance > 0){
 				if(currentIndex <= toleranceUpperBound && currentIndex >= toleranceLowerBound
-				&& CalcToleranceBetweenPathCells(currentIndex, end, capability) == true){
+				&& CalcToleranceBetweenPathCells(currentIndex, endIndex, capability) == true){
 					return ReconstructPath(current, currentIndex);
 				}
 			}
-			else if(currentIndex == end){
+			else if(currentIndex == endIndex){
 				return ReconstructPath(current, currentIndex);
 			}
 
 			openList.Remove(currentIndex);
 			closedSet.Add(currentIndex);
 
-			foreach(Vector3I direction in directions){
-				Vector3I neighbour = currentIndex + direction;
+			// get available paths with corner checking:
 
-				// check bounds.
-				
-				if(closedSet.Contains(neighbour) || IsCellValid(neighbour)==false){
-					continue;
-				}
+			// front 
 
-				// Check if terrain is in agent's capability
-				if (IsCellNavigable(neighbour, capability)==false){
-					continue;
-				}
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward, capability, out (Vector3I, bool) frontBelowCell, out (Vector3I, bool) frontStartCell, out (Vector3I, bool) frontAboveCell);
+			if(frontBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
 
-				// check clearance.
+			// back
 
-				if(clearance[clearanceLayer, neighbour.X, neighbour.Y, neighbour.Z] < agentSize){
-					continue;
-				}
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back, capability, out (Vector3I, bool) backBelowCell, out (Vector3I, bool) backStartCell, out (Vector3I, bool) backAboveCell);
+			if(backBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
 
-				PathCell3D neighbourPathCell  = new PathCell3D(
-					parentId: currentIndex,
-					cost: current.Cost + 1,
-					heuristic: CalculateHeuristic(neighbour, end)
-				);
+			// left.
 
-				// if already in open list with lower total cost.
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Left, capability, out (Vector3I, bool) leftBelowCell, out (Vector3I, bool) leftStartCell, out (Vector3I, bool) leftAboveCell);
+			if(leftBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, leftBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(leftAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, leftAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(leftStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, leftStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
 
-				ref PathCell3D existing = ref paths[neighbour.X, neighbour.Y, neighbour.Z];
-				if(openList.Contains(neighbour) && neighbourPathCell.Total >= neighbourPathCell.Total){    
-					continue;
-				}
+			// right.
 
-				// assign the neighbour data.
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Right, capability, out (Vector3I, bool) rightBelowCell, out (Vector3I, bool) rightStartCell, out (Vector3I, bool) rightAboveCell);
+			if(rightBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, rightBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(rightAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, rightAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(rightStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, rightStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+		
+			// front left.
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Left, capability, out (Vector3I, bool) frontLeftBelowCell, out (Vector3I, bool) frontLeftStartCell, out (Vector3I, bool) frontLeftAboveCell);
+			if(frontBelowCell.Item2 == true && leftBelowCell.Item2==true && frontLeftBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontLeftBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontAboveCell.Item2 == true && leftAboveCell.Item2==true && frontLeftAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontLeftAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontStartCell.Item2 == true && leftStartCell.Item2==true && frontLeftStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontLeftStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);	
 
-				existing = neighbourPathCell;
+			// front right.
 
-				openList.Add(neighbour);
-			}
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Right, capability, out (Vector3I, bool) frontRightBelowCell, out (Vector3I, bool) frontRightStartCell, out (Vector3I, bool) frontRightAboveCell);
+			if(frontBelowCell.Item2 == true && rightBelowCell.Item2==true && frontRightBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontRightBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontAboveCell.Item2 == true && rightAboveCell.Item2==true && frontRightAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontRightAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(frontStartCell.Item2 == true && rightStartCell.Item2==true && frontRightStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontRightStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);		
+		
+			// back right.
+
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Right, capability, out (Vector3I, bool) backRightBelowCell, out (Vector3I, bool) backRightStartCell, out (Vector3I, bool) backRightAboveCell);
+			if(backBelowCell.Item2 == true && rightBelowCell.Item2==true && backRightBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backRightBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backAboveCell.Item2 == true && rightAboveCell.Item2==true && backRightAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backRightAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backStartCell.Item2 == true && rightStartCell.Item2==true && backRightStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backRightStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);		
+
+			// back left 
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Left, capability, out (Vector3I, bool) backLeftBelowCell, out (Vector3I, bool) backLeftStartCell, out (Vector3I, bool) backLeftAboveCell);
+			if(backBelowCell.Item2 == true && leftBelowCell.Item2==true && backLeftBelowCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backLeftBelowCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backAboveCell.Item2 == true && leftAboveCell.Item2==true && backLeftAboveCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backLeftAboveCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);
+			if(backStartCell.Item2 == true && leftStartCell.Item2==true && backLeftStartCell.Item2==true)
+				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backLeftStartCell.Item1, endIndex, clearanceLayer, current.Cost, agentSize, capability);	
+
 		}
 		return new();
+	}
+
+	private void HandleFoundPathCellNeighbour(
+		List<Vector3I> openList, 
+		HashSet<Vector3I> closedSet, 
+		in Vector3I currentIndex, 
+		in Vector3I neighbourIndex, 
+		in Vector3I endIndex, 
+		int clearanceLayer, 
+		int currentCost, 
+		byte agentSize, 
+		NavigationType capability)
+	{
+		
+		if(closedSet.Contains(neighbourIndex)==false){
+			if(openList.Contains(neighbourIndex)==false){
+				AddNeighbourPathCellToOpenList(openList, currentIndex, neighbourIndex, endIndex, clearanceLayer, currentCost, agentSize, capability);
+			}
+			else{
+				ReplaceNeighbourPathCellToOpenList(openList, currentIndex, neighbourIndex, endIndex, clearanceLayer, currentCost, agentSize, capability);
+			}
+		}
+	}
+
+	private bool ReplaceNeighbourPathCellToOpenList(List<Vector3I> openList, in Vector3I currentIndex, in Vector3I neighbourIndex, in Vector3I endIndex, int clearanceLayer, int currentCost, byte agentSize, NavigationType capability){		
+		if(CreateNeighbourPathCell(
+			currentIndex,
+			neighbourIndex,
+			endIndex,
+			clearanceLayer,
+			currentCost,
+			agentSize,
+			capability,
+			out PathCell3D neighbour
+			
+		) == false){
+			return false;
+		}
+
+		ref PathCell3D existing = ref paths[neighbourIndex.X, neighbourIndex.Y, neighbourIndex.Z];
+
+		if(neighbour.Total >= existing.Total){    
+			return false;
+		}
+
+		// assign the neighbour data.
+
+		existing = neighbour;
+		openList.Add(neighbourIndex);
+		return true;
+	}
+
+	private bool AddNeighbourPathCellToOpenList(List<Vector3I> openList, in Vector3I currentIndex, in Vector3I neighbourIndex, in Vector3I endIndex, int clearanceLayer, int currentCost, byte agentSize, NavigationType capability){		
+		DebugDraw3D.DrawBox(MapToLocal(neighbourIndex), Quaternion.Identity, Vector3.One * 0.1f, debugBlockedColour, true, 0.167f);
+		if(CreateNeighbourPathCell(
+			currentIndex,
+			neighbourIndex,
+			endIndex,
+			clearanceLayer,
+			currentCost,
+			agentSize,
+			capability,
+			out PathCell3D neighbour
+			
+		) == false){
+			return false;
+		}
+		paths[neighbourIndex.X, neighbourIndex.Y, neighbourIndex.Z] = neighbour;
+		// assign the neighbour data.
+		openList.Add(neighbourIndex);
+		return true;
+	}
+
+	private bool CreateNeighbourPathCell(in Vector3I currentIndex, in Vector3I neighbourIndex, in Vector3I endIndex, int clearanceLayer, int currentCost, byte agentSize, NavigationType capability, out PathCell3D neighbour){
+		// Check if terrain is in agent's capability
+		neighbour = new PathCell3D();
+		
+		if (IsCellValid(neighbourIndex)== false || IsCellNavigable(neighbourIndex, capability)==false){
+			return false;
+		}
+		DebugDraw3D.DrawBox(MapToLocal(neighbourIndex), Quaternion.Identity, Vector3.One * 0.1f, debugOpenColour, true, 0.167f);
+		
+		// check clearance.
+		if(clearance[clearanceLayer, neighbourIndex.X, neighbourIndex.Y, neighbourIndex.Z] < agentSize){
+			return false;
+		}
+
+		neighbour  = new PathCell3D(
+			parentId: currentIndex,
+			cost: currentCost + 1,
+			heuristic: CalculateHeuristic(neighbourIndex, endIndex)
+		);
+
+		return true;
 	}
 
 	private Vector3I GetLowestTotalCostPathCell(List<Vector3I> indexes){
@@ -562,7 +681,7 @@ public partial class WayfindingGrid3D : GridMap{
 	// 	return best;
 	// }
 	
-	private int CalculateHeuristic(Vector3I a, Vector3I b) {
+	private int CalculateHeuristic(in Vector3I a, in Vector3I b) {
 		int dx = Math.Abs(a.X - b.X);
 		int dy = Math.Abs(a.Y - b.Y);
 		int dz = Math.Abs(a.Z - b.Z);
