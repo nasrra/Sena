@@ -279,20 +279,20 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		PhysicsProcess = null;
 		attackHandler.PauseState();
 		characterMovement?.PauseState();
-		audioPlayer?.PauseState();
-		hitBoxHandler?.PauseState();
-		agressionZone?.PauseState();
+		audioPlayer.PauseState();
+		hitBoxHandler.PauseState();
+		agressionZone.PauseState();
 		wanderer?.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
 	protected void ResumeState(){
 		attackHandler.ResumeState();
-		characterMovement?.ResumeState();
-		audioPlayer?.ResumeState();
+		characterMovement.ResumeState();
+		audioPlayer.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
-		hitBoxHandler?.ResumeState();
-		agressionZone?.ResumeState();
+		hitBoxHandler.ResumeState();
+		agressionZone.ResumeState();
 		wanderer?.ResumeState();
 		EvaluateState();
 	}
@@ -408,7 +408,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		LinkAnimator();
 		LinkHealth();
 		LinkAttackHandler();
-		// LinkHitBoxHandler();
+		LinkHitBoxHandler();
 		LinkTimers();
 		LinkAgressionZone();
 		// LinkAiWander();
@@ -420,7 +420,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		UnlinkAnimator();
 		UnlinkHealth();
 		UnlinkAttackHandler();
-		// UnlinkHitBoxHandler();
+		UnlinkHitBoxHandler();
 		UnlinkTimers();
 		UnlinkAgressionZone();
 		// UnlinkAiWander();
@@ -548,7 +548,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 
 	private void HandleAttackHit(Node other, int hitboxId){
-		string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
+		string hitLayer = PhysicsManager.Singleton.GetPhysics3DLayerName((other as CollisionObject3D).CollisionLayer);
 		switch (hitLayer){
 			case "Player":
 				Health playerHealth = other.GetNode<Health>(Health.NodeName);

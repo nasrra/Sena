@@ -20,8 +20,10 @@ size = Vector3(1, 4, 1)
 [node name="Sprite3D5" type="Sprite3D" parent="."]
 transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.375, 0, 2, 0.5)
 material_override = SubResource("StandardMaterial3D_o7jrf")
+cast_shadow = 0
 shaded = true
-alpha_cut = 1
+double_sided = false
+alpha_cut = 2
 texture = ExtResource("1_i55is")
 
 [node name="SpriteSorter3D" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]

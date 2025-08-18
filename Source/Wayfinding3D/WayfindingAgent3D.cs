@@ -22,10 +22,6 @@ public partial class WayfindingAgent3D : Node3D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
-
-        TargetPosition = target.GlobalPosition;
-        CalculateNewPath();
-
         if(Path!=null){
             foreach(Vector3 point in Path){
                 DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.01f, new Color(1, 1, 0), true, 0.0167f);

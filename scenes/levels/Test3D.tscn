@@ -31,9 +31,11 @@ tonemap_mode = 1
 tonemap_exposure = 2.0
 ssao_enabled = true
 glow_enabled = true
+fog_enabled = true
 fog_mode = 1
+fog_light_color = Color(0, 0.490196, 0.607843, 1)
 fog_light_energy = 0.5
-fog_density = 0.66
+fog_density = 0.2
 fog_sky_affect = 0.0
 fog_height_density = -0.0165
 fog_depth_curve = 0.333333
@@ -62,8 +64,9 @@ pausedTimer = NodePath("PausedTimer")
 [node name="PausedTimer" type="Timer" parent="EntityManager"]
 one_shot = true
 
-[node name="Player" parent="." instance=ExtResource("2_v8ena")]
+[node name="Player" parent="." node_paths=PackedStringArray("camera") instance=ExtResource("2_v8ena")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.78, 0, 5.665)
+camera = NodePath("../Camera")
 
 [node name="Camera" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("3_8kirm")]
 transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 3, 12, 15.5)

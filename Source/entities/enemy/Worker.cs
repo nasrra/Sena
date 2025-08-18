@@ -88,7 +88,7 @@ public partial class Worker : Enemy{
 					break;
 				}
                 PlayAnimation("Attack", attackFacingDirection);
-				characterMovement.Impulse(normalDirectionToTarget * 100f);
+				characterMovement.Impulse(normalDirectionToTarget * 12f);
 			break;
 			default:
 			throw new Exception($"Attack id[{attackId}] has not been implemented!");

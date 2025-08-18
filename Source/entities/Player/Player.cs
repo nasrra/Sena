@@ -469,7 +469,7 @@ public partial class Player : CharacterBody3D{
 
 	private void HandleDamaged(){
 		hitFlash.Flash();
-		camera.StartShake(20.0f, 0.33f);
+		camera.StartShake(1.5f, 0.33f);
 		camera.Vignette.Update(0.33f,1f,0.01f);
 		camera.Vignette.QueueUpdate(0,0,0.005f,1f);
 		Health.SetInvincible(time:1f);
@@ -550,7 +550,7 @@ public partial class Player : CharacterBody3D{
 		hitBoxes.OnHit -= OnHitBoxHit;
 	}
 
-	private void OnHitBoxHit(Node2D node, int id){
+	private void OnHitBoxHit(Node3D node, int id){
 		throw new Exception("player hit enemy not implemented!");
 
 		// // validate physics layer name.

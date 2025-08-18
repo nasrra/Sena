@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-public partial class HitBox : Area2D{
+public partial class HitBox : Area3D{
     private HashSet<ulong> hits = new HashSet<ulong>();
     [Export] Timer enabledTimer;
-    [Export] CollisionShape2D collsionShape;
-    public event Action<Node2D, int> OnHit;
+    [Export] CollisionShape3D collsionShape;
+    public event Action<Node3D, int> OnHit;
     private int id;
 
     /// 
@@ -26,10 +26,13 @@ public partial class HitBox : Area2D{
 
     public override void _PhysicsProcess(double delta){
         base._PhysicsProcess(delta);
-        if (collsionShape.Disabled == false && collsionShape.Shape is RectangleShape2D rectShape){
-            GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-            debugDraw.Call("rect",collsionShape.GlobalPosition, rectShape.Size* Scale, new Color(1, 1f, 1), 1f, 0.0167f);
+        #if TOOLS
+        if(collsionShape.Disabled==false){
+            if (collsionShape.Shape is BoxShape3D boxShape){
+                DebugDraw3D.DrawBox(GlobalPosition, Quaternion.Identity, boxShape.Size * Scale, new Color(1,1,1,1), true, 0.0167f);
+            }
         }
+        #endif
     }
 
 
@@ -69,7 +72,7 @@ public partial class HitBox : Area2D{
         enabledTimer.Stop();
     }
 
-    private void CollisionCallback(Node2D node){
+    private void CollisionCallback(Node3D node){
         ulong instanceId = node.GetInstanceId();
         if(hits.Contains(instanceId)){
             return;

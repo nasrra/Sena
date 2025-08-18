@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1fp7wi1kjw4u"]
+[gd_scene load_steps=6 format=3 uid="uid://c1fp7wi1kjw4u"]
 
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="1_45jq6"]
 [ext_resource type="SpriteFrames" uid="uid://ducvecsmuxhlm" path="res://assets/animations/worker/Worker.tres" id="3_83uge"]
 [ext_resource type="Script" uid="uid://bqy2sse3j5igu" path="res://source/entities/enemy/Worker.cs" id="3_afjqp"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="3_ayerf"]
+[ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="5_afjqp"]
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
 avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
@@ -13,6 +14,7 @@ health = NodePath("Health")
 navAgent = NodePath("WayfindingAgent3D")
 characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
+hitBoxHandler = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 animator = NodePath("AnimatedSprite3D")
 audioPlayer = NodePath("AudioPlayer")
@@ -35,6 +37,9 @@ one_shot = true
 Max = 3
 Value = 3
 
+[node name="AgressionZone" parent="." index="5"]
+visible = false
+
 [node name="WayfindingAgent3D" parent="." index="8"]
 Capability = 8
 
@@ -45,3 +50,18 @@ sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="10"]
+
+[node name="HitBoxHandler" parent="." index="13" node_paths=PackedStringArray("hitBoxes")]
+hitBoxes = [NodePath("HitboxBackward"), NodePath("HitboxLeft"), NodePath("HitboxRight"), NodePath("HitboxForward")]
+
+[node name="HitboxBackward" parent="HitBoxHandler" index="0" instance=ExtResource("5_afjqp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.75)
+
+[node name="HitboxForward" parent="HitBoxHandler" index="1" instance=ExtResource("5_afjqp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.75)
+
+[node name="HitboxRight" parent="HitBoxHandler" index="2" instance=ExtResource("5_afjqp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.5, 0)
+
+[node name="HitboxLeft" parent="HitBoxHandler" index="3" instance=ExtResource("5_afjqp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.5, 0)

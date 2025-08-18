@@ -35,7 +35,7 @@ public partial class HitFlashShaderController : Node{
     }
 
     private void ActiveStateProcess(){
-        shaderMaterial.SetShaderParameter("flash_value", timer.TimeLeft / timer.WaitTime);
+        shaderMaterial?.SetShaderParameter("flash_value", timer.TimeLeft / timer.WaitTime);
     }
 
     private void Stop(){

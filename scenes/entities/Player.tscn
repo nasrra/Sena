@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=16 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -11,7 +11,6 @@
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/animations/sena/Sena.tres" id="9_jh8vs"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
-[ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
 [ext_resource type="Script" uid="uid://bn5g5x8duv4dq" path="res://Entropek/source/globals/fmod/AudioListener3D.cs" id="15_vty87"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="16_deer0"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
@@ -56,30 +55,10 @@ scale = Vector2(40, 40)
 script = ExtResource("5_sdcm4")
 projectilePackedScene = ExtResource("6_jh8vs")
 
-[node name="HitBoxHandler" type="Node2D" parent="." node_paths=PackedStringArray("hitBoxes")]
+[node name="HitBoxHandler" type="Node3D" parent="." node_paths=PackedStringArray("hitBoxes")]
 visible = false
 script = ExtResource("5_cxr5p")
-hitBoxes = [NodePath("SlashDown"), NodePath("SlashLeft"), NodePath("SlashRight"), NodePath("SlashUp")]
-
-[node name="SlashDown" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(0, 8)
-scale = Vector2(28, 20)
-collision_mask = 12
-
-[node name="SlashLeft" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(-15, -6)
-scale = Vector2(20, 28)
-collision_mask = 12
-
-[node name="SlashRight" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(15, -6)
-scale = Vector2(20, 28)
-collision_mask = 12
-
-[node name="SlashUp" parent="HitBoxHandler" instance=ExtResource("15_37p5y")]
-position = Vector2(0, -21)
-scale = Vector2(28, 20)
-collision_mask = 12
+hitBoxes = []
 
 [node name="EmberStorage" type="Node" parent="."]
 script = ExtResource("8_5ncpa")
@@ -121,10 +100,11 @@ omni_shadow_mode = 0
 
 [node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 0.000468969, 0)
-cast_shadow = 2
+cast_shadow = 0
 offset = Vector2(0, 106.28)
 shaded = true
 double_sided = false
+alpha_cut = 2
 sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
 
