@@ -127,6 +127,10 @@ script = ExtResource("13_yskyh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 0, 8)
 Target = NodePath("../Player")
 
+[node name="Worker5" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("12_pmuki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25, 2, 6.5)
+Target = NodePath("../Player")
+
 [node name="AudioBankLoader" type="Node" parent="."]
 script = ExtResource("13_fper4")
 bankName = "Test"

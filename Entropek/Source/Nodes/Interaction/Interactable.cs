@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Interactable : Area2D{
+public partial class Interactable : Area3D{
     public const string NodeName = nameof(Interactable);
     [Export] private Label interactIcon; 
     public event Action<Interactor> OnInteract;

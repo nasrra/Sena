@@ -32,7 +32,7 @@ public partial class PlayerAimCursour : Node3D{
 
 	public override void _Process(double delta){
 		base._PhysicsProcess(delta);
-		AimAngle = Mathf.Atan2(AimDirection.Y, AimDirection.X);
+		AimAngle = Mathf.Atan2(AimDirection.Z, AimDirection.X);
 		AimAngle = Mathf.RadToDeg(AimAngle);
 		Cursour.GlobalPosition = GlobalPosition+AimDirection * CursourDistance;
 	}

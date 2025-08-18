@@ -31,8 +31,8 @@ public partial class Player : CharacterBody3D{
 
 	[ExportGroup("Variables")]
 	private Vector2I lastSafeTile = Vector2I.Zero;
-	private const float AttackLungeForce = 100f;
-	private const float AttackEnemyKnockback = 100f;
+	private const float AttackLungeForce = 12f;
+	private const float AttackEnemyKnockback = 12f;
 	private const float AttackPlayerKnockback = 80f;
 	private const float DashForce = 450f;
 	private PlayerState state = PlayerState.Standby;
@@ -65,7 +65,7 @@ public partial class Player : CharacterBody3D{
 
 		LoadPersistentData();
 		
-		// EnablePlayerAction(PlayerActions.Attack);
+		EnablePlayerAction(PlayerActions.Attack);
 		EnablePlayerAction(PlayerActions.Heal);
 		EnablePlayerAction(PlayerActions.Dash);
 		EnablePlayerAction(PlayerActions.FireFeather);
@@ -551,29 +551,26 @@ public partial class Player : CharacterBody3D{
 	}
 
 	private void OnHitBoxHit(Node3D node, int id){
-		throw new Exception("player hit enemy not implemented!");
-
-		// // validate physics layer name.
+		// validate physics layer name.
 		
-		// string layer = PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject2D).CollisionLayer);
-		// switch(layer){
-		// 	case "Enemy":
-		// 		HandleOnHitEnemy((Enemy)node);
-		// 	break;
-		// 	case "HitInteractable":
-		// 		Interactable interactable = (Interactable)node;
-		// 		interactable.Interact(Interactor);
-		// 	break;
-		// 	default:
-		// 	throw new Exception($"{layer} not implemented.");
-		// }
+		string layer = PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject3D).CollisionLayer);
+		switch(layer){
+			case "Enemy":
+				HandleOnHitEnemy((Enemy)node);
+			break;
+			case "HitInteractable":
+				Interactable interactable = (Interactable)node;
+				interactable.Interact(Interactor);
+			break;
+			default:
+			throw new Exception($"{layer} not implemented.");
+		}
 	}
 	
 	private void HandleOnHitEnemy(Enemy enemy){
-		throw new Exception("player hit enemy not implemented!");
-		// Vector3 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
-		// enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName).Knockback(directionToHit * AttackEnemyKnockback); 
-		// enemy.GetNode<Health>(Health.NodeName).Damage(1);
-		// EmberStorage.Add(50);
+		Vector3 directionToHit = (enemy.GlobalPosition - GlobalPosition).Normalized();
+		enemy.GetNode<CharacterMovement>(CharacterMovement.NodeName).Knockback(directionToHit * AttackEnemyKnockback); 
+		enemy.GetNode<Health>(Health.NodeName).Damage(1);
+		EmberStorage.Add(50);
 	}
 }

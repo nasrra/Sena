@@ -3,7 +3,7 @@ using System;
 using Godot.Collections;
 using Entropek.Collections;
 
-public partial class Interactor : Area2D{
+public partial class Interactor : Area3D{
     private Interactable previous = null;
     private Interactable current = null;
     private SwapbackList<Interactable> inRange = new SwapbackList<Interactable>();
@@ -26,14 +26,14 @@ public partial class Interactor : Area2D{
         }
     }
 
-    private void OnAreaEnter(Node2D other){
+    private void OnAreaEnter(Node3D other){
         Interactable interactable = (Interactable)other;
         if(interactable != null){
             inRange.Add(interactable);
         }
     } 
 
-    private void OnAreaExit(Node2D other){
+    private void OnAreaExit(Node3D other){
         Interactable interactable = (Interactable)other;
         if(interactable != null){
             inRange.Remove(interactable);
@@ -49,10 +49,10 @@ public partial class Interactor : Area2D{
 
         for(int i = 0; i < inRange.Count; i++){
             Interactable other = inRange[i];
-            Vector2 direction = other.GlobalPosition - GlobalPosition;
+            Vector3 direction = other.GlobalPosition - GlobalPosition;
 
             // check if there is an obstruction.
-            var result = GetViewport().World2D.DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters2D
+            var result = GetWorld3D().DirectSpaceState.IntersectRay(new PhysicsRayQueryParameters3D
             {
                 From = GlobalPosition,
                 To = other.GlobalPosition,
