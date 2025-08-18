@@ -199,6 +199,7 @@ DebugCameraZoom={
 2d_navigation/layer_2="Blocked"
 3d_physics/layer_2="Player"
 2d_physics/layer_3="HitInteractable"
+3d_physics/layer_3="Enemy"
 2d_physics/layer_4="Enemy"
 2d_physics/layer_5="Interactable"
 2d_physics/layer_6="Player"

@@ -6,7 +6,7 @@ public partial class SpriteSorter3D : Node3D{
 
     public override void _Ready(){
         base._Ready();
-        UpdateRenderPriority();
+        UpdateSortingOffset();
     }
 
     public override void _PhysicsProcess(double delta){
@@ -14,7 +14,7 @@ public partial class SpriteSorter3D : Node3D{
     }
 
 
-    public void UpdateRenderPriority(){
+    public void UpdateSortingOffset(){
         sprite.SortingOffset = GlobalPosition.Z;
     }
 }

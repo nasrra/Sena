@@ -14,7 +14,6 @@ mesh = SubResource("QuadMesh_ateww")
 surface_material_override/0 = ExtResource("1_vi2es")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_8okjd")

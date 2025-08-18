@@ -5,23 +5,26 @@
 [ext_resource type="Script" uid="uid://bqy2sse3j5igu" path="res://source/entities/enemy/Worker.cs" id="3_afjqp"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="3_ayerf"]
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "health", "navAgent", "characterMovement", "hitFlash", "animator", "agressionZone") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitFlash", "animator", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
 collision_layer = 8
 collision_mask = 6
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
+avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
 health = NodePath("Health")
 navAgent = NodePath("WayfindingAgent3D")
 characterMovement = NodePath("CharacterMovement")
+attackHandler = NodePath("AiAttackHandler")
 hitFlash = NodePath("HitFlashShaderController")
 animator = NodePath("AnimatedSprite3D")
 agressionZone = NodePath("AgressionZone")
+spriteSorter = NodePath("SpriteSorter")
 
 [node name="CharacterMovement" parent="." index="0" node_paths=PackedStringArray("character")]
 character = NodePath("..")
-BaseTopSpeed = 50.0
-BaseAcceleration = 200.0
-BaseDeceleration = 200.0
+BaseTopSpeed = 2.0
+BaseAcceleration = 100.0
+BaseDeceleration = 100.0
 
 [node name="AiAttackHandler" parent="." index="1" node_paths=PackedStringArray("attackCooldowns")]
 attackCooldowns = [NodePath("PunchTimer")]
@@ -37,7 +40,7 @@ Value = 3
 Capability = 8
 
 [node name="AnimatedSprite3D" parent="." index="9"]
-transform = Transform3D(0.6, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0.90544, 0)
+transform = Transform3D(0.6, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.0587, 0)
 material_overlay = ExtResource("3_ayerf")
 sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"

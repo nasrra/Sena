@@ -39,7 +39,7 @@ public partial class Worker : Enemy{
 
     public override void _Ready(){
         base._Ready();
-		attackHandler?.Initialise(
+		attackHandler.Initialise(
 			downAttacks: 	[PunchAttack],
 			leftAttacks: 	[PunchAttack],	
 			omniAttacks: 	[],

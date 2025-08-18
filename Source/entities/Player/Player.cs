@@ -91,7 +91,7 @@ public partial class Player : CharacterBody3D{
 	}
 
 	private void PhysicsProcess(double delta){
-		spriteSorter.UpdateRenderPriority();
+		spriteSorter.UpdateSortingOffset();
 		statePhysicsProcess?.Invoke(delta);
 	}
 
@@ -272,7 +272,7 @@ public partial class Player : CharacterBody3D{
 		evaluateStateTimer.Timeout += EvaluateState;
 		LinkHitbox();        
 		LinkInput();
-		LinkHurtBox();
+		// LinkHurtBox();
 		LinkEmberStorage();
 		LinkHealth();
 		LinkGui();
@@ -283,7 +283,7 @@ public partial class Player : CharacterBody3D{
 		evaluateStateTimer.Timeout -= EvaluateState;
 		UnlinkHitBox();        
 		UnlinkInput();
-		UnlinkHurtBox();
+		// UnlinkHurtBox();
 		UnlinkEmberStorage();
 		UnlinkHealth();
 		UnlinkGui();
@@ -302,7 +302,7 @@ public partial class Player : CharacterBody3D{
 		InputManager.Singleton.OnHealInput       += OnHealInputCallback;
 		InputManager.Singleton.OnDashInput       += OnDashInputCallback;
 		InputManager.Singleton.OnShootInput      += OnShootInputCallback;
-		InputManager.Singleton.OnInteractInput   += Interactor.Interact;
+		InputManager.Singleton.OnInteractInput   += OnInteractInputCallback;
 	}
 
 	private void UnlinkInput(){
@@ -311,7 +311,7 @@ public partial class Player : CharacterBody3D{
 		InputManager.Singleton.OnHealInput       -= OnHealInputCallback;
 		InputManager.Singleton.OnDashInput       -= OnDashInputCallback;
 		InputManager.Singleton.OnShootInput      -= OnShootInputCallback;
-		InputManager.Singleton.OnInteractInput   -= Interactor.Interact;
+		InputManager.Singleton.OnInteractInput   -= OnInteractInputCallback;
 	}
 
 	private void OnAttackInputCallback(){
@@ -388,6 +388,11 @@ public partial class Player : CharacterBody3D{
 		
 		DashState();
 	}
+
+	private void OnInteractInputCallback(){
+		Interactor.Interact();
+	}
+
 
 	/// 
 	/// Hurtbox Linkage.

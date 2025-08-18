@@ -10,6 +10,7 @@ public partial class WayfindingAgent3D : Node3D{
     public Vector3 NextPathPoint {get;private set;}
     public Vector3 DistanceToPathPoint {get;private set;}
     public Vector3 DirectionToPathPoint {get;private set;}
+    [Export(PropertyHint.Layers3DPhysics)] private uint floorLayer;
     public event Action OnReachedTarget;
     private bool noPathPathAssignedLastTick = true;
     [Export] byte size = 1;
@@ -78,16 +79,42 @@ public partial class WayfindingAgent3D : Node3D{
     public void UpdateCurrentPathToTarget(){
         if(Path != null && Path.Count > 0){
             if(noPathPathAssignedLastTick == true){
-                NextPathPoint = Path.Pop();
+                SetNextPathPoint();
             }
             Vector3 distance = NextPathPoint - GlobalPosition;
             float distSqrd = distance.LengthSquared();
             if( distSqrd <= 1f && Path.Count > 0){
-                NextPathPoint = Path.Pop();
+                SetNextPathPoint();
             }
             if(Path.Count == 0){
                 OnReachedTarget?.Invoke();
             }
         }
+    }
+
+    private void SetNextPathPoint(){
+        
+        NextPathPoint = Path.Pop();
+        
+        // floor-y to the ground level.
+        
+        Godot.Collections.Dictionary result = GetWorld3D().DirectSpaceState.IntersectRay(
+            new PhysicsRayQueryParameters3D{
+            From                = NextPathPoint + (Vector3.Up * 0.01f), // add small y offset for stairs.
+            To                  = new Vector3(NextPathPoint.X, -byte.MaxValue, NextPathPoint.Z),
+            CollideWithAreas    = true,
+            CollideWithBodies   = true,
+            CollisionMask       = floorLayer
+        });
+
+        if(result.Count <= 0){
+            return;
+        }
+
+        Vector3 position = (Vector3)result["position"];
+
+        DebugDraw3D.DrawBox(position, Quaternion.Identity, Vector3.One * 0.1f, new Color(1,1,1,1), true, 1);
+
+        NextPathPoint = position;
     }
 }

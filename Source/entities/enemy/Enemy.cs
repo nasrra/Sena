@@ -19,6 +19,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
 	[Export] protected AvoidanceAgent avoidanceAgent;
+	[Export] protected SpriteSorter3D spriteSorter;
 	[Export] public Node3D Target;
 	
 	[ExportGroup("Wanderer")]
@@ -110,6 +111,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 
 	private void InvokePhysicsProcess(double delta){
+		spriteSorter.UpdateSortingOffset();
 		PhysicsProcess?.Invoke(delta);	
 	}
 
@@ -125,10 +127,10 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		if(Target == null){
 			IdleState();
 		}
-		else if(attackHandler?.IsAttacking == false){
+		else if(attackHandler.IsAttacking == false){
 			ChaseState();
 		}
-		attackHandler?.EvaluateState();
+		attackHandler.EvaluateState();
 	}
 
 
@@ -191,27 +193,27 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		attackHandler.ResumeState();
 	}
 	protected void ChaseStatePhysicsProcess(double delta){
-		throw new NotImplementedException("method is not implemented");
-		// if(IsInstanceValid(Target) == false || Target == null){
-		// 	return;
-		// }
+		// throw new NotImplementedException("method is not implemented");
+		if(IsInstanceValid(Target) == false || Target == null){
+			return;
+		}
 		
-		// CalculateRelationshipToTarget();
+		CalculateRelationshipToTarget();
 
-		// if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
-		// 	navAgent.SetTargetPosition(Target.Position);
-		// }
+		if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
+			navAgent.SetTargetPosition(Target.Position);
+		}
 
-		// MoveAlongPath();
+		MoveAlongPath();
 	
-		// Vector3 velocity = characterMovement.Velocity;
-		// if(velocity == Vector3.Zero){
-		// 	PlayAnimation(IdleAnimationName, facingDirection);
-		// }
-		// else{
-		// 	CalculateFacingDirection(velocity, out facingDirection);
-		// 	PlayAnimation(ChaseMoveAnimationName, facingDirection);
-		// }
+		Vector3 velocity = characterMovement.Velocity;
+		if(velocity == Vector3.Zero){
+			PlayAnimation(IdleAnimationName, facingDirection);
+		}
+		else{
+			CalculateFacingDirection(velocity, out facingDirection);
+			PlayAnimation(ChaseMoveAnimationName, facingDirection);
+		}
 	}
 
 	protected void ApproachIntentionChaseState(){
@@ -275,7 +277,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void PauseState(){
 		Process = null;
 		PhysicsProcess = null;
-		attackHandler?.PauseState();
+		attackHandler.PauseState();
 		characterMovement?.PauseState();
 		audioPlayer?.PauseState();
 		hitBoxHandler?.PauseState();
@@ -285,7 +287,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 
 	protected void ResumeState(){
-		attackHandler?.ResumeState();
+		attackHandler.ResumeState();
 		characterMovement?.ResumeState();
 		audioPlayer?.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
@@ -301,29 +303,27 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	/// 
 
 	protected void MoveAlongPath(){
-		throw new NotImplementedException("method is not implemented");
-		// if(navAgent.CalculateNewPath()==true){
-		// 	navAgent.UpdateCurrentPathToTarget();
-		// 	avoidanceAgent.CalculatAvoidanceDirection();
-		// 	characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
-
-		// }
-		// else{
-		// 	IdleState();
-		// }
+		if(navAgent.CalculateNewPath()==true){
+			navAgent.UpdateCurrentPathToTarget();
+			// avoidanceAgent.CalculatAvoidanceDirection();
+			// characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
+			characterMovement.Move(navAgent.NextPathPoint - GlobalPosition);
+		}
+		else{
+			IdleState();
+		}
 	}
 
 	protected void CalculateRelationshipToTarget(){		
-		throw new NotImplementedException("method is not implemented");
-		// if(IsInstanceValid(Target)==false || Target == null){
-		// 	return;
-		// }
+		if(IsInstanceValid(Target)==false || Target == null){
+			return;
+		}
 
-		// directionToTarget = Target.GlobalPosition- GlobalPosition;
-		// normalDirectionToTarget = directionToTarget.Normalized();
-		// distanceToTarget = directionToTarget.Length();
-		// attackHandler.SetDirectionToTarget(directionToTarget);
-		// attackHandler.SetDistanceToTarget(distanceToTarget);
+		directionToTarget = Target.GlobalPosition- GlobalPosition;
+		normalDirectionToTarget = directionToTarget.Normalized();
+		distanceToTarget = directionToTarget.Length();
+		attackHandler.SetDirectionToTarget(directionToTarget);
+		attackHandler.SetDistanceToTarget(distanceToTarget);
 	}
 
 	protected bool CalculateFacingDirection(Vector3 direction, out FacingDirection facing){
@@ -334,7 +334,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 			return false;
 		}
 		
-		float angle = Mathf.Atan2(direction.Y, direction.Z);
+		float angle = Mathf.Atan2(direction.Z, direction.X);
 		angle = Mathf.RadToDeg(angle);
 		// Ceil to nearest multiple of 2
 		angle = Mathf.Ceil(angle * 0.5f) * 2f;
@@ -407,7 +407,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		LinkEntityManager();
 		LinkAnimator();
 		LinkHealth();
-		// LinkAttackHandler();
+		LinkAttackHandler();
 		// LinkHitBoxHandler();
 		LinkTimers();
 		LinkAgressionZone();
@@ -419,7 +419,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		UnlinkEntityManager();
 		UnlinkAnimator();
 		UnlinkHealth();
-		// UnlinkAttackHandler();
+		UnlinkAttackHandler();
 		// UnlinkHitBoxHandler();
 		UnlinkTimers();
 		UnlinkAgressionZone();
@@ -567,12 +567,12 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	protected virtual void LinkTimers(){
 		stunTimer.Timeout 							+= EvaluateState;
-		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
+		// avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void UnlinkTimers(){
 		stunTimer.Timeout 							-= EvaluateState;
-		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
+		// avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
 	}
 
 

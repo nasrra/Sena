@@ -54,15 +54,14 @@ public partial class AgressionZone : Node3D{
                 continue;
             }
 
-            PhysicsRayQueryParameters3D parameters = new PhysicsRayQueryParameters3D{
+            Godot.Collections.Dictionary result = spaceState.IntersectRay(
+                new PhysicsRayQueryParameters3D{
                 From                = GlobalPosition,
                 To                  = node.GlobalPosition,
                 CollideWithAreas    = true,
                 CollideWithBodies   = true,
                 CollisionMask       = obstructionLayer,
-            };
-
-            Godot.Collections.Dictionary result = spaceState.IntersectRay(parameters);
+            });
         
             if(result.Count>0){
                 if(notInSight.Contains(node)==false){
@@ -85,7 +84,6 @@ public partial class AgressionZone : Node3D{
     private void HandlePassiveZoneEntered(Node3D node){
         
         collisions.Add(node);
-
         if(paused==false){
             OnEnteredZone?.Invoke(node);
         }

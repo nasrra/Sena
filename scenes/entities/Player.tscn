@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=17 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://iquoym3371cm" path="res://icon.svg" id="1_xhfnw"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://dwkf62bbh1dli" path="res://scenes/projectiles/FireFeather.tscn" id="6_jh8vs"]
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/animations/sena/Sena.tres" id="9_jh8vs"]
-[ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="9_wi0c6"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="15_37p5y"]
@@ -17,21 +16,14 @@
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="16_deer0"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_deer0"]
-radius = 1.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boxie"]
-radius = 3.0
-height = 12.0
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_37p5y"]
 radius = 0.33
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "spriteSorter")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "spriteSorter")]
+collision_layer = 2
 script = ExtResource("1_kne1u")
 emberDecayRate = NodePath("EmberDecayRate")
 evaluateStateTimer = NodePath("EvaluateStateTimer")
-hurtBox = NodePath("HurtBox")
 animator = NodePath("AnimatedSprite3D2")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
@@ -39,7 +31,6 @@ hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
-Interactor = NodePath("Interactor")
 spriteSorter = NodePath("SpriteSorter3D")
 
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
@@ -94,32 +85,11 @@ collision_mask = 12
 script = ExtResource("8_5ncpa")
 MaxNotchAmount = 3
 
-[node name="Interactor" type="Area2D" parent="."]
-visible = false
-position = Vector2(0, -6)
-scale = Vector2(16, 16)
-collision_layer = 0
-collision_mask = 16
-script = ExtResource("9_wi0c6")
-ObstructionLayer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactor"]
-shape = SubResource("CircleShape2D_deer0")
-
 [node name="HitFlashShaderController" parent="." instance=ExtResource("10_rafx0")]
 
 [node name="Health" parent="." instance=ExtResource("11_boxie")]
 Max = 3
 Value = 3
-
-[node name="HurtBox" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 136
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, -6)
-shape = SubResource("CapsuleShape2D_boxie")
 
 [node name="EmberDecayRate" type="Timer" parent="."]
 wait_time = 0.15

@@ -402,8 +402,8 @@ public partial class AiAttackHandler : Node{
         this.distanceToTarget = distanceToTarget;
     }
 
-    public void SetDirectionToTarget(Vector2 directionToTarget){
-        angleToTarget = Mathf.Atan2(directionToTarget.Y, directionToTarget.X);
+    public void SetDirectionToTarget(Vector3 directionToTarget){
+        angleToTarget = Mathf.Atan2(directionToTarget.Z, directionToTarget.X);
         angleToTarget = Mathf.RadToDeg(angleToTarget);
     
         if(angleToTarget >= -135 && angleToTarget <= -45){
