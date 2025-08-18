@@ -10,12 +10,12 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	[Export] protected Timer stunTimer;
 	[Export] protected Timer avoidanceIntentionChaseStateTimer;
 	[Export] protected Health health;
-	[Export] protected WayfindingAgent2D navAgent;
+	[Export] protected WayfindingAgent3D navAgent;
 	[Export] protected CharacterMovement characterMovement;
 	[Export] protected AiAttackHandler attackHandler;
 	[Export] protected HitBoxHandler hitBoxHandler;
 	[Export] protected HitFlashShaderController hitFlash;
-	[Export] protected AnimatedSprite2D animator;
+	[Export] protected AnimatedSprite3D animator;
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
 	[Export] protected AvoidanceAgent avoidanceAgent;
@@ -83,7 +83,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	public override void _Ready(){
 		base._Ready();
 		EnemyManager.Instance.AddEnemy(this);
-		wanderer.Initialise(
+		wanderer?.Initialise(
 			minPathTime,
 			maxPathTime,
 			minIdleTime,
@@ -125,10 +125,10 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		if(Target == null){
 			IdleState();
 		}
-		else if(attackHandler.IsAttacking == false){
+		else if(attackHandler?.IsAttacking == false){
 			ChaseState();
 		}
-		attackHandler.EvaluateState();
+		attackHandler?.EvaluateState();
 	}
 
 
@@ -147,8 +147,8 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		
 		state 			= EnemyState.Idle;
 		animator.Play("IdleBackward");
-		wanderer.SetOrigin(GlobalPosition);
-		wanderer.EvaluateState();
+		wanderer?.SetOrigin(GlobalPosition);
+		wanderer?.EvaluateState();
 	}
 
 	protected void IdleStatePhysicsProcess(double delta){
@@ -170,7 +170,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	protected void ChaseState(Node3D target){
 		SetTarget(target);
-		wanderer.PauseState();
+		wanderer?.PauseState();
 		ChaseState();
 	}
 
@@ -275,23 +275,23 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void PauseState(){
 		Process = null;
 		PhysicsProcess = null;
-		attackHandler.PauseState();
-		characterMovement.PauseState();
-		audioPlayer.PauseState();
-		hitBoxHandler.PauseState();
-		agressionZone.PauseState();
-		wanderer.PauseState();
+		attackHandler?.PauseState();
+		characterMovement?.PauseState();
+		audioPlayer?.PauseState();
+		hitBoxHandler?.PauseState();
+		agressionZone?.PauseState();
+		wanderer?.PauseState();
 		animator.SpeedScale = 0; // pause animator.
 	}
 
 	protected void ResumeState(){
-		attackHandler.ResumeState();
-		characterMovement.ResumeState();
-		audioPlayer.ResumeState();
+		attackHandler?.ResumeState();
+		characterMovement?.ResumeState();
+		audioPlayer?.ResumeState();
 		animator.SpeedScale = 1; // resume animator.
-		hitBoxHandler.ResumeState();
-		agressionZone.ResumeState();
-		wanderer.ResumeState();
+		hitBoxHandler?.ResumeState();
+		agressionZone?.ResumeState();
+		wanderer?.ResumeState();
 		EvaluateState();
 	}
 
@@ -407,11 +407,11 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		LinkEntityManager();
 		LinkAnimator();
 		LinkHealth();
-		LinkAttackHandler();
-		LinkHitBoxHandler();
+		// LinkAttackHandler();
+		// LinkHitBoxHandler();
 		LinkTimers();
 		LinkAgressionZone();
-		LinkAiWander();
+		// LinkAiWander();
 		LinkWayfindingAgent();
 	}
 
@@ -419,11 +419,11 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		UnlinkEntityManager();
 		UnlinkAnimator();
 		UnlinkHealth();
-		UnlinkAttackHandler();
-		UnlinkHitBoxHandler();
+		// UnlinkAttackHandler();
+		// UnlinkHitBoxHandler();
 		UnlinkTimers();
 		UnlinkAgressionZone();
-		UnlinkAiWander();
+		// UnlinkAiWander();
 		UnlinkWayfindingAgent();
 	}
 

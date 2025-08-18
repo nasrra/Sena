@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjs2u7tvb1cj6"]
+[gd_scene load_steps=3 format=3 uid="uid://cjs2u7tvb1cj6"]
+
+[ext_resource type="Material" uid="uid://btmet4x6tcrms" path="res://scenes/gridmaps/templates/PlaceHolderMaterial.tres" id="1_b374b"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_ateww"]
 orientation = 1
@@ -6,3 +8,4 @@ orientation = 1
 [node name="MeshInstance3D" type="MeshInstance3D"]
 cast_shadow = 0
 mesh = SubResource("QuadMesh_ateww")
+surface_material_override/0 = ExtResource("1_b374b")

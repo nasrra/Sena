@@ -1,101 +1,45 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1fp7wi1kjw4u"]
+[gd_scene load_steps=5 format=3 uid="uid://c1fp7wi1kjw4u"]
 
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="1_45jq6"]
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="2_83uge"]
 [ext_resource type="SpriteFrames" uid="uid://ducvecsmuxhlm" path="res://assets/animations/worker/Worker.tres" id="3_83uge"]
 [ext_resource type="Script" uid="uid://bqy2sse3j5igu" path="res://source/entities/enemy/Worker.cs" id="3_afjqp"]
-[ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/hitbox/Hitbox.tscn" id="4_10gc1"]
+[ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="3_ayerf"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_10gc1"]
-resource_local_to_scene = true
-shader = ExtResource("2_83uge")
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/flash_value = 0.0
-
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent", "wanderer") instance=ExtResource("1_45jq6")]
-y_sort_enabled = true
-material = SubResource("ShaderMaterial_10gc1")
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "health", "navAgent", "characterMovement", "hitFlash", "animator", "agressionZone") instance=ExtResource("1_45jq6")]
 collision_layer = 8
 collision_mask = 6
 script = ExtResource("3_afjqp")
-minPathTime = 0.22
-maxPathTime = 0.66
-minIdleTime = 1.0
-maxIdleTime = 2.0
-maxDirection = null
-minDirection = null
-avoidanceChaseStateLineOfSightObstructions = null
 stunTimer = NodePath("StunTimer")
-avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
 health = NodePath("Health")
-navAgent = NodePath("Navigation2DAgent")
+navAgent = NodePath("WayfindingAgent3D")
 characterMovement = NodePath("CharacterMovement")
-attackHandler = NodePath("AiAttackHandler")
-hitBoxHandler = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
-animator = NodePath("AnimatedSprite")
-audioPlayer = NodePath("AudioPlayer")
+animator = NodePath("AnimatedSprite3D")
 agressionZone = NodePath("AgressionZone")
-avoidanceAgent = NodePath("AvoidanceAgent")
-wanderer = NodePath("AiWander")
 
-[node name="AnimatedSprite" parent="." index="0"]
-material = SubResource("ShaderMaterial_10gc1")
-sprite_frames = ExtResource("3_83uge")
-animation = &"AttackBackward"
-offset = Vector2(0, -75)
-
-[node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -2)
-scale = Vector2(8, 8)
-
-[node name="CharacterMovement" parent="." index="2" node_paths=PackedStringArray("character")]
+[node name="CharacterMovement" parent="." index="0" node_paths=PackedStringArray("character")]
 character = NodePath("..")
 BaseTopSpeed = 50.0
 BaseAcceleration = 200.0
 BaseDeceleration = 200.0
 
-[node name="AiAttackHandler" parent="." index="3" node_paths=PackedStringArray("attackCooldowns")]
+[node name="AiAttackHandler" parent="." index="1" node_paths=PackedStringArray("attackCooldowns")]
 attackCooldowns = [NodePath("PunchTimer")]
 
 [node name="PunchTimer" type="Timer" parent="AiAttackHandler" index="4"]
 one_shot = true
 
-[node name="HitBoxHandler" parent="." index="6" node_paths=PackedStringArray("hitBoxes")]
-visible = true
-hitBoxes = [NodePath("PunchDown"), NodePath("PunchLeft"), NodePath("PunchRight"), NodePath("PunchUp")]
-
-[node name="PunchDown" parent="HitBoxHandler" index="0" instance=ExtResource("4_10gc1")]
-position = Vector2(0, 14)
-scale = Vector2(24, 18)
-
-[node name="PunchLeft" parent="HitBoxHandler" index="1" instance=ExtResource("4_10gc1")]
-position = Vector2(-17, -1)
-scale = Vector2(18, 24)
-
-[node name="PunchRight" parent="HitBoxHandler" index="2" instance=ExtResource("4_10gc1")]
-position = Vector2(17, -1)
-scale = Vector2(18, 24)
-
-[node name="PunchUp" parent="HitBoxHandler" index="3" instance=ExtResource("4_10gc1")]
-position = Vector2(0, -17)
-scale = Vector2(24, 18)
-
-[node name="Health" parent="." index="8"]
+[node name="Health" parent="." index="4"]
 Max = 3
 Value = 3
 
-[node name="PassiveZone" parent="AgressionZone" index="0"]
-scale = Vector2(100, 100)
+[node name="WayfindingAgent3D" parent="." index="8"]
+Capability = 8
 
-[node name="ActiveZone" parent="AgressionZone" index="1"]
-scale = Vector2(200, 200)
+[node name="AnimatedSprite3D" parent="." index="9"]
+transform = Transform3D(0.6, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 0.90544, 0)
+material_overlay = ExtResource("3_ayerf")
+sprite_frames = ExtResource("3_83uge")
+animation = &"AttackBackward"
 
-[node name="CollisionShape2D" parent="AvoidanceAgent" index="0"]
-position = Vector2(0, -3)
-scale = Vector2(12, 12)
-
-[node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="13"]
-
-[node name="AvoidancePoint" parent="." index="14"]
-Strength = 1.0
+[node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="10"]

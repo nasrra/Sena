@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class WayfindingAgent3D : Node3D{
     public Stack<Vector3> Path {get; private set;}
-    [Export] Node3D target;
+    [Export] public Node3D target;
     public Vector3 TargetPosition {get;private set;}
     public Vector3 NextPathPoint {get;private set;}
     public Vector3 DistanceToPathPoint {get;private set;}
@@ -27,7 +27,7 @@ public partial class WayfindingAgent3D : Node3D{
 
         if(Path!=null){
             foreach(Vector3 point in Path){
-                // DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.25f, new Color(1, 1, 0), true, 0.0167f);
+                DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.01f, new Color(1, 1, 0), true, 0.0167f);
             }
         }
     }

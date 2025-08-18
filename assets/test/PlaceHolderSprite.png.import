@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://caht3x1qp0xin"
-path.s3tc="res://.godot/imported/Worker.png-55162a2b8992ac77a36b6adc63c78a2d.s3tc.ctex"
+uid="uid://bewg04sqopmio"
+path.s3tc="res://.godot/imported/PlaceHolderSprite.png-00b9dab0107825bb110b18750a2069d3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/animations/worker/Worker.png"
-dest_files=["res://.godot/imported/Worker.png-55162a2b8992ac77a36b6adc63c78a2d.s3tc.ctex"]
+source_file="res://assets/test/PlaceHolderSprite.png"
+dest_files=["res://.godot/imported/PlaceHolderSprite.png-00b9dab0107825bb110b18750a2069d3.s3tc.ctex"]
 
 [params]
 

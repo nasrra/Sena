@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://dfbv5dvwb4exd"]
+[gd_scene load_steps=57 format=3 uid="uid://dfbv5dvwb4exd"]
 
 [ext_resource type="PackedScene" uid="uid://crf4wknwrdg54" path="res://scenes/gridmaps/level 1/floors/stone floors/scenes/stone floor 1/StoneFloor1BL.tscn" id="1_i730e"]
 [ext_resource type="PackedScene" uid="uid://cb73sx7bl86ux" path="res://scenes/gridmaps/level 1/ceiling/Ceiling.tscn" id="1_voyre"]
@@ -55,6 +55,7 @@
 [ext_resource type="PackedScene" uid="uid://cf5hq58tlrta3" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Mr.tscn" id="53_nmt48"]
 [ext_resource type="PackedScene" uid="uid://bnr1tw166dirl" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Tl.tscn" id="54_cyf5r"]
 [ext_resource type="PackedScene" uid="uid://cmdnqhbth0v64" path="res://scenes/gridmaps/level 1/walls/scenes/wall 4/Wall4Tr.tscn" id="55_44h1a"]
+[ext_resource type="PackedScene" uid="uid://dyeyymr3tdjr3" path="res://scenes/gridmaps/templates/StairTileTemplate.tscn" id="56_r5d0q"]
 
 [node name="Level1MeshLibrary" type="Node3D"]
 
@@ -215,3 +216,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 
 [node name="Wall4Tr" parent="." instance=ExtResource("55_44h1a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StairTileTemplate" parent="." instance=ExtResource("56_r5d0q")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.989949, 0, 0.707107, 0.989949, 0, 0.5, 0)

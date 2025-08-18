@@ -9,7 +9,7 @@ public partial class HitFlashShaderController : Node{
 
     public override void _Ready(){
         base._Ready();
-        shaderMaterial = (ShaderMaterial)sprite.Material;
+        // shaderMaterial = (ShaderMaterial)sprite.Material;
     }
 
 

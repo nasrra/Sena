@@ -818,7 +818,6 @@ public partial class WayfindingGrid3D : GridMap{
 			}
 			else{
 				Vector3 worldPos = MapToLocal(current.ParentId); 
-				DebugDraw3D.DrawBox(worldPos, Quaternion.Identity, Vector3.One * 0.25f, new Color(1, 1, 0), true, 0.0167f);
 				path.Push(worldPos);
 				current = paths[current.ParentId.X, current.ParentId.Y, current.ParentId.Z];
 			}
