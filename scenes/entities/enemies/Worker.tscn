@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bqy2sse3j5igu" path="res://source/entities/enemy/Worker.cs" id="3_afjqp"]
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/HitFlashShaderMaterial.tres" id="3_ayerf"]
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitFlash", "animator", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
 avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
@@ -15,6 +15,7 @@ characterMovement = NodePath("CharacterMovement")
 attackHandler = NodePath("AiAttackHandler")
 hitFlash = NodePath("HitFlashShaderController")
 animator = NodePath("AnimatedSprite3D")
+audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
 spriteSorter = NodePath("SpriteSorter")
 

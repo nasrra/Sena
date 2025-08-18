@@ -83,7 +83,7 @@ public partial class WayfindingAgent3D : Node3D{
             }
             Vector3 distance = NextPathPoint - GlobalPosition;
             float distSqrd = distance.LengthSquared();
-            if( distSqrd <= 1f && Path.Count > 0){
+            if( distSqrd <= 0.5f && Path.Count > 0){
                 SetNextPathPoint();
             }
             if(Path.Count == 0){

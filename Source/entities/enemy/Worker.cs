@@ -26,7 +26,7 @@ public partial class Worker : Enemy{
 		leadInTime: 		0.5f,
 		attackTime:			0.05f,
 		followThroughTime:  0.75f,
-		minTargetDistance:  50,
+		minTargetDistance:  2,
 		damage: 			1,
 		id:					(byte)AttackId.Punch
 	);

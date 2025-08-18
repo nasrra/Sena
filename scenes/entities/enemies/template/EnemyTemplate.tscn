@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=11 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="Script" uid="uid://iyp1pucgywm8" path="res://source/Wayfinding3D/WayfindingAgent3D.cs" id="5_rehrb"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="7_ny84t"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="8_kq21a"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
@@ -65,3 +66,6 @@ double_sided = false
 [node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
 script = ExtResource("7_ny84t")
 sprite = NodePath("../AnimatedSprite3D")
+
+[node name="AudioPlayer" type="Node3D" parent="."]
+script = ExtResource("8_kq21a")
