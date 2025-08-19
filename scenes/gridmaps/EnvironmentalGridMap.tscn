@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bgld15c7p5u3y"]
+
+[node name="EnvironmentalGridMap" type="GridMap"]
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+metadata/_editor_floor_ = Vector3(0, -1, 0)

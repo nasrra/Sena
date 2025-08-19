@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bukoxu81ck85h"
-path.s3tc="res://.godot/imported/Level1DecorTilemap.png-b62e2dcf6f59b2e5dc4cdc6733d95445.s3tc.ctex"
+path.bptc="res://.godot/imported/Level1DecorTilemap.png-b62e2dcf6f59b2e5dc4cdc6733d95445.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,20 +12,20 @@ metadata={
 [deps]
 
 source_file="res://assets/atlases/Level 1/Level1DecorTilemap.png"
-dest_files=["res://.godot/imported/Level1DecorTilemap.png-b62e2dcf6f59b2e5dc4cdc6733d95445.s3tc.ctex"]
+dest_files=["res://.godot/imported/Level1DecorTilemap.png-b62e2dcf6f59b2e5dc4cdc6733d95445.bptc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://assets/atlases/Level 1/Level1DecorTilemap.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

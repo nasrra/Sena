@@ -1,3 +1,0 @@
-Blender Specs:
-
-angle: 20 degrees.

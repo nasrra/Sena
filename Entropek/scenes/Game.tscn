@@ -20,7 +20,7 @@ gui = NodePath("../GUI")
 loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
 loadScene3DDelayTimer = NodePath("LoadScene3DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene3DStart = "Test3D"
+scene3DStart = "Level1"
 guiStart = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]

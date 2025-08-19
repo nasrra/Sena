@@ -47,7 +47,11 @@ naming/scene_name_casing=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/codeandweb.texturepacker/plugin.cfg", "res://addons/copy_files_on_export/plugin.cfg")
+enabled=PackedStringArray("res://addons/codeandweb.texturepacker/plugin.cfg", "res://addons/copy_files_on_export/plugin.cfg", "res://addons/proton_scatter/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [gui]
 

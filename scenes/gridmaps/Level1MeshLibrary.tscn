@@ -1,0 +1,221 @@
+[gd_scene load_steps=57 format=3 uid="uid://dfbv5dvwb4exd"]
+
+[ext_resource type="PackedScene" uid="uid://crf4wknwrdg54" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1BL.tscn" id="1_i730e"]
+[ext_resource type="PackedScene" uid="uid://cb73sx7bl86ux" path="res://scenes/gridmaps/ceiling/Ceiling.tscn" id="1_voyre"]
+[ext_resource type="PackedScene" uid="uid://cu7nnfo8y4oyu" path="res://scenes/gridmaps/ceiling/CeilingFl.tscn" id="2_1hlfr"]
+[ext_resource type="PackedScene" uid="uid://c6lyuortblxtp" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Br.tscn" id="2_3tk44"]
+[ext_resource type="PackedScene" uid="uid://cxgh1gp58acu0" path="res://scenes/gridmaps/ceiling/CeilingFr.tscn" id="3_o0ehv"]
+[ext_resource type="PackedScene" uid="uid://jyjoqwggj7l7" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Tl.tscn" id="3_qm1xf"]
+[ext_resource type="PackedScene" uid="uid://be46til5mk5nb" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Tr.tscn" id="4_2kp4j"]
+[ext_resource type="PackedScene" uid="uid://diocu8kdpdjv" path="res://scenes/gridmaps/ceiling/CeilingLb.tscn" id="4_hxct3"]
+[ext_resource type="PackedScene" uid="uid://c5vt5iw78ke8x" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2BL.tscn" id="5_a28s0"]
+[ext_resource type="PackedScene" uid="uid://02hjdgb3780k" path="res://scenes/gridmaps/ceiling/CeilingLt.tscn" id="5_y4y5s"]
+[ext_resource type="PackedScene" uid="uid://cwyhnudbih8p5" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Br.tscn" id="6_hg8ob"]
+[ext_resource type="PackedScene" uid="uid://ctwpanhkxbmd6" path="res://scenes/gridmaps/ceiling/CeilingRb.tscn" id="6_pdjbg"]
+[ext_resource type="PackedScene" uid="uid://y2r366hysjjw" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Tl.tscn" id="7_3866d"]
+[ext_resource type="PackedScene" uid="uid://d45hyqs3q57y" path="res://scenes/gridmaps/ceiling/CeilingRt.tscn" id="7_byq8u"]
+[ext_resource type="PackedScene" uid="uid://c3bdecxn8n4m0" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Tr.tscn" id="8_cojib"]
+[ext_resource type="PackedScene" uid="uid://dcxswow5h6rt2" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Bl.tscn" id="9_ncnru"]
+[ext_resource type="PackedScene" uid="uid://cl78yvb618sch" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Br.tscn" id="10_4x1c4"]
+[ext_resource type="PackedScene" uid="uid://c4lwqc3lbelf3" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Tl.tscn" id="11_3bmo4"]
+[ext_resource type="PackedScene" uid="uid://dxc8di3tgeinf" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Tr.tscn" id="12_56vrg"]
+[ext_resource type="PackedScene" uid="uid://cfqx78wwhk5s4" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 4/StoneFloor4Bl.tscn" id="13_6hrai"]
+[ext_resource type="PackedScene" uid="uid://b1026o65hkrht" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 4/StoneFloor4Br.tscn" id="14_fykfo"]
+[ext_resource type="PackedScene" uid="uid://dgtec1xfpd2f5" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 4/StoneFloor4Tl.tscn" id="15_w1g7n"]
+[ext_resource type="PackedScene" uid="uid://0r5anrnv2t1w" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 4/StoneFloor4Tr.tscn" id="16_st722"]
+[ext_resource type="PackedScene" uid="uid://0shsteobawmx" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorB.tscn" id="17_yl4iv"]
+[ext_resource type="PackedScene" uid="uid://ccps16ls7ygb7" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorBl.tscn" id="18_3fhsd"]
+[ext_resource type="PackedScene" uid="uid://bbpoxl7k8v1d7" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorBr.tscn" id="19_u61jh"]
+[ext_resource type="PackedScene" uid="uid://c0r6fiw1h0rgs" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorMl.tscn" id="20_j0ct8"]
+[ext_resource type="PackedScene" uid="uid://ck3vwxkyxb8pj" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorMr.tscn" id="21_7lj5j"]
+[ext_resource type="PackedScene" uid="uid://bm8cj5cl70bwx" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorT.tscn" id="22_86raw"]
+[ext_resource type="PackedScene" uid="uid://8sml28y2nwa8" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorTl.tscn" id="23_24dpg"]
+[ext_resource type="PackedScene" uid="uid://fat2uyo33tai" path="res://scenes/gridmaps/floors/border floors/scenes/BorderFloorTr.tscn" id="24_voyre"]
+[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Bl.tscn" id="32_kqgeh"]
+[ext_resource type="PackedScene" uid="uid://une7r8jqcl5d" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Br.tscn" id="33_r5d0q"]
+[ext_resource type="PackedScene" uid="uid://b7e536bdin5r2" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Ml.tscn" id="34_gs4h2"]
+[ext_resource type="PackedScene" uid="uid://13x7p2i2mj8p" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Mr.tscn" id="35_c52c0"]
+[ext_resource type="PackedScene" uid="uid://dwumloodprhb8" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Tl.tscn" id="36_u18bl"]
+[ext_resource type="PackedScene" uid="uid://b7hynfmjpp4ru" path="res://scenes/gridmaps/walls/scenes/wall 1/Wall1Tr.tscn" id="37_45ttg"]
+[ext_resource type="PackedScene" uid="uid://cstohckr6tv08" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Bl.tscn" id="38_gmg7e"]
+[ext_resource type="PackedScene" uid="uid://dn5hlqh1fv6lk" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Br.tscn" id="39_e4t87"]
+[ext_resource type="PackedScene" uid="uid://bmcjkjxu7cw7a" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Ml.tscn" id="40_m4hgq"]
+[ext_resource type="PackedScene" uid="uid://4mgtrek2jhw1" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Mr.tscn" id="41_6fbc7"]
+[ext_resource type="PackedScene" uid="uid://cd8o0l3lvkklj" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Tl.tscn" id="42_7ouau"]
+[ext_resource type="PackedScene" uid="uid://djn1hqxcy3lkn" path="res://scenes/gridmaps/walls/scenes/wall 2/Wall2Tr.tscn" id="43_dft6f"]
+[ext_resource type="PackedScene" uid="uid://bml4lpsofmryb" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Bl.tscn" id="44_ct64u"]
+[ext_resource type="PackedScene" uid="uid://budo2sxxj2gdj" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Br.tscn" id="45_r2yet"]
+[ext_resource type="PackedScene" uid="uid://s8fru5ckn1mn" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Ml.tscn" id="46_xli4r"]
+[ext_resource type="PackedScene" uid="uid://bc77wpbypbugb" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Mr.tscn" id="47_88wpy"]
+[ext_resource type="PackedScene" uid="uid://cpvkjs8n3naoc" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Tl.tscn" id="48_7vt7x"]
+[ext_resource type="PackedScene" uid="uid://cjh6pduckxejm" path="res://scenes/gridmaps/walls/scenes/wall 3/Wall3Tr.tscn" id="49_bnnlh"]
+[ext_resource type="PackedScene" uid="uid://s4nejcjbg2ja" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Bl.tscn" id="50_iwx6r"]
+[ext_resource type="PackedScene" uid="uid://jncx7it1btb6" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Br.tscn" id="51_a5l0p"]
+[ext_resource type="PackedScene" uid="uid://6fglwdl0kje1" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Ml.tscn" id="52_u8r7b"]
+[ext_resource type="PackedScene" uid="uid://cf5hq58tlrta3" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Mr.tscn" id="53_nmt48"]
+[ext_resource type="PackedScene" uid="uid://bnr1tw166dirl" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Tl.tscn" id="54_cyf5r"]
+[ext_resource type="PackedScene" uid="uid://cmdnqhbth0v64" path="res://scenes/gridmaps/walls/scenes/wall 4/Wall4Tr.tscn" id="55_44h1a"]
+[ext_resource type="PackedScene" uid="uid://dyeyymr3tdjr3" path="res://scenes/gridmaps/templates/StairTileTemplate.tscn" id="56_r5d0q"]
+
+[node name="Level1MeshLibrary" type="Node3D"]
+
+[node name="Ceiling" parent="." instance=ExtResource("1_voyre")]
+
+[node name="CeilingFl" parent="." instance=ExtResource("2_1hlfr")]
+
+[node name="CeilingFr" parent="." instance=ExtResource("3_o0ehv")]
+
+[node name="CeilingLb" parent="." instance=ExtResource("4_hxct3")]
+
+[node name="CeilingLt" parent="." instance=ExtResource("5_y4y5s")]
+
+[node name="CeilingRb" parent="." instance=ExtResource("6_pdjbg")]
+
+[node name="CeilingRt" parent="." instance=ExtResource("7_byq8u")]
+
+[node name="BorderFloorB" parent="." instance=ExtResource("17_yl4iv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorBl" parent="." instance=ExtResource("18_3fhsd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorBr" parent="." instance=ExtResource("19_u61jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorMl" parent="." instance=ExtResource("20_j0ct8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorBl2" parent="." instance=ExtResource("21_7lj5j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorT" parent="." instance=ExtResource("22_86raw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorTl" parent="." instance=ExtResource("23_24dpg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BorderFloorTr" parent="." instance=ExtResource("24_voyre")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Bl" parent="." instance=ExtResource("1_i730e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Br" parent="." instance=ExtResource("2_3tk44")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Tl" parent="." instance=ExtResource("3_qm1xf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Tr" parent="." instance=ExtResource("4_2kp4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Bl" parent="." instance=ExtResource("5_a28s0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Br" parent="." instance=ExtResource("6_hg8ob")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Tl" parent="." instance=ExtResource("7_3866d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Tr" parent="." instance=ExtResource("8_cojib")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Bl" parent="." instance=ExtResource("9_ncnru")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Br" parent="." instance=ExtResource("10_4x1c4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Tl" parent="." instance=ExtResource("11_3bmo4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Tr" parent="." instance=ExtResource("12_56vrg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Bl" parent="." instance=ExtResource("13_6hrai")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Br" parent="." instance=ExtResource("14_fykfo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Tl" parent="." instance=ExtResource("15_w1g7n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Tr" parent="." instance=ExtResource("16_st722")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Wall1Bl" parent="." instance=ExtResource("32_kqgeh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall1Br" parent="." instance=ExtResource("33_r5d0q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall1Ml" parent="." instance=ExtResource("34_gs4h2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall1Mr" parent="." instance=ExtResource("35_c52c0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall1Tl" parent="." instance=ExtResource("36_u18bl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall1Tr" parent="." instance=ExtResource("37_45ttg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Bl" parent="." instance=ExtResource("38_gmg7e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Br" parent="." instance=ExtResource("39_e4t87")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Ml" parent="." instance=ExtResource("40_m4hgq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Mr" parent="." instance=ExtResource("41_6fbc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Tl" parent="." instance=ExtResource("42_7ouau")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall2Tr" parent="." instance=ExtResource("43_dft6f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Bl" parent="." instance=ExtResource("44_ct64u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Br" parent="." instance=ExtResource("45_r2yet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Ml" parent="." instance=ExtResource("46_xli4r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Mr" parent="." instance=ExtResource("47_88wpy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Tl" parent="." instance=ExtResource("48_7vt7x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall3Tr" parent="." instance=ExtResource("49_bnnlh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Bl" parent="." instance=ExtResource("50_iwx6r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Br" parent="." instance=ExtResource("51_a5l0p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Ml" parent="." instance=ExtResource("52_u8r7b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Mr" parent="." instance=ExtResource("53_nmt48")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Tl" parent="." instance=ExtResource("54_cyf5r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="Wall4Tr" parent="." instance=ExtResource("55_44h1a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StairTileTemplate" parent="." instance=ExtResource("56_r5d0q")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.989949, 0, 0.707107, 0.989949, 0, 0.5, 0)

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://duc7vfj54chd1"]
+
+[ext_resource type="PackedScene" uid="uid://dbb4culid55v5" path="res://assets/models/bush.glb" id="1_6xu0k"]
+[ext_resource type="Material" uid="uid://f1mwyfmplm8u" path="res://scenes/environment/foliage/bushes/materials/BlueberryBush.tres" id="2_6xu0k"]
+
+[node name="bush" instance=ExtResource("1_6xu0k")]
+
+[node name="Bush" parent="." index="0"]
+material_override = ExtResource("2_6xu0k")

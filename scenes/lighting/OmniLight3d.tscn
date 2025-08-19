@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://3d1847luxo2c"]
+
+[node name="OmniLight3D" type="OmniLight3D"]
+light_energy = 0.0
+light_size = 0.167
+light_specular = 3.33
+shadow_enabled = true
+shadow_blur = 1.67
+omni_range = 0.0
+omni_attenuation = 0.666

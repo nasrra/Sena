@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=4 uid="uid://bp10oaxi3yd55"]
 
-[ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_eihsy"]
-[ext_resource type="TileSet" uid="uid://ggkah2yanps8" path="res://assets/tilesets/GreyBox.tres" id="2_eo6go"]
+[ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_eihsy"]
+[ext_resource type="TileSet" uid="uid://ggkah2yanps8" path="res://assets/tilemaps/GreyBox.tres" id="2_eo6go"]
 [ext_resource type="PackedScene" uid="uid://dyymkutpgb1bl" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorLeft.tscn" id="4_qd4yo"]
 [ext_resource type="PackedScene" uid="uid://btfda2va3gwbu" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorHorizontal.tscn" id="4_yjr7h"]
 [ext_resource type="PackedScene" uid="uid://huqes57yksy0" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorUp.tscn" id="5_qd4yo"]

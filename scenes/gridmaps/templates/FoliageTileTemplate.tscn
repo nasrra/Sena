@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci8fkynivu4pq"]
+
+[ext_resource type="Material" uid="uid://btmet4x6tcrms" path="res://scenes/gridmaps/templates/PlaceHolderMaterial.tres" id="1_41aeb"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ateww"]
+
+[node name="MeshInstance3D" type="MeshInstance3D"]
+material_override = ExtResource("1_41aeb")
+cast_shadow = 2
+mesh = SubResource("QuadMesh_ateww")
