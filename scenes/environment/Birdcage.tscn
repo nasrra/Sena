@@ -1,27 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvvjfmok32sw2"]
+[gd_scene load_steps=3 format=3 uid="uid://dvvjfmok32sw2"]
 
 [ext_resource type="Texture2D" uid="uid://brlvfqxlr88ml" path="res://assets/atlases/Level 1/Level1DecorTilemap.sprites/BirdCage.tres" id="1_dgai4"]
-[ext_resource type="Texture2D" uid="uid://d1cb4vk12yste" path="res://assets/atlases/Level 1/Level1DecorTilemap_n.sprites/BirdCage_n.tres" id="2_vkukk"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m00rq"]
-transparency = 1
-albedo_texture = ExtResource("1_dgai4")
-normal_enabled = true
-normal_texture = ExtResource("2_vkukk")
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="3_vkukk"]
 
 [node name="Birdcage" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 3, 0)
-material_override = SubResource("StandardMaterial3D_m00rq")
+transform = Transform3D(0.33, 0, 0, 0, 0.233345, 0.233345, 0, -0.233345, 0.233345, 0, 2.095, -2)
 shaded = true
 double_sided = false
+no_depth_test = true
 alpha_cut = 2
 texture = ExtResource("1_dgai4")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0.9, -0.9)
 cast_shadow = 3
+flip_faces = true
 radius = 1.0
 sides = 16
 
@@ -30,5 +25,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
 transparency = 1.0
 cast_shadow = 0
 use_collision = true
-radius = 1.0
+radius = 1.2
 sides = 16
+
+[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+script = ExtResource("3_vkukk")
+sprite = NodePath("../Sprite3D")

@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7hynfmjpp4ru"]
 
 [ext_resource type="PackedScene" uid="uid://usw02gtnbc16" path="res://scenes/gridmaps/templates/WallTileTemplate.tscn" id="1_ljsgg"]
-[ext_resource type="Material" uid="uid://dtikme8mpdq8k" path="res://scenes/gridmaps/level 1/walls/materials/wall 1/Wall1Tr.tres" id="2_ljsgg"]
+[ext_resource type="Material" uid="uid://dtikme8mpdq8k" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Tr.tres" id="2_ljsgg"]
 
 [node name="Wall1Tr" instance=ExtResource("1_ljsgg")]
-cast_shadow = 2
 surface_material_override/0 = ExtResource("2_ljsgg")

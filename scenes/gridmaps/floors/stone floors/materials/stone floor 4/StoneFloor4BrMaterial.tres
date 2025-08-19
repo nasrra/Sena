@@ -5,7 +5,6 @@
 
 [resource]
 albedo_texture = ExtResource("1_dpgg0")
-normal_enabled = true
 normal_texture = ExtResource("2_1c08d")
 uv1_scale = Vector3(0.125, 0.125, 0.125)
 uv1_offset = Vector3(0.375, 0.375, 0)

@@ -6,7 +6,6 @@
 [resource]
 transparency = 1
 albedo_texture = ExtResource("1_3dxda")
-normal_enabled = true
 normal_texture = ExtResource("2_hp4ku")
 uv1_scale = Vector3(0.125, 0.125, 0.125)
 uv1_offset = Vector3(0, 0.375, 0)

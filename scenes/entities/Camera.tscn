@@ -6,7 +6,7 @@
 
 [node name="Camera" type="Camera3D" node_paths=PackedStringArray("Vignette", "fadeTransition", "fadeTimer", "shakeTimer")]
 projection = 1
-size = 7.0
+size = 8.0
 near = 0.001
 far = 220.84
 script = ExtResource("1_e6e23")

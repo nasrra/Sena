@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://4k5x34mphdqf"]
+[gd_scene load_steps=41 format=3 uid="uid://4k5x34mphdqf"]
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_1pwbc"]
 [ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/EnvironmentalGridMap.tscn" id="2_x4si1"]
@@ -22,9 +22,14 @@
 [ext_resource type="Material" uid="uid://dtyfwl42tihg" path="res://scenes/environment/foliage/bushes/materials/Bush2.tres" id="20_bspq0"]
 [ext_resource type="Material" uid="uid://bymoti8hpjarg" path="res://scenes/environment/foliage/bushes/materials/Bush3.tres" id="21_dqba7"]
 [ext_resource type="Material" uid="uid://f1mwyfmplm8u" path="res://scenes/environment/foliage/bushes/materials/BlueberryBush.tres" id="22_usw5k"]
-[ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="23_jsker"]
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="26_ijoxy"]
+[ext_resource type="Texture2D" uid="uid://chbhhaub5yksa" path="res://assets/atlases/storage/StorageAtlas.sprites/IronBox1.tres" id="27_l40or"]
+[ext_resource type="Texture2D" uid="uid://bo57c8fdxgeyw" path="res://assets/atlases/storage/StorageAtlas.sprites/IronBox2.tres" id="28_l40or"]
+[ext_resource type="Texture2D" uid="uid://k3cuxao7x127" path="res://assets/atlases/storage/StorageAtlas.sprites/IronBox3.tres" id="29_hnhv5"]
+[ext_resource type="Texture2D" uid="uid://dentv8gjv6r8d" path="res://assets/atlases/storage/StorageAtlas.sprites/StorageSide.tres" id="30_86um8"]
+[ext_resource type="Texture2D" uid="uid://bn58x3x3adb5o" path="res://assets/atlases/storage/StorageAtlas.sprites/StorageFront.tres" id="32_srkvl"]
 
-[sub_resource type="Resource" id="Resource_xbvxr"]
+[sub_resource type="Resource" id="Resource_l40or"]
 script = ExtResource("11_bspq0")
 amount = 10
 enabled = true
@@ -33,7 +38,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_bspq0"]
+[sub_resource type="Resource" id="Resource_hnhv5"]
 script = ExtResource("12_dqba7")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -44,7 +49,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_dqba7"]
+[sub_resource type="Resource" id="Resource_86um8"]
 script = ExtResource("13_usw5k")
 iterations = 3
 offset_step = 0.2
@@ -56,7 +61,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_usw5k"]
+[sub_resource type="Resource" id="Resource_hpass"]
 script = ExtResource("14_jsker")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -72,13 +77,38 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_jsker"]
+[sub_resource type="Resource" id="Resource_srkvl"]
 script = ExtResource("9_j7nyf")
-stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_xbvxr"), SubResource("Resource_bspq0"), SubResource("Resource_dqba7"), SubResource("Resource_usw5k")])
+stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_l40or"), SubResource("Resource_hnhv5"), SubResource("Resource_86um8"), SubResource("Resource_hpass")])
 
 [sub_resource type="Resource" id="Resource_g8bsm"]
 script = ExtResource("17_ijoxy")
 radius = 0.40658
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l40or"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l40or"]
+transparency = 1
+no_depth_test = true
+albedo_texture = ExtResource("27_l40or")
+normal_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_86um8"]
+transparency = 1
+no_depth_test = true
+albedo_texture = ExtResource("29_hnhv5")
+normal_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_srkvl"]
+transparency = 1
+albedo_texture = ExtResource("30_86um8")
+normal_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hpass"]
+size = Vector3(0.8, 1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_srkvl"]
+size = Vector3(2, 1, 1)
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_1pwbc")]
 
@@ -100,23 +130,24 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 environment = ExtResource("4_fh0io")
 
 [node name="Camera" parent="." index="3" node_paths=PackedStringArray("Target")]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 4.248, 12, 12.5)
+fov = 10.0
 Target = NodePath("../Player")
 
 [node name="Birdcage" parent="." index="4" instance=ExtResource("5_76cw8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 0, 4.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 3.5)
 
 [node name="Birdcage2" parent="." index="5" instance=ExtResource("5_76cw8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.25, 2.25, 4.5)
+visible = false
 
 [node name="Player" parent="." index="6" node_paths=PackedStringArray("camera") instance=ExtResource("7_m00rq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7291, 0, 0.62606)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.4791, 0, 6.62606)
 camera = NodePath("../Camera")
 
 [node name="ProtonScatter" type="Node3D" parent="." index="7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.27218, 0, 4.46841)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.45077, -1.67877, 4.71841)
 script = ExtResource("8_njy47")
-modifier_stack = SubResource("Resource_jsker")
+modifier_stack = SubResource("Resource_srkvl")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://c36kadp7c060h"
@@ -151,7 +182,152 @@ script = ExtResource("18_j7nyf")
 shaderMaterials = Array[ShaderMaterial]([ExtResource("19_xbvxr"), ExtResource("20_bspq0"), ExtResource("21_dqba7"), ExtResource("22_usw5k")])
 deformer = NodePath("../../Player")
 
-[node name="OmniLight3D" parent="." index="8" instance=ExtResource("23_jsker")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 4, 6.5)
-light_energy = 0.245
-omni_range = 15.0
+[node name="Node3D7" type="Node3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6.25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D7" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D7/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_l40or")
+
+[node name="SpriteSorter" type="Node3D" parent="Node3D7" index="1" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+script = ExtResource("26_ijoxy")
+sprite = NodePath("../Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D7" index="2"]
+transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.282843, 0, -0.282843, 0.282843, 0, 0.726, -0.23)
+cast_shadow = 0
+shaded = true
+double_sided = false
+no_depth_test = true
+texture = ExtResource("28_l40or")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D7" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+cast_shadow = 3
+flip_faces = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D7" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+cast_shadow = 3
+size = Vector3(1, 0.1, 1)
+
+[node name="Node3D8" type="Node3D" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 6.25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D8" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D8/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_l40or")
+
+[node name="SpriteSorter" type="Node3D" parent="Node3D8" index="1" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("26_ijoxy")
+sprite = NodePath("../Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D8" index="2"]
+transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.282843, 0, -0.282843, 0.282843, 0, 0.726, -0.23)
+material_override = SubResource("StandardMaterial3D_l40or")
+cast_shadow = 0
+shaded = true
+double_sided = false
+render_priority = 1
+texture = ExtResource("27_l40or")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D8" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+cast_shadow = 3
+flip_faces = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D8" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+cast_shadow = 3
+size = Vector3(1, 0.1, 1)
+
+[node name="Node3D9" type="Node3D" parent="." index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 6.25)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D9" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D9/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_l40or")
+
+[node name="SpriteSorter" type="Node3D" parent="Node3D9" index="1" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("26_ijoxy")
+sprite = NodePath("../Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D9" index="2"]
+transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.282843, 0, -0.282843, 0.282843, 0, 0.726, -0.23)
+material_override = SubResource("StandardMaterial3D_86um8")
+cast_shadow = 0
+shaded = true
+double_sided = false
+render_priority = 1
+texture = ExtResource("29_hnhv5")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D9" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+cast_shadow = 3
+flip_faces = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D9" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+cast_shadow = 3
+size = Vector3(1, 0.1, 1)
+
+[node name="Node3D5" type="Node3D" parent="." index="11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0, 7)
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D5" index="0"]
+transform = Transform3D(0.4, 0, 0, 0, 0.265165, 0.282843, 0, -0.265165, 0.282843, -0.05, 1.21206, -1.19869)
+material_override = SubResource("StandardMaterial3D_srkvl")
+cast_shadow = 0
+shaded = true
+no_depth_test = true
+texture = ExtResource("30_86um8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D5" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D5/StaticBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -1)
+shape = SubResource("BoxShape3D_hpass")
+debug_color = Color(0, 0.6, 0.701961, 1)
+
+[node name="SpriteSorter" type="Node3D" parent="Node3D5" index="2" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+script = ExtResource("26_ijoxy")
+sprite = NodePath("../Sprite3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D5" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+cast_shadow = 3
+flip_faces = true
+size = Vector3(0.7, 2, 1.8)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Node3D5" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, -1)
+cast_shadow = 3
+size = Vector3(0.7, 0.1, 2)
+
+[node name="Node3D6" type="Node3D" parent="." index="12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D6" index="0"]
+transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.353553, 0, -0.282843, 0.353553, 0, 0.767499, -0.75)
+cast_shadow = 0
+shaded = true
+no_depth_test = true
+texture = ExtResource("32_srkvl")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D6" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.498904, -0.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D6/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_srkvl")
+debug_color = Color(0, 0.6, 0.701961, 1)
