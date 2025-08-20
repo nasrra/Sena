@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://dihopjgrk6eff"]
+
+[ext_resource type="PackedScene" uid="uid://dokaqxml1glsl" path="res://scenes/environment/doors/templates/LevelSwapDoor.tscn" id="1_5s8c3"]
+[ext_resource type="Texture2D" uid="uid://cw2caiyn28wwg" path="res://assets/DoorUnlitClosed.png" id="2_allfw"]
+[ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_allfw"]
+[ext_resource type="PackedScene" uid="uid://lfgrjn2vk4ss" path="res://Entropek/scenes/HitInteractable.tscn" id="4_r0bip"]
+[ext_resource type="Texture2D" uid="uid://c12rsxj168nvu" path="res://assets/DoorLitOpen.png" id="4_sxa3i"]
+[ext_resource type="Texture2D" uid="uid://xwkdorb50ge7" path="res://assets/DoorLitClosed.png" id="5_sxa3i"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="6_dvdcg"]
+[ext_resource type="Texture2D" uid="uid://bbutyiln1ulyv" path="res://assets/DoorUnlitOpen.png" id="6_o5g35"]
+[ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierDoor.cs" id="7_allfw"]
+
+[node name="BrazierLevelSwapDoorTemplate" instance=ExtResource("1_5s8c3")]
+
+[node name="Sprite2D" parent="." index="0"]
+position = Vector2(1, -18)
+scale = Vector2(0.038, 0.038)
+texture = ExtResource("2_allfw")
+
+[node name="ExitPoint" parent="Container" index="0"]
+position = Vector2(0, 20)
+
+[node name="EnterZone" parent="Container" index="1"]
+visible = false
+position = Vector2(0, -4)
+scale = Vector2(3, 1)
+
+[node name="Collider" parent="Container" index="2"]
+position = Vector2(0, -4)
+scale = Vector2(3, 1)
+
+[node name="BrazierDoor" type="Node" parent="." index="3" node_paths=PackedStringArray("door", "sprite", "hitInteractable", "interactable", "embers")]
+script = ExtResource("7_allfw")
+door = NodePath("..")
+sprite = NodePath("../Sprite2D")
+hitInteractable = NodePath("../HitInteractable/Interactable")
+interactable = NodePath("../Interactable")
+embers = NodePath("../EmberHolder")
+litOpenSprite = ExtResource("4_sxa3i")
+litClosedSprite = ExtResource("5_sxa3i")
+unlitOpenSprite = ExtResource("6_o5g35")
+unlitClosedSprite = ExtResource("2_allfw")
+
+[node name="Interactable" parent="." index="4" instance=ExtResource("4_allfw")]
+visible = false
+
+[node name="HitInteractable" type="Node2D" parent="." index="5"]
+visible = false
+
+[node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("4_r0bip")]
+
+[node name="EmberHolder" type="Node" parent="." index="6"]
+script = ExtResource("6_dvdcg")

@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://bn3fr3m3glrnp"]
 
 [ext_resource type="Shader" uid="uid://7meoxdnprew0" path="res://grass.gdshader" id="1_peshr"]
-[ext_resource type="Texture2D" uid="uid://ctkwg28vf02vg" path="res://assets/atlases/bushes/bush 1.png" id="2_bkfnk"]
+[ext_resource type="Texture2D" uid="uid://ctkwg28vf02vg" path="res://assets/images/sprites/bushes/bush 1.png" id="2_slp2j"]
 
 [sub_resource type="Curve" id="Curve_bkfnk"]
 _data = [Vector2(1e-05, 0.980228), 2.70368, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.382377, 0, 0]
@@ -23,7 +23,7 @@ noise = SubResource("FastNoiseLite_eeqpx")
 [resource]
 render_priority = 0
 shader = ExtResource("1_peshr")
-shader_parameter/texture_albedo = ExtResource("2_bkfnk")
+shader_parameter/texture_albedo = ExtResource("2_slp2j")
 shader_parameter/texture_noise = SubResource("NoiseTexture2D_7l0n1")
 shader_parameter/alpha_scissor_threshold = 0.25
 shader_parameter/transmission = Color(0, 0, 0, 1)

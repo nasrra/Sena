@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://dqgjmbv83qdah"
+path="res://.godot/imported/Level1DecorTilemap.tpsheet-d9e06f5faef36d089c93178092889ad8.res"
+
+[deps]
+
+files=["res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/BirdCage.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column1.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column2.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/StoneLantern.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/PumpkinLantern.tres"]
+
+source_file="res://assets/images/atlases/level 1/Level1DecorTilemap.tpsheet"
+dest_files=["res://.godot/imported/Level1DecorTilemap.tpsheet-d9e06f5faef36d089c93178092889ad8.res", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/BirdCage.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column1.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column2.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/StoneLantern.tres", "res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/PumpkinLantern.tres"]
+
+[params]
+

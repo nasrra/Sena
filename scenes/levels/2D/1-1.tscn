@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=4 uid="uid://sab0aocmeayh"]
 
-[ext_resource type="PackedScene" uid="uid://j1150ggfsu65" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_m8tay"]
-[ext_resource type="Texture2D" uid="uid://vjq57uwt6p5w" path="res://assets/greyboxes/room_1.png" id="2_ipg1m"]
-[ext_resource type="TileSet" uid="uid://2ptvcf5m5kdt" path="res://assets/tilesets/Prototype/EnvironmentTileset.tres" id="3_gd1ot"]
-[ext_resource type="TileSet" uid="uid://pyjs8njjua2i" path="res://assets/tilesets/Prototype/DecorTileset.tres" id="4_e324m"]
+[ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_m8tay"]
+[ext_resource type="Texture2D" path="res://assets/greyboxes/room_1.png" id="2_ipg1m"]
+[ext_resource type="TileSet" path="res://assets/tilesets/Prototype/EnvironmentTileset.tres" id="3_gd1ot"]
+[ext_resource type="TileSet" path="res://assets/tilesets/Prototype/DecorTileset.tres" id="4_e324m"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="5_jwkk4"]
-[ext_resource type="PackedScene" uid="uid://huqes57yksy0" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorUp.tscn" id="6_a60f6"]
+[ext_resource type="PackedScene" uid="uid://huqes57yksy0" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorUp.tscn" id="6_a60f6"]
 [ext_resource type="Texture2D" uid="uid://dw5adkpr0mxqb" path="res://Column_d.png" id="7_uvswe"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_tsrir"]

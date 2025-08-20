@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://de6ln8sk1l1yd"]
+
+[node name="SpotLight3D2" type="SpotLight3D"]
+light_size = 0.167
+light_specular = 3.33
+shadow_enabled = true
+shadow_blur = 1.67
+spot_attenuation = 0.67

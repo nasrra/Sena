@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://c7qnhu516h1q3"]
-
-[ext_resource type="Texture2D" uid="uid://cyo7rwl00jsou" path="res://assets/atlases/Level 1/Level1DecorTilemap_n.png" id="1_vngh5"]
-
-[resource]
-atlas = ExtResource("1_vngh5")
-region = Rect2(1024, 768, 256, 768)

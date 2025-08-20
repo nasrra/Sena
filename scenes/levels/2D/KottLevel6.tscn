@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=4 uid="uid://bk4per0n36cuh"]
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_gd2y2"]
-[ext_resource type="TileSet" uid="uid://ggkah2yanps8" path="res://assets/tilemaps/GreyBox.tres" id="2_0253q"]
+[ext_resource type="TileSet" path="res://assets/tilemaps/GreyBox.tres" id="2_0253q"]
 [ext_resource type="Texture2D" uid="uid://bork1vtvm8ykp" path="res://assets/Circle.png" id="3_iidrb"]
-[ext_resource type="PackedScene" uid="uid://c0b0w44n0x0y8" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorDown.tscn" id="4_e3ab0"]
+[ext_resource type="PackedScene" uid="uid://c0b0w44n0x0y8" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorDown.tscn" id="4_e3ab0"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="4_rb6vd"]
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_gd2y2")]

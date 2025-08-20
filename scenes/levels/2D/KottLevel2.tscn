@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_sh0fx"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="3_2tv1t"]
-[ext_resource type="PackedScene" uid="uid://btfda2va3gwbu" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorHorizontal.tscn" id="3_e67hu"]
-[ext_resource type="TileSet" uid="uid://ggkah2yanps8" path="res://assets/tilemaps/GreyBox.tres" id="3_qk8e2"]
-[ext_resource type="PackedScene" uid="uid://dyymkutpgb1bl" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorLeft.tscn" id="5_2tv1t"]
-[ext_resource type="PackedScene" uid="uid://cfijs5hb822g" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorRight.tscn" id="6_oius2"]
-[ext_resource type="PackedScene" uid="uid://7omjbe8a7mqf" path="res://scenes/doors/BrazierDoor/BrazierEnvironmentDoorVertical.tscn" id="7_u04de"]
-[ext_resource type="PackedScene" uid="uid://huqes57yksy0" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorUp.tscn" id="8_wduwi"]
-[ext_resource type="PackedScene" uid="uid://c0b0w44n0x0y8" path="res://scenes/doors/BrazierDoor/BrazierLevelSwapDoorDown.tscn" id="9_bxfur"]
+[ext_resource type="PackedScene" uid="uid://btfda2va3gwbu" path="res://scenes/environment/doors/BrazierDoor/BrazierEnvironmentDoorHorizontal.tscn" id="3_e67hu"]
+[ext_resource type="TileSet" path="res://assets/tilemaps/GreyBox.tres" id="3_qk8e2"]
+[ext_resource type="PackedScene" uid="uid://dyymkutpgb1bl" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorLeft.tscn" id="5_2tv1t"]
+[ext_resource type="PackedScene" uid="uid://cfijs5hb822g" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorRight.tscn" id="6_oius2"]
+[ext_resource type="PackedScene" uid="uid://7omjbe8a7mqf" path="res://scenes/environment/doors/BrazierDoor/BrazierEnvironmentDoorVertical.tscn" id="7_u04de"]
+[ext_resource type="PackedScene" uid="uid://huqes57yksy0" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorUp.tscn" id="8_wduwi"]
+[ext_resource type="PackedScene" uid="uid://c0b0w44n0x0y8" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorDown.tscn" id="9_bxfur"]
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_sh0fx")]
 

@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://7bpeib8xrjp4"]
+
+[ext_resource type="PackedScene" uid="uid://de6ln8sk1l1yd" path="res://scenes/lighting/SpotLight3d2.tscn" id="1_5pi3p"]
+[ext_resource type="Texture2D" uid="uid://jj46p0wr0hb4" path="res://assets/images/sprites/doors/Jail Doorclosed.png" id="2_860qq"]
+[ext_resource type="Texture2D" uid="uid://sqim6j2i51xi" path="res://assets/images/sprites/doors/JailDoorBackSprite.png" id="3_lpebm"]
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="4_jt5xq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pgakm"]
+transparency = 1
+no_depth_test = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.607843, 0.607843, 0.294118, 1)
+albedo_texture = ExtResource("3_lpebm")
+emission_enabled = true
+emission = Color(0.607843, 0.607843, 0.294118, 1)
+backlight_enabled = true
+backlight = Color(1, 1, 1, 1)
+disable_receive_shadows = true
+
+[node name="JailDoor" type="Node3D"]
+
+[node name="SpotLight3D3" parent="." instance=ExtResource("1_5pi3p")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 2.25, -1.25)
+light_color = Color(1, 1, 0.686275, 1)
+spot_angle = 17.721
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0.45, 1.088, 0.05)
+shaded = true
+alpha_cut = 2
+texture = ExtResource("2_860qq")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.48, 0, 0, 0, 1, 0.015, 0.862, -0.143)
+material_override = SubResource("StandardMaterial3D_pgakm")
+cast_shadow = 0
+double_sided = false
+no_depth_test = true
+texture = ExtResource("3_lpebm")
+
+[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("4_jt5xq")
+sprite = NodePath("../Sprite3D")
+
+[node name="SpriteSorter2" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("4_jt5xq")
+sprite = NodePath("../Sprite3D2")

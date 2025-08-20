@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxklw5os88and"]
-
-[ext_resource type="PackedScene" uid="uid://drpinhpgmnmkw" path="res://scenes/doors/TestLevelSwapDoor/TemplateTestLevelSwapDoor.tscn" id="1_c3vnw"]
-
-[node name="TestlevelSwapDoorUp" instance=ExtResource("1_c3vnw")]
-
-[node name="ExitPoint" parent="Container" index="0"]
-position = Vector2(0, 16)

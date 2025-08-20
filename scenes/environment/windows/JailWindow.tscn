@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://4w8sr35sqav5"]
+
+[ext_resource type="Texture2D" uid="uid://juwni7pyt3po" path="res://assets/images/sprites/doors/JailWindow.png" id="1_vy4x2"]
+[ext_resource type="Texture2D" uid="uid://bo7p1ku02vbxr" path="res://assets/images/sprites/doors/WindowBackSprite.png" id="2_xlqvw"]
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="3_bxohm"]
+[ext_resource type="PackedScene" uid="uid://de6ln8sk1l1yd" path="res://scenes/lighting/SpotLight3d2.tscn" id="4_0x6tf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7ois"]
+transparency = 1
+no_depth_test = true
+albedo_color = Color(0.607843, 0.607843, 0.294118, 1)
+albedo_texture = ExtResource("2_xlqvw")
+emission_enabled = true
+emission = Color(0.607843, 0.607843, 0.294118, 1)
+disable_receive_shadows = true
+
+[node name="JailWindow" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0, 1.25, 0.05)
+cast_shadow = 2
+shaded = true
+alpha_cut = 2
+texture = ExtResource("1_vy4x2")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.48, 0, 0, 0, 1, 0.0149999, 0.967, -0.353)
+material_override = SubResource("StandardMaterial3D_s7ois")
+cast_shadow = 0
+double_sided = false
+no_depth_test = true
+alpha_cut = 2
+texture = ExtResource("2_xlqvw")
+
+[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("3_bxohm")
+sprite = NodePath("../Sprite3D")
+
+[node name="SpriteSorter2" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("3_bxohm")
+sprite = NodePath("../Sprite3D2")
+
+[node name="SpotLight3D2" parent="." instance=ExtResource("4_0x6tf")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 2.25, -1.25)
+light_color = Color(1, 1, 0.686275, 1)
+spot_angle = 21.5065
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0119629, 0.774445, -0.260124)
+cast_shadow = 3
+size = Vector3(1.356, 0.545, 0.1)

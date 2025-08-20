@@ -41,7 +41,7 @@ spriteSorter = NodePath("SpriteSorter3D")
 [node name="CharacterMovement" type="Node" parent="." node_paths=PackedStringArray("character")]
 script = ExtResource("2_kpjcp")
 character = NodePath("..")
-BaseTopSpeed = 5.0
+BaseTopSpeed = 4.5
 BaseAcceleration = 200.0
 BaseDeceleration = 200.0
 gravityModifier = 6.0
@@ -66,7 +66,7 @@ script = ExtResource("5_cxr5p")
 hitBoxes = [NodePath("HitboxBack"), NodePath("HitboxLeft"), NodePath("HitboxRight"), NodePath("HitboxFront")]
 
 [node name="HitboxBack" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("8_37p5y")
@@ -81,7 +81,7 @@ disabled = true
 one_shot = true
 
 [node name="HitboxLeft" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("8_37p5y")
@@ -96,7 +96,7 @@ disabled = true
 one_shot = true
 
 [node name="HitboxRight" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0)
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("8_37p5y")
@@ -111,7 +111,7 @@ disabled = true
 one_shot = true
 
 [node name="HitboxFront" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("8_37p5y")
@@ -159,7 +159,7 @@ light_energy = 0.167
 omni_range = 10.0
 
 [node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 0.000468969, 0)
+transform = Transform3D(0.45, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0.000468969, 0)
 cast_shadow = 0
 offset = Vector2(0, 106.28)
 shaded = true

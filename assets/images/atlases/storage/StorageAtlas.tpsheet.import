@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://ujkrrkywnenn"
+path="res://.godot/imported/StorageAtlas.tpsheet-4d928d146c4502f6dd68274953dcb95f.res"
+
+[deps]
+
+files=["res://assets/images/atlases/storage/StorageAtlas.sprites/StorageSide.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/CoalPile1.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/StorageFront.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/Wheelbarrow.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox1.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox2.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox3.tres"]
+
+source_file="res://assets/images/atlases/storage/StorageAtlas.tpsheet"
+dest_files=["res://.godot/imported/StorageAtlas.tpsheet-4d928d146c4502f6dd68274953dcb95f.res", "res://assets/images/atlases/storage/StorageAtlas.sprites/StorageSide.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/CoalPile1.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/StorageFront.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/Wheelbarrow.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox1.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox2.tres", "res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox3.tres"]
+
+[params]
+

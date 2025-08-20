@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://f1mwyfmplm8u"]
 
 [ext_resource type="Shader" uid="uid://7meoxdnprew0" path="res://grass.gdshader" id="1_enruq"]
-[ext_resource type="Texture2D" uid="uid://bsbc2um6xcrgc" path="res://assets/atlases/bushes/blueberry bush.png" id="2_enruq"]
+[ext_resource type="Texture2D" uid="uid://bsbc2um6xcrgc" path="res://assets/images/sprites/bushes/blueberry bush.png" id="2_enruq"]
 
 [sub_resource type="Curve" id="Curve_bkfnk"]
 _data = [Vector2(1e-05, 0.980228), 2.70368, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.382377, 0, 0]

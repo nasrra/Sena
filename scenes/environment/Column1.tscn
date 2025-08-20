@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dnnbeloc1uwvp"]
 
-[ext_resource type="Texture2D" uid="uid://dmernymc26wun" path="res://assets/atlases/Level 1/Level1DecorTilemap.sprites/Column2.tres" id="1_i55is"]
-[ext_resource type="Texture2D" uid="uid://c7qnhu516h1q3" path="res://assets/atlases/Level 1/Level1DecorTilemap_n.sprites/Column2_n.tres" id="2_nu5ve"]
+[ext_resource type="Texture2D" uid="uid://dmernymc26wun" path="res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column2.tres" id="1_i55is"]
+[ext_resource type="Texture2D" uid="uid://c7qnhu516h1q3" path="res://assets/images/atlases/level 1/Level1DecorTilemap_n.sprites/Column2_n.tres" id="2_nu5ve"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="3_qtkp6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o7jrf"]

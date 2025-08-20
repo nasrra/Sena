@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkqyyrfwojuc1"]
+
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="1_ou2fm"]
+[ext_resource type="Texture2D" uid="uid://k3cuxao7x127" path="res://assets/images/atlases/storage/StorageAtlas.sprites/IronBox3.tres" id="2_5voty"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_l40or"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_86um8"]
+transparency = 1
+no_depth_test = true
+albedo_texture = ExtResource("2_5voty")
+normal_enabled = true
+
+[node name="IronBox3" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_l40or")
+
+[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("1_ou2fm")
+sprite = NodePath("../Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.282843, 0, -0.282843, 0.282843, 0, 0.726, -0.23)
+material_override = SubResource("StandardMaterial3D_86um8")
+cast_shadow = 0
+shaded = true
+double_sided = false
+render_priority = 1
+texture = ExtResource("2_5voty")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+cast_shadow = 3
+size = Vector3(1, 0.1, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.05)
+cast_shadow = 3
+flip_faces = true
+size = Vector3(1, 0.9, 0.9)
