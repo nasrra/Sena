@@ -19,10 +19,12 @@ uniform float wind_strength = 2.0;
 uniform float noise_scale = 20.0;
 
 // Character Deformation:
-uniform vec3 character_position;
-uniform float character_radius = 3.0;
+const int MAX_DEFORMERS = 32;
+uniform int deformer_count = 0; 
+uniform vec3 deformers_position[MAX_DEFORMERS];
+uniform float deformers_radius[MAX_DEFORMERS];
+uniform float deformers_strength[MAX_DEFORMERS];
 uniform sampler2D character_distance_falloff_curve;
-uniform float character_push_strength = 1.0;
 
 instance uniform float camera_bend_strength : hint_range(0.0, 3.0) = 0.2;
 
@@ -55,19 +57,26 @@ void vertex() {
 
 	float displacement_affect = (1.0 - UV.y);
 
-	vec3 dir_to_character = character_position - (MODEL_MATRIX[3]).xyz;
-    // Uncomment for horizontal-only displacement
-    // dir_to_character.y = 0.0;
-
-    float distance_to_character = length(dir_to_character);
-	if (distance_to_character < character_radius) {
-		float norm_distance = clamp(distance_to_character / character_radius, 0.0, 1.0);
-		if (norm_distance < 0.99) {
-		    dir_to_character = (inverse(MODEL_MATRIX) * vec4(dir_to_character, 0.0)).xyz;
-		    dir_to_character = normalize(dir_to_character);
-		    float falloff_curve = clamp(texture(character_distance_falloff_curve, vec2(norm_distance, 0.0)).r, 0.0, 1.0);
-		    VERTEX += normalize(-dir_to_character) * falloff_curve * character_push_strength * displacement_affect;
+	for(int i = 0; i < MAX_DEFORMERS; i++){
+		if(i >= deformer_count){
+			break;
 		}
+		
+		vec3 dir_to_deformer = deformers_position[i] - (MODEL_MATRIX[3]).xyz;
+	    // Uncomment for horizontal-only displacement
+	    // dir_to_character.y = 0.0;
+
+	    float distance_to_deformer = length(dir_to_deformer);
+		float deformer_radius = deformers_radius[i];
+		if (distance_to_deformer < deformer_radius) {
+			float norm_distance = clamp(distance_to_deformer / deformer_radius, 0.0, 1.0);
+			if (norm_distance < 0.99) {
+			    dir_to_deformer = (inverse(MODEL_MATRIX) * vec4(dir_to_deformer, 0.0)).xyz;
+			    dir_to_deformer = normalize(dir_to_deformer);
+			    float falloff_curve = clamp(texture(character_distance_falloff_curve, vec2(norm_distance, 0.0)).r, 0.0, 1.0);
+			    VERTEX += normalize(-dir_to_deformer) * falloff_curve * deformers_strength[i] * displacement_affect;
+			}
+		}	
 	}
 
 }
@@ -79,16 +88,3 @@ void fragment() {
     }
     ALBEDO = tex.rgb;
 }
-
-//void fragment() {
-	//vec4 tex = texture(texture_albedo, UV);
-	//if (tex.a < alpha_scissor_threshold) {
-	//	discard;
-	//}
-
-	//BACKLIGHT = transmission.rgb;
-	//vec4 gradient = texture(texture_gradient, vec2(height / grass_height, 0.0));
-	//float secondary_weight = smoothstep(0.0, 1.0, color - secondary_attenuation);
-	//ALBEDO = tex.rbg * gradient.rgb;
-	//ALBEDO = mix(ALBEDO, secondary_color.rgb, secondary_weight);
-//}

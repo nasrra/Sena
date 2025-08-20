@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bn3fr3m3glrnp"]
 
-[ext_resource type="Shader" uid="uid://dyec7e3db2w23" path="res://source/shaders/grass.gdshader" id="1_6h0fi"]
+[ext_resource type="Shader" uid="uid://dyec7e3db2w23" path="res://source/shaders/foliage/grass.gdshader" id="1_6h0fi"]
 [ext_resource type="Texture2D" uid="uid://dy8ydqs2slh5j" path="res://scenes/environment/foliage/bushes/materials/GrassDistanceCurve.tres" id="2_sas8b"]
 [ext_resource type="Texture2D" uid="uid://ctkwg28vf02vg" path="res://assets/images/sprites/bushes/bush 1.png" id="2_slp2j"]
 [ext_resource type="Texture2D" uid="uid://bc5dh0sjddjiu" path="res://scenes/environment/foliage/bushes/materials/GrassWindNoise.tres" id="3_5gfxb"]
@@ -19,7 +19,8 @@ shader_parameter/wind_direction = Vector2(0, 2)
 shader_parameter/wind_speed = 0.05
 shader_parameter/wind_strength = 0.2
 shader_parameter/noise_scale = 20.0
-shader_parameter/character_position = Vector3(0, 0, 0)
-shader_parameter/character_radius = 1.0
+shader_parameter/deformer_count = 0
+shader_parameter/deformers_position = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/deformers_radius = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/deformers_strength = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/character_distance_falloff_curve = ExtResource("2_sas8b")
-shader_parameter/character_push_strength = 0.2
