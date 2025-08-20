@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" path="res://assets/tilesets/Prototype/DecorTileset.tres" id="3_53vmr"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="4_yayn4"]
 [ext_resource type="PackedScene" uid="uid://c1fp7wi1kjw4u" path="res://scenes/entities/enemies/Worker.tscn" id="5_7rrsj"]
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="6_7b6bk"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/hitflaash/HitFlash.gdshader" id="6_7b6bk"]
 [ext_resource type="PackedScene" uid="uid://bsgesvasya5np" path="res://scenes/environment/interactables/Chimney.tscn" id="7_g6dhr"]
 [ext_resource type="PackedScene" uid="uid://dmy0scf5vha1n" path="res://scenes/environment/interactables/RespawnPoint.tscn" id="8_5v6cj"]
 [ext_resource type="PackedScene" uid="uid://cdi8yyivdgfh7" path="res://scenes/environment/TimedEnemySpawner.tscn" id="9_pt64m"]

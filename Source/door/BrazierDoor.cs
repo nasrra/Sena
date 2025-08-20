@@ -3,14 +3,14 @@ using System;
 
 public partial class BrazierDoor : Node{
     [Export] private Door door;
-    [Export] private Sprite2D sprite;
+    [Export] private Sprite3D doorSprite;
+    [Export] private Sprite3D flameSprite;
+    [Export] private Light3D flameLight;
     [Export] private Interactable hitInteractable;
     [Export] private Interactable interactable;
     [Export] private EmberHolder embers;
-    [Export] private Texture2D litOpenSprite;
-    [Export] private Texture2D litClosedSprite;
-    [Export] private Texture2D unlitOpenSprite;
-    [Export] private Texture2D unlitClosedSprite;
+    [Export] private Texture2D openSprite;
+    [Export] private Texture2D closedSprite;
 
 
     /// 
@@ -47,36 +47,43 @@ public partial class BrazierDoor : Node{
             return;
         }
         if(door.Opened == false && embers.IsLit == true){
+            GD.Print("hit interacted");
             door.Open();
         }
     }
 
     private void Interacted(Interactor interactor){
         EmberStorage interactorEmbers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
-        if(interactorEmbers != null && interactorEmbers.NotchAmount >= 1){
-            interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
-            embers.LitState();
+        if(interactorEmbers != null){
+            if(interactorEmbers.NotchAmount >= 1){
+                interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
+                embers.LitState();
+                GD.Print(1);
+            }
         }
         else{
             door.Unlock();
+            GD.Print(2);
         }
     }   
 
     private void OnOpenCallback(){
-        sprite.Texture = door.Locked == true? unlitOpenSprite : litOpenSprite;
+        doorSprite.Texture = openSprite;
     }
 
     private void OnCloseCallback(){
-        sprite.Texture = door.Locked == true? unlitClosedSprite : litClosedSprite;
+        doorSprite.Texture = closedSprite;
     }
 
     private void LitState(){
-        sprite.Texture = door.Opened == true? litOpenSprite : litClosedSprite;
+        flameSprite.Visible = true;
+        flameLight.Visible = true;
         interactable.DisableInteraction();
     }
 
     private void UnlitState(){
-        sprite.Texture = door.Opened == true? unlitOpenSprite : unlitClosedSprite;
+        flameSprite.Visible = false;
+        flameLight.Visible = false;
         interactable.EnableInteraction();
     }
 

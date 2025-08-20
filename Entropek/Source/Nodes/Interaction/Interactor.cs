@@ -7,7 +7,7 @@ public partial class Interactor : Area3D{
     private Interactable previous = null;
     private Interactable current = null;
     private SwapbackList<Interactable> inRange = new SwapbackList<Interactable>();
-    [Export(PropertyHint.Layers2DPhysics)]
+    [Export(PropertyHint.Layers3DPhysics)]
     public uint ObstructionLayer;
 
     public override void _Ready(){
@@ -23,6 +23,7 @@ public partial class Interactor : Area3D{
     public void Interact(){
         if(current != null){
             current.Interact(this);
+            GD.Print("interact");
         }
     }
 

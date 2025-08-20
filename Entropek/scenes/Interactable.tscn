@@ -2,13 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b1tcnw3xbusc4" path="res://Entropek/source/nodes/interaction/Interactable.cs" id="1_msfch"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_prvul"]
-size = Vector2(1, 1)
+[sub_resource type="BoxShape3D" id="BoxShape3D_n0yvl"]
 
-[node name="Interactable" type="Area2D"]
-collision_layer = 16
-collision_mask = 16
+[node name="Interactable" type="Area3D"]
+collision_layer = 8
+collision_mask = 0
 script = ExtResource("1_msfch")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_prvul")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_n0yvl")

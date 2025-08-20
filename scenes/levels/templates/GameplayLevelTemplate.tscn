@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=9 format=3 uid="uid://cpmdc8rfjol6m"]
 
 [ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/source/globals/fmod/AudioBankLoader.cs" id="1_khrgp"]
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="2_7cl8v"]
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="3_lh374"]
 [ext_resource type="Script" uid="uid://bwdba7s04nkhe" path="res://source/shaders/foliage/GrassDeformerManager.cs" id="4_fei8l"]
 [ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/WayfindingGridMap.tscn" id="4_h5lis"]
+[ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://source/managers/LevelSwapDoorManager.cs" id="5_mkam8"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="6_kse60"]
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="7_wyi0w"]
 
@@ -27,6 +28,10 @@ one_shot = true
 
 [node name="GrassDeformerManager" type="Node" parent="Managers"]
 script = ExtResource("4_fei8l")
+
+[node name="DoorManager" type="Node" parent="Managers" node_paths=PackedStringArray("doors")]
+script = ExtResource("5_mkam8")
+doors = []
 
 [node name="GridMaps" type="Node3D" parent="."]
 

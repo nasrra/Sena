@@ -4,7 +4,7 @@ using System;
 public partial class LevelSwapDoor : Door{
 
     [ExportGroup("LevelSwapDoor")]
-    [Export] private Area2D enterZone;
+    [Export] private Area3D enterZone;
     [Export] public Node3D ExitPoint {get; private set;}
     [Export] private string levelToLoad;
     [Export] private int doorToLoadTo; // <-- id in the door manager array. 
@@ -50,23 +50,23 @@ public partial class LevelSwapDoor : Door{
     }
 
     private void EnableCollider(){
-        collider.GetNode<CollisionShape2D>("CollisionShape2D").Disabled=false;
+        collider.GetNode<CollisionShape3D>("CollisionShape3D").Disabled=false;
     }
 
     private void DisableCollider(){
-        collider.GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
+        collider.GetNode<CollisionShape3D>("CollisionShape3D").Disabled=true;
     }
 
     private void EnableEnterZone(){
         enterZone.Monitorable = true;
         enterZone.Monitoring = true;
-        enterZone.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
+        enterZone.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
     }
 
     private void DisableEnterZone(){
         enterZone.Monitorable = false;
         enterZone.Monitoring = false;
-        enterZone.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+        enterZone.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
     }
 
 
@@ -89,8 +89,8 @@ public partial class LevelSwapDoor : Door{
     /// 
 
 
-    private void OnEnterZone(Node2D other){
-        string hitLayer = PhysicsManager.Singleton.GetPhysics2DLayerName((other as CollisionObject2D).CollisionLayer);
+    private void OnEnterZone(Node3D other){
+        string hitLayer = PhysicsManager.Singleton.GetPhysics3DLayerName((other as CollisionObject3D).CollisionLayer);
         switch(hitLayer){
             case "Player":
                 Enter();

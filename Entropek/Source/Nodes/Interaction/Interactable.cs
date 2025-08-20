@@ -3,7 +3,7 @@ using System;
 
 public partial class Interactable : Area3D{
     public const string NodeName = nameof(Interactable);
-    [Export] private Label interactIcon; 
+    [Export] private Label3D interactIcon; 
     public event Action<Interactor> OnInteract;
     public event Action<Interactor> OnInteractorPriorityState;
     public event Action OnIdleState;
@@ -66,7 +66,7 @@ public partial class Interactable : Area3D{
         DisableInteractableIcon();
     }
 
-    public void SetInteractIcon(Label label){
+    public void SetInteractIcon(Label3D label){
         interactIcon = label;
     }
 }

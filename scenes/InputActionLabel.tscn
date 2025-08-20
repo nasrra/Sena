@@ -3,14 +3,11 @@
 [ext_resource type="FontFile" uid="uid://dofm1r1t27gsi" path="res://assets/fonts/PromptFont/promptfont.ttf" id="1_3kvkw"]
 [ext_resource type="Script" uid="uid://cnla4oundx541" path="res://source/InputActionLabel.cs" id="2_qqi6l"]
 
-[node name="InputActionLabel" type="Label"]
-z_index = 12
-z_as_relative = false
-y_sort_enabled = true
-offset_right = 4.0
-offset_bottom = 12.0833
-theme_override_fonts/font = ExtResource("1_3kvkw")
-theme_override_font_sizes/font_size = 20
+[node name="InputActionLabel" type="Label3D"]
+outline_modulate = Color(0, 0, 0, 0)
 text = "E"
+font = ExtResource("1_3kvkw")
+font_size = 128
+outline_size = 2
 script = ExtResource("2_qqi6l")
 inputAction = "Interact"

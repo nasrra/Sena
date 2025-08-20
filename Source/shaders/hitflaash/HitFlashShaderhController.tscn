@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fyw1l5ue26s8"]
 
-[ext_resource type="Script" uid="uid://lqcfymcclmny" path="res://source/shaders/HitFlashShaderController.cs" id="1_n40i4"]
+[ext_resource type="Script" uid="uid://lqcfymcclmny" path="res://source/shaders/hitflaash/HitFlashShaderController.cs" id="1_n40i4"]
 
 [node name="HitFlashShaderController" type="Node" node_paths=PackedStringArray("timer")]
 script = ExtResource("1_n40i4")

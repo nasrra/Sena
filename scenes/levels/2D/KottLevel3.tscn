@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://7omjbe8a7mqf" path="res://scenes/environment/doors/BrazierDoor/BrazierEnvironmentDoorVertical.tscn" id="4_i3w3v"]
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="5_mdeo0"]
 [ext_resource type="PackedScene" uid="uid://dyymkutpgb1bl" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorLeft.tscn" id="6_ut634"]
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="6_y60gd"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/hitflaash/HitFlash.gdshader" id="6_y60gd"]
 [ext_resource type="PackedScene" uid="uid://cfijs5hb822g" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorRight.tscn" id="7_kosd7"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="7_poo32"]
 [ext_resource type="PackedScene" uid="uid://c0b0w44n0x0y8" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSwapDoorDown.tscn" id="11_xkwr8"]

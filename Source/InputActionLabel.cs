@@ -1,50 +1,50 @@
 using Godot;
 using System;
 
-public partial class InputActionLabel : Label{
+public partial class InputActionLabel : Label3D{
 
-    [Export] string inputAction;
-
-
-    /// 
-    /// Base.
-    /// 
+	[Export] string inputAction;
 
 
-    public override void _EnterTree(){
-        base._EnterTree();
-        GetInputActionIcon();
-        LinkEvents();
-    }
-
-    public override void _ExitTree(){
-        base._ExitTree();
-    }
+	/// 
+	/// Base.
+	/// 
 
 
-    ///
-    /// Functions.
-    /// 
+	public override void _EnterTree(){
+		base._EnterTree();
+		GetInputActionIcon();
+		LinkEvents();
+	}
+
+	public override void _ExitTree(){
+		base._ExitTree();
+	}
 
 
-    private void GetInputActionIcon(){
-        Text = InputManager.Singleton.GetInputActionGlyphUnicode(inputAction);
-    }
+	///
+	/// Functions.
+	/// 
 
 
-    /// 
-    /// Linkage.
-    /// 
+	private void GetInputActionIcon(){
+		Text = InputManager.Singleton.GetInputActionGlyphUnicode(inputAction);
+	}
 
 
-    private void LinkEvents(){
-        InputManager.Singleton.OnGamepadState   += GetInputActionIcon;
-        InputManager.Singleton.OnKeyboardState  += GetInputActionIcon;
-    }
+	/// 
+	/// Linkage.
+	/// 
 
-    private void UnlinkEvents(){
-        InputManager.Singleton.OnGamepadState   -= GetInputActionIcon;
-        InputManager.Singleton.OnKeyboardState  -= GetInputActionIcon;
-    }
+
+	private void LinkEvents(){
+		InputManager.Singleton.OnGamepadState   += GetInputActionIcon;
+		InputManager.Singleton.OnKeyboardState  += GetInputActionIcon;
+	}
+
+	private void UnlinkEvents(){
+		InputManager.Singleton.OnGamepadState   -= GetInputActionIcon;
+		InputManager.Singleton.OnKeyboardState  -= GetInputActionIcon;
+	}
 
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=22 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://cqmcv7p28v6ks" path="res://icon.svg" id="1_xhfnw"]
@@ -10,13 +10,14 @@
 [ext_resource type="Script" uid="uid://elndi0uhutmy" path="res://source/EmberStorage.cs" id="8_5ncpa"]
 [ext_resource type="Script" uid="uid://bev12jhokgvkl" path="res://source/hitbox/HitBox.cs" id="8_37p5y"]
 [ext_resource type="SpriteFrames" uid="uid://ds6xh0lqqrjmq" path="res://assets/animations/sena/Sena.tres" id="9_jh8vs"]
-[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="10_rafx0"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="14_vty87"]
 [ext_resource type="Script" uid="uid://bn5g5x8duv4dq" path="res://Entropek/source/globals/fmod/AudioListener3D.cs" id="15_vty87"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="16_deer0"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 [ext_resource type="Script" uid="uid://jdjh2imli3fo" path="res://source/shaders/foliage/GrassDeformer.cs" id="17_deer0"]
+[ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="18_gpcb7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rfitb"]
 size = Vector3(2, 1, 2)
@@ -24,7 +25,10 @@ size = Vector3(2, 1, 2)
 [sub_resource type="SphereShape3D" id="SphereShape3D_37p5y"]
 radius = 0.33
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "audioPlayer", "spriteSorter")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_deer0"]
+size = Vector3(2, 1, 2)
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer", "spriteSorter")]
 collision_layer = 2
 script = ExtResource("1_kne1u")
 emberDecayRate = NodePath("EmberDecayRate")
@@ -36,6 +40,7 @@ hitBoxes = NodePath("HitBoxHandler")
 hitFlash = NodePath("HitFlashShaderController")
 Health = NodePath("Health")
 EmberStorage = NodePath("EmberStorage")
+Interactor = NodePath("Interactor")
 audioPlayer = NodePath("AudioPlayer")
 spriteSorter = NodePath("SpriteSorter3D")
 
@@ -69,7 +74,7 @@ hitBoxes = [NodePath("HitboxBack"), NodePath("HitboxLeft"), NodePath("HitboxRigh
 [node name="HitboxBack" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("8_37p5y")
 enabledTimer = NodePath("Timer")
 collsionShape = NodePath("CollisionShape3D")
@@ -84,7 +89,7 @@ one_shot = true
 [node name="HitboxLeft" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("8_37p5y")
 enabledTimer = NodePath("Timer")
 collsionShape = NodePath("CollisionShape3D")
@@ -99,7 +104,7 @@ one_shot = true
 [node name="HitboxRight" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.5, 0)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("8_37p5y")
 enabledTimer = NodePath("Timer")
 collsionShape = NodePath("CollisionShape3D")
@@ -114,7 +119,7 @@ one_shot = true
 [node name="HitboxFront" type="Area3D" parent="HitBoxHandler" node_paths=PackedStringArray("enabledTimer", "collsionShape")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1)
 collision_layer = 0
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("8_37p5y")
 enabledTimer = NodePath("Timer")
 collsionShape = NodePath("CollisionShape3D")
@@ -190,3 +195,13 @@ sides = 32
 [node name="GrassDeformer" type="Node3D" parent="."]
 script = ExtResource("17_deer0")
 Strength = 0.165
+
+[node name="Interactor" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("18_gpcb7")
+ObstructionLayer = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_deer0")

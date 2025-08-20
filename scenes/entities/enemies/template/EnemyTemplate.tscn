@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="9_mmbpr"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
-[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://scenes/nodes/HitFlashShaderhController.tscn" id="12_v8ssa"]
+[ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="12_v8ssa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iky5e"]
 radius = 3.0

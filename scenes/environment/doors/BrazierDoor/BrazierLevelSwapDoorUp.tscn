@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://huqes57yksy0"]
-
-[ext_resource type="PackedScene" uid="uid://dihopjgrk6eff" path="res://scenes/environment/doors/BrazierDoor/BrazierLevelSpawnDoorTemplate.tscn" id="1_sg2gx"]
-
-[node name="BrazierLevelSwapDoorUp" instance=ExtResource("1_sg2gx")]

@@ -22,10 +22,10 @@
 [ext_resource type="PackedScene" uid="uid://coma2jhi4uguk" path="res://scenes/environment/storage/IronBox1.tscn" id="25_pgakm"]
 [ext_resource type="PackedScene" uid="uid://bkqyyrfwojuc1" path="res://scenes/environment/storage/IronBox3.tscn" id="26_pgakm"]
 [ext_resource type="PackedScene" uid="uid://fkr5rvlevs5s" path="res://scenes/environment/storage/StorageSide.tscn" id="27_pgakm"]
+[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorUp.tscn" id="27_t2wor"]
 [ext_resource type="PackedScene" uid="uid://c2ogug1kjay38" path="res://scenes/environment/storage/StorageFront.tscn" id="28_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="29_86um8"]
 [ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/storage/Wheelbarrow.tscn" id="30_rw0oh"]
-[ext_resource type="PackedScene" uid="uid://7bpeib8xrjp4" path="res://scenes/environment/doors/JailDoor.tscn" id="31_s7ois"]
 [ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindow.tscn" id="32_srkvl"]
 
 [sub_resource type="Resource" id="Resource_t2wor"]
@@ -81,6 +81,9 @@ script = ExtResource("9_j7nyf")
 stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_t2wor"), SubResource("Resource_l40or"), SubResource("Resource_hnhv5"), SubResource("Resource_86um8")])
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_1pwbc")]
+
+[node name="AudioBankLoader" parent="Managers" index="0"]
+bankName = "Test"
 
 [node name="GrassDeformerManager" parent="Managers" index="3"]
 grassShaders = Array[ShaderMaterial]([ExtResource("22_usw5k"), ExtResource("19_xbvxr"), ExtResource("20_bspq0"), ExtResource("21_dqba7")])
@@ -141,11 +144,12 @@ omni_range = 9.333
 [node name="Wheelbarrow" parent="." index="13" instance=ExtResource("30_rw0oh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 5.25)
 
-[node name="JailDoor" parent="." index="14" instance=ExtResource("31_s7ois")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
-
-[node name="JailWindow" parent="." index="15" instance=ExtResource("32_srkvl")]
+[node name="JailWindow" parent="." index="14" instance=ExtResource("32_srkvl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 
-[node name="JailWindow2" parent="." index="16" instance=ExtResource("32_srkvl")]
+[node name="JailWindow2" parent="." index="15" instance=ExtResource("32_srkvl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
+
+[node name="LevelSwapDoorTemplate" parent="." index="16" instance=ExtResource("27_t2wor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+Opened = true

@@ -6,7 +6,7 @@ using System;
 
 public abstract partial class Door : Node{
     [ExportGroup("Door")]
-    [Export] protected CollisionObject2D collider;
+    [Export] protected CollisionObject3D collider;
     [Export] public bool Locked {get;private set;} = false;
     [Export] public bool Opened {get;private set;} = false;
 
@@ -35,14 +35,14 @@ public abstract partial class Door : Node{
 
     public virtual void Open(){
         Opened = true;
-        CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
+        CollisionShape3D shape = collider.GetNode<CollisionShape3D>("CollisionShape3D");
         shape.CallDeferred("set_disabled", true);
         OnOpen?.Invoke();
     }
 
     public virtual void Close(){
         Opened = false;
-        CollisionShape2D shape = collider.GetNode<CollisionShape2D>("CollisionShape2D");
+        CollisionShape3D shape = collider.GetNode<CollisionShape3D>("CollisionShape3D");
         shape.CallDeferred("set_disabled", false);
         OnClose?.Invoke();
     }

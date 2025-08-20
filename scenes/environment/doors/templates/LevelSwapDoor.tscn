@@ -2,37 +2,36 @@
 
 [ext_resource type="Script" uid="uid://crqfl14w8sd88" path="res://source/door/LevelSwapDoor.cs" id="1_2blwh"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_02wmg"]
-size = Vector2(8, 8)
+[sub_resource type="BoxShape3D" id="BoxShape3D_rfjl5"]
+size = Vector3(1, 1.75, 0.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ybpd"]
-size = Vector2(8, 8)
+[sub_resource type="BoxShape3D" id="BoxShape3D_p5b02"]
+size = Vector3(1, 1.75, 0.5)
 
-[node name="LevelSwapDoorTemplate" type="Node2D" node_paths=PackedStringArray("enterZone", "ExitPoint", "collider")]
+[node name="LevelSwapDoorTemplate" type="Node3D" node_paths=PackedStringArray("enterZone", "ExitPoint")]
 script = ExtResource("1_2blwh")
 enterZone = NodePath("Container/EnterZone")
 ExitPoint = NodePath("Container/ExitPoint")
-collider = NodePath("Container/Collider")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Container" type="Node3D" parent="."]
 
-[node name="Container" type="Node2D" parent="."]
+[node name="ExitPoint" type="Node3D" parent="Container"]
 
-[node name="ExitPoint" type="Node2D" parent="Container"]
-
-[node name="EnterZone" type="Area2D" parent="Container"]
+[node name="EnterZone" type="Area3D" parent="Container"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 0
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/EnterZone"]
-shape = SubResource("RectangleShape2D_02wmg")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Container/EnterZone"]
+shape = SubResource("BoxShape3D_rfjl5")
 
-[node name="Collider" type="StaticBody2D" parent="Container"]
+[node name="Collider" type="StaticBody3D" parent="Container"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Container/Collider"]
-shape = SubResource("RectangleShape2D_5ybpd")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Container/Collider"]
+shape = SubResource("BoxShape3D_p5b02")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

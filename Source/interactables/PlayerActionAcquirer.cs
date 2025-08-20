@@ -10,7 +10,7 @@ public partial class PlayerActionAcquirer : Node2D{
     
 
     [Export] private Interactable interactable;
-    [Export] private Label interactIcon;
+    [Export] private Label3D interactIcon;
     [Export] private PlayerActions playerActions;
 
 

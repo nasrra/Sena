@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bkma3afhynouv"]
 
-[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/HitFlash.gdshader" id="1_aarmy"]
+[ext_resource type="Shader" uid="uid://c1oecqxkwqpbr" path="res://source/shaders/hitflaash/HitFlash.gdshader" id="1_aarmy"]
 
 [resource]
 resource_local_to_scene = true
