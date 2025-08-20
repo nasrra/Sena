@@ -1,40 +1,25 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://dtyfwl42tihg"]
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dtyfwl42tihg"]
 
-[ext_resource type="Shader" uid="uid://7meoxdnprew0" path="res://grass.gdshader" id="1_x81ah"]
+[ext_resource type="Shader" uid="uid://dyec7e3db2w23" path="res://source/shaders/grass.gdshader" id="1_t1iku"]
+[ext_resource type="Texture2D" uid="uid://dy8ydqs2slh5j" path="res://scenes/environment/foliage/bushes/materials/GrassDistanceCurve.tres" id="2_1y3yd"]
 [ext_resource type="Texture2D" uid="uid://d10axns4roexl" path="res://assets/images/sprites/bushes/bush 2.png" id="2_ydiu6"]
-
-[sub_resource type="Curve" id="Curve_bkfnk"]
-_data = [Vector2(1e-05, 0.980228), 2.70368, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.382377, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ubow3"]
-curve = SubResource("Curve_bkfnk")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_eeqpx"]
-seed = 1
-frequency = 0.002
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7l0n1"]
-in_3d_space = true
-seamless = true
-seamless_blend_skirt = 0.65
-noise = SubResource("FastNoiseLite_eeqpx")
+[ext_resource type="Texture2D" uid="uid://bc5dh0sjddjiu" path="res://scenes/environment/foliage/bushes/materials/GrassWindNoise.tres" id="3_px5ys"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_x81ah")
+shader = ExtResource("1_t1iku")
 shader_parameter/texture_albedo = ExtResource("2_ydiu6")
-shader_parameter/texture_noise = SubResource("NoiseTexture2D_7l0n1")
-shader_parameter/alpha_scissor_threshold = 0.25
-shader_parameter/transmission = Color(0, 0, 0, 1)
-shader_parameter/secondary_color = Color(0, 0, 0, 1)
+shader_parameter/texture_noise = ExtResource("3_px5ys")
+shader_parameter/alpha_scissor_threshold = 0.01
+shader_parameter/transmission = Color(1, 1, 1, 1)
+shader_parameter/secondary_color = Color(1, 1, 1, 1)
 shader_parameter/secondary_attenuation = 0.2
-shader_parameter/grass_height = 0.829
-shader_parameter/wind_direction = Vector2(1, -0.5)
-shader_parameter/wind_speed = 0.5
-shader_parameter/wind_strength = 0.15
-shader_parameter/noise_scale = 6.0
-shader_parameter/character_position = Vector3(0.555, 0.1, 3.445)
+shader_parameter/grass_height = 1.0
+shader_parameter/wind_direction = Vector2(0, 2)
+shader_parameter/wind_speed = 0.05
+shader_parameter/wind_strength = 0.2
+shader_parameter/noise_scale = 20.0
+shader_parameter/character_position = Vector3(0, 0, 0)
 shader_parameter/character_radius = 1.0
-shader_parameter/character_distance_falloff_curve = SubResource("CurveTexture_ubow3")
-shader_parameter/character_push_strength = 0.167
+shader_parameter/character_distance_falloff_curve = ExtResource("2_1y3yd")
+shader_parameter/character_push_strength = 0.2

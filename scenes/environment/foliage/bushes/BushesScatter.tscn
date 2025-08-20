@@ -1,0 +1,100 @@
+[gd_scene load_steps=17 format=3 uid="uid://bl8tekjp377n"]
+
+[ext_resource type="Script" uid="uid://c36kadp7c060h" path="res://addons/proton_scatter/src/scatter.gd" id="1_swgbm"]
+[ext_resource type="Script" uid="uid://csde2gofdtawx" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="2_5k1n6"]
+[ext_resource type="Script" uid="uid://x5mnpak0fr3b" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="3_27857"]
+[ext_resource type="Script" uid="uid://c5dqhovtmfkke" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="4_0bcpl"]
+[ext_resource type="Script" uid="uid://dcmcvyhynhe4u" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="5_aobum"]
+[ext_resource type="Script" uid="uid://dq1cmg2ghaamo" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="6_ggp0q"]
+[ext_resource type="Script" uid="uid://dscsff8ieby4g" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="7_owp60"]
+[ext_resource type="Script" uid="uid://das4v0clsmend" path="res://addons/proton_scatter/src/scatter_item.gd" id="8_ygb5j"]
+[ext_resource type="Script" uid="uid://bquoxcekfjbdd" path="res://addons/proton_scatter/src/scatter_shape.gd" id="9_786oc"]
+[ext_resource type="Script" uid="uid://fwernmtfuu6e" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="10_2d3ta"]
+
+[sub_resource type="Resource" id="Resource_swgbm"]
+script = ExtResource("4_0bcpl")
+amount = 10
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 1
+
+[sub_resource type="Resource" id="Resource_5k1n6"]
+script = ExtResource("5_aobum")
+position = Vector3(0.15, 0.15, 0.15)
+rotation = Vector3(0, 0, 0)
+scale = Vector3(-1, -1, -1)
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 2
+
+[sub_resource type="Resource" id="Resource_27857"]
+script = ExtResource("6_ggp0q")
+iterations = 3
+offset_step = 0.2
+consecutive_step_multiplier = 0.75
+use_computeshader = true
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = true
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_0bcpl"]
+script = ExtResource("7_owp60")
+ray_direction = Vector3(0, -1, 0)
+ray_length = 5.0
+ray_offset = 5.0
+remove_points_on_miss = false
+align_with_collision_normal = false
+max_slope = 90.0
+collision_mask = 1
+exclude_mask = 0
+enabled = true
+override_global_seed = false
+custom_seed = 0
+restrict_height = false
+reference_frame = 0
+
+[sub_resource type="Resource" id="Resource_aobum"]
+script = ExtResource("2_5k1n6")
+stack = Array[ExtResource("3_27857")]([SubResource("Resource_swgbm"), SubResource("Resource_5k1n6"), SubResource("Resource_27857"), SubResource("Resource_0bcpl")])
+
+[sub_resource type="Resource" id="Resource_g8bsm"]
+script = ExtResource("10_2d3ta")
+radius = 0.40658
+
+[node name="BushesScatter" type="Node3D"]
+script = ExtResource("1_swgbm")
+modifier_stack = SubResource("Resource_aobum")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://c36kadp7c060h"
+
+[node name="ScatterItem" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("8_ygb5j")
+path = "uid://b8abs8me7ckgo"
+
+[node name="ScatterItem2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("8_ygb5j")
+path = "uid://duc7vfj54chd1"
+
+[node name="ScatterItem3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("8_ygb5j")
+path = "uid://chi65aghq5r2e"
+
+[node name="ScatterItem4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("8_ygb5j")
+path = "uid://dxppqrko3u7t4"
+
+[node name="ScatterShape" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
+script = ExtResource("9_786oc")
+shape = SubResource("Resource_g8bsm")
