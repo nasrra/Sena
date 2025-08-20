@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://xs6iegq82nly" path="res://assets/test/CampfireLit.png" id="2_xhpog"]
 [ext_resource type="Texture2D" uid="uid://bn5112uj0utp4" path="res://assets/test/CampfireExtinguished.png" id="3_gd46t"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="4_6ahcc"]
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="5_h4qwx"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="5_h4qwx"]
 [ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="6_37krm"]
 
 [node name="Firepit" type="Node2D" node_paths=PackedStringArray("interactable", "sprite", "embers")]

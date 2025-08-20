@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0prpovh35hl1"]
+[gd_scene load_steps=14 format=3 uid="uid://b0prpovh35hl1"]
 
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="1_r6yg7"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="1_r6yg7"]
 [ext_resource type="Script" uid="uid://5fms2haq6sx7" path="res://source/gui/TutorialGui.cs" id="1_tps4h"]
+[ext_resource type="PackedScene" uid="uid://vqqobltxxodh" path="res://scenes/InputActionLabel.tscn" id="3_pn7i0"]
 
 [sub_resource type="Animation" id="Animation_24ex3"]
 resource_name = "DisableAttack"
@@ -161,12 +162,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="InputActionLabel" parent="HealTutorialText" instance=ExtResource("1_r6yg7")]
-layout_mode = 0
-offset_left = 992.0
-offset_top = 568.0
-offset_right = 1065.0
-offset_bottom = 684.0
-theme_override_font_sizes/font_size = 72
 inputAction = "Heal"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HealTutorialText"]
@@ -239,15 +234,6 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="InputActionLabel" parent="AttackTutorialText" instance=ExtResource("1_r6yg7")]
-layout_mode = 0
-offset_left = 992.0
-offset_top = 568.0
-offset_right = 1065.0
-offset_bottom = 684.0
-theme_override_font_sizes/font_size = 72
-inputAction = "Attack"
-
 [node name="RichTextLabel3" type="RichTextLabel" parent="AttackTutorialText"]
 layout_mode = 0
 offset_left = 520.0
@@ -292,6 +278,15 @@ theme_override_font_sizes/bold_font_size = 32
 bbcode_enabled = true
 text = "To [b]Attack[/b]."
 horizontal_alignment = 1
+
+[node name="InputActionLabel" parent="AttackTutorialText" instance=ExtResource("3_pn7i0")]
+layout_mode = 0
+offset_left = 1033.0
+offset_top = 572.0
+offset_right = 1060.0
+offset_bottom = 639.0
+theme_override_font_sizes/font_size = 48
+inputAction = "Attack"
 
 [node name="TextAnimator" type="AnimationPlayer" parent="."]
 libraries = {

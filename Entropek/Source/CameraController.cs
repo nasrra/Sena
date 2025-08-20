@@ -169,14 +169,14 @@ public partial class CameraController : Camera3D{
 	private void LinkEvents(){
 		shakeTimer.Timeout += StopShake;
 		fadeTimer.Timeout += StopFadeTransition;
-		SceneManager.Instance.OnScene2DLoaded += LevelEnterTransition;
-		SceneManager.Instance.OnScene2DDelayedLoadSet += LevelExitTransition;
+		SceneManager.Instance.OnScene3DLoaded += LevelEnterTransition;
+		SceneManager.Instance.OnScene3DDelayedLoadSet += LevelExitTransition;
 	}
 
 	private void UnlinkEvents(){
 		shakeTimer.Timeout -= StopShake;
 		fadeTimer.Timeout -= StopFadeTransition;
-		SceneManager.Instance.OnScene2DLoaded -= LevelEnterTransition;
-		SceneManager.Instance.OnScene2DDelayedLoadSet -= LevelExitTransition;
+		SceneManager.Instance.OnScene3DLoaded -= LevelEnterTransition;
+		SceneManager.Instance.OnScene3DDelayedLoadSet -= LevelExitTransition;
 	}
 }

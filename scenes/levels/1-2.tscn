@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3 uid="uid://cdnfe5k3dl3mj"]
+
+[ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_dp3ri"]
+[ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="2_5eual"]
+[ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/EnvironmentalGridMap.tscn" id="2_kqkvu"]
+[ext_resource type="MeshLibrary" uid="uid://cumsglylffol6" path="res://scenes/gridmaps/Level1MeshLibrary.tres" id="3_bogsv"]
+[ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="5_220im"]
+[ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindowNorth.tscn" id="7_td00t"]
+[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="8_o1maq"]
+[ext_resource type="PackedScene" uid="uid://c0enp7t3ukc2p" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorSouth.tscn" id="9_10r0f"]
+[ext_resource type="PackedScene" uid="uid://bwdpgqn0m52pn" path="res://scenes/environment/windows/JailWindowSouth.tscn" id="10_pig6i"]
+
+[node name="GameplayLevelTemplate" instance=ExtResource("1_dp3ri")]
+
+[node name="AudioBankLoader" parent="Managers" index="0"]
+bankName = "Test"
+
+[node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("doors")]
+doors = [NodePath("../../JailLevelSwapDoorNorth2")]
+
+[node name="EnvironmentalGridMap" parent="GridMaps" index="1" instance=ExtResource("2_kqkvu")]
+mesh_library = ExtResource("3_bogsv")
+data = {
+"cells": PackedInt32Array(131073, 0, 33, 131074, 0, 34, 131075, 0, 39, 131076, 0, 40, 131077, 0, 45, 131078, 0, 46, 131079, 0, 51, 131080, 0, 52, 131081, 0, 33, 131082, 0, 34, 131083, 0, 39, 131084, 0, 40, 131085, 0, 45, 131086, 0, 46, 131087, 0, 51, 131088, 0, 52, 65537, 0, 31, 65538, 0, 32, 65539, 0, 37, 65540, 0, 38, 65541, 0, 43, 65542, 0, 44, 65543, 0, 49, 65544, 0, 50, 65545, 0, 31, 65546, 0, 32, 65547, 0, 37, 65548, 0, 38, 65549, 0, 43, 65550, 0, 44, 65551, 0, 49, 65552, 0, 50, 1, 0, 31, 2, 0, 32, 3, 0, 35, 4, 0, 36, 5, 0, 41, 6, 0, 42, 7, 0, 47, 8, 0, 48, 9, 0, 31, 10, 0, 32, 11, 0, 35, 12, 0, 36, 13, 0, 41, 14, 0, 42, 15, 0, 47, 16, 0, 48, -65535, 0, 15, -65535, 1, 13, -65535, 2, 23, -65535, 3, 21, -65534, 0, 16, -65534, 1, 14, -65534, 2, 24, -65534, 3, 22, -65533, 0, 19, -65533, 1, 17, -65533, 2, 27, -65533, 3, 25, -65532, 0, 20, -65532, 1, 18, -65532, 2, 28, -65532, 3, 26, -65531, 0, 15, -65531, 1, 13, -65531, 2, 23, -65531, 3, 21, -65530, 0, 16, -65530, 1, 14, -65530, 2, 24, -65530, 3, 22, -65529, 0, 19, -65529, 1, 17, -65529, 2, 27, -65529, 3, 25, -65528, 0, 20, -65528, 1, 18, -65528, 2, 28, -65528, 3, 26, -65527, 0, 15, -65527, 1, 13, -65527, 2, 23, -65527, 3, 21, -65526, 0, 16, -65526, 1, 14, -65526, 2, 24, -65526, 3, 22, -65525, 0, 19, -65525, 1, 17, -65525, 2, 27, -65525, 3, 25, -65524, 0, 20, -65524, 1, 18, -65524, 2, 28, -65524, 3, 26, -65523, 0, 15, -65523, 1, 13, -65523, 2, 23, -65523, 3, 21, -65522, 0, 16, -65522, 1, 14, -65522, 2, 24, -65522, 3, 22, -65521, 0, 19, -65521, 1, 17, -65521, 2, 27, -65521, 3, 25, -65520, 0, 20, -65520, 1, 18, -65520, 2, 28, -65520, 3, 26, 196610, 65535, 1441794, 196609, 65535, 1441793, 196611, 65535, 1441793, 196612, 65535, 1441794, 196613, 65535, 1441793, 196614, 65535, 1441794, 196615, 65535, 1441793, 196616, 65535, 1441794, 196617, 65535, 1441793, 196618, 65535, 1441794, 196619, 65535, 1441793, 196620, 65535, 1441794, 196621, 65535, 1441793, 196622, 65535, 1441794, 196623, 65535, 1441793, 196624, 65535, 1441794, 196608, 0, 2, 196608, 1, 1, 196608, 2, 2, 196608, 3, 1, 196625, 3, 655362, 196625, 2, 655361, 196625, 1, 655362, 196625, 0, 655361, 196608, 65535, 0, 196625, 65535, 0, 131072, 4, 45, 131089, 4, 46, 65536, 4, 31, 65553, 4, 32, 0, 4, 41, 17, 4, 42)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="WorldEnvironment" parent="." index="2"]
+environment = ExtResource("2_5eual")
+
+[node name="Camera" parent="." index="3" node_paths=PackedStringArray("Target")]
+Target = NodePath("../Player")
+
+[node name="Player" parent="." index="4" node_paths=PackedStringArray("camera") instance=ExtResource("5_220im")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.25, 0, 1.75)
+camera = NodePath("../Camera")
+
+[node name="JailWindow" parent="." index="5" instance=ExtResource("7_td00t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+[node name="JailWindow2" parent="." index="6" instance=ExtResource("7_td00t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="JailWindowSouth" parent="." index="7" instance=ExtResource("10_pig6i")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 6, 0, 4)
+
+[node name="JailWindowSouth2" parent="." index="8" instance=ExtResource("10_pig6i")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 12, 0, 4)
+
+[node name="JailLevelSwapDoorNorth2" parent="." index="9" instance=ExtResource("9_10r0f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 4.25)
+levelToLoad = "1-1"
+Opened = true
+
+[node name="JailLevelSwapDoorNorth" parent="." index="10" instance=ExtResource("8_o1maq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)

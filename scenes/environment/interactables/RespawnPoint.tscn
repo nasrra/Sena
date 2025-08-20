@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://c8n4ry1c3sun5" path="res://assets/test/RespawnPoint.jpg" id="1_a1jvh"]
 [ext_resource type="Script" uid="uid://loq3eyrbsihb" path="res://source/RespawnPoint.cs" id="1_u05v7"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="2_1vnsk"]
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="4_f1768"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="4_f1768"]
 
 [node name="RespawnPoint" type="Node2D" node_paths=PackedStringArray("interactable")]
 y_sort_enabled = true

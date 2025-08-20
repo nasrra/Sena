@@ -47,7 +47,6 @@ public partial class BrazierDoor : Node{
             return;
         }
         if(door.Opened == false && embers.IsLit == true){
-            GD.Print("hit interacted");
             door.Open();
         }
     }
@@ -58,12 +57,10 @@ public partial class BrazierDoor : Node{
             if(interactorEmbers.NotchAmount >= 1){
                 interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
                 embers.LitState();
-                GD.Print(1);
             }
         }
         else{
             door.Unlock();
-            GD.Print(2);
         }
     }   
 

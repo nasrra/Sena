@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwdpgqn0m52pn"]
+
+[ext_resource type="Texture2D" uid="uid://juwni7pyt3po" path="res://assets/images/sprites/doors/JailWindow.png" id="1_xpqrk"]
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="2_hrfi4"]
+[ext_resource type="PackedScene" uid="uid://de6ln8sk1l1yd" path="res://scenes/lighting/SpotLight3d2.tscn" id="3_nkyid"]
+
+[node name="JailWindow3" type="Node3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0, 1.25, -0.2)
+cast_shadow = 2
+modulate = Color(1, 1, 1, 0.392157)
+shaded = true
+alpha_cut = 2
+texture = ExtResource("1_xpqrk")
+
+[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+script = ExtResource("2_hrfi4")
+sprite = NodePath("../Sprite3D")
+
+[node name="SpotLight3D2" parent="." instance=ExtResource("3_nkyid")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 2.25, -1.55)
+light_color = Color(1, 0.784314, 0, 1)
+spot_angle = 21.5065
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0119629, 0.774445, -0.517574)
+cast_shadow = 3
+size = Vector3(1.356, 0.545, 0.1)

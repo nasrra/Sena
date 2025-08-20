@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=3 uid="uid://c0enp7t3ukc2p"]
+
+[ext_resource type="PackedScene" uid="uid://dokaqxml1glsl" path="res://scenes/environment/doors/templates/LevelSwapDoor.tscn" id="1_olibw"]
+[ext_resource type="PackedScene" uid="uid://de6ln8sk1l1yd" path="res://scenes/lighting/SpotLight3d2.tscn" id="2_ycn1q"]
+[ext_resource type="Texture2D" uid="uid://b77lcbdsmg7om" path="res://assets/images/sprites/lanterns/PumpkinLantern.png" id="3_3s172"]
+[ext_resource type="Texture2D" uid="uid://jj46p0wr0hb4" path="res://assets/images/sprites/doors/Jail Doorclosed.png" id="4_ebine"]
+[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="6_lc10n"]
+[ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierDoor.cs" id="7_uodu2"]
+[ext_resource type="Texture2D" uid="uid://7ovwle4vt6n1" path="res://assets/images/sprites/doors/Jail Dooropen.png" id="8_neq1p"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="9_b7rux"]
+[ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="10_dgnlv"]
+[ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="11_f4vlh"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="12_yya78"]
+
+[node name="JailLevelSwapDoorNorth" node_paths=PackedStringArray("collider") instance=ExtResource("1_olibw")]
+collider = NodePath("Container/Collider")
+Locked = true
+
+[node name="ExitPoint" parent="Container" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+
+[node name="EnterZone" parent="Container" index="1"]
+collision_mask = 2
+
+[node name="LanternSprite" type="Sprite3D" parent="." index="2"]
+transform = Transform3D(0.2, 0, 0, 0, 0.225, 0, 0, 0, 0.2, -1.15537, 1.51128, -0.212691)
+modulate = Color(1, 1, 1, 0.392157)
+shaded = true
+alpha_cut = 2
+texture = ExtResource("3_3s172")
+
+[node name="BrazierDoor" type="Node3D" parent="." index="3" node_paths=PackedStringArray("door", "doorSprite", "flameSprite", "flameLight", "hitInteractable", "interactable", "embers")]
+script = ExtResource("7_uodu2")
+door = NodePath("..")
+doorSprite = NodePath("../Sprite3D")
+flameSprite = NodePath("../LanternSprite")
+flameLight = NodePath("../OmniLight3D")
+hitInteractable = NodePath("../HitInteractable/Interactable")
+interactable = NodePath("../Interactable")
+embers = NodePath("../EmberHolder")
+openSprite = ExtResource("8_neq1p")
+closedSprite = ExtResource("4_ebine")
+
+[node name="EmberHolder" type="Node" parent="." index="4"]
+script = ExtResource("9_b7rux")
+
+[node name="OmniLight3D" parent="." index="5" instance=ExtResource("10_dgnlv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 1.5, 0)
+light_color = Color(1, 0.882353, 0.686275, 1)
+light_energy = 0.358
+omni_range = 0.75
+
+[node name="Interactable" parent="." index="6" node_paths=PackedStringArray("interactIcon") instance=ExtResource("11_f4vlh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0.5, 0)
+interactIcon = NodePath("../InputActionLabel")
+
+[node name="HitInteractable" type="Node3D" parent="." index="7"]
+
+[node name="Interactable" parent="HitInteractable" index="0" node_paths=PackedStringArray("interactIcon") instance=ExtResource("11_f4vlh")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+collision_layer = 16
+interactIcon = NodePath("../../InputActionLabel")
+
+[node name="InputActionLabel" parent="." index="8" instance=ExtResource("12_yya78")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, -1.25, 2, 0.25)
+visible = false
+billboard = 1
+
+[node name="SpotLight3D4" parent="." index="9" instance=ExtResource("2_ycn1q")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 1.90735e-06, 2.25, -1.55)
+light_color = Color(1, 0.784314, 0, 1)
+spot_angle = 17.721
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="10"]
+transform = Transform3D(-0.4, 0, 3.49691e-08, 0, 0.45, 0, -3.49691e-08, 0, -0.4, -0.425, 1.088, -0.2)
+modulate = Color(1, 1, 1, 0.411765)
+shaded = true
+alpha_cut = 2
+texture = ExtResource("4_ebine")
+
+[node name="SpriteSorter3" type="Node3D" parent="." index="11" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
+script = ExtResource("6_lc10n")
+sprite = NodePath("../Sprite3D")

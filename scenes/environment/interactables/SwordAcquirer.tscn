@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bd51jffx1fan" path="res://assets/soldier.png" id="1_ysg0r"]
 [ext_resource type="PackedScene" uid="uid://dn54fptyc8wy0" path="res://scenes/environment/interactables/PlayerActionAcquirer.tscn" id="2_08mym"]
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel.tscn" id="3_kloc6"]
+[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="3_kloc6"]
 
 [node name="SwordAcquirer" type="Node2D"]
 z_as_relative = false

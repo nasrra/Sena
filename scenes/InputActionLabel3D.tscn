@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvss82y3uasd5"]
+
+[ext_resource type="FontFile" uid="uid://dofm1r1t27gsi" path="res://assets/fonts/PromptFont/promptfont.ttf" id="1_3kvkw"]
+[ext_resource type="Script" uid="uid://cnla4oundx541" path="res://source/gui/InputActionLabel3D.cs" id="2_qqi6l"]
+
+[node name="InputActionLabel" type="Label3D"]
+outline_modulate = Color(0, 0, 0, 0)
+text = "E"
+font = ExtResource("1_3kvkw")
+font_size = 128
+outline_size = 2
+script = ExtResource("2_qqi6l")
+inputAction = "Interact"

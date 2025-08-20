@@ -1,19 +1,17 @@
-[gd_scene load_steps=57 format=3 uid="uid://dfbv5dvwb4exd"]
+[gd_scene load_steps=55 format=3 uid="uid://dfbv5dvwb4exd"]
 
 [ext_resource type="PackedScene" uid="uid://crf4wknwrdg54" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1BL.tscn" id="1_i730e"]
 [ext_resource type="PackedScene" uid="uid://cb73sx7bl86ux" path="res://scenes/gridmaps/ceiling/Ceiling.tscn" id="1_voyre"]
-[ext_resource type="PackedScene" uid="uid://cu7nnfo8y4oyu" path="res://scenes/gridmaps/ceiling/CeilingFl.tscn" id="2_1hlfr"]
+[ext_resource type="PackedScene" uid="uid://cu7nnfo8y4oyu" path="res://scenes/gridmaps/ceiling/CeilingTl.tscn" id="2_1hlfr"]
 [ext_resource type="PackedScene" uid="uid://c6lyuortblxtp" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Br.tscn" id="2_3tk44"]
-[ext_resource type="PackedScene" uid="uid://cxgh1gp58acu0" path="res://scenes/gridmaps/ceiling/CeilingFr.tscn" id="3_o0ehv"]
+[ext_resource type="PackedScene" uid="uid://cxgh1gp58acu0" path="res://scenes/gridmaps/ceiling/CeilingTr.tscn" id="3_o0ehv"]
 [ext_resource type="PackedScene" uid="uid://jyjoqwggj7l7" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Tl.tscn" id="3_qm1xf"]
 [ext_resource type="PackedScene" uid="uid://be46til5mk5nb" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 1/StoneFloor1Tr.tscn" id="4_2kp4j"]
-[ext_resource type="PackedScene" uid="uid://diocu8kdpdjv" path="res://scenes/gridmaps/ceiling/CeilingLb.tscn" id="4_hxct3"]
+[ext_resource type="PackedScene" uid="uid://diocu8kdpdjv" path="res://scenes/gridmaps/ceiling/CeilingBl.tscn" id="4_hxct3"]
 [ext_resource type="PackedScene" uid="uid://c5vt5iw78ke8x" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2BL.tscn" id="5_a28s0"]
-[ext_resource type="PackedScene" uid="uid://02hjdgb3780k" path="res://scenes/gridmaps/ceiling/CeilingLt.tscn" id="5_y4y5s"]
+[ext_resource type="PackedScene" uid="uid://02hjdgb3780k" path="res://scenes/gridmaps/ceiling/CeilingBr.tscn" id="5_y4y5s"]
 [ext_resource type="PackedScene" uid="uid://cwyhnudbih8p5" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Br.tscn" id="6_hg8ob"]
-[ext_resource type="PackedScene" uid="uid://ctwpanhkxbmd6" path="res://scenes/gridmaps/ceiling/CeilingRb.tscn" id="6_pdjbg"]
 [ext_resource type="PackedScene" uid="uid://y2r366hysjjw" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Tl.tscn" id="7_3866d"]
-[ext_resource type="PackedScene" uid="uid://d45hyqs3q57y" path="res://scenes/gridmaps/ceiling/CeilingRt.tscn" id="7_byq8u"]
 [ext_resource type="PackedScene" uid="uid://c3bdecxn8n4m0" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 2/StoneFloor2Tr.tscn" id="8_cojib"]
 [ext_resource type="PackedScene" uid="uid://dcxswow5h6rt2" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Bl.tscn" id="9_ncnru"]
 [ext_resource type="PackedScene" uid="uid://cl78yvb618sch" path="res://scenes/gridmaps/floors/stone floors/scenes/stone floor 3/StoneFloor3Br.tscn" id="10_4x1c4"]
@@ -61,17 +59,13 @@
 
 [node name="Ceiling" parent="." instance=ExtResource("1_voyre")]
 
-[node name="CeilingFl" parent="." instance=ExtResource("2_1hlfr")]
+[node name="CeilingBl" parent="." instance=ExtResource("4_hxct3")]
 
-[node name="CeilingFr" parent="." instance=ExtResource("3_o0ehv")]
+[node name="CeilingBr" parent="." instance=ExtResource("5_y4y5s")]
 
-[node name="CeilingLb" parent="." instance=ExtResource("4_hxct3")]
+[node name="CeilingTl" parent="." instance=ExtResource("2_1hlfr")]
 
-[node name="CeilingLt" parent="." instance=ExtResource("5_y4y5s")]
-
-[node name="CeilingRb" parent="." instance=ExtResource("6_pdjbg")]
-
-[node name="CeilingRt" parent="." instance=ExtResource("7_byq8u")]
+[node name="CeilingTr" parent="." instance=ExtResource("3_o0ehv")]
 
 [node name="BorderFloorB" parent="." instance=ExtResource("17_yl4iv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

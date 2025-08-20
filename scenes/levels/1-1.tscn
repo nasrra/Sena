@@ -22,13 +22,13 @@
 [ext_resource type="PackedScene" uid="uid://coma2jhi4uguk" path="res://scenes/environment/storage/IronBox1.tscn" id="25_pgakm"]
 [ext_resource type="PackedScene" uid="uid://bkqyyrfwojuc1" path="res://scenes/environment/storage/IronBox3.tscn" id="26_pgakm"]
 [ext_resource type="PackedScene" uid="uid://fkr5rvlevs5s" path="res://scenes/environment/storage/StorageSide.tscn" id="27_pgakm"]
-[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorUp.tscn" id="27_t2wor"]
+[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="27_t2wor"]
 [ext_resource type="PackedScene" uid="uid://c2ogug1kjay38" path="res://scenes/environment/storage/StorageFront.tscn" id="28_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="29_86um8"]
 [ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/storage/Wheelbarrow.tscn" id="30_rw0oh"]
-[ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindow.tscn" id="32_srkvl"]
+[ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindowNorth.tscn" id="32_srkvl"]
 
-[sub_resource type="Resource" id="Resource_t2wor"]
+[sub_resource type="Resource" id="Resource_xxc8h"]
 script = ExtResource("11_bspq0")
 amount = 10
 enabled = true
@@ -37,7 +37,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_l40or"]
+[sub_resource type="Resource" id="Resource_2i6ik"]
 script = ExtResource("12_dqba7")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -48,7 +48,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_hnhv5"]
+[sub_resource type="Resource" id="Resource_ilnsf"]
 script = ExtResource("13_usw5k")
 iterations = 3
 offset_step = 0.2
@@ -60,7 +60,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_86um8"]
+[sub_resource type="Resource" id="Resource_mpqju"]
 script = ExtResource("14_jsker")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -76,9 +76,9 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_hpass"]
+[sub_resource type="Resource" id="Resource_k446q"]
 script = ExtResource("9_j7nyf")
-stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_t2wor"), SubResource("Resource_l40or"), SubResource("Resource_hnhv5"), SubResource("Resource_86um8")])
+stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_xxc8h"), SubResource("Resource_2i6ik"), SubResource("Resource_ilnsf"), SubResource("Resource_mpqju")])
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_1pwbc")]
 
@@ -88,12 +88,15 @@ bankName = "Test"
 [node name="GrassDeformerManager" parent="Managers" index="3"]
 grassShaders = Array[ShaderMaterial]([ExtResource("22_usw5k"), ExtResource("19_xbvxr"), ExtResource("20_bspq0"), ExtResource("21_dqba7")])
 
+[node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("doors")]
+doors = [NodePath("../../LevelSwapDoorTemplate")]
+
 [node name="EnvironmentalGridMap" parent="GridMaps" index="1" instance=ExtResource("2_x4si1")]
 mesh_library = ExtResource("3_fh0io")
 data = {
-"cells": PackedInt32Array(-65536, 0, 17, -65535, 0, 18, -65536, 1, 15, -65535, 1, 16, -65534, 1, 19, -65533, 1, 20, -65534, 0, 21, -65533, 0, 22, -65536, 3, 23, -65535, 3, 24, -65536, 2, 25, -65535, 2, 26, -65534, 3, 27, -65533, 3, 28, -65534, 2, 29, -65533, 2, 30, -65532, 0, 17, -65532, 1, 15, -65532, 2, 25, -65532, 3, 23, -65531, 0, 18, -65531, 1, 16, -65531, 2, 26, -65531, 3, 24, -65530, 0, 21, -65530, 1, 19, -65530, 2, 29, -65530, 3, 27, -65529, 0, 22, -65529, 1, 20, -65529, 2, 30, -65529, 3, 28, -65528, 0, 17, -65528, 1, 15, -65528, 2, 25, -65528, 3, 23, -65527, 0, 18, -65527, 1, 16, -65527, 2, 26, -65527, 3, 24, -65526, 0, 21, -65526, 1, 19, -65526, 2, 29, -65526, 3, 27, -65525, 0, 22, -65525, 1, 20, -65525, 2, 30, -65525, 3, 28, -65536, 4, 17, -65536, 5, 15, -65536, 6, 25, -65536, 7, 23, -65535, 4, 18, -65535, 5, 16, -65535, 6, 26, -65535, 7, 24, -65534, 4, 21, -65534, 5, 19, -65534, 6, 29, -65534, 7, 27, -65533, 4, 22, -65533, 5, 20, -65533, 6, 30, -65533, 7, 28, -65532, 4, 17, -65532, 5, 15, -65532, 6, 25, -65532, 7, 23, -65531, 4, 18, -65531, 5, 16, -65531, 6, 26, -65531, 7, 24, -65530, 4, 21, -65530, 5, 19, -65530, 6, 29, -65530, 7, 27, -65529, 4, 22, -65529, 5, 20, -65529, 6, 30, -65529, 7, 28, -65528, 4, 17, -65528, 5, 15, -65528, 6, 25, -65528, 7, 23, -65527, 4, 18, -65527, 5, 16, -65527, 6, 26, -65527, 7, 24, -65526, 4, 21, -65526, 5, 19, -65526, 6, 29, -65526, 7, 27, -65525, 4, 22, -65525, 5, 20, -65525, 6, 30, -65525, 7, 28, 0, 0, 31, 1, 0, 32, 2, 0, 37, 3, 0, 38, 4, 0, 43, 5, 0, 44, 6, 0, 49, 7, 0, 50, 8, 0, 31, 9, 0, 32, 10, 0, 37, 11, 0, 38, 65536, 0, 33, 65537, 0, 34, 65538, 0, 39, 65539, 0, 40, 65540, 0, 45, 65541, 0, 46, 65542, 0, 51, 65543, 0, 52, 65544, 0, 33, 65545, 0, 34, 65546, 0, 39, 65547, 0, 40, 131072, 0, 35, 131073, 0, 36, 131074, 0, 41, 131075, 0, 42, 131076, 0, 47, 131077, 0, 48, 131078, 0, 53, 131079, 0, 54, 131080, 0, 35, 131081, 0, 36, 131082, 0, 41, 131083, 0, 42, 196608, 65535, 1, 196609, 65535, 2, 196610, 65535, 1, 196611, 65535, 2, 196612, 65535, 1, 196613, 65535, 2, 196614, 65535, 1, 196615, 65535, 2, 196616, 65535, 1, 196617, 65535, 2, 196618, 65535, 1, 196619, 65535, 2, 262143, 0, 4, 262143, 1, 3, 262143, 2, 4, 262143, 3, 3, 262143, 4, 4, 262143, 5, 3, 262143, 6, 4, 262143, 7, 3, 196620, 1, 5, 196620, 0, 6, 196620, 2, 6, 196620, 3, 5, 196620, 4, 6, 196620, 5, 5, 196620, 6, 6, 196620, 7, 5, 262143, 65535, 0, 196620, 65535, 0, 196607, 8, 41, 131084, 8, 42, 131071, 8, 39, 65548, 8, 40, 12, 8, 38, 65535, 8, 37)
+"cells": PackedInt32Array(-65536, 0, 15, -65535, 0, 16, -65536, 1, 13, -65535, 1, 14, -65534, 1, 17, -65533, 1, 18, -65534, 0, 19, -65533, 0, 20, -65536, 3, 21, -65535, 3, 22, -65536, 2, 23, -65535, 2, 24, -65534, 3, 25, -65533, 3, 26, -65534, 2, 27, -65533, 2, 28, -65532, 0, 15, -65532, 1, 13, -65532, 2, 23, -65532, 3, 21, -65531, 0, 16, -65531, 1, 14, -65531, 2, 24, -65531, 3, 22, -65530, 0, 19, -65530, 1, 17, -65530, 2, 27, -65530, 3, 25, -65529, 0, 20, -65529, 1, 18, -65529, 2, 28, -65529, 3, 26, -65528, 0, 15, -65528, 1, 13, -65528, 2, 23, -65528, 3, 21, -65527, 0, 16, -65527, 1, 14, -65527, 2, 24, -65527, 3, 22, -65526, 0, 19, -65526, 1, 17, -65526, 2, 27, -65526, 3, 25, -65525, 0, 20, -65525, 1, 18, -65525, 2, 28, -65525, 3, 26, -65536, 4, 15, -65536, 5, 13, -65536, 6, 23, -65536, 7, 21, -65535, 4, 16, -65535, 5, 14, -65535, 6, 24, -65535, 7, 22, -65534, 4, 19, -65534, 5, 17, -65534, 6, 27, -65534, 7, 25, -65533, 4, 20, -65533, 5, 18, -65533, 6, 28, -65533, 7, 26, -65532, 4, 15, -65532, 5, 13, -65532, 6, 23, -65532, 7, 21, -65531, 4, 16, -65531, 5, 14, -65531, 6, 24, -65531, 7, 22, -65530, 4, 19, -65530, 5, 17, -65530, 6, 27, -65530, 7, 25, -65529, 4, 20, -65529, 5, 18, -65529, 6, 28, -65529, 7, 26, -65528, 4, 15, -65528, 5, 13, -65528, 6, 23, -65528, 7, 21, -65527, 4, 16, -65527, 5, 14, -65527, 6, 24, -65527, 7, 22, -65526, 4, 19, -65526, 5, 17, -65526, 6, 27, -65526, 7, 25, -65525, 4, 20, -65525, 5, 18, -65525, 6, 28, -65525, 7, 26, 0, 0, 29, 1, 0, 30, 2, 0, 35, 3, 0, 36, 4, 0, 41, 5, 0, 42, 6, 0, 47, 7, 0, 48, 8, 0, 29, 9, 0, 30, 10, 0, 35, 11, 0, 36, 65536, 0, 31, 65537, 0, 32, 65538, 0, 37, 65539, 0, 38, 65540, 0, 43, 65541, 0, 44, 65542, 0, 49, 65543, 0, 50, 65544, 0, 31, 65545, 0, 32, 65546, 0, 37, 65547, 0, 38, 131072, 0, 33, 131073, 0, 34, 131074, 0, 39, 131075, 0, 40, 131076, 0, 45, 131077, 0, 46, 131078, 0, 51, 131079, 0, 52, 131080, 0, 33, 131081, 0, 34, 131082, 0, 39, 131083, 0, 40, 196608, 65535, 1441793, 196609, 65535, 1441794, 196610, 65535, 1441793, 196611, 65535, 1441794, 196612, 65535, 1441793, 196613, 65535, 1441794, 196614, 65535, 1441793, 196615, 65535, 1441794, 196616, 65535, 1441793, 196617, 65535, 1441794, 196618, 65535, 1441793, 196619, 65535, 1441794, 262143, 0, 2, 262143, 1, 1, 262143, 2, 2, 262143, 3, 1, 262143, 4, 2, 262143, 5, 1, 262143, 6, 2, 262143, 7, 1, 196620, 1, 655362, 196620, 0, 655361, 196620, 2, 655361, 196620, 3, 655362, 196620, 4, 655361, 196620, 5, 655362, 196620, 6, 655361, 196620, 7, 655362, 262143, 65535, 1441792, 196620, 65535, 1441792, 196607, 8, 45, 131084, 8, 46, 131071, 8, 43, 65548, 8, 44, 12, 8, 42, 65535, 8, 41, 0, 65535, 917533, 131074, 65535, 39)
 }
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="EnvironmentalGridMap2" parent="GridMaps" index="2" instance=ExtResource("2_x4si1")]
 mesh_library = ExtResource("4_m00rq")
@@ -118,7 +121,7 @@ camera = NodePath("../Camera")
 
 [node name="BushesScatter" parent="." index="6" instance=ExtResource("8_jsker")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.48259, -0.17877, 4.66433)
-modifier_stack = SubResource("Resource_hpass")
+modifier_stack = SubResource("Resource_k446q")
 
 [node name="IronBox2" parent="." index="7" instance=ExtResource("23_pgakm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 0.5)
@@ -152,4 +155,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
 
 [node name="LevelSwapDoorTemplate" parent="." index="16" instance=ExtResource("27_t2wor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+levelToLoad = "1-2"
 Opened = true

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class InputActionLabel : Label3D{
+public partial class InputActionLabel : Label{
 
 	[Export] string inputAction;
 
