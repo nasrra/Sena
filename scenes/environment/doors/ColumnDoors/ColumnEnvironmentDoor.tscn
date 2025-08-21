@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbg38fvcw887l"]
+
+[ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/environment/doors/templates/EnvironmentDoor.tscn" id="1_0gw5q"]
+[ext_resource type="PackedScene" uid="uid://byue2js8ldn7i" path="res://scenes/environment/doors/ColumnDoors/ColumnSegmentDoorPiece.tscn" id="2_pxu68"]
+
+[node name="EnvironmentDoor" node_paths=PackedStringArray("segments") instance=ExtResource("1_0gw5q")]
+segments = [NodePath("ColumnSegmentDoorPiece0"), NodePath("ColumnSegmentDoorPiece1"), NodePath("ColumnSegmentDoorPiece3"), NodePath("ColumnSegmentDoorPiece4"), NodePath("ColumnSegmentDoorPiece5"), NodePath("ColumnSegmentDoorPiece6")]
+segmentAsyncTime = 0.1
+
+[node name="ColumnSegmentDoorPiece0" parent="." index="0" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+
+[node name="ColumnSegmentDoorPiece1" parent="." index="1" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+
+[node name="ColumnSegmentDoorPiece3" parent="." index="2" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="ColumnSegmentDoorPiece4" parent="." index="3" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="ColumnSegmentDoorPiece5" parent="." index="4" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="ColumnSegmentDoorPiece6" parent="." index="5" instance=ExtResource("2_pxu68")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
+
+[node name="Collider" parent="Container" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
