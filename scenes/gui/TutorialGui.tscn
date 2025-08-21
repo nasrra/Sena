@@ -1,6 +1,5 @@
-[gd_scene load_steps=14 format=3 uid="uid://b0prpovh35hl1"]
+[gd_scene load_steps=13 format=3 uid="uid://b0prpovh35hl1"]
 
-[ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="1_r6yg7"]
 [ext_resource type="Script" uid="uid://5fms2haq6sx7" path="res://source/gui/TutorialGui.cs" id="1_tps4h"]
 [ext_resource type="PackedScene" uid="uid://vqqobltxxodh" path="res://scenes/InputActionLabel.tscn" id="3_pn7i0"]
 
@@ -160,9 +159,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-
-[node name="InputActionLabel" parent="HealTutorialText" instance=ExtResource("1_r6yg7")]
-inputAction = "Heal"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="HealTutorialText"]
 layout_mode = 0

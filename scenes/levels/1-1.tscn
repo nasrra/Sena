@@ -1,43 +1,47 @@
-[gd_scene load_steps=33 format=3 uid="uid://4k5x34mphdqf"]
+[gd_scene load_steps=38 format=3 uid="uid://4k5x34mphdqf"]
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_1pwbc"]
 [ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/EnvironmentalGridMap.tscn" id="2_x4si1"]
 [ext_resource type="MeshLibrary" uid="uid://cumsglylffol6" path="res://scenes/gridmaps/Level1MeshLibrary.tres" id="3_fh0io"]
 [ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="4_fh0io"]
-[ext_resource type="MeshLibrary" uid="uid://bfeswl2517v65" path="res://scenes/gridmaps/floors/moss/MossMeshLibrary.tres" id="4_m00rq"]
+[ext_resource type="MeshLibrary" uid="uid://bfeswl2517v65" path="res://scenes/gridmaps/greenery/moss/MossMeshLibrary.tres" id="4_m00rq"]
 [ext_resource type="PackedScene" uid="uid://dvvjfmok32sw2" path="res://scenes/environment/Birdcage.tscn" id="5_76cw8"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="7_m00rq"]
-[ext_resource type="PackedScene" uid="uid://bl8tekjp377n" path="res://scenes/environment/foliage/bushes/BushesScatter.tscn" id="8_jsker"]
 [ext_resource type="Script" uid="uid://csde2gofdtawx" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="9_j7nyf"]
 [ext_resource type="Script" uid="uid://x5mnpak0fr3b" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="10_xbvxr"]
 [ext_resource type="Script" uid="uid://c5dqhovtmfkke" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="11_bspq0"]
 [ext_resource type="Script" uid="uid://dcmcvyhynhe4u" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="12_dqba7"]
+[ext_resource type="Script" uid="uid://c36kadp7c060h" path="res://addons/proton_scatter/src/scatter.gd" id="12_k446q"]
 [ext_resource type="Script" uid="uid://dq1cmg2ghaamo" path="res://addons/proton_scatter/src/modifiers/relax.gd" id="13_usw5k"]
 [ext_resource type="Script" uid="uid://dscsff8ieby4g" path="res://addons/proton_scatter/src/modifiers/project_on_geometry.gd" id="14_jsker"]
+[ext_resource type="Script" uid="uid://das4v0clsmend" path="res://addons/proton_scatter/src/scatter_item.gd" id="19_f87wi"]
 [ext_resource type="Material" uid="uid://bn3fr3m3glrnp" path="res://scenes/environment/foliage/bushes/materials/Bush1.tres" id="19_xbvxr"]
 [ext_resource type="Material" uid="uid://dtyfwl42tihg" path="res://scenes/environment/foliage/bushes/materials/Bush2.tres" id="20_bspq0"]
+[ext_resource type="Script" uid="uid://bquoxcekfjbdd" path="res://addons/proton_scatter/src/scatter_shape.gd" id="20_m6o6u"]
 [ext_resource type="Material" uid="uid://bymoti8hpjarg" path="res://scenes/environment/foliage/bushes/materials/Bush3.tres" id="21_dqba7"]
+[ext_resource type="Script" uid="uid://fwernmtfuu6e" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="21_smuev"]
 [ext_resource type="Material" uid="uid://f1mwyfmplm8u" path="res://scenes/environment/foliage/bushes/materials/BlueberryBush.tres" id="22_usw5k"]
 [ext_resource type="PackedScene" uid="uid://15dktlrwdf1p" path="res://scenes/environment/storage/IronBox2.tscn" id="23_pgakm"]
 [ext_resource type="PackedScene" uid="uid://coma2jhi4uguk" path="res://scenes/environment/storage/IronBox1.tscn" id="25_pgakm"]
 [ext_resource type="PackedScene" uid="uid://bkqyyrfwojuc1" path="res://scenes/environment/storage/IronBox3.tscn" id="26_pgakm"]
 [ext_resource type="PackedScene" uid="uid://fkr5rvlevs5s" path="res://scenes/environment/storage/StorageSide.tscn" id="27_pgakm"]
 [ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="27_t2wor"]
+[ext_resource type="PackedScene" uid="uid://c1fp7wi1kjw4u" path="res://scenes/entities/enemies/Worker.tscn" id="28_2i6ik"]
 [ext_resource type="PackedScene" uid="uid://c2ogug1kjay38" path="res://scenes/environment/storage/StorageFront.tscn" id="28_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="29_86um8"]
 [ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/storage/Wheelbarrow.tscn" id="30_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindowNorth.tscn" id="32_srkvl"]
 
-[sub_resource type="Resource" id="Resource_xxc8h"]
+[sub_resource type="Resource" id="Resource_k446q"]
 script = ExtResource("11_bspq0")
-amount = 10
+amount = 20
 enabled = true
 override_global_seed = false
 custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_2i6ik"]
+[sub_resource type="Resource" id="Resource_f87wi"]
 script = ExtResource("12_dqba7")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -48,7 +52,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_ilnsf"]
+[sub_resource type="Resource" id="Resource_m6o6u"]
 script = ExtResource("13_usw5k")
 iterations = 3
 offset_step = 0.2
@@ -60,7 +64,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_mpqju"]
+[sub_resource type="Resource" id="Resource_smuev"]
 script = ExtResource("14_jsker")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -76,9 +80,13 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_k446q"]
+[sub_resource type="Resource" id="Resource_inwfo"]
 script = ExtResource("9_j7nyf")
-stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_xxc8h"), SubResource("Resource_2i6ik"), SubResource("Resource_ilnsf"), SubResource("Resource_mpqju")])
+stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_k446q"), SubResource("Resource_f87wi"), SubResource("Resource_m6o6u"), SubResource("Resource_smuev")])
+
+[sub_resource type="Resource" id="Resource_g8bsm"]
+script = ExtResource("21_smuev")
+radius = 0.841311
 
 [node name="GameplayLevelTemplate" instance=ExtResource("1_1pwbc")]
 
@@ -90,6 +98,12 @@ grassShaders = Array[ShaderMaterial]([ExtResource("22_usw5k"), ExtResource("19_x
 
 [node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("doors")]
 doors = [NodePath("../../LevelSwapDoorTemplate")]
+
+[node name="WayfindingGridMap" parent="GridMaps" index="0"]
+data = {
+"cells": PackedInt32Array(0, 7, 2, 1, 7, 2, 2, 7, 2, 3, 7, 2, 4, 7, 2, 5, 7, 2, 6, 7, 2, 7, 7, 2, 8, 7, 2, 9, 7, 2, 10, 7, 2, 11, 7, 2, 11, 6, 0, 10, 6, 2, 9, 6, 2, 8, 6, 2, 7, 6, 2, 6, 6, 2, 5, 6, 2, 4, 6, 2, 3, 6, 2, 2, 6, 2, 1, 6, 2, 0, 6, 0, 0, 5, 0, 1, 5, 2, 2, 5, 2, 3, 5, 0, 4, 5, 0, 5, 5, 2, 6, 5, 2, 7, 5, 2, 8, 5, 2, 9, 5, 2, 10, 5, 2, 11, 5, 2, 11, 4, 0, 10, 4, 0, 9, 4, 2, 8, 4, 2, 7, 4, 2, 6, 4, 2, 5, 4, 2, 4, 4, 0, 3, 4, 0, 2, 4, 2, 1, 4, 2, 0, 4, 2, 0, 3, 2, 1, 3, 2, 2, 3, 2, 3, 3, 2, 4, 3, 2, 5, 3, 2, 6, 3, 2, 7, 3, 2, 7, 2, 2, 8, 2, 2, 9, 2, 2, 9, 3, 2, 10, 3, 2, 11, 3, 2, 8, 3, 2, 10, 2, 2, 11, 2, 2, 6, 2, 2, 5, 2, 2, 4, 2, 2, 3, 2, 2, 2, 2, 2, 1, 2, 2, 0, 2, 2, 0, 1, 2, 1, 1, 2, 2, 1, 2, 3, 1, 2, 4, 1, 2, 5, 1, 2, 6, 1, 2, 7, 1, 2, 8, 1, 2, 9, 1, 2, 10, 1, 2, 11, 1, 2, 11, 0, 0, 10, 0, 0, 9, 0, 2, 8, 0, 2, 7, 0, 2, 6, 0, 2, 5, 0, 2, 4, 0, 2, 3, 0, 2, 2, 0, 2, 1, 0, 0, 0, 0, 0)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="EnvironmentalGridMap" parent="GridMaps" index="1" instance=ExtResource("2_x4si1")]
 mesh_library = ExtResource("3_fh0io")
@@ -119,9 +133,38 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, 0, 5.75)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.84624, 0, 6.94344)
 camera = NodePath("../Camera")
 
-[node name="BushesScatter" parent="." index="6" instance=ExtResource("8_jsker")]
+[node name="BushesScatter" type="Node3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.48259, -0.17877, 4.66433)
-modifier_stack = SubResource("Resource_k446q")
+script = ExtResource("12_k446q")
+modifier_stack = SubResource("Resource_inwfo")
+Performance/use_chunks = true
+Performance/chunk_dimensions = Vector3(15, 15, 15)
+metadata/_custom_type_script = "uid://c36kadp7c060h"
+
+[node name="ScatterItem" type="Node3D" parent="BushesScatter" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("19_f87wi")
+path = "uid://b8abs8me7ckgo"
+
+[node name="ScatterItem2" type="Node3D" parent="BushesScatter" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("19_f87wi")
+path = "uid://duc7vfj54chd1"
+
+[node name="ScatterItem3" type="Node3D" parent="BushesScatter" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("19_f87wi")
+path = "uid://chi65aghq5r2e"
+
+[node name="ScatterItem4" type="Node3D" parent="BushesScatter" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539644, 0, 0)
+script = ExtResource("19_f87wi")
+path = "uid://dxppqrko3u7t4"
+
+[node name="ScatterShape" type="Node3D" parent="BushesScatter" index="4"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0.051291, 0, 0)
+script = ExtResource("20_m6o6u")
+shape = SubResource("Resource_g8bsm")
 
 [node name="IronBox2" parent="." index="7" instance=ExtResource("23_pgakm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 0.5)
@@ -157,3 +200,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
 levelToLoad = "1-2"
 Opened = true
+
+[node name="Worker" parent="." index="17" instance=ExtResource("28_2i6ik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.10063, 0, 2.55355)

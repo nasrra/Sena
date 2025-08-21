@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cj8gu8p4njpcd"]
+
+[ext_resource type="Texture2D" uid="uid://53cny21twhpi" path="res://assets/tilemaps/VinesTilemap.png" id="1_g67oi"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_g67oi")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_offset = Vector3(0.25, 0.25, 0)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dog35iukbe0qs"]
+
+[ext_resource type="PackedScene" uid="uid://ci8fkynivu4pq" path="res://scenes/gridmaps/templates/FoliageTileTemplate.tscn" id="1_28d34"]
+[ext_resource type="Material" uid="uid://b1i26lxg1ttqs" path="res://scenes/gridmaps/greenery/vines/materials/vine 3/Vine3Bl.tres" id="2_jm3kg"]
+
+[node name="Vine3Bl" instance=ExtResource("1_28d34")]
+surface_material_override/0 = ExtResource("2_jm3kg")

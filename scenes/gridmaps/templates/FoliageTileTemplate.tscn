@@ -5,6 +5,6 @@
 [sub_resource type="QuadMesh" id="QuadMesh_ateww"]
 
 [node name="MeshInstance3D" type="MeshInstance3D"]
-material_override = ExtResource("1_41aeb")
 cast_shadow = 2
 mesh = SubResource("QuadMesh_ateww")
+surface_material_override/0 = ExtResource("1_41aeb")

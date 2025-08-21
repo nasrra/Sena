@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://bquoxcekfjbdd" path="res://addons/proton_scatter/src/scatter_shape.gd" id="9_786oc"]
 [ext_resource type="Script" uid="uid://fwernmtfuu6e" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="10_2d3ta"]
 
-[sub_resource type="Resource" id="Resource_swgbm"]
+[sub_resource type="Resource" id="Resource_u5qgi"]
 script = ExtResource("4_0bcpl")
 amount = 10
 enabled = true
@@ -20,7 +20,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_5k1n6"]
+[sub_resource type="Resource" id="Resource_6t48r"]
 script = ExtResource("5_aobum")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -31,7 +31,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_27857"]
+[sub_resource type="Resource" id="Resource_0qi11"]
 script = ExtResource("6_ggp0q")
 iterations = 3
 offset_step = 0.2
@@ -43,7 +43,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_0bcpl"]
+[sub_resource type="Resource" id="Resource_rk2ac"]
 script = ExtResource("7_owp60")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -59,17 +59,17 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_aobum"]
+[sub_resource type="Resource" id="Resource_rxlqp"]
 script = ExtResource("2_5k1n6")
-stack = Array[ExtResource("3_27857")]([SubResource("Resource_swgbm"), SubResource("Resource_5k1n6"), SubResource("Resource_27857"), SubResource("Resource_0bcpl")])
+stack = Array[ExtResource("3_27857")]([SubResource("Resource_u5qgi"), SubResource("Resource_6t48r"), SubResource("Resource_0qi11"), SubResource("Resource_rk2ac")])
 
 [sub_resource type="Resource" id="Resource_g8bsm"]
 script = ExtResource("10_2d3ta")
-radius = 0.40658
+radius = 0.841311
 
 [node name="BushesScatter" type="Node3D"]
 script = ExtResource("1_swgbm")
-modifier_stack = SubResource("Resource_aobum")
+modifier_stack = SubResource("Resource_rxlqp")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://c36kadp7c060h"

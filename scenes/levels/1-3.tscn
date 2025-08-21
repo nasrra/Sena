@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dok6n858adclw"]
+[gd_scene load_steps=3 format=3 uid="uid://dok6n858adclw"]
 
-[ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_uwfpm"]
+[ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_26ngv"]
+[ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="2_y5qlr"]
 
-[node name="GameplayLevelTemplate" instance=ExtResource("1_uwfpm")]
+[node name="GameplayLevelTemplate" instance=ExtResource("1_26ngv")]
+
+[node name="WorldEnvironment" parent="." index="2"]
+environment = ExtResource("2_y5qlr")

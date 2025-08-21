@@ -20,7 +20,7 @@ uniform float noise_scale = 20.0;
 
 // Character Deformation:
 const int MAX_DEFORMERS = 32;
-uniform int deformer_count = 0; 
+uniform int deformer_count = 0;
 uniform vec3 deformers_position[MAX_DEFORMERS];
 uniform float deformers_radius[MAX_DEFORMERS];
 uniform float deformers_strength[MAX_DEFORMERS];
@@ -61,7 +61,7 @@ void vertex() {
 		if(i >= deformer_count){
 			break;
 		}
-		
+
 		vec3 dir_to_deformer = deformers_position[i] - (MODEL_MATRIX[3]).xyz;
 	    // Uncomment for horizontal-only displacement
 	    // dir_to_character.y = 0.0;
@@ -76,7 +76,7 @@ void vertex() {
 			    float falloff_curve = clamp(texture(character_distance_falloff_curve, vec2(norm_distance, 0.0)).r, 0.0, 1.0);
 			    VERTEX += normalize(-dir_to_deformer) * falloff_curve * deformers_strength[i] * displacement_affect;
 			}
-		}	
+		}
 	}
 
 }
