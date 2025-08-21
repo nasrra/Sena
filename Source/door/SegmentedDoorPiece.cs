@@ -12,9 +12,12 @@ public partial class SegmentedDoorPiece : Node3D{
     [Export] AnimationPlayer animator;
     [Export] Timer delayTimer;
     private DelayIntention delayIntention;
-    public event Action OnFinishedOpening;
+    public event Action OnOpenCompleted;
+    public event Action OnCloseCompleted;
     const string OpenAnimation = "Open";
     const string CloseAnimation = "Close";
+    const string OpenedAnimation = "Opened";
+    const string ClosedAnimation = "Closed";
 
 
     /// 
@@ -48,6 +51,13 @@ public partial class SegmentedDoorPiece : Node3D{
     /// functions.
     /// 
 
+    public void Opened(){
+        animator.Play(OpenedAnimation);
+    }
+
+    public void Closed(){
+        animator.Play(ClosedAnimation);
+    }
 
     public void Open(float time){
         delayIntention = DelayIntention.Open;
@@ -79,9 +89,13 @@ public partial class SegmentedDoorPiece : Node3D{
     }
 
     private void OnAnimationFinished(StringName animation){
-        if(animation == OpenAnimation){
-            OnFinishedOpening?.Invoke();
-            GD.Print($"animation finished {animation}");
+        switch(animation){
+            case OpenAnimation:
+                OnOpenCompleted?.Invoke();
+            break;
+            case CloseAnimation:
+                OnCloseCompleted?.Invoke();
+            break;
         }
     }
 

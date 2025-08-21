@@ -22,8 +22,9 @@ environment = ExtResource("2_y5qlr")
 Target = NodePath("../Player")
 
 [node name="Player" parent="." index="4" node_paths=PackedStringArray("camera") instance=ExtResource("5_5l143")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.1889, 0, 13.4899)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.943, 0, 13.4899)
 camera = NodePath("../Camera")
 
 [node name="EnvironmentDoor" parent="." index="5" instance=ExtResource("6_py30h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.5, 0, 13)
+segmentAsyncTime = 0.165

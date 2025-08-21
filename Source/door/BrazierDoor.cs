@@ -20,20 +20,20 @@ public partial class BrazierDoor : Node{
 
     public override void _EnterTree(){
         base._EnterTree();
-        if(door.Locked==false){
-            LitState();
-            embers.LitState();
-        }
-        else{
-            embers.UnlitState();
-            UnlitState();
-        }
-        if(door.Opened==true){
-            OnOpenCallback();
-        }
-        else{
-            OnCloseCallback();
-        }
+        // if(door.IsLocked==false){
+        //     LitState();
+        //     embers.LitState();
+        // }
+        // else{
+        //     embers.UnlitState();
+        //     UnlitState();
+        // }
+        // if(door.IsOpened==true){
+        //     OnOpenCallback();
+        // }
+        // else{
+        //     OnCloseCallback();
+        // }
         LinkEvents();
     }
 
@@ -43,10 +43,7 @@ public partial class BrazierDoor : Node{
     }
 
     private void HitInteracted(Interactor interactor){
-        if(door.Locked==true){
-            return;
-        }
-        if(door.Opened == false && embers.IsLit == true){
+        if(door.IsOpened == false && door.IsLocked == false){
             door.Open();
         }
     }
@@ -64,21 +61,21 @@ public partial class BrazierDoor : Node{
         }
     }   
 
-    private void OnOpenCallback(){
+    private void OpenedState(){
         doorSprite.Texture = openSprite;
     }
 
-    private void OnCloseCallback(){
+    private void ClosedState(){
         doorSprite.Texture = closedSprite;
     }
 
-    private void LitState(){
+    private void UnlockedState(){
         flameSprite.Visible = true;
         flameLight.Visible = true;
         interactable.DisableInteraction();
     }
 
-    private void UnlitState(){
+    private void LockedState(){
         flameSprite.Visible = false;
         flameLight.Visible = false;
         interactable.EnableInteraction();
@@ -91,23 +88,25 @@ public partial class BrazierDoor : Node{
 
     
     private void LinkEvents(){
-        interactable.OnInteract     += Interacted; 
-        hitInteractable.OnInteract  += HitInteracted;
-        embers.OnLit                += LitState;
-        embers.OnUnlit              += UnlitState;
-        door.OnOpen                 += OnOpenCallback;
-        door.OnClose                += OnCloseCallback;
-        door.OnLock                 += UnlitState;
-        door.OnUnlock               += LitState;
+        interactable.OnInteract         += Interacted; 
+        hitInteractable.OnInteract      += HitInteracted;
+        embers.OnLit                    += door.Unlock;
+        embers.OnUnlit                  += door.Lock;
+        door.OnOpened                   += OpenedState;
+        door.OnClosed                   += ClosedState;
+        door.OnLocked                   += LockedState;
+        door.OnUnlocked                 += UnlockedState;
     }
 
     private void UnlinkEvents(){
-        interactable.OnInteract     -= Interacted;
-        hitInteractable.OnInteract  -= HitInteracted;
-        embers.OnLit                -= LitState;
-        embers.OnUnlit              -= UnlitState;
-        door.OnLock                 -= UnlitState;
-        door.OnUnlock               -= LitState;
+        interactable.OnInteract         -= Interacted; 
+        hitInteractable.OnInteract      -= HitInteracted;
+        embers.OnLit                    -= door.Unlock;
+        embers.OnUnlit                  -= door.Lock;
+        door.OnOpened                   -= OpenedState;
+        door.OnClosed                   -= ClosedState;
+        door.OnLocked                   -= LockedState;
+        door.OnUnlocked                 -= UnlockedState;
     }
 
 }

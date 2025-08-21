@@ -53,7 +53,7 @@ public partial class LevelSwapDoorManager : Node{
         
         for(int i = 0; i < doors.Count; i++){
             LevelSwapDoor door = doors[i];
-            doorStateCache[i] = (door.Opened, door.Locked);
+            doorStateCache[i] = (door.IsOpened, door.IsLocked);
             door.Lock();
             door.Close();
             GD.Print("temp lock");

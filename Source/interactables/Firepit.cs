@@ -12,12 +12,12 @@ public partial class Firepit : Node{
 	public override void _EnterTree(){
 		base._EnterTree();
 		LinkEvents();
-		if(embers.IsLit == true){
-			LitState();
-		}
-		else{
+		// if(embers.IsLit == true){
+			// LitState();
+		// }
+		// else{
 			UnlitState();
-		}
+		// }
 	}
 
 	public override void _ExitTree(){
@@ -26,19 +26,20 @@ public partial class Firepit : Node{
 	}
 
 	private void Interacted(Interactor interactor){
-		EmberStorage interactorEmbers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
-		GD.Print(embers.IsLit );
-		if(interactorEmbers != null){
-			if(interactorEmbers.EmptyNotches > 0 && embers.IsLit == true){
-				embers.UnlitState(out int giveEmberValue);
-				interactorEmbers.Add(giveEmberValue);
-				UnlitState();
-			}
-			else if(interactorEmbers.NotchAmount > 0 && embers.IsLit  == false){
-				interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
-				LitState();
-			}
-		}
+		throw new NotImplementedException();
+		// EmberStorage interactorEmbers = interactor.GetParent().GetNode<EmberStorage>(EmberStorage.NodeName);
+		// GD.Print(embers.IsLit );
+		// if(interactorEmbers != null){
+		// 	if(interactorEmbers.EmptyNotches > 0 && embers.IsLit == true){
+		// 		embers.UnlitState(out int giveEmberValue);
+		// 		interactorEmbers.Add(giveEmberValue);
+		// 		UnlitState();
+		// 	}
+		// 	else if(interactorEmbers.NotchAmount > 0 && embers.IsLit  == false){
+		// 		interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
+		// 		LitState();
+		// 	}
+		// }
 	}
 
 	private void LitState(){

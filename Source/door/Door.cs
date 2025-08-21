@@ -6,25 +6,31 @@ using System;
 
 public abstract partial class Door : Node{
     [ExportGroup("Door")]
-    [Export] protected CollisionObject3D collider;
-    [Export] public bool Locked {get;private set;} = false;
-    [Export] public bool Opened {get;private set;} = false;
+    [Export] private CollisionObject3D collider;
+    [Export] public bool IsLocked {get;private set;} = false;
+    [Export] public bool IsOpened {get;private set;} = false;
 
-    public event Action OnOpen;
-    public event Action OnClose;
-    public event Action OnLock;
-    public event Action OnUnlock;
+    public event Action OnOpened;
+    public event Action OnClosed;
+    public event Action OnLocked;
+    public event Action OnUnlocked;
+
+
+    /// 
+    /// Base.
+    /// 
+
 
     public override void _Ready(){
         base._Ready();
         // #if TOOLS
         //     Entropek.Util.Node.VerifyName(this, NodeName);
         // #endif
-        if(Opened==true){
-            Open();
+        if(IsOpened==true){
+            Opened();
         }
         else{
-            Close();
+            Closed();
         }
     }
 
@@ -33,28 +39,48 @@ public abstract partial class Door : Node{
     }
 
 
-    public virtual void Open(){
-        Opened = true;
-        CollisionShape3D shape = collider.GetNode<CollisionShape3D>("CollisionShape3D");
-        shape.CallDeferred("set_disabled", true);
-        OnOpen?.Invoke();
+    /// 
+    /// 
+    /// 
+
+    public abstract void Open();
+   
+    protected virtual void Opened(){
+        IsOpened = true;
+        DisableCollider();
+        OnOpened?.Invoke();
     }
 
-    public virtual void Close(){
-        Opened = false;
+    public abstract void Close();
+    
+    protected virtual void Closed(){
+        IsOpened = false;
+        EnableCollider();
+        OnClosed?.Invoke();
+    }
+
+    public abstract void Unlock();
+    
+    protected virtual void Unlocked(){
+        IsLocked = false;
+        OnUnlocked?.Invoke();
+    }
+
+    public abstract void Lock();
+    
+    public virtual void Locked(){
+        IsLocked = true;
+        OnLocked?.Invoke();
+    }
+
+    protected void EnableCollider(){
         CollisionShape3D shape = collider.GetNode<CollisionShape3D>("CollisionShape3D");
         shape.CallDeferred("set_disabled", false);
-        OnClose?.Invoke();
     }
 
-    public virtual void Unlock(){
-        Locked = false;
-        OnUnlock?.Invoke();
-    }
-
-    public virtual void Lock(){
-        Locked = true;
-        OnLock?.Invoke();
+    protected void DisableCollider(){
+        CollisionShape3D shape = collider.GetNode<CollisionShape3D>("CollisionShape3D");
+        shape.CallDeferred("set_disabled", true);
     }
 
     public void SetState(bool opened, bool locked){

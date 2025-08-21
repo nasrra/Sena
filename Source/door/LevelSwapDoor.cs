@@ -38,35 +38,31 @@ public partial class LevelSwapDoor : Door{
     }
 
     public override void Open(){
-        CallDeferred(nameof(EnableEnterZone));
-        CallDeferred(nameof(DisableCollider));
-        base.Open();
+        EnableEnterZone();
+        Opened();
     }
 
     public override void Close(){
-        CallDeferred(nameof(DisableEnterZone));
-        CallDeferred(nameof(EnableCollider));
-        base.Close();
+        DisableEnterZone();
+        Closed();
     }
 
-    private void EnableCollider(){
-        collider.GetNode<CollisionShape3D>("CollisionShape3D").Disabled=false;
+    public override void Unlock(){
+        Unlocked();
     }
 
-    private void DisableCollider(){
-        collider.GetNode<CollisionShape3D>("CollisionShape3D").Disabled=true;
+    public override void Lock(){
+        Locked();
     }
 
     private void EnableEnterZone(){
-        enterZone.Monitorable = true;
-        enterZone.Monitoring = true;
-        enterZone.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
+        CollisionShape3D shape = enterZone.GetNode<CollisionShape3D>("CollisionShape3D");
+        shape.CallDeferred("set_disabled", false);
     }
 
     private void DisableEnterZone(){
-        enterZone.Monitorable = false;
-        enterZone.Monitoring = false;
-        enterZone.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+        CollisionShape3D shape = enterZone.GetNode<CollisionShape3D>("CollisionShape3D");
+        shape.CallDeferred("set_disabled", true);
     }
 
 

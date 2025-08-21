@@ -12,6 +12,7 @@ public partial class EnvironmentDoor : Door{
     public override void _Ready(){
         base._Ready();
         LinkEvents();
+        Open();
     }
 
     public override void _ExitTree(){
@@ -19,37 +20,50 @@ public partial class EnvironmentDoor : Door{
         UnlinkEvents();
     }
 
-
-    public override void Open(){
-        StartOpening();
-    }
-
-    private void StartOpening(){
-        segments[0].Open();
-        for(int i = 1; i < segments.Count; i++){
-            segments[i].Open(i*segmentAsyncTime);
+    protected override void Opened(){
+        base.Opened();
+        for(int i = 0; i < segments.Count - 1; i++){
+            segments[i].Opened();
         }
     }
 
-    private void FinishOpening(){
-        base.Open();
-        GD.Print("finished opening!");
+    protected override void Closed(){
+        base.Closed();
+        for(int i = 0; i < segments.Count - 1; i++){
+            segments[i].Closed();
+        }
+    }
+
+    public override void Open(){
+        for(int i = 0; i < segments.Count; i++){
+            segments[i].Open((segments.Count-i)*segmentAsyncTime);
+        }
     }
 
     public override void Close(){
-        base.Close();
         // wayfindingObstacle.Enable();
+        EnableCollider();
         segments[0].Close();
         for(int i = 1; i < segments.Count; i++){
             segments[i].Close(i*segmentAsyncTime);
         }
     }
 
+    public override void Lock(){
+        Locked();
+    }
+
+    public override void Unlock(){
+        Unlocked();
+    }
+
     private void LinkEvents(){
-        segments[segments.Count-1].OnFinishedOpening    += FinishOpening;
+        segments[0].OnOpenCompleted      += Opened;
+        segments[segments.Count-1].OnCloseCompleted                    += Closed;
     }
 
     private void UnlinkEvents(){
-        segments[segments.Count-1].OnFinishedOpening    -= FinishOpening;
+        segments[0].OnOpenCompleted      -= Opened;
+        segments[segments.Count-1].OnCloseCompleted                    -= Closed;
     }
 }
