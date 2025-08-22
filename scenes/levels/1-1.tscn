@@ -96,9 +96,6 @@ bankName = "Test"
 [node name="GrassDeformerManager" parent="Managers" index="3"]
 grassShaders = Array[ShaderMaterial]([ExtResource("22_usw5k"), ExtResource("19_xbvxr"), ExtResource("20_bspq0"), ExtResource("21_dqba7")])
 
-[node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("doors")]
-doors = [NodePath("../../LevelSwapDoorTemplate")]
-
 [node name="WayfindingGridMap" parent="GridMaps" index="0"]
 visible = false
 data = {

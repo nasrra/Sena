@@ -12,8 +12,7 @@ public partial class EnvironmentDoor : Door{
     public override void _Ready(){
         LinkEvents();
         base._Ready();
-        Open();
-        // Close();
+        // Open();
     }
 
     public override void _ExitTree(){

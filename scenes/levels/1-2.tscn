@@ -15,8 +15,9 @@
 [node name="AudioBankLoader" parent="Managers" index="0"]
 bankName = "Test"
 
-[node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("doors")]
-doors = [NodePath("../../JailLevelSwapDoorNorth2")]
+[node name="DoorManager" parent="Managers" index="4" node_paths=PackedStringArray("levelSwapDoors", "environmentDoors")]
+levelSwapDoors = []
+environmentDoors = []
 
 [node name="CollisionsGridMap" parent="GridMaps" index="1"]
 visible = false

@@ -83,7 +83,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	public override void _Ready(){
 		base._Ready();
-		EnemyManager.Instance.AddEnemy(this);
+		EnemyManager.Singleton.AddEnemy(this);
 		wanderer?.Initialise(
 			minPathTime,
 			maxPathTime,
@@ -102,7 +102,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	public override void _ExitTree(){
 		base._ExitTree();
-		EnemyManager.Instance.RemoveEnemy(this);
+		EnemyManager.Singleton.RemoveEnemy(this);
 		UnlinkEvents();
 	}
 
@@ -495,7 +495,6 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	
 	public virtual void Kill(){
 		GD.Print("kill");
-		EnemyManager.Instance.RemoveEnemy(this);
 		QueueFree();
 	}
 

@@ -4,7 +4,7 @@ using System;
 public partial class GameplayLevel : Node2D{
     [ExportGroup("Nodes")]
     [Export] private EnemyManager enemyManager;
-    [Export] private LevelSwapDoorManager doors;
+    [Export] private DoorManager doors;
 
     [ExportGroup("Variables")]
     [Export] public GameplayLevelState state {get; private set;} = GameplayLevelState.InProgress;
@@ -59,13 +59,29 @@ public partial class GameplayLevel : Node2D{
 
 
     private void LinkEvents(){
-        enemyManager.OnAllEnemiesKilled += ClearedState;
+        enemyManager.OnEnemyGroupKilled += OnEnemyGroupKilledCallback;
     }
 
     private void UnlinkEvents(){        
-        enemyManager.OnAllEnemiesKilled -= ClearedState;        
+        enemyManager.OnEnemyGroupKilled -= OnEnemyGroupKilledCallback;
+    }
+
+
+    ///
+    /// Callbacks.
+    /// 
+
+
+    private void OnEnemyGroupKilledCallback(int enemyGroup){
+        ClearedState();
     }
 }
+
+
+/// 
+/// Definitions.
+/// 
+
 
 public enum GameplayLevelState : byte{
     Cleared,

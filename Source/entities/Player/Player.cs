@@ -191,7 +191,7 @@ public partial class Player : CharacterBody3D{
 		switch(GameManager.Singleton.State){
 			case GameState.Gameplay:
 				// spawn at door.
-				if(LevelSwapDoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
+				if(DoorManager.Instance.GetExitDoor(out LevelSwapDoor door)==true){
 					EntityManager.Singleton.PauseEntityProcesses(0.33f);
 					GlobalPosition = door.ExitPoint.GlobalPosition;
 				}     
