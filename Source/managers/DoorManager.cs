@@ -14,6 +14,7 @@ public partial class DoorManager : Node{
     public static int exitDoorId = -1;
     [Export] private Array<LevelSwapDoor> levelSwapDoors;
     [Export] private Array<EnvironmentDoor> environmentDoors;
+    [Export] private Array<Array<NodePath>> tempLockAreas = new Array<Array<NodePath>>();
     private (bool,bool)[] environmentDoorStatesCache;
     private (bool,bool)[] levelSwapDoorStatesCache;
     private State state = State.Normal;
@@ -40,7 +41,14 @@ public partial class DoorManager : Node{
         Instance = this;
         levelSwapDoorStatesCache = new (bool, bool)[levelSwapDoors.Count];
         environmentDoorStatesCache = new (bool, bool)[environmentDoors.Count];
+        LinkEvents();
     }
+
+    public override void _ExitTree(){
+        base._ExitTree();
+        UnlinkEvents();
+    }
+
 
 
     /// 
@@ -83,7 +91,6 @@ public partial class DoorManager : Node{
     }
 
     private void RestoreLevelSwapDoorStates(){
-
         for(int i = 0; i < levelSwapDoors.Count; i++){
             LevelSwapDoor door = levelSwapDoors[i];
             door.SetState(levelSwapDoorStatesCache[i].Item1, levelSwapDoorStatesCache[i].Item2);
@@ -135,4 +142,75 @@ public partial class DoorManager : Node{
         }
     }
 
+
+    /// 
+    /// Linkage.
+    /// 
+
+
+    private void LinkEvents(){
+        LinkTempLockAreas();
+    }
+
+    private void UnlinkEvents(){
+        UnlinkTempLockAreas();
+    }
+
+
+    /// 
+    /// Temp Lock Areas.
+    /// 
+
+
+    private void LinkTempLockAreas(){
+        for(int i = 0; i < tempLockAreas.Count; i++){
+        for(int j = 0; j < tempLockAreas[i].Count; j++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            area.BodyEntered += OnTempLockAreaEnteredCallback;
+            area.AreaEntered += OnTempLockAreaEnteredCallback;
+        }}
+    }
+
+    private void UnlinkTempLockAreas(){
+        for(int i = 0; i < tempLockAreas.Count; i++){
+        for(int j = 0; j < tempLockAreas[i].Count; j++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            area.BodyEntered -= OnTempLockAreaEnteredCallback;
+            area.AreaEntered -= OnTempLockAreaEnteredCallback;
+        }}
+    }
+
+    private void OnTempLockAreaEnteredCallback(Node3D other){
+        TempLockAndCloseDoors();
+    }
+
+    public void DisableAllTemplockAreas(){
+        for(int i = 0; i < tempLockAreas.Count; i++){
+        for(int j = 0; j < tempLockAreas[i].Count; j++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+        }}
+    }
+
+    public void EnableAllTemplockAreas(){
+        for(int i = 0; i < tempLockAreas.Count; i++){
+        for(int j = 0; j < tempLockAreas[i].Count; j++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
+        }}
+    }
+
+    public void DisableTemplockAreas(int areaGroup){
+        for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
+            area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
+        }
+    }
+
+    public void EnableTemplockAreas(int areaGroup){
+        for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
+            Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
+            area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
+        }
+    }
 }

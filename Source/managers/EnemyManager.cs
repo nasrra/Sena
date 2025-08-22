@@ -37,6 +37,10 @@ public partial class EnemyManager : GridMap{
 
 	private int GetEnemyGroup(Vector3 globalPosition){
 		Vector3I mapPosition = LocalToMap(globalPosition);
-		return GetCellItem(mapPosition) + 1; // fallback to 0 from -1, so that if the enemy is not part of an enemy group it is still tracked.
+		int group = GetCellItem(mapPosition);
+		if(group==-1){
+			throw new Exception("spawned enemy is not within a enemy group area!");
+		}
+		return group;
 	}
 }

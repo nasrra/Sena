@@ -83,7 +83,6 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	public override void _Ready(){
 		base._Ready();
-		EnemyManager.Singleton.AddEnemy(this);
 		wanderer?.Initialise(
 			minPathTime,
 			maxPathTime,
@@ -93,6 +92,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 			minDirection
 		);
 		IdleState();
+		EnemyManager.Singleton.AddEnemy(this);
 	}
 
 	public override void _EnterTree(){

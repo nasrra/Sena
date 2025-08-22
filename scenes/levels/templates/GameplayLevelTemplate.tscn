@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=12 format=3 uid="uid://cpmdc8rfjol6m"]
 
+[ext_resource type="Script" uid="uid://ct7qugnshjte" path="res://source/managers/GameplayLevel.cs" id="1_c4ag4"]
 [ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/source/globals/fmod/AudioBankLoader.cs" id="1_khrgp"]
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="2_7cl8v"]
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="3_lh374"]
@@ -11,7 +12,10 @@
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="7_wyi0w"]
 [ext_resource type="MeshLibrary" uid="uid://bfwfn7g8e2tmj" path="res://scenes/gridmaps/enemy groups/EnemyGroupsMeshLibrary.tres" id="8_0a04b"]
 
-[node name="GameplayLevelTemplate" type="Node3D"]
+[node name="GameplayLevelTemplate" type="Node3D" node_paths=PackedStringArray("enemyManager", "doors")]
+script = ExtResource("1_c4ag4")
+enemyManager = NodePath("GridMaps/EnemyManager")
+doors = NodePath("Managers/DoorManager")
 
 [node name="Managers" type="Node3D" parent="."]
 
@@ -35,7 +39,7 @@ environmentDoors = []
 
 [node name="GridMaps" type="Node3D" parent="."]
 
-[node name="EnemyGroups" type="GridMap" parent="GridMaps"]
+[node name="EnemyManager" type="GridMap" parent="GridMaps"]
 mesh_library = ExtResource("8_0a04b")
 cell_size = Vector3(1, 1, 1)
 script = ExtResource("2_7cl8v")

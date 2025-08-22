@@ -1,80 +1,81 @@
 using Godot;
 using System;
 
-public partial class GameplayLevel : Node2D{
-    [ExportGroup("Nodes")]
-    [Export] private EnemyManager enemyManager;
-    [Export] private DoorManager doors;
+public partial class GameplayLevel : Node3D{
+	[ExportGroup("Nodes")]
+	[Export] private EnemyManager enemyManager;
+	[Export] private DoorManager doors;
 
-    [ExportGroup("Variables")]
-    [Export] public GameplayLevelState state {get; private set;} = GameplayLevelState.InProgress;
-
-
-    /// 
-    /// Base.
-    /// 
+	[ExportGroup("Variables")]
+	[Export] public GameplayLevelState state {get; private set;} = GameplayLevelState.InProgress;
 
 
-    public override void _EnterTree(){
-        base._EnterTree();
-        LinkEvents();
-    }
-
-    public override void _Ready(){
-        base._Ready();
-        switch (state){
-            case GameplayLevelState.Cleared:
-                ClearedState();
-            break;
-            case GameplayLevelState.InProgress:
-                InProgressState();
-            break;
-        }
-    }   
-
-    public override void _ExitTree(){
-        base._ExitTree();
-        UnlinkEvents();
-    }
+	/// 
+	/// Base.
+	/// 
 
 
-    /// 
-    /// States.
-    /// 
+	public override void _EnterTree(){
+		base._EnterTree();
+		LinkEvents();
+	}
 
-    public void ClearedState(){
-        doors.RestoreDoorStates();
-        state = GameplayLevelState.Cleared;
-    }
+	public override void _Ready(){
+		base._Ready();
+		switch (state){
+			case GameplayLevelState.Cleared:
+				ClearedState();
+			break;
+			case GameplayLevelState.InProgress:
+				InProgressState();
+			break;
+		}
+	}   
 
-    public void InProgressState(){
-        doors.TempLockAndCloseDoors();
-        state = GameplayLevelState.InProgress;
-    }
-
-
-    /// 
-    /// Linkage.
-    /// 
-
-
-    private void LinkEvents(){
-        enemyManager.OnEnemyGroupKilled += OnEnemyGroupKilledCallback;
-    }
-
-    private void UnlinkEvents(){        
-        enemyManager.OnEnemyGroupKilled -= OnEnemyGroupKilledCallback;
-    }
+	public override void _ExitTree(){
+		base._ExitTree();
+		UnlinkEvents();
+	}
 
 
-    ///
-    /// Callbacks.
-    /// 
+	/// 
+	/// States.
+	/// 
+
+	public void ClearedState(){
+		doors.RestoreDoorStates();
+		state = GameplayLevelState.Cleared;
+	}
+
+	public void InProgressState(){
+		doors.TempLockAndCloseDoors();
+		state = GameplayLevelState.InProgress;
+	}
 
 
-    private void OnEnemyGroupKilledCallback(int enemyGroup){
-        ClearedState();
-    }
+	/// 
+	/// Linkage.
+	/// 
+
+
+	private void LinkEvents(){
+		enemyManager.OnEnemyGroupKilled += OnEnemyGroupKilledCallback;
+	}
+
+	private void UnlinkEvents(){        
+		enemyManager.OnEnemyGroupKilled -= OnEnemyGroupKilledCallback;
+	}
+
+
+	///
+	/// Callbacks.
+	/// 
+
+
+	private void OnEnemyGroupKilledCallback(int enemyGroup){
+		doors.DisableTemplockAreas(enemyGroup);
+		ClearedState();
+	}
 }
 
 
@@ -84,6 +85,6 @@ public partial class GameplayLevel : Node2D{
 
 
 public enum GameplayLevelState : byte{
-    Cleared,
-    InProgress,
+	Cleared,
+	InProgress,
 }
