@@ -4,34 +4,34 @@ using Godot;
 
 public partial class EnvironmentDoor : Door{
     [ExportGroup(nameof(EnvironmentDoor))]
-    [Export] private Godot.Collections.Array<SegmentedDoorPiece> segments;
+    [Export] private Godot.Collections.Array<SegmentedDoorPiece> segments = new Godot.Collections.Array<SegmentedDoorPiece>();
     [Export] private float segmentLiftSpeed = 1.0f;
     [Export] private float segmentLowerSpeed = 1.0f;
     [Export] private float segmentAsyncTime = 0.165f;
 
     public override void _Ready(){
-        base._Ready();
         LinkEvents();
+        base._Ready();
         Open();
     }
 
     public override void _ExitTree(){
-        base._ExitTree();
         UnlinkEvents();
+        base._ExitTree();
     }
 
     protected override void Opened(){
-        base.Opened();
-        for(int i = 0; i < segments.Count - 1; i++){
+        for(int i = 0; i < segments.Count; i++){
             segments[i].Opened();
         }
+        base.Opened();
     }
 
     protected override void Closed(){
-        base.Closed();
-        for(int i = 0; i < segments.Count - 1; i++){
+        for(int i = 0; i < segments.Count; i++){
             segments[i].Closed();
         }
+        base.Closed();
     }
 
     public override void Open(){

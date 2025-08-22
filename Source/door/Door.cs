@@ -34,10 +34,6 @@ public abstract partial class Door : Node{
         }
     }
 
-    public override void _EnterTree(){
-        base._EnterTree();
-    }
-
 
     /// 
     /// 

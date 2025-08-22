@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://byue2js8ldn7i"]
+[gd_scene load_steps=9 format=3 uid="uid://byue2js8ldn7i"]
 
 [ext_resource type="Texture2D" uid="uid://dmernymc26wun" path="res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column2.tres" id="1_d2v2a"]
 [ext_resource type="Script" uid="uid://pbe163knvuj" path="res://source/door/SegmentedDoorPiece.cs" id="1_scy15"]
@@ -6,6 +6,7 @@
 
 [sub_resource type="Animation" id="Animation_d2v2a"]
 resource_name = "Close"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -13,15 +14,15 @@ tracks/0/path = NodePath("Container:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(0.33, 0.66),
 "update": 0,
-"values": [Vector3(0, -4, 0), Vector3(0, 0, 0)]
+"values": [Vector3(0, -2.875, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_glnyf"]
 resource_name = "Closed"
-length = 0.001
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -37,6 +38,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_aylp6"]
 resource_name = "Open"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,15 +46,15 @@ tracks/0/path = NodePath("Container:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(0.33, 1),
 "update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, -4, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -2.875, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0e7iw"]
 resource_name = "Opened"
-length = 0.001
+length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -63,22 +65,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, -4, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_scy15"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Container:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -4, 0)]
+"values": [Vector3(0, -2.875, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_scy15"]
@@ -86,8 +73,7 @@ _data = {
 &"Close": SubResource("Animation_d2v2a"),
 &"Closed": SubResource("Animation_glnyf"),
 &"Open": SubResource("Animation_aylp6"),
-&"Opened": SubResource("Animation_0e7iw"),
-&"RESET": SubResource("Animation_scy15")
+&"Opened": SubResource("Animation_0e7iw")
 }
 
 [node name="ColumnSegmentDoorPiece" type="Node3D" node_paths=PackedStringArray("animator", "delayTimer")]
@@ -96,28 +82,29 @@ animator = NodePath("AnimationPlayer")
 delayTimer = NodePath("Timer")
 
 [node name="Container" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.875, 0)
 
 [node name="Sprite3D5" type="Sprite3D" parent="Container"]
-transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.375, 0, 2, 0.5)
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.375, 0, 1.5, 0.5)
 cast_shadow = 0
+offset = Vector2(0, -18.2)
 shaded = true
 double_sided = false
 alpha_cut = 2
 texture = ExtResource("1_d2v2a")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Container"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00158691, 2.06914, 8.39233e-05)
 cast_shadow = 3
-size = Vector3(0.5, 2.5, 0.5)
+size = Vector3(0.5, 1.71198, 0.5)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Container"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.405859, 0)
 cast_shadow = 3
-size = Vector3(0.9, 0.9, 0.9)
+size = Vector3(0.9, 0.711719, 0.9)
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Container"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992218, 0)
 cast_shadow = 3
 size = Vector3(0.75, 0.5, 0.75)
 

@@ -57,6 +57,7 @@ public partial class SegmentedDoorPiece : Node3D{
 
     public void Closed(){
         animator.Play(ClosedAnimation);
+        GD.Print(ClosedAnimation);
     }
 
     public void Open(float time){
