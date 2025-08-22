@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://7346cbxpbyh2"]
+
+[ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/environment/doors/templates/EnvironmentDoor.tscn" id="1_f3rsu"]
+[ext_resource type="PackedScene" uid="uid://byue2js8ldn7i" path="res://scenes/environment/doors/ColumnDoors/ColumnSegmentDoorPiece.tscn" id="2_teate"]
+
+[node name="EnvironmentDoorVertical" node_paths=PackedStringArray("segments") instance=ExtResource("1_f3rsu")]
+segments = [NodePath("ColumnSegmentDoorPiece1"), NodePath("ColumnSegmentDoorPiece2"), NodePath("ColumnSegmentDoorPiece3"), NodePath("ColumnSegmentDoorPiece4")]
+segmentAsyncTime = 0.2
+
+[node name="ColumnSegmentDoorPiece1" parent="." index="0" instance=ExtResource("2_teate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0)
+
+[node name="ColumnSegmentDoorPiece2" parent="." index="1" instance=ExtResource("2_teate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="ColumnSegmentDoorPiece3" parent="." index="2" instance=ExtResource("2_teate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="ColumnSegmentDoorPiece4" parent="." index="3" instance=ExtResource("2_teate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+
+[node name="Container" parent="." index="4"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Collider" parent="Container" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)

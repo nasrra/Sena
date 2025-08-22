@@ -19,7 +19,7 @@ collider = NodePath("Container/Collider")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 
 [node name="EnterZone" parent="Container" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.3)
 collision_mask = 2
 
 [node name="CollisionShape3D" parent="Container/EnterZone" index="0"]

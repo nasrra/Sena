@@ -1,19 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6el5j8ufqphw"]
+[gd_scene load_steps=3 format=3 uid="uid://b6el5j8ufqphw"]
 
 [ext_resource type="Material" uid="uid://btmet4x6tcrms" path="res://scenes/gridmaps/templates/PlaceHolderMaterial.tres" id="1_vi2es"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_ateww"]
 orientation = 1
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8okjd"]
-size = Vector3(1, 0.01, 1)
-
 [node name="MeshInstance3D" type="MeshInstance3D"]
 cast_shadow = 0
 mesh = SubResource("QuadMesh_ateww")
 surface_material_override/0 = ExtResource("1_vi2es")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_8okjd")

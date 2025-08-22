@@ -37,6 +37,17 @@ public partial class LevelSwapDoor : Door{
         EntityManager.Singleton.PauseEntityProcesses();
     }
 
+    protected override void Opened(){
+        base.Opened();
+        EnableEnterZone();
+    }
+
+    protected override void Closed(){
+        base.Closed();
+        DisableEnterZone();
+    }
+
+
     public override void Open(){
         EnableEnterZone();
         Opened();

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/environment/doors/templates/EnvironmentDoor.tscn" id="1_0gw5q"]
 [ext_resource type="PackedScene" uid="uid://byue2js8ldn7i" path="res://scenes/environment/doors/ColumnDoors/ColumnSegmentDoorPiece.tscn" id="2_pxu68"]
 
-[node name="EnvironmentDoor1" node_paths=PackedStringArray("segments") instance=ExtResource("1_0gw5q")]
+[node name="EnvironmentDoorHorizontal" node_paths=PackedStringArray("segments") instance=ExtResource("1_0gw5q")]
 segments = [NodePath("ColumnSegmentDoorPiece1"), NodePath("ColumnSegmentDoorPiece2"), NodePath("ColumnSegmentDoorPiece3"), NodePath("ColumnSegmentDoorPiece4")]
 segmentAsyncTime = 0.2
 

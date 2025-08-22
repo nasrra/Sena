@@ -166,7 +166,7 @@ omni_range = 10.0
 omni_attenuation = 1.222
 
 [node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0.000468969, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.525, 0, 0, 0, 1, 0, 0.000468969, 0)
 cast_shadow = 0
 offset = Vector2(0, 106.28)
 shaded = true

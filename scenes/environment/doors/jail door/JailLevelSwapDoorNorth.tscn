@@ -28,7 +28,7 @@ collider = NodePath("Container/Collider")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
 
 [node name="EnterZone" parent="Container" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.2)
 collision_mask = 2
 
 [node name="Collider" parent="Container" index="2"]
@@ -108,3 +108,8 @@ sprite = NodePath("../door")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 script = ExtResource("5_johqt")
 sprite = NodePath("../backlight")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.076, 0.008)
+cast_shadow = 3
+size = Vector3(1.325, 0.14, 0.077)

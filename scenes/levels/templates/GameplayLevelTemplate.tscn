@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=10 format=3 uid="uid://cpmdc8rfjol6m"]
 
 [ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/source/globals/fmod/AudioBankLoader.cs" id="1_khrgp"]
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="2_7cl8v"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/WayfindingGridMap.tscn" id="4_h5lis"]
 [ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://source/managers/LevelSwapDoorManager.cs" id="5_mkam8"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="6_kse60"]
+[ext_resource type="MeshLibrary" uid="uid://xhgpauq17ro4" path="res://scenes/gridmaps/collisions/CollisionsMeshLibrary.tres" id="7_u4xlj"]
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="7_wyi0w"]
 
 [node name="GameplayLevelTemplate" type="Node3D"]
@@ -36,6 +37,10 @@ doors = []
 [node name="GridMaps" type="Node3D" parent="."]
 
 [node name="WayfindingGridMap" parent="GridMaps" instance=ExtResource("4_h5lis")]
+
+[node name="CollisionsGridMap" type="GridMap" parent="GridMaps"]
+mesh_library = ExtResource("7_u4xlj")
+cell_size = Vector3(1, 1, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 

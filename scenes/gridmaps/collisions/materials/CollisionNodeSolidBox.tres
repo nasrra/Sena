@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://ba3fogyjmqool"]
+
+[ext_resource type="Texture2D" uid="uid://dfpj8tvgo8206" path="res://assets/uv-checker-preview_1K.png" id="1_qf6ft"]
+
+[resource]
+albedo_texture = ExtResource("1_qf6ft")
+uv1_scale = Vector3(3, 3, 3)

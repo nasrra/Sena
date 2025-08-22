@@ -1,62 +1,62 @@
-[gd_resource type="MeshLibrary" load_steps=219 format=3 uid="uid://cumsglylffol6"]
+[gd_resource type="MeshLibrary" load_steps=218 format=3 uid="uid://cumsglylffol6"]
 
-[ext_resource type="Material" uid="uid://d0u82vytdwivy" path="res://scenes/gridmaps/walls/materials/ceiling/Ceiling.tres" id="1_2bfbj"]
-[ext_resource type="Material" uid="uid://wb4rd50g75th" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingFl.tres" id="2_yuwb3"]
-[ext_resource type="Material" uid="uid://hkp4owckmgyb" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorMl.tres" id="3_eoryf"]
-[ext_resource type="Material" uid="uid://dj8bjrfngt2v3" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorMr.tres" id="4_si3xr"]
-[ext_resource type="Material" uid="uid://cc827qb8qqgcv" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorT.tres" id="5_rosl6"]
-[ext_resource type="Material" uid="uid://cbuol5e0u8hq4" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorTl.tres" id="6_c131a"]
-[ext_resource type="Material" uid="uid://d2ir55xk58hrp" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorTr.tres" id="7_khgfu"]
-[ext_resource type="Material" uid="uid://3gy8p1rg3tpm" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1BlMaterial.tres" id="8_acxyg"]
-[ext_resource type="Material" uid="uid://crvoypvfu7vv7" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1BrMaterial.tres" id="9_2yeuc"]
-[ext_resource type="Material" uid="uid://cfbt7tastqb0j" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1TlMaterial.tres" id="10_c7vfl"]
-[ext_resource type="Material" uid="uid://di22nwnbedl48" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1TrMaterial.tres" id="11_t3siq"]
-[ext_resource type="Material" uid="uid://dd4iw12me3gxi" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2BlMaterial.tres" id="12_r30se"]
-[ext_resource type="Material" uid="uid://oyydh7iijgy4" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingFr.tres" id="13_6g2q8"]
-[ext_resource type="Material" uid="uid://gbf4q6jadv6x" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2BrMaterial.tres" id="14_uqamp"]
-[ext_resource type="Material" uid="uid://c4hik4ket6yth" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2TlMaterial.tres" id="15_8lo3e"]
-[ext_resource type="Material" uid="uid://bo2m5gtdwtnj4" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2TrMaterial.tres" id="16_h4w6f"]
-[ext_resource type="Material" uid="uid://b8w2eccxyu0gc" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3BlMaterial.tres" id="17_5bj31"]
-[ext_resource type="Material" uid="uid://d2loirdx3vxmw" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3BrMaterial.tres" id="18_b8e4w"]
-[ext_resource type="Material" uid="uid://ccshdt4i23sxh" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3TlMaterial.tres" id="19_grhsk"]
-[ext_resource type="Material" uid="uid://dqsryg7gk0gmr" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3TrMaterial.tres" id="20_wfgg1"]
-[ext_resource type="Material" uid="uid://c7yaehlopf1li" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4BlMaterial.tres" id="21_jb1ih"]
-[ext_resource type="Material" uid="uid://bc4kwjv4i8wx0" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4BrMaterial.tres" id="22_h2yq8"]
-[ext_resource type="Material" uid="uid://dkho5oq3wx32a" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4TlMaterial.tres" id="23_wfl3w"]
-[ext_resource type="Material" uid="uid://dg8ael3n8j540" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingLb.tres" id="24_uyxd5"]
-[ext_resource type="Material" uid="uid://ld4fdjlrt3rl" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4TrMaterial.tres" id="25_poijb"]
-[ext_resource type="Material" uid="uid://ss6ij5i132m" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Bl.tres" id="26_gclks"]
-[ext_resource type="Material" uid="uid://sm12pysgqwgo" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Br.tres" id="27_e6do3"]
-[ext_resource type="Material" uid="uid://d3mqdauh83g3d" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Ml.tres" id="28_54vdu"]
-[ext_resource type="Material" uid="uid://cptrpvimr25sr" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Mr.tres" id="29_0ajui"]
-[ext_resource type="Material" uid="uid://cnw0pluksn25k" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Tl.tres" id="30_lq03h"]
-[ext_resource type="Material" uid="uid://dtikme8mpdq8k" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Tr.tres" id="31_3p6u1"]
-[ext_resource type="Material" uid="uid://bg4u8otqadrwn" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Bl.tres" id="32_ylyof"]
-[ext_resource type="Material" uid="uid://cn36xx712u4t7" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Br.tres" id="33_jvsfj"]
-[ext_resource type="Material" uid="uid://ddutm7dqak44n" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Ml.tres" id="34_bfjwt"]
-[ext_resource type="Material" uid="uid://csbp31dv6avtp" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingLt.tres" id="35_45ghg"]
-[ext_resource type="Material" uid="uid://1guetranrrfd" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Mr.tres" id="36_s7mdt"]
-[ext_resource type="Material" uid="uid://bwjcycyvr1ux0" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Tl.tres" id="37_o0u64"]
-[ext_resource type="Material" uid="uid://svxllyelmjbp" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Tr.tres" id="38_bw5cr"]
-[ext_resource type="Material" uid="uid://dc7nkb27be17r" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Bl.tres" id="39_oie5l"]
-[ext_resource type="Material" uid="uid://bhanf061m076j" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Br.tres" id="40_7r3u5"]
-[ext_resource type="Material" uid="uid://74iyqebdc00i" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Ml.tres" id="41_y27t0"]
-[ext_resource type="Material" uid="uid://bvdi1288s2ier" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Mr.tres" id="42_weq7e"]
-[ext_resource type="Material" uid="uid://qf06nuocugpt" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Tl.tres" id="43_j4v7u"]
-[ext_resource type="Material" uid="uid://3nb60ojl0uwo" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Tr.tres" id="44_0n62l"]
-[ext_resource type="Material" uid="uid://dqscty3kofqa4" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Bl.tres" id="45_vvrwe"]
-[ext_resource type="Material" uid="uid://brxn5ccjbqcpn" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Br.tres" id="47_yfwla"]
-[ext_resource type="Material" uid="uid://cgnkonvkyi2rr" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Ml.tres" id="48_hlvpq"]
-[ext_resource type="Material" uid="uid://bssc454cvp1ku" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Mr.tres" id="49_njjww"]
-[ext_resource type="Material" uid="uid://dvemlyqci2ym5" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Tl.tres" id="50_nt1nw"]
-[ext_resource type="Material" uid="uid://dc7k7e0ta7pw7" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Tr.tres" id="51_8gkeu"]
-[ext_resource type="Material" uid="uid://btmet4x6tcrms" path="res://scenes/gridmaps/templates/PlaceHolderMaterial.tres" id="52_spwsw"]
-[ext_resource type="Material" uid="uid://dw681wre87qtd" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorB.tres" id="54_pau5o"]
-[ext_resource type="Material" uid="uid://cfmahkeylylxe" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorBl.tres" id="55_qdsp0"]
-[ext_resource type="Material" uid="uid://cp3bn7jvc20gp" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorBr.tres" id="56_sgs5i"]
+[ext_resource type="Material" uid="uid://d0u82vytdwivy" path="res://scenes/gridmaps/walls/materials/ceiling/Ceiling.tres" id="1_bm5q3"]
+[ext_resource type="Material" uid="uid://dg8ael3n8j540" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingLb.tres" id="2_3wj4j"]
+[ext_resource type="Material" uid="uid://cc827qb8qqgcv" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorT.tres" id="3_2bfbj"]
+[ext_resource type="Material" uid="uid://cbuol5e0u8hq4" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorTl.tres" id="4_yuwb3"]
+[ext_resource type="Material" uid="uid://d2ir55xk58hrp" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorTr.tres" id="5_eoryf"]
+[ext_resource type="Material" uid="uid://3gy8p1rg3tpm" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1BlMaterial.tres" id="6_si3xr"]
+[ext_resource type="Material" uid="uid://crvoypvfu7vv7" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1BrMaterial.tres" id="7_rosl6"]
+[ext_resource type="Material" uid="uid://cfbt7tastqb0j" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1TlMaterial.tres" id="8_c131a"]
+[ext_resource type="Material" uid="uid://di22nwnbedl48" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 1/StoneFloor1TrMaterial.tres" id="9_khgfu"]
+[ext_resource type="Material" uid="uid://dd4iw12me3gxi" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2BlMaterial.tres" id="10_acxyg"]
+[ext_resource type="Material" uid="uid://gbf4q6jadv6x" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2BrMaterial.tres" id="11_2yeuc"]
+[ext_resource type="Material" uid="uid://c4hik4ket6yth" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2TlMaterial.tres" id="12_c7vfl"]
+[ext_resource type="Material" uid="uid://csbp31dv6avtp" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingLt.tres" id="13_t3siq"]
+[ext_resource type="Material" uid="uid://bo2m5gtdwtnj4" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 2/StoneFloor2TrMaterial.tres" id="14_r30se"]
+[ext_resource type="Material" uid="uid://b8w2eccxyu0gc" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3BlMaterial.tres" id="15_6g2q8"]
+[ext_resource type="Material" uid="uid://d2loirdx3vxmw" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3BrMaterial.tres" id="16_uqamp"]
+[ext_resource type="Material" uid="uid://ccshdt4i23sxh" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3TlMaterial.tres" id="17_8lo3e"]
+[ext_resource type="Material" uid="uid://dqsryg7gk0gmr" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 3/StoneFloor3TrMaterial.tres" id="18_h4w6f"]
+[ext_resource type="Material" uid="uid://c7yaehlopf1li" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4BlMaterial.tres" id="19_5bj31"]
+[ext_resource type="Material" uid="uid://bc4kwjv4i8wx0" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4BrMaterial.tres" id="20_b8e4w"]
+[ext_resource type="Material" uid="uid://dkho5oq3wx32a" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4TlMaterial.tres" id="21_grhsk"]
+[ext_resource type="Material" uid="uid://ld4fdjlrt3rl" path="res://scenes/gridmaps/floors/stone floors/materials/stone floor 4/StoneFloor4TrMaterial.tres" id="22_wfgg1"]
+[ext_resource type="Material" uid="uid://ss6ij5i132m" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Bl.tres" id="23_jb1ih"]
+[ext_resource type="Material" uid="uid://wb4rd50g75th" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingFl.tres" id="24_h2yq8"]
+[ext_resource type="Material" uid="uid://sm12pysgqwgo" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Br.tres" id="25_wfl3w"]
+[ext_resource type="Material" uid="uid://d3mqdauh83g3d" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Ml.tres" id="26_uyxd5"]
+[ext_resource type="Material" uid="uid://cptrpvimr25sr" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Mr.tres" id="27_poijb"]
+[ext_resource type="Material" uid="uid://cnw0pluksn25k" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Tl.tres" id="28_gclks"]
+[ext_resource type="Material" uid="uid://dtikme8mpdq8k" path="res://scenes/gridmaps/walls/materials/wall 1/Wall1Tr.tres" id="29_e6do3"]
+[ext_resource type="Material" uid="uid://bg4u8otqadrwn" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Bl.tres" id="30_54vdu"]
+[ext_resource type="Material" uid="uid://cn36xx712u4t7" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Br.tres" id="31_0ajui"]
+[ext_resource type="Material" uid="uid://ddutm7dqak44n" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Ml.tres" id="32_lq03h"]
+[ext_resource type="Material" uid="uid://1guetranrrfd" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Mr.tres" id="33_3p6u1"]
+[ext_resource type="Material" uid="uid://bwjcycyvr1ux0" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Tl.tres" id="34_ylyof"]
+[ext_resource type="Material" uid="uid://oyydh7iijgy4" path="res://scenes/gridmaps/walls/materials/ceiling/CeilingFr.tres" id="35_jvsfj"]
+[ext_resource type="Material" uid="uid://svxllyelmjbp" path="res://scenes/gridmaps/walls/materials/wall 2/Wall2Tr.tres" id="36_bfjwt"]
+[ext_resource type="Material" uid="uid://dc7nkb27be17r" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Bl.tres" id="37_45ghg"]
+[ext_resource type="Material" uid="uid://bhanf061m076j" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Br.tres" id="38_s7mdt"]
+[ext_resource type="Material" uid="uid://74iyqebdc00i" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Ml.tres" id="39_o0u64"]
+[ext_resource type="Material" uid="uid://bvdi1288s2ier" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Mr.tres" id="40_bw5cr"]
+[ext_resource type="Material" uid="uid://qf06nuocugpt" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Tl.tres" id="41_oie5l"]
+[ext_resource type="Material" uid="uid://3nb60ojl0uwo" path="res://scenes/gridmaps/walls/materials/wall 3/Wall3Tr.tres" id="42_7r3u5"]
+[ext_resource type="Material" uid="uid://dqscty3kofqa4" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Bl.tres" id="43_y27t0"]
+[ext_resource type="Material" uid="uid://brxn5ccjbqcpn" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Br.tres" id="44_weq7e"]
+[ext_resource type="Material" uid="uid://cgnkonvkyi2rr" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Ml.tres" id="45_j4v7u"]
+[ext_resource type="Material" uid="uid://dw681wre87qtd" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorB.tres" id="46_0n62l"]
+[ext_resource type="Material" uid="uid://bssc454cvp1ku" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Mr.tres" id="47_vvrwe"]
+[ext_resource type="Material" uid="uid://dvemlyqci2ym5" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Tl.tres" id="48_k53u1"]
+[ext_resource type="Material" uid="uid://dc7k7e0ta7pw7" path="res://scenes/gridmaps/walls/materials/wall 4/Wall4Tr.tres" id="49_yfwla"]
+[ext_resource type="Material" uid="uid://btmet4x6tcrms" path="res://scenes/gridmaps/templates/PlaceHolderMaterial.tres" id="50_hlvpq"]
+[ext_resource type="Material" uid="uid://cfmahkeylylxe" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorBl.tres" id="51_njjww"]
+[ext_resource type="Material" uid="uid://cp3bn7jvc20gp" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorBr.tres" id="52_nt1nw"]
+[ext_resource type="Material" uid="uid://hkp4owckmgyb" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorMl.tres" id="53_8gkeu"]
+[ext_resource type="Material" uid="uid://dj8bjrfngt2v3" path="res://scenes/gridmaps/floors/border floors/materials/BorderFloorMr.tres" id="54_spwsw"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_bm5q3"]
-material = ExtResource("1_2bfbj")
+[sub_resource type="QuadMesh" id="QuadMesh_4n1qb"]
+material = ExtResource("1_bm5q3")
 orientation = 1
 
 [sub_resource type="Image" id="Image_bm5q3"]
@@ -68,11 +68,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_2bfbj"]
+[sub_resource type="ImageTexture" id="ImageTexture_qdsp0"]
 image = SubResource("Image_bm5q3")
 
-[sub_resource type="QuadMesh" id="QuadMesh_yuwb3"]
-material = ExtResource("24_uyxd5")
+[sub_resource type="QuadMesh" id="QuadMesh_sgs5i"]
+material = ExtResource("2_3wj4j")
 orientation = 1
 
 [sub_resource type="Image" id="Image_3wj4j"]
@@ -84,11 +84,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_si3xr"]
+[sub_resource type="ImageTexture" id="ImageTexture_62ej5"]
 image = SubResource("Image_3wj4j")
 
-[sub_resource type="QuadMesh" id="QuadMesh_rosl6"]
-material = ExtResource("5_rosl6")
+[sub_resource type="QuadMesh" id="QuadMesh_ixurp"]
+material = ExtResource("3_2bfbj")
 orientation = 1
 
 [sub_resource type="Image" id="Image_2bfbj"]
@@ -100,14 +100,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_khgfu"]
+[sub_resource type="ImageTexture" id="ImageTexture_us3ks"]
 image = SubResource("Image_2bfbj")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_8okjd"]
-size = Vector3(1, 0.01, 1)
-
-[sub_resource type="QuadMesh" id="QuadMesh_acxyg"]
-material = ExtResource("6_c131a")
+[sub_resource type="QuadMesh" id="QuadMesh_dde4b"]
+material = ExtResource("4_yuwb3")
 orientation = 1
 
 [sub_resource type="Image" id="Image_yuwb3"]
@@ -119,11 +116,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_c7vfl"]
+[sub_resource type="ImageTexture" id="ImageTexture_603s2"]
 image = SubResource("Image_yuwb3")
 
-[sub_resource type="QuadMesh" id="QuadMesh_t3siq"]
-material = ExtResource("7_khgfu")
+[sub_resource type="QuadMesh" id="QuadMesh_4uom6"]
+material = ExtResource("5_eoryf")
 orientation = 1
 
 [sub_resource type="Image" id="Image_eoryf"]
@@ -135,11 +132,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_6g2q8"]
+[sub_resource type="ImageTexture" id="ImageTexture_s274k"]
 image = SubResource("Image_eoryf")
 
-[sub_resource type="QuadMesh" id="QuadMesh_uqamp"]
-material = ExtResource("8_acxyg")
+[sub_resource type="QuadMesh" id="QuadMesh_oh0ff"]
+material = ExtResource("6_si3xr")
 orientation = 1
 
 [sub_resource type="Image" id="Image_si3xr"]
@@ -151,11 +148,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_h4w6f"]
+[sub_resource type="ImageTexture" id="ImageTexture_lrso2"]
 image = SubResource("Image_si3xr")
 
-[sub_resource type="QuadMesh" id="QuadMesh_5bj31"]
-material = ExtResource("9_2yeuc")
+[sub_resource type="QuadMesh" id="QuadMesh_icq4w"]
+material = ExtResource("7_rosl6")
 orientation = 1
 
 [sub_resource type="Image" id="Image_rosl6"]
@@ -167,11 +164,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_grhsk"]
+[sub_resource type="ImageTexture" id="ImageTexture_jv1p2"]
 image = SubResource("Image_rosl6")
 
-[sub_resource type="QuadMesh" id="QuadMesh_wfgg1"]
-material = ExtResource("10_c7vfl")
+[sub_resource type="QuadMesh" id="QuadMesh_iyviq"]
+material = ExtResource("8_c131a")
 orientation = 1
 
 [sub_resource type="Image" id="Image_c131a"]
@@ -183,11 +180,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_h2yq8"]
+[sub_resource type="ImageTexture" id="ImageTexture_w26p0"]
 image = SubResource("Image_c131a")
 
-[sub_resource type="QuadMesh" id="QuadMesh_wfl3w"]
-material = ExtResource("11_t3siq")
+[sub_resource type="QuadMesh" id="QuadMesh_2bu4d"]
+material = ExtResource("9_khgfu")
 orientation = 1
 
 [sub_resource type="Image" id="Image_khgfu"]
@@ -199,11 +196,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_poijb"]
+[sub_resource type="ImageTexture" id="ImageTexture_ygy1v"]
 image = SubResource("Image_khgfu")
 
-[sub_resource type="QuadMesh" id="QuadMesh_gclks"]
-material = ExtResource("12_r30se")
+[sub_resource type="QuadMesh" id="QuadMesh_rjkqn"]
+material = ExtResource("10_acxyg")
 orientation = 1
 
 [sub_resource type="Image" id="Image_acxyg"]
@@ -215,11 +212,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_54vdu"]
+[sub_resource type="ImageTexture" id="ImageTexture_ufkrw"]
 image = SubResource("Image_acxyg")
 
-[sub_resource type="QuadMesh" id="QuadMesh_0ajui"]
-material = ExtResource("14_uqamp")
+[sub_resource type="QuadMesh" id="QuadMesh_ghr2b"]
+material = ExtResource("11_2yeuc")
 orientation = 1
 
 [sub_resource type="Image" id="Image_2yeuc"]
@@ -231,11 +228,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_3p6u1"]
+[sub_resource type="ImageTexture" id="ImageTexture_1o31v"]
 image = SubResource("Image_2yeuc")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ylyof"]
-material = ExtResource("15_8lo3e")
+[sub_resource type="QuadMesh" id="QuadMesh_qpmkd"]
+material = ExtResource("12_c7vfl")
 orientation = 1
 
 [sub_resource type="Image" id="Image_c7vfl"]
@@ -247,11 +244,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_bfjwt"]
+[sub_resource type="ImageTexture" id="ImageTexture_hgwsd"]
 image = SubResource("Image_c7vfl")
 
-[sub_resource type="QuadMesh" id="QuadMesh_45ghg"]
-material = ExtResource("35_45ghg")
+[sub_resource type="QuadMesh" id="QuadMesh_4lcc1"]
+material = ExtResource("13_t3siq")
 orientation = 1
 
 [sub_resource type="Image" id="Image_t3siq"]
@@ -263,11 +260,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_o0u64"]
+[sub_resource type="ImageTexture" id="ImageTexture_2j5qd"]
 image = SubResource("Image_t3siq")
 
-[sub_resource type="QuadMesh" id="QuadMesh_bw5cr"]
-material = ExtResource("16_h4w6f")
+[sub_resource type="QuadMesh" id="QuadMesh_n4ild"]
+material = ExtResource("14_r30se")
 orientation = 1
 
 [sub_resource type="Image" id="Image_r30se"]
@@ -279,11 +276,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_7r3u5"]
+[sub_resource type="ImageTexture" id="ImageTexture_38yvb"]
 image = SubResource("Image_r30se")
 
-[sub_resource type="QuadMesh" id="QuadMesh_y27t0"]
-material = ExtResource("17_5bj31")
+[sub_resource type="QuadMesh" id="QuadMesh_egtsj"]
+material = ExtResource("15_6g2q8")
 orientation = 1
 
 [sub_resource type="Image" id="Image_6g2q8"]
@@ -295,11 +292,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_j4v7u"]
+[sub_resource type="ImageTexture" id="ImageTexture_1finy"]
 image = SubResource("Image_6g2q8")
 
-[sub_resource type="QuadMesh" id="QuadMesh_0n62l"]
-material = ExtResource("18_b8e4w")
+[sub_resource type="QuadMesh" id="QuadMesh_77hht"]
+material = ExtResource("16_uqamp")
 orientation = 1
 
 [sub_resource type="Image" id="Image_uqamp"]
@@ -311,11 +308,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_k53u1"]
+[sub_resource type="ImageTexture" id="ImageTexture_hh7ws"]
 image = SubResource("Image_uqamp")
 
-[sub_resource type="QuadMesh" id="QuadMesh_yfwla"]
-material = ExtResource("19_grhsk")
+[sub_resource type="QuadMesh" id="QuadMesh_qcsxx"]
+material = ExtResource("17_8lo3e")
 orientation = 1
 
 [sub_resource type="Image" id="Image_8lo3e"]
@@ -327,11 +324,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_njjww"]
+[sub_resource type="ImageTexture" id="ImageTexture_5g03f"]
 image = SubResource("Image_8lo3e")
 
-[sub_resource type="QuadMesh" id="QuadMesh_nt1nw"]
-material = ExtResource("20_wfgg1")
+[sub_resource type="QuadMesh" id="QuadMesh_7np8f"]
+material = ExtResource("18_h4w6f")
 orientation = 1
 
 [sub_resource type="Image" id="Image_h4w6f"]
@@ -343,11 +340,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_spwsw"]
+[sub_resource type="ImageTexture" id="ImageTexture_fjim2"]
 image = SubResource("Image_h4w6f")
 
-[sub_resource type="QuadMesh" id="QuadMesh_4n1qb"]
-material = ExtResource("21_jb1ih")
+[sub_resource type="QuadMesh" id="QuadMesh_272vd"]
+material = ExtResource("19_5bj31")
 orientation = 1
 
 [sub_resource type="Image" id="Image_5bj31"]
@@ -359,11 +356,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_qdsp0"]
+[sub_resource type="ImageTexture" id="ImageTexture_m13mc"]
 image = SubResource("Image_5bj31")
 
-[sub_resource type="QuadMesh" id="QuadMesh_sgs5i"]
-material = ExtResource("22_h2yq8")
+[sub_resource type="QuadMesh" id="QuadMesh_uoood"]
+material = ExtResource("20_b8e4w")
 orientation = 1
 
 [sub_resource type="Image" id="Image_b8e4w"]
@@ -375,11 +372,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_62ej5"]
+[sub_resource type="ImageTexture" id="ImageTexture_3aajt"]
 image = SubResource("Image_b8e4w")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ixurp"]
-material = ExtResource("23_wfl3w")
+[sub_resource type="QuadMesh" id="QuadMesh_j1mj7"]
+material = ExtResource("21_grhsk")
 orientation = 1
 
 [sub_resource type="Image" id="Image_grhsk"]
@@ -391,11 +388,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_us3ks"]
+[sub_resource type="ImageTexture" id="ImageTexture_6l6d7"]
 image = SubResource("Image_grhsk")
 
-[sub_resource type="QuadMesh" id="QuadMesh_dde4b"]
-material = ExtResource("25_poijb")
+[sub_resource type="QuadMesh" id="QuadMesh_rxlbv"]
+material = ExtResource("22_wfgg1")
 orientation = 1
 
 [sub_resource type="Image" id="Image_wfgg1"]
@@ -407,11 +404,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_603s2"]
+[sub_resource type="ImageTexture" id="ImageTexture_t7eob"]
 image = SubResource("Image_wfgg1")
 
-[sub_resource type="QuadMesh" id="QuadMesh_4uom6"]
-material = ExtResource("26_gclks")
+[sub_resource type="QuadMesh" id="QuadMesh_wm14l"]
+material = ExtResource("23_jb1ih")
 
 [sub_resource type="Image" id="Image_jb1ih"]
 data = {
@@ -422,11 +419,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_s274k"]
+[sub_resource type="ImageTexture" id="ImageTexture_fsvdy"]
 image = SubResource("Image_jb1ih")
 
-[sub_resource type="QuadMesh" id="QuadMesh_oh0ff"]
-material = ExtResource("2_yuwb3")
+[sub_resource type="QuadMesh" id="QuadMesh_h1b2q"]
+material = ExtResource("24_h2yq8")
 orientation = 1
 
 [sub_resource type="Image" id="Image_h2yq8"]
@@ -438,11 +435,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_lrso2"]
+[sub_resource type="ImageTexture" id="ImageTexture_v6p4p"]
 image = SubResource("Image_h2yq8")
 
-[sub_resource type="QuadMesh" id="QuadMesh_icq4w"]
-material = ExtResource("27_e6do3")
+[sub_resource type="QuadMesh" id="QuadMesh_jx0i4"]
+material = ExtResource("25_wfl3w")
 
 [sub_resource type="Image" id="Image_wfl3w"]
 data = {
@@ -453,11 +450,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_jv1p2"]
+[sub_resource type="ImageTexture" id="ImageTexture_k58xh"]
 image = SubResource("Image_wfl3w")
 
-[sub_resource type="QuadMesh" id="QuadMesh_iyviq"]
-material = ExtResource("28_54vdu")
+[sub_resource type="QuadMesh" id="QuadMesh_3belx"]
+material = ExtResource("26_uyxd5")
 
 [sub_resource type="Image" id="Image_uyxd5"]
 data = {
@@ -468,11 +465,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_w26p0"]
+[sub_resource type="ImageTexture" id="ImageTexture_vhskj"]
 image = SubResource("Image_uyxd5")
 
-[sub_resource type="QuadMesh" id="QuadMesh_2bu4d"]
-material = ExtResource("29_0ajui")
+[sub_resource type="QuadMesh" id="QuadMesh_bdfrv"]
+material = ExtResource("27_poijb")
 
 [sub_resource type="Image" id="Image_poijb"]
 data = {
@@ -483,11 +480,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_ygy1v"]
+[sub_resource type="ImageTexture" id="ImageTexture_2q1rn"]
 image = SubResource("Image_poijb")
 
-[sub_resource type="QuadMesh" id="QuadMesh_rjkqn"]
-material = ExtResource("30_lq03h")
+[sub_resource type="QuadMesh" id="QuadMesh_7jera"]
+material = ExtResource("28_gclks")
 
 [sub_resource type="Image" id="Image_gclks"]
 data = {
@@ -498,11 +495,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_ufkrw"]
+[sub_resource type="ImageTexture" id="ImageTexture_fmjeo"]
 image = SubResource("Image_gclks")
 
-[sub_resource type="QuadMesh" id="QuadMesh_ghr2b"]
-material = ExtResource("31_3p6u1")
+[sub_resource type="QuadMesh" id="QuadMesh_5m6eg"]
+material = ExtResource("29_e6do3")
 
 [sub_resource type="Image" id="Image_e6do3"]
 data = {
@@ -513,11 +510,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_1o31v"]
+[sub_resource type="ImageTexture" id="ImageTexture_thof0"]
 image = SubResource("Image_e6do3")
 
-[sub_resource type="QuadMesh" id="QuadMesh_qpmkd"]
-material = ExtResource("32_ylyof")
+[sub_resource type="QuadMesh" id="QuadMesh_kq8nt"]
+material = ExtResource("30_54vdu")
 
 [sub_resource type="Image" id="Image_54vdu"]
 data = {
@@ -528,11 +525,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_hgwsd"]
+[sub_resource type="ImageTexture" id="ImageTexture_kp0lp"]
 image = SubResource("Image_54vdu")
 
-[sub_resource type="QuadMesh" id="QuadMesh_4lcc1"]
-material = ExtResource("33_jvsfj")
+[sub_resource type="QuadMesh" id="QuadMesh_j4uot"]
+material = ExtResource("31_0ajui")
 
 [sub_resource type="Image" id="Image_0ajui"]
 data = {
@@ -543,11 +540,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_2j5qd"]
+[sub_resource type="ImageTexture" id="ImageTexture_2gwm4"]
 image = SubResource("Image_0ajui")
 
-[sub_resource type="QuadMesh" id="QuadMesh_n4ild"]
-material = ExtResource("34_bfjwt")
+[sub_resource type="QuadMesh" id="QuadMesh_g8hng"]
+material = ExtResource("32_lq03h")
 
 [sub_resource type="Image" id="Image_lq03h"]
 data = {
@@ -558,11 +555,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_38yvb"]
+[sub_resource type="ImageTexture" id="ImageTexture_w4jfu"]
 image = SubResource("Image_lq03h")
 
-[sub_resource type="QuadMesh" id="QuadMesh_egtsj"]
-material = ExtResource("36_s7mdt")
+[sub_resource type="QuadMesh" id="QuadMesh_c1il3"]
+material = ExtResource("33_3p6u1")
 
 [sub_resource type="Image" id="Image_3p6u1"]
 data = {
@@ -573,11 +570,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_1finy"]
+[sub_resource type="ImageTexture" id="ImageTexture_xtwfh"]
 image = SubResource("Image_3p6u1")
 
-[sub_resource type="QuadMesh" id="QuadMesh_77hht"]
-material = ExtResource("37_o0u64")
+[sub_resource type="QuadMesh" id="QuadMesh_esmd2"]
+material = ExtResource("34_ylyof")
 
 [sub_resource type="Image" id="Image_ylyof"]
 data = {
@@ -588,11 +585,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_hh7ws"]
+[sub_resource type="ImageTexture" id="ImageTexture_bmstc"]
 image = SubResource("Image_ylyof")
 
-[sub_resource type="QuadMesh" id="QuadMesh_qcsxx"]
-material = ExtResource("13_6g2q8")
+[sub_resource type="QuadMesh" id="QuadMesh_fewt0"]
+material = ExtResource("35_jvsfj")
 orientation = 1
 
 [sub_resource type="Image" id="Image_jvsfj"]
@@ -604,11 +601,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_5g03f"]
+[sub_resource type="ImageTexture" id="ImageTexture_nqa2s"]
 image = SubResource("Image_jvsfj")
 
-[sub_resource type="QuadMesh" id="QuadMesh_7np8f"]
-material = ExtResource("38_bw5cr")
+[sub_resource type="QuadMesh" id="QuadMesh_m13rx"]
+material = ExtResource("36_bfjwt")
 
 [sub_resource type="Image" id="Image_bfjwt"]
 data = {
@@ -619,11 +616,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_fjim2"]
+[sub_resource type="ImageTexture" id="ImageTexture_pigvl"]
 image = SubResource("Image_bfjwt")
 
-[sub_resource type="QuadMesh" id="QuadMesh_272vd"]
-material = ExtResource("39_oie5l")
+[sub_resource type="QuadMesh" id="QuadMesh_wdvdp"]
+material = ExtResource("37_45ghg")
 
 [sub_resource type="Image" id="Image_45ghg"]
 data = {
@@ -634,11 +631,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_m13mc"]
+[sub_resource type="ImageTexture" id="ImageTexture_ojo0c"]
 image = SubResource("Image_45ghg")
 
-[sub_resource type="QuadMesh" id="QuadMesh_uoood"]
-material = ExtResource("40_7r3u5")
+[sub_resource type="QuadMesh" id="QuadMesh_35vn5"]
+material = ExtResource("38_s7mdt")
 
 [sub_resource type="Image" id="Image_s7mdt"]
 data = {
@@ -649,11 +646,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_3aajt"]
+[sub_resource type="ImageTexture" id="ImageTexture_l4pl5"]
 image = SubResource("Image_s7mdt")
 
-[sub_resource type="QuadMesh" id="QuadMesh_j1mj7"]
-material = ExtResource("41_y27t0")
+[sub_resource type="QuadMesh" id="QuadMesh_7lyq6"]
+material = ExtResource("39_o0u64")
 
 [sub_resource type="Image" id="Image_o0u64"]
 data = {
@@ -664,11 +661,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_6l6d7"]
+[sub_resource type="ImageTexture" id="ImageTexture_hgis3"]
 image = SubResource("Image_o0u64")
 
-[sub_resource type="QuadMesh" id="QuadMesh_rxlbv"]
-material = ExtResource("42_weq7e")
+[sub_resource type="QuadMesh" id="QuadMesh_h7dbe"]
+material = ExtResource("40_bw5cr")
 
 [sub_resource type="Image" id="Image_bw5cr"]
 data = {
@@ -679,11 +676,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_t7eob"]
+[sub_resource type="ImageTexture" id="ImageTexture_k22cf"]
 image = SubResource("Image_bw5cr")
 
-[sub_resource type="QuadMesh" id="QuadMesh_wm14l"]
-material = ExtResource("43_j4v7u")
+[sub_resource type="QuadMesh" id="QuadMesh_cyj2r"]
+material = ExtResource("41_oie5l")
 
 [sub_resource type="Image" id="Image_oie5l"]
 data = {
@@ -694,11 +691,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_fsvdy"]
+[sub_resource type="ImageTexture" id="ImageTexture_dnxri"]
 image = SubResource("Image_oie5l")
 
-[sub_resource type="QuadMesh" id="QuadMesh_h1b2q"]
-material = ExtResource("44_0n62l")
+[sub_resource type="QuadMesh" id="QuadMesh_aipoc"]
+material = ExtResource("42_7r3u5")
 
 [sub_resource type="Image" id="Image_7r3u5"]
 data = {
@@ -709,11 +706,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_v6p4p"]
+[sub_resource type="ImageTexture" id="ImageTexture_nb8yf"]
 image = SubResource("Image_7r3u5")
 
-[sub_resource type="QuadMesh" id="QuadMesh_jx0i4"]
-material = ExtResource("45_vvrwe")
+[sub_resource type="QuadMesh" id="QuadMesh_stq0j"]
+material = ExtResource("43_y27t0")
 
 [sub_resource type="Image" id="Image_y27t0"]
 data = {
@@ -724,11 +721,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_k58xh"]
+[sub_resource type="ImageTexture" id="ImageTexture_cncxa"]
 image = SubResource("Image_y27t0")
 
-[sub_resource type="QuadMesh" id="QuadMesh_3belx"]
-material = ExtResource("47_yfwla")
+[sub_resource type="QuadMesh" id="QuadMesh_a3rum"]
+material = ExtResource("44_weq7e")
 
 [sub_resource type="Image" id="Image_weq7e"]
 data = {
@@ -739,11 +736,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_vhskj"]
+[sub_resource type="ImageTexture" id="ImageTexture_j272j"]
 image = SubResource("Image_weq7e")
 
-[sub_resource type="QuadMesh" id="QuadMesh_bdfrv"]
-material = ExtResource("48_hlvpq")
+[sub_resource type="QuadMesh" id="QuadMesh_te4vc"]
+material = ExtResource("45_j4v7u")
 
 [sub_resource type="Image" id="Image_j4v7u"]
 data = {
@@ -754,11 +751,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_2q1rn"]
+[sub_resource type="ImageTexture" id="ImageTexture_iyk8k"]
 image = SubResource("Image_j4v7u")
 
-[sub_resource type="QuadMesh" id="QuadMesh_7jera"]
-material = ExtResource("54_pau5o")
+[sub_resource type="QuadMesh" id="QuadMesh_bp7ed"]
+material = ExtResource("46_0n62l")
 orientation = 1
 
 [sub_resource type="Image" id="Image_0n62l"]
@@ -770,11 +767,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_fmjeo"]
+[sub_resource type="ImageTexture" id="ImageTexture_ac2h4"]
 image = SubResource("Image_0n62l")
 
-[sub_resource type="QuadMesh" id="QuadMesh_5m6eg"]
-material = ExtResource("49_njjww")
+[sub_resource type="QuadMesh" id="QuadMesh_yfpik"]
+material = ExtResource("47_vvrwe")
 
 [sub_resource type="Image" id="Image_vvrwe"]
 data = {
@@ -785,11 +782,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_thof0"]
+[sub_resource type="ImageTexture" id="ImageTexture_otpak"]
 image = SubResource("Image_vvrwe")
 
-[sub_resource type="QuadMesh" id="QuadMesh_kq8nt"]
-material = ExtResource("50_nt1nw")
+[sub_resource type="QuadMesh" id="QuadMesh_rfap8"]
+material = ExtResource("48_k53u1")
 
 [sub_resource type="Image" id="Image_k53u1"]
 data = {
@@ -800,11 +797,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_kp0lp"]
+[sub_resource type="ImageTexture" id="ImageTexture_vd4uy"]
 image = SubResource("Image_k53u1")
 
-[sub_resource type="QuadMesh" id="QuadMesh_j4uot"]
-material = ExtResource("51_8gkeu")
+[sub_resource type="QuadMesh" id="QuadMesh_8inrv"]
+material = ExtResource("49_yfwla")
 
 [sub_resource type="Image" id="Image_yfwla"]
 data = {
@@ -815,11 +812,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_2gwm4"]
+[sub_resource type="ImageTexture" id="ImageTexture_lrk55"]
 image = SubResource("Image_yfwla")
 
-[sub_resource type="QuadMesh" id="QuadMesh_g8hng"]
-material = ExtResource("52_spwsw")
+[sub_resource type="QuadMesh" id="QuadMesh_mpwd5"]
+material = ExtResource("50_hlvpq")
 orientation = 1
 
 [sub_resource type="Image" id="Image_hlvpq"]
@@ -831,14 +828,14 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_w4jfu"]
+[sub_resource type="ImageTexture" id="ImageTexture_otfyp"]
 image = SubResource("Image_hlvpq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_afby8"]
 size = Vector3(1, 0.01, 1)
 
-[sub_resource type="QuadMesh" id="QuadMesh_c1il3"]
-material = ExtResource("55_qdsp0")
+[sub_resource type="QuadMesh" id="QuadMesh_unac2"]
+material = ExtResource("51_njjww")
 orientation = 1
 
 [sub_resource type="Image" id="Image_njjww"]
@@ -850,11 +847,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_xtwfh"]
+[sub_resource type="ImageTexture" id="ImageTexture_86410"]
 image = SubResource("Image_njjww")
 
-[sub_resource type="QuadMesh" id="QuadMesh_esmd2"]
-material = ExtResource("56_sgs5i")
+[sub_resource type="QuadMesh" id="QuadMesh_0pcv0"]
+material = ExtResource("52_nt1nw")
 orientation = 1
 
 [sub_resource type="Image" id="Image_nt1nw"]
@@ -866,11 +863,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_bmstc"]
+[sub_resource type="ImageTexture" id="ImageTexture_byrwi"]
 image = SubResource("Image_nt1nw")
 
-[sub_resource type="QuadMesh" id="QuadMesh_fewt0"]
-material = ExtResource("3_eoryf")
+[sub_resource type="QuadMesh" id="QuadMesh_cw0x2"]
+material = ExtResource("53_8gkeu")
 orientation = 1
 
 [sub_resource type="Image" id="Image_8gkeu"]
@@ -882,11 +879,11 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_nqa2s"]
+[sub_resource type="ImageTexture" id="ImageTexture_2o8a7"]
 image = SubResource("Image_8gkeu")
 
-[sub_resource type="QuadMesh" id="QuadMesh_m13rx"]
-material = ExtResource("4_si3xr")
+[sub_resource type="QuadMesh" id="QuadMesh_aw0m7"]
+material = ExtResource("54_spwsw")
 orientation = 1
 
 [sub_resource type="Image" id="Image_spwsw"]
@@ -898,439 +895,439 @@ data = {
 "width": 64
 }
 
-[sub_resource type="ImageTexture" id="ImageTexture_pigvl"]
+[sub_resource type="ImageTexture" id="ImageTexture_7lqc8"]
 image = SubResource("Image_spwsw")
 
 [resource]
 item/0/name = "Ceiling"
-item/0/mesh = SubResource("QuadMesh_bm5q3")
+item/0/mesh = SubResource("QuadMesh_4n1qb")
 item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/mesh_cast_shadow = 0
 item/0/shapes = []
 item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/0/navigation_layers = 1
-item/0/preview = SubResource("ImageTexture_2bfbj")
+item/0/preview = SubResource("ImageTexture_qdsp0")
 item/1/name = "CeilingBl"
-item/1/mesh = SubResource("QuadMesh_yuwb3")
+item/1/mesh = SubResource("QuadMesh_sgs5i")
 item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/1/mesh_cast_shadow = 0
 item/1/shapes = []
 item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/1/navigation_layers = 1
-item/1/preview = SubResource("ImageTexture_si3xr")
+item/1/preview = SubResource("ImageTexture_62ej5")
 item/2/name = "CeilingBr"
-item/2/mesh = SubResource("QuadMesh_45ghg")
+item/2/mesh = SubResource("QuadMesh_4lcc1")
 item/2/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/2/mesh_cast_shadow = 0
 item/2/shapes = []
 item/2/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/2/navigation_layers = 1
-item/2/preview = SubResource("ImageTexture_o0u64")
+item/2/preview = SubResource("ImageTexture_2j5qd")
 item/3/name = "CeilingTl"
-item/3/mesh = SubResource("QuadMesh_oh0ff")
+item/3/mesh = SubResource("QuadMesh_h1b2q")
 item/3/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/3/mesh_cast_shadow = 0
 item/3/shapes = []
 item/3/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/3/navigation_layers = 1
-item/3/preview = SubResource("ImageTexture_lrso2")
+item/3/preview = SubResource("ImageTexture_v6p4p")
 item/4/name = "CeilingTr"
-item/4/mesh = SubResource("QuadMesh_qcsxx")
+item/4/mesh = SubResource("QuadMesh_fewt0")
 item/4/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/4/mesh_cast_shadow = 0
 item/4/shapes = []
 item/4/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/4/navigation_layers = 1
-item/4/preview = SubResource("ImageTexture_5g03f")
+item/4/preview = SubResource("ImageTexture_nqa2s")
 item/5/name = "BorderFloorB"
-item/5/mesh = SubResource("QuadMesh_7jera")
+item/5/mesh = SubResource("QuadMesh_bp7ed")
 item/5/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/5/mesh_cast_shadow = 0
-item/5/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/5/shapes = []
 item/5/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/5/navigation_layers = 1
-item/5/preview = SubResource("ImageTexture_fmjeo")
+item/5/preview = SubResource("ImageTexture_ac2h4")
 item/6/name = "BorderFloorBl"
-item/6/mesh = SubResource("QuadMesh_c1il3")
+item/6/mesh = SubResource("QuadMesh_unac2")
 item/6/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/6/mesh_cast_shadow = 0
-item/6/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/6/shapes = []
 item/6/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/6/navigation_layers = 1
-item/6/preview = SubResource("ImageTexture_xtwfh")
+item/6/preview = SubResource("ImageTexture_86410")
 item/7/name = "BorderFloorBr"
-item/7/mesh = SubResource("QuadMesh_esmd2")
+item/7/mesh = SubResource("QuadMesh_0pcv0")
 item/7/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/7/mesh_cast_shadow = 0
-item/7/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/7/shapes = []
 item/7/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/7/navigation_layers = 1
-item/7/preview = SubResource("ImageTexture_bmstc")
+item/7/preview = SubResource("ImageTexture_byrwi")
 item/8/name = "BorderFloorMl"
-item/8/mesh = SubResource("QuadMesh_fewt0")
+item/8/mesh = SubResource("QuadMesh_cw0x2")
 item/8/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/8/mesh_cast_shadow = 0
-item/8/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/8/shapes = []
 item/8/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/8/navigation_layers = 1
-item/8/preview = SubResource("ImageTexture_nqa2s")
+item/8/preview = SubResource("ImageTexture_2o8a7")
 item/9/name = "BorderFloorBl2"
-item/9/mesh = SubResource("QuadMesh_m13rx")
+item/9/mesh = SubResource("QuadMesh_aw0m7")
 item/9/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/9/mesh_cast_shadow = 0
-item/9/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/9/shapes = []
 item/9/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/9/navigation_layers = 1
-item/9/preview = SubResource("ImageTexture_pigvl")
+item/9/preview = SubResource("ImageTexture_7lqc8")
 item/10/name = "BorderFloorT"
-item/10/mesh = SubResource("QuadMesh_rosl6")
+item/10/mesh = SubResource("QuadMesh_ixurp")
 item/10/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/10/mesh_cast_shadow = 0
-item/10/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/10/shapes = []
 item/10/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/10/navigation_layers = 1
-item/10/preview = SubResource("ImageTexture_khgfu")
+item/10/preview = SubResource("ImageTexture_us3ks")
 item/11/name = "BorderFloorTl"
-item/11/mesh = SubResource("QuadMesh_acxyg")
+item/11/mesh = SubResource("QuadMesh_dde4b")
 item/11/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/11/mesh_cast_shadow = 0
-item/11/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/11/shapes = []
 item/11/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/11/navigation_layers = 1
-item/11/preview = SubResource("ImageTexture_c7vfl")
+item/11/preview = SubResource("ImageTexture_603s2")
 item/12/name = "BorderFloorTr"
-item/12/mesh = SubResource("QuadMesh_t3siq")
+item/12/mesh = SubResource("QuadMesh_4uom6")
 item/12/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/12/mesh_cast_shadow = 0
-item/12/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/12/shapes = []
 item/12/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/12/navigation_layers = 1
-item/12/preview = SubResource("ImageTexture_6g2q8")
+item/12/preview = SubResource("ImageTexture_s274k")
 item/13/name = "StoneFloor1Bl"
-item/13/mesh = SubResource("QuadMesh_uqamp")
+item/13/mesh = SubResource("QuadMesh_oh0ff")
 item/13/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/13/mesh_cast_shadow = 0
-item/13/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/13/shapes = []
 item/13/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/13/navigation_layers = 1
-item/13/preview = SubResource("ImageTexture_h4w6f")
+item/13/preview = SubResource("ImageTexture_lrso2")
 item/14/name = "StoneFloor1Br"
-item/14/mesh = SubResource("QuadMesh_5bj31")
+item/14/mesh = SubResource("QuadMesh_icq4w")
 item/14/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/14/mesh_cast_shadow = 0
-item/14/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/14/shapes = []
 item/14/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/14/navigation_layers = 1
-item/14/preview = SubResource("ImageTexture_grhsk")
+item/14/preview = SubResource("ImageTexture_jv1p2")
 item/15/name = "StoneFloor1Tl"
-item/15/mesh = SubResource("QuadMesh_wfgg1")
+item/15/mesh = SubResource("QuadMesh_iyviq")
 item/15/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/15/mesh_cast_shadow = 0
-item/15/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/15/shapes = []
 item/15/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/15/navigation_layers = 1
-item/15/preview = SubResource("ImageTexture_h2yq8")
+item/15/preview = SubResource("ImageTexture_w26p0")
 item/16/name = "StoneFloor1Tr"
-item/16/mesh = SubResource("QuadMesh_wfl3w")
+item/16/mesh = SubResource("QuadMesh_2bu4d")
 item/16/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/16/mesh_cast_shadow = 0
-item/16/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/16/shapes = []
 item/16/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/16/navigation_layers = 1
-item/16/preview = SubResource("ImageTexture_poijb")
+item/16/preview = SubResource("ImageTexture_ygy1v")
 item/17/name = "StoneFloor2Bl"
-item/17/mesh = SubResource("QuadMesh_gclks")
+item/17/mesh = SubResource("QuadMesh_rjkqn")
 item/17/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/17/mesh_cast_shadow = 0
-item/17/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/17/shapes = []
 item/17/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/17/navigation_layers = 1
-item/17/preview = SubResource("ImageTexture_54vdu")
+item/17/preview = SubResource("ImageTexture_ufkrw")
 item/18/name = "StoneFloor2Br"
-item/18/mesh = SubResource("QuadMesh_0ajui")
+item/18/mesh = SubResource("QuadMesh_ghr2b")
 item/18/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/18/mesh_cast_shadow = 0
-item/18/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/18/shapes = []
 item/18/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/18/navigation_layers = 1
-item/18/preview = SubResource("ImageTexture_3p6u1")
+item/18/preview = SubResource("ImageTexture_1o31v")
 item/19/name = "StoneFloor2Tl"
-item/19/mesh = SubResource("QuadMesh_ylyof")
+item/19/mesh = SubResource("QuadMesh_qpmkd")
 item/19/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/19/mesh_cast_shadow = 0
-item/19/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/19/shapes = []
 item/19/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/19/navigation_layers = 1
-item/19/preview = SubResource("ImageTexture_bfjwt")
+item/19/preview = SubResource("ImageTexture_hgwsd")
 item/20/name = "StoneFloor2Tr"
-item/20/mesh = SubResource("QuadMesh_bw5cr")
+item/20/mesh = SubResource("QuadMesh_n4ild")
 item/20/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/20/mesh_cast_shadow = 0
-item/20/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/20/shapes = []
 item/20/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/20/navigation_layers = 1
-item/20/preview = SubResource("ImageTexture_7r3u5")
+item/20/preview = SubResource("ImageTexture_38yvb")
 item/21/name = "StoneFloor3Bl"
-item/21/mesh = SubResource("QuadMesh_y27t0")
+item/21/mesh = SubResource("QuadMesh_egtsj")
 item/21/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/21/mesh_cast_shadow = 0
-item/21/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/21/shapes = []
 item/21/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/21/navigation_layers = 1
-item/21/preview = SubResource("ImageTexture_j4v7u")
+item/21/preview = SubResource("ImageTexture_1finy")
 item/22/name = "StoneFloor3Br"
-item/22/mesh = SubResource("QuadMesh_0n62l")
+item/22/mesh = SubResource("QuadMesh_77hht")
 item/22/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/22/mesh_cast_shadow = 0
-item/22/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/22/shapes = []
 item/22/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/22/navigation_layers = 1
-item/22/preview = SubResource("ImageTexture_k53u1")
+item/22/preview = SubResource("ImageTexture_hh7ws")
 item/23/name = "StoneFloor3Tl"
-item/23/mesh = SubResource("QuadMesh_yfwla")
+item/23/mesh = SubResource("QuadMesh_qcsxx")
 item/23/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/23/mesh_cast_shadow = 0
-item/23/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/23/shapes = []
 item/23/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/23/navigation_layers = 1
-item/23/preview = SubResource("ImageTexture_njjww")
+item/23/preview = SubResource("ImageTexture_5g03f")
 item/24/name = "StoneFloor3Tr"
-item/24/mesh = SubResource("QuadMesh_nt1nw")
+item/24/mesh = SubResource("QuadMesh_7np8f")
 item/24/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/24/mesh_cast_shadow = 0
-item/24/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/24/shapes = []
 item/24/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/24/navigation_layers = 1
-item/24/preview = SubResource("ImageTexture_spwsw")
+item/24/preview = SubResource("ImageTexture_fjim2")
 item/25/name = "StoneFloor4Bl"
-item/25/mesh = SubResource("QuadMesh_4n1qb")
+item/25/mesh = SubResource("QuadMesh_272vd")
 item/25/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/25/mesh_cast_shadow = 0
-item/25/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/25/shapes = []
 item/25/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/25/navigation_layers = 1
-item/25/preview = SubResource("ImageTexture_qdsp0")
+item/25/preview = SubResource("ImageTexture_m13mc")
 item/26/name = "StoneFloor4Br"
-item/26/mesh = SubResource("QuadMesh_sgs5i")
+item/26/mesh = SubResource("QuadMesh_uoood")
 item/26/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/26/mesh_cast_shadow = 0
-item/26/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/26/shapes = []
 item/26/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/26/navigation_layers = 1
-item/26/preview = SubResource("ImageTexture_62ej5")
+item/26/preview = SubResource("ImageTexture_3aajt")
 item/27/name = "StoneFloor4Tl"
-item/27/mesh = SubResource("QuadMesh_ixurp")
+item/27/mesh = SubResource("QuadMesh_j1mj7")
 item/27/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/27/mesh_cast_shadow = 0
-item/27/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/27/shapes = []
 item/27/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/27/navigation_layers = 1
-item/27/preview = SubResource("ImageTexture_us3ks")
+item/27/preview = SubResource("ImageTexture_6l6d7")
 item/28/name = "StoneFloor4Tr"
-item/28/mesh = SubResource("QuadMesh_dde4b")
+item/28/mesh = SubResource("QuadMesh_rxlbv")
 item/28/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 item/28/mesh_cast_shadow = 0
-item/28/shapes = [SubResource("BoxShape3D_8okjd"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)]
+item/28/shapes = []
 item/28/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/28/navigation_layers = 1
-item/28/preview = SubResource("ImageTexture_603s2")
+item/28/preview = SubResource("ImageTexture_t7eob")
 item/29/name = "Wall1Bl"
-item/29/mesh = SubResource("QuadMesh_4uom6")
+item/29/mesh = SubResource("QuadMesh_wm14l")
 item/29/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/29/mesh_cast_shadow = 0
 item/29/shapes = []
 item/29/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/29/navigation_layers = 1
-item/29/preview = SubResource("ImageTexture_s274k")
+item/29/preview = SubResource("ImageTexture_fsvdy")
 item/30/name = "Wall1Br"
-item/30/mesh = SubResource("QuadMesh_icq4w")
+item/30/mesh = SubResource("QuadMesh_jx0i4")
 item/30/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/30/mesh_cast_shadow = 0
 item/30/shapes = []
 item/30/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/30/navigation_layers = 1
-item/30/preview = SubResource("ImageTexture_jv1p2")
+item/30/preview = SubResource("ImageTexture_k58xh")
 item/31/name = "Wall1Ml"
-item/31/mesh = SubResource("QuadMesh_iyviq")
+item/31/mesh = SubResource("QuadMesh_3belx")
 item/31/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/31/mesh_cast_shadow = 0
 item/31/shapes = []
 item/31/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/31/navigation_layers = 1
-item/31/preview = SubResource("ImageTexture_w26p0")
+item/31/preview = SubResource("ImageTexture_vhskj")
 item/32/name = "Wall1Mr"
-item/32/mesh = SubResource("QuadMesh_2bu4d")
+item/32/mesh = SubResource("QuadMesh_bdfrv")
 item/32/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/32/mesh_cast_shadow = 0
 item/32/shapes = []
 item/32/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/32/navigation_layers = 1
-item/32/preview = SubResource("ImageTexture_ygy1v")
+item/32/preview = SubResource("ImageTexture_2q1rn")
 item/33/name = "Wall1Tl"
-item/33/mesh = SubResource("QuadMesh_rjkqn")
+item/33/mesh = SubResource("QuadMesh_7jera")
 item/33/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/33/mesh_cast_shadow = 0
 item/33/shapes = []
 item/33/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/33/navigation_layers = 1
-item/33/preview = SubResource("ImageTexture_ufkrw")
+item/33/preview = SubResource("ImageTexture_fmjeo")
 item/34/name = "Wall1Tr"
-item/34/mesh = SubResource("QuadMesh_ghr2b")
+item/34/mesh = SubResource("QuadMesh_5m6eg")
 item/34/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/34/mesh_cast_shadow = 0
 item/34/shapes = []
 item/34/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/34/navigation_layers = 1
-item/34/preview = SubResource("ImageTexture_1o31v")
+item/34/preview = SubResource("ImageTexture_thof0")
 item/35/name = "Wall2Bl"
-item/35/mesh = SubResource("QuadMesh_qpmkd")
+item/35/mesh = SubResource("QuadMesh_kq8nt")
 item/35/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/35/mesh_cast_shadow = 0
 item/35/shapes = []
 item/35/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/35/navigation_layers = 1
-item/35/preview = SubResource("ImageTexture_hgwsd")
+item/35/preview = SubResource("ImageTexture_kp0lp")
 item/36/name = "Wall2Br"
-item/36/mesh = SubResource("QuadMesh_4lcc1")
+item/36/mesh = SubResource("QuadMesh_j4uot")
 item/36/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/36/mesh_cast_shadow = 0
 item/36/shapes = []
 item/36/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/36/navigation_layers = 1
-item/36/preview = SubResource("ImageTexture_2j5qd")
+item/36/preview = SubResource("ImageTexture_2gwm4")
 item/37/name = "Wall2Ml"
-item/37/mesh = SubResource("QuadMesh_n4ild")
+item/37/mesh = SubResource("QuadMesh_g8hng")
 item/37/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/37/mesh_cast_shadow = 0
 item/37/shapes = []
 item/37/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/37/navigation_layers = 1
-item/37/preview = SubResource("ImageTexture_38yvb")
+item/37/preview = SubResource("ImageTexture_w4jfu")
 item/38/name = "Wall2Mr"
-item/38/mesh = SubResource("QuadMesh_egtsj")
+item/38/mesh = SubResource("QuadMesh_c1il3")
 item/38/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/38/mesh_cast_shadow = 0
 item/38/shapes = []
 item/38/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/38/navigation_layers = 1
-item/38/preview = SubResource("ImageTexture_1finy")
+item/38/preview = SubResource("ImageTexture_xtwfh")
 item/39/name = "Wall2Tl"
-item/39/mesh = SubResource("QuadMesh_77hht")
+item/39/mesh = SubResource("QuadMesh_esmd2")
 item/39/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/39/mesh_cast_shadow = 0
 item/39/shapes = []
 item/39/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/39/navigation_layers = 1
-item/39/preview = SubResource("ImageTexture_hh7ws")
+item/39/preview = SubResource("ImageTexture_bmstc")
 item/40/name = "Wall2Tr"
-item/40/mesh = SubResource("QuadMesh_7np8f")
+item/40/mesh = SubResource("QuadMesh_m13rx")
 item/40/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/40/mesh_cast_shadow = 0
 item/40/shapes = []
 item/40/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/40/navigation_layers = 1
-item/40/preview = SubResource("ImageTexture_fjim2")
+item/40/preview = SubResource("ImageTexture_pigvl")
 item/41/name = "Wall3Bl"
-item/41/mesh = SubResource("QuadMesh_272vd")
+item/41/mesh = SubResource("QuadMesh_wdvdp")
 item/41/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/41/mesh_cast_shadow = 0
 item/41/shapes = []
 item/41/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/41/navigation_layers = 1
-item/41/preview = SubResource("ImageTexture_m13mc")
+item/41/preview = SubResource("ImageTexture_ojo0c")
 item/42/name = "Wall3Br"
-item/42/mesh = SubResource("QuadMesh_uoood")
+item/42/mesh = SubResource("QuadMesh_35vn5")
 item/42/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/42/mesh_cast_shadow = 0
 item/42/shapes = []
 item/42/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/42/navigation_layers = 1
-item/42/preview = SubResource("ImageTexture_3aajt")
+item/42/preview = SubResource("ImageTexture_l4pl5")
 item/43/name = "Wall3Ml"
-item/43/mesh = SubResource("QuadMesh_j1mj7")
+item/43/mesh = SubResource("QuadMesh_7lyq6")
 item/43/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/43/mesh_cast_shadow = 0
 item/43/shapes = []
 item/43/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/43/navigation_layers = 1
-item/43/preview = SubResource("ImageTexture_6l6d7")
+item/43/preview = SubResource("ImageTexture_hgis3")
 item/44/name = "Wall3Mr"
-item/44/mesh = SubResource("QuadMesh_rxlbv")
+item/44/mesh = SubResource("QuadMesh_h7dbe")
 item/44/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/44/mesh_cast_shadow = 0
 item/44/shapes = []
 item/44/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/44/navigation_layers = 1
-item/44/preview = SubResource("ImageTexture_t7eob")
+item/44/preview = SubResource("ImageTexture_k22cf")
 item/45/name = "Wall3Tl"
-item/45/mesh = SubResource("QuadMesh_wm14l")
+item/45/mesh = SubResource("QuadMesh_cyj2r")
 item/45/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/45/mesh_cast_shadow = 0
 item/45/shapes = []
 item/45/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/45/navigation_layers = 1
-item/45/preview = SubResource("ImageTexture_fsvdy")
+item/45/preview = SubResource("ImageTexture_dnxri")
 item/46/name = "Wall3Tr"
-item/46/mesh = SubResource("QuadMesh_h1b2q")
+item/46/mesh = SubResource("QuadMesh_aipoc")
 item/46/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/46/mesh_cast_shadow = 0
 item/46/shapes = []
 item/46/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/46/navigation_layers = 1
-item/46/preview = SubResource("ImageTexture_v6p4p")
+item/46/preview = SubResource("ImageTexture_nb8yf")
 item/47/name = "Wall4Bl"
-item/47/mesh = SubResource("QuadMesh_jx0i4")
+item/47/mesh = SubResource("QuadMesh_stq0j")
 item/47/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/47/mesh_cast_shadow = 0
 item/47/shapes = []
 item/47/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/47/navigation_layers = 1
-item/47/preview = SubResource("ImageTexture_k58xh")
+item/47/preview = SubResource("ImageTexture_cncxa")
 item/48/name = "Wall4Br"
-item/48/mesh = SubResource("QuadMesh_3belx")
+item/48/mesh = SubResource("QuadMesh_a3rum")
 item/48/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/48/mesh_cast_shadow = 0
 item/48/shapes = []
 item/48/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/48/navigation_layers = 1
-item/48/preview = SubResource("ImageTexture_vhskj")
+item/48/preview = SubResource("ImageTexture_j272j")
 item/49/name = "Wall4Ml"
-item/49/mesh = SubResource("QuadMesh_bdfrv")
+item/49/mesh = SubResource("QuadMesh_te4vc")
 item/49/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/49/mesh_cast_shadow = 0
 item/49/shapes = []
 item/49/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/49/navigation_layers = 1
-item/49/preview = SubResource("ImageTexture_2q1rn")
+item/49/preview = SubResource("ImageTexture_iyk8k")
 item/50/name = "Wall4Mr"
-item/50/mesh = SubResource("QuadMesh_5m6eg")
+item/50/mesh = SubResource("QuadMesh_yfpik")
 item/50/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/50/mesh_cast_shadow = 0
 item/50/shapes = []
 item/50/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/50/navigation_layers = 1
-item/50/preview = SubResource("ImageTexture_thof0")
+item/50/preview = SubResource("ImageTexture_otpak")
 item/51/name = "Wall4Tl"
-item/51/mesh = SubResource("QuadMesh_kq8nt")
+item/51/mesh = SubResource("QuadMesh_rfap8")
 item/51/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/51/mesh_cast_shadow = 0
 item/51/shapes = []
 item/51/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/51/navigation_layers = 1
-item/51/preview = SubResource("ImageTexture_kp0lp")
+item/51/preview = SubResource("ImageTexture_vd4uy")
 item/52/name = "Wall4Tr"
-item/52/mesh = SubResource("QuadMesh_j4uot")
+item/52/mesh = SubResource("QuadMesh_8inrv")
 item/52/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
 item/52/mesh_cast_shadow = 0
 item/52/shapes = []
 item/52/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/52/navigation_layers = 1
-item/52/preview = SubResource("ImageTexture_2gwm4")
+item/52/preview = SubResource("ImageTexture_lrk55")
 item/53/name = "StairTileTemplate"
-item/53/mesh = SubResource("QuadMesh_g8hng")
+item/53/mesh = SubResource("QuadMesh_mpwd5")
 item/53/mesh_transform = Transform3D(1, 0, 0, 0, 0.707107, -0.989949, 0, 0.707107, 0.989949, 0, 0.5, 0)
 item/53/mesh_cast_shadow = 0
 item/53/shapes = [SubResource("BoxShape3D_afby8"), Transform3D(1, 0, 0, 0, 0.707107, -0.989949, 0, 0.707107, 0.989949, 0, 0.5, 0)]
 item/53/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/53/navigation_layers = 1
-item/53/preview = SubResource("ImageTexture_w4jfu")
+item/53/preview = SubResource("ImageTexture_otfyp")
