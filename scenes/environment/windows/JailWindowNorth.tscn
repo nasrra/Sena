@@ -16,14 +16,14 @@ disable_receive_shadows = true
 [node name="JailWindowNorth" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.45, 0, 0, 0, 0.4, 0, 1.25, 0.05)
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.4, 0, 1.35, 0.05)
 cast_shadow = 2
 shaded = true
 alpha_cut = 2
 texture = ExtResource("1_vy4x2")
 
 [node name="Sprite3D2" type="Sprite3D" parent="."]
-transform = Transform3D(0.375, 0, 0, 0, 0.48, 0, 0, 0, 1, 0.0149999, 0.967, -0.353)
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 1, 0.0149999, 0.967, -0.353)
 material_override = SubResource("StandardMaterial3D_s7ois")
 cast_shadow = 0
 double_sided = false
@@ -48,6 +48,6 @@ light_energy = 1.67
 spot_angle = 21.5065
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0119629, 0.774445, -0.260124)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0119629, 0.876945, -0.260124)
 cast_shadow = 3
-size = Vector3(1.356, 0.545, 0.1)
+size = Vector3(1.356, 0.75, 0.1)

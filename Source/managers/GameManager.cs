@@ -8,6 +8,8 @@ public partial class GameManager : Node{
 	public GameState State {get; private set;}
 
 	private event Action OnPauseInput = null;
+	[Export] private SubViewport gameViewPort;
+
 
 	/// 
 	/// Base.
@@ -31,6 +33,10 @@ public partial class GameManager : Node{
 		base._ExitTree();
 		Singleton = null;
 		UnlinkEvents();
+	}
+
+	public override void _Process(double delta){
+		DebugDraw3D.ScopedConfig().SetViewport(gameViewPort);
 	}
 
 
@@ -72,6 +78,7 @@ public partial class GameManager : Node{
 	public void PauseMenuState(){
 		State = GameState.PauseMenu;
 
+		GD.Print("recieved");
 		if(GetGameplayUi(out GameplayGui ui)==false){
 			return;
 		}
@@ -121,7 +128,6 @@ public partial class GameManager : Node{
 
 
 	private void InvokeOnPauseInput(){
-		GD.Print("recieved");
 		OnPauseInput?.Invoke();
 	}
 }

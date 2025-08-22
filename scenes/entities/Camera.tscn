@@ -5,8 +5,10 @@
 [ext_resource type="Script" uid="uid://cm22hkw5lvyyu" path="res://source/shaders/VignetteShaderController.cs" id="3_mhmh1"]
 
 [node name="Camera" type="Camera3D" node_paths=PackedStringArray("Vignette", "fadeTransition", "fadeTimer", "shakeTimer")]
+keep_aspect = 0
 projection = 1
-size = 8.0
+current = true
+size = 12.0
 near = 0.001
 far = 220.84
 script = ExtResource("1_e6e23")

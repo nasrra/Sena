@@ -212,3 +212,7 @@ DebugCameraZoom={
 2d_physics/layer_8="Pitfall"
 2d_physics/layer_9="PassThroughEnvironment"
 2d_physics/layer_10="AvoidancePoint"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)

@@ -32,8 +32,10 @@ public partial class CameraController : Camera3D{
 		base._Ready();
 		rng = new RandomNumberGenerator();
 
+
+		Scale = new Vector3(0.7071f, 1, 1); // horizontal squish
+
 		// set alpha to full for one frame rule in SceneManager when loading new scene with transition.
-		
 	}
 
 	public override void _EnterTree(){
@@ -55,27 +57,6 @@ public partial class CameraController : Camera3D{
 
 		CallDeferred("UpdateCamera", (float)delta);
 	}
-
-
-
-	public override void _Input(InputEvent @event){
-		#if TOOLS
-
-		if (@event is InputEventMouseButton mouseEvent)
-		{
-			if (mouseEvent.ButtonIndex == MouseButton.WheelDown && mouseEvent.Pressed)
-			{
-				Size *= 1.1f; // Zoom out
-			}
-			else if (mouseEvent.ButtonIndex == MouseButton.WheelUp && mouseEvent.Pressed)
-			{
-				Size *= 0.9f; // Zoom in
-			}
-		}
-
-		#endif
-	}
-
 
 	public override void _PhysicsProcess(double delta){
 		base._PhysicsProcess(delta);
@@ -160,6 +141,13 @@ public partial class CameraController : Camera3D{
 		FadeToBlack(0.33f);
 	}
 
+	private void OnZoomInCallback(){
+		Size *= 0.95f;
+	}
+
+	private void OnZoomOutCallback(){
+		Size *= 1.05f;
+	}
 
 	///
 	/// Linkage.
@@ -171,6 +159,8 @@ public partial class CameraController : Camera3D{
 		fadeTimer.Timeout += StopFadeTransition;
 		SceneManager.Instance.OnScene3DLoaded += LevelEnterTransition;
 		SceneManager.Instance.OnScene3DDelayedLoadSet += LevelExitTransition;
+		InputManager.Singleton.OnZoomInInput 	+= OnZoomInCallback;
+		InputManager.Singleton.OnZoomOutInput 	+= OnZoomOutCallback;
 	}
 
 	private void UnlinkEvents(){
@@ -178,5 +168,7 @@ public partial class CameraController : Camera3D{
 		fadeTimer.Timeout -= StopFadeTransition;
 		SceneManager.Instance.OnScene3DLoaded -= LevelEnterTransition;
 		SceneManager.Instance.OnScene3DDelayedLoadSet -= LevelExitTransition;
+		InputManager.Singleton.OnZoomInInput 	-= OnZoomInCallback;
+		InputManager.Singleton.OnZoomOutInput 	-= OnZoomOutCallback;
 	}
 }

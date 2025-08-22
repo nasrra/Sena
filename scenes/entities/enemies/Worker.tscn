@@ -45,7 +45,7 @@ visible = false
 Capability = 8
 
 [node name="AnimatedSprite3D" parent="." index="9"]
-transform = Transform3D(0.6, 0, 0, 0, 0.9, 0, 0, 0, 1, 0, 1.0587, 0)
+transform = Transform3D(0.6, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 0.830915, 0)
 material_overlay = ExtResource("3_ayerf")
 sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"

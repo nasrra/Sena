@@ -25,7 +25,7 @@ script = ExtResource("1_6b3l8")
 sprite = NodePath("../Sprite3D")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.282843, 0.282843, 0, -0.282843, 0.282843, 0, 0.726, -0.23)
+transform = Transform3D(0.4, 0, 0, 0, 0.212132, 0.282843, 0, -0.212132, 0.282843, 0, 0.54757, -0.0367992)
 material_override = SubResource("StandardMaterial3D_l40or")
 cast_shadow = 0
 shaded = true
@@ -39,7 +39,7 @@ cast_shadow = 3
 size = Vector3(1, 0.1, 1)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.05)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32583, 0.05)
 cast_shadow = 3
 flip_faces = true
-size = Vector3(1, 0.9, 0.9)
+size = Vector3(1, 0.65166, 0.9)

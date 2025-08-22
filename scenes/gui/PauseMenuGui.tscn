@@ -37,9 +37,9 @@ theme_override_font_sizes/font_size = 72
 text = "Pause Menu"
 
 [node name="VolumeSlider" parent="." instance=ExtResource("1_i4ol6")]
-offset_left = 1012.0
+offset_left = 929.0
 offset_top = 310.0
-offset_right = 1052.0
+offset_right = 969.0
 offset_bottom = 350.0
 audioBus = "Master"
 
@@ -48,9 +48,9 @@ text = "Master Volume"
 
 [node name="Grid Container" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 706.0
+offset_left = 623.0
 offset_top = 267.0
-offset_right = 898.0
+offset_right = 815.0
 offset_bottom = 991.0
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
@@ -156,9 +156,9 @@ isGamepad = true
 
 [node name="Grid Container2" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 390.0
+offset_left = 307.0
 offset_top = 269.0
-offset_right = 582.0
+offset_right = 499.0
 offset_bottom = 993.0
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16

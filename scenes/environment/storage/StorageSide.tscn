@@ -14,7 +14,7 @@ size = Vector3(0.8, 1, 2.5)
 [node name="StorageSide" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.265165, 0.282843, 0, -0.265165, 0.282843, -0.05, 1.21206, -1.19869)
+transform = Transform3D(0.4, 0, 0, 0, 0.212132, 0.282843, 0, -0.212132, 0.282843, -0.05, 0.957, -0.954)
 material_override = SubResource("StandardMaterial3D_srkvl")
 cast_shadow = 0
 shaded = true

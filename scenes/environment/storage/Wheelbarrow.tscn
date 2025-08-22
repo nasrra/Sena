@@ -6,7 +6,7 @@
 [node name="Wheelbarrow" type="Node3D"]
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.35, 0, 0, 0, 0.247487, 0.247487, 0, -0.247487, 0.247487, 0, 0.5, -0.585)
+transform = Transform3D(0.35, 0, 0, 0, 0.185969, 0.247487, 0, -0.185969, 0.247487, 0, 0.368228, -0.446994)
 shaded = true
 double_sided = false
 texture = ExtResource("1_rniop")
@@ -14,36 +14,35 @@ texture = ExtResource("1_rniop")
 [node name="Shadows" type="Node3D" parent="."]
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Shadows"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206, 0.5, -0.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206, 0.401725, -0.75)
 cast_shadow = 3
 flip_faces = true
-height = 1.0
+height = 0.8
 sides = 16
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Shadows"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.25, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.192698, -0.25)
 cast_shadow = 3
 flip_faces = true
-radius = 0.15
-height = 0.5
+radius = 0.125
+height = 0.4
 sides = 16
 
 [node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Shadows"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206, 0.05, -0.75)
 cast_shadow = 3
-radius = 0.55
 height = 0.1
 sides = 16
 
 [node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Shadows"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.05, -0.25)
 cast_shadow = 3
-radius = 0.25
+radius = 0.2
 height = 0.1
 sides = 16
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(0.741381, 0, 0.382271, 0, 0.885, 0, -0.4833, 0, 0.586403, -0.345, 0.5, -0.7)
+transform = Transform3D(0.741381, 0, 0.382271, 0, 0.885, 0, -0.4833, 0, 0.586403, -0.345, 0.5, -0.59703)
 transparency = 1.0
 cast_shadow = 0
 use_collision = true

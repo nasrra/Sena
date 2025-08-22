@@ -12,6 +12,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 240.0
+offset_right = -240.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fk06d")
@@ -27,13 +29,13 @@ visible = false
 layout_mode = 1
 
 [node name="HudGui" parent="." instance=ExtResource("3_ci30k")]
-visible = false
 
 [node name="PauseMenuGui" parent="." instance=ExtResource("4_6fj7h")]
 visible = false
 layout_mode = 1
 
 [node name="TutorialGui" parent="." instance=ExtResource("5_tfu0u")]
+visible = false
 layout_mode = 1
 
 [node name="BossHealthBarHud" parent="." instance=ExtResource("6_ttofl")]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public partial class InputManager : Node2D{
+	[Export] private Viewport gameViewport;
 	public static InputManager Singleton {get;private set;}
 	public const string GamepadInputNameSuffix = "GP";
 	public const string KeyboardInputNameSuffix = "KB";
@@ -56,6 +57,8 @@ public partial class InputManager : Node2D{
 	public event Action OnDashInput;
 	public event Action OnShootInput;
 	public event Action OnPauseInput;
+	public event Action OnZoomOutInput;
+	public event Action OnZoomInInput;
 
 	public event Action OnGamepadState;
 	public event Action OnKeyboardState;
@@ -100,6 +103,20 @@ public partial class InputManager : Node2D{
 		PauseInputProcess?.Invoke();
 	}
 
+	public override void _Input(InputEvent @event){
+		#if TOOLS
+		if (@event is InputEventMouseButton mouseEvent)
+		{
+			if (mouseEvent.ButtonIndex == MouseButton.WheelDown && mouseEvent.Pressed){
+				OnZoomOutInput?.Invoke();
+			}
+			else if (mouseEvent.ButtonIndex == MouseButton.WheelUp && mouseEvent.Pressed){
+				OnZoomInInput?.Invoke();
+			}
+		}
+
+		#endif
+	}
 
 	/// 
 	/// States.
@@ -227,18 +244,18 @@ public partial class InputManager : Node2D{
 
 
 	private void AimInputKeyboard(){
-		// Vector2 screenSize = GetViewport().GetVisibleRect().Size;
-		// Vector2 screenCenter = screenSize * 0.5f;
-		// Vector2 mousePosition = GetViewport().GetMousePosition();
+		Vector2 screenSize = gameViewport.GetVisibleRect().Size;
+		Vector2 screenCenter = screenSize * 0.5f;
+		Vector2 mousePosition = gameViewport.GetMousePosition();
 
-		// Vector2 newAimInput = mousePosition - screenCenter;
-		// if(newAimInput != aimInput){
-		// 	aimInput = newAimInput;
-		// 	OnAimInput?.Invoke(aimInput.Normalized());
-		// }
-		Camera3D camera = GetViewport().GetCamera3D();
+		Vector2 newAimInput = mousePosition - screenCenter;
+		if(newAimInput != aimInput){
+			aimInput = newAimInput;
+			OnAimInput?.Invoke(aimInput.Normalized());
+		}
+		Camera3D camera = gameViewport.GetCamera3D();
 
-		Vector2 mousePos = GetViewport().GetMousePosition();
+		Vector2 mousePos = gameViewport.GetMousePosition();
 
 		// Generate ray origin and direction from camera through mouse
 		Vector3 rayOrigin = camera.ProjectRayOrigin(mousePos);
@@ -253,7 +270,6 @@ public partial class InputManager : Node2D{
 		if (intersect != null){
 			OnAimInput?.Invoke(new Vector2(intersect.Value.X, intersect.Value.Z));
 		}
-
 	}
 
 	private void AimInputGamepad(){

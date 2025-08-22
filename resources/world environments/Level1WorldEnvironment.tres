@@ -1,4 +1,21 @@
-[gd_resource type="Environment" load_steps=3 format=3 uid="uid://t6evrvm00ivs"]
+[gd_resource type="Environment" load_steps=7 format=3 uid="uid://t6evrvm00ivs"]
+
+[sub_resource type="Curve" id="Curve_y63dq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_xio4a"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_ocr67"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.996338), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_qpjys"]
+curve_x = SubResource("Curve_y63dq")
+curve_y = SubResource("Curve_xio4a")
+curve_z = SubResource("Curve_ocr67")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xj1pp"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -9,21 +26,25 @@ sky_material = SubResource("ProceduralSkyMaterial_xj1pp")
 
 [resource]
 background_mode = 1
-background_energy_multiplier = 0.0
+background_color = Color(0.409022, 0.325049, 0.265834, 1)
 sky = SubResource("Sky_v8ena")
 ambient_light_source = 2
 ambient_light_color = Color(1, 0.708329, 0.347314, 1)
 ambient_light_energy = 0.1
 reflected_light_source = 1
 tonemap_mode = 1
-tonemap_exposure = 1.15
+tonemap_exposure = 1.33
+tonemap_white = 0.77
 ssao_enabled = true
-glow_bloom = 0.17
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_intensity = 0.33
+glow_bloom = 1.0
 fog_enabled = true
 fog_mode = 1
-fog_light_color = Color(1, 0.568627, 0.380392, 1)
+fog_light_color = Color(1, 0.589629, 0.412253, 1)
 fog_light_energy = 0.5
-fog_density = 0.2
+fog_density = 0.175
 fog_sky_affect = 0.0
 fog_height_density = -0.0165
 fog_depth_curve = 0.333333
@@ -40,3 +61,4 @@ volumetric_fog_sky_affect = 0.087
 volumetric_fog_temporal_reprojection_enabled = false
 volumetric_fog_temporal_reprojection_amount = 0.5
 adjustment_enabled = true
+adjustment_color_correction = SubResource("CurveXYZTexture_qpjys")
