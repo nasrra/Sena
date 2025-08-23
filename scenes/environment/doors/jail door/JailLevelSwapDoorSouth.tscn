@@ -83,7 +83,6 @@ spot_angle = 17.721
 transform = Transform3D(-0.375, 0, 6.03983e-08, 0, 0.45, 0, -5.66234e-08, 0, -0.4, -0.425, 1.088, -0.2)
 modulate = Color(1, 1, 1, 0.411765)
 shaded = true
-alpha_cut = 2
 texture = ExtResource("4_ebine")
 
 [node name="SpriteSorter3" type="Node3D" parent="." index="11" node_paths=PackedStringArray("sprite")]

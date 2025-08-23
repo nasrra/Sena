@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1fp7wi1kjw4u"]
+[gd_scene load_steps=8 format=3 uid="uid://c1fp7wi1kjw4u"]
 
 [ext_resource type="PackedScene" uid="uid://cnmwj8dlikh2o" path="res://scenes/entities/enemies/template/EnemyTemplate.tscn" id="1_45jq6"]
 [ext_resource type="SpriteFrames" uid="uid://ducvecsmuxhlm" path="res://assets/animations/worker/Worker.tres" id="3_83uge"]
@@ -6,6 +6,7 @@
 [ext_resource type="Material" uid="uid://bkma3afhynouv" path="res://source/shaders/hitflaash/HitFlashShaderMaterial.tres" id="3_ayerf"]
 [ext_resource type="PackedScene" uid="uid://bilexc3upyj70" path="res://scenes/entities/hitbox/Hitbox.tscn" id="5_afjqp"]
 [ext_resource type="Script" uid="uid://jdjh2imli3fo" path="res://source/shaders/foliage/GrassDeformer.cs" id="6_82jcj"]
+[ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="7_pwn86"]
 
 [node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
 script = ExtResource("3_afjqp")
@@ -24,7 +25,7 @@ spriteSorter = NodePath("SpriteSorter")
 
 [node name="CharacterMovement" parent="." index="0" node_paths=PackedStringArray("character")]
 character = NodePath("..")
-BaseTopSpeed = 2.0
+BaseTopSpeed = 3.0
 BaseAcceleration = 100.0
 BaseDeceleration = 100.0
 
@@ -38,11 +39,16 @@ one_shot = true
 Max = 3
 Value = 3
 
-[node name="AgressionZone" parent="." index="5"]
-visible = false
+[node name="Area3D" parent="AgressionZone" index="0"]
+transform = Transform3D(4.5, 0, 0, 0, 4.5, 0, 0, 0, 4.5, 0, 0, 0)
 
 [node name="CollisionShape3D" parent="." index="6"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.163633, 0)
+
+[node name="CSGCylinder3D" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.158)
+height = 0.05
+sides = 16
 
 [node name="WayfindingAgent3D" parent="." index="8"]
 Capability = 8
@@ -73,3 +79,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.5, 0)
 [node name="GrassDeformer" type="Node3D" parent="." index="14"]
 script = ExtResource("6_82jcj")
 Strength = 0.25
+
+[node name="OmniLight3D2" parent="." index="15" instance=ExtResource("7_pwn86")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.225)
+light_color = Color(0.658824, 1, 1, 1)
+light_energy = 0.167
+omni_range = 10.0
+omni_attenuation = 1.222

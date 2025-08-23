@@ -14,7 +14,7 @@
 
 [node name="GameplayLevelTemplate" type="Node3D" node_paths=PackedStringArray("enemyManager", "doors")]
 script = ExtResource("1_c4ag4")
-enemyManager = NodePath("GridMaps/EnemyManager")
+enemyManager = NodePath("Managers/EnemyManager")
 doors = NodePath("Managers/DoorManager")
 
 [node name="Managers" type="Node3D" parent="."]
@@ -37,12 +37,19 @@ script = ExtResource("5_mkam8")
 levelSwapDoors = []
 environmentDoors = []
 
+[node name="LevelSwapDoors" type="Node" parent="Managers/DoorManager"]
+
+[node name="EnvironmentDoors" type="Node" parent="Managers/DoorManager"]
+
+[node name="EnemyManager" type="Node" parent="Managers" node_paths=PackedStringArray("enemyGroups")]
+script = ExtResource("2_7cl8v")
+enemyGroups = NodePath("../../GridMaps/EnemyGroupGridMap")
+
 [node name="GridMaps" type="Node3D" parent="."]
 
-[node name="EnemyManager" type="GridMap" parent="GridMaps"]
+[node name="EnemyGroupGridMap" type="GridMap" parent="GridMaps"]
 mesh_library = ExtResource("8_0a04b")
 cell_size = Vector3(1, 1, 1)
-script = ExtResource("2_7cl8v")
 
 [node name="WayfindingGridMap" parent="GridMaps" instance=ExtResource("4_h5lis")]
 
@@ -53,7 +60,7 @@ cell_size = Vector3(1, 1, 1)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 [node name="Camera" parent="." instance=ExtResource("6_kse60")]
-transform = Transform3D(1, 0, 0, 0, 0.766044, 0.642788, 0, -0.642788, 0.766044, 3, 12, 15.5)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 3, 12, 15.5)
 attributes = ExtResource("7_wyi0w")
 fov = 24.0
-FollowOffset = Vector3(0, 12, 12.5)
+FollowOffset = Vector3(0, 12, 10)

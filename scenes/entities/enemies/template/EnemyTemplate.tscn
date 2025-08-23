@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="12_v8ssa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iky5e"]
-radius = 3.0
+radius = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mp6r4"]
 radius = 0.33

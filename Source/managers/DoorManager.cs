@@ -201,6 +201,10 @@ public partial class DoorManager : Node{
     }
 
     public void DisableTemplockAreas(int areaGroup){
+        if(tempLockAreas.Count <= areaGroup){
+            return;
+        }
+
         for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
             Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
@@ -208,6 +212,10 @@ public partial class DoorManager : Node{
     }
 
     public void EnableTemplockAreas(int areaGroup){
+        if(tempLockAreas.Count <= areaGroup){
+            return;
+        }
+        
         for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
             Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;

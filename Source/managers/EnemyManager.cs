@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public partial class EnemyManager : GridMap{
+public partial class EnemyManager : Node{
 	public static EnemyManager Singleton {get;private set;}
-
+	[Export] private GridMap enemyGroups;
 	private Entropek.Collections.SwapbackList<Enemy>[] enemies = new Entropek.Collections.SwapbackList<Enemy>[9];
 	public event Action<int> OnEnemyGroupKilled;
 
@@ -36,8 +36,8 @@ public partial class EnemyManager : GridMap{
 	}
 
 	private int GetEnemyGroup(Vector3 globalPosition){
-		Vector3I mapPosition = LocalToMap(globalPosition);
-		int group = GetCellItem(mapPosition);
+		Vector3I mapPosition = enemyGroups.LocalToMap(globalPosition);
+		int group = enemyGroups.GetCellItem(mapPosition);
 		if(group==-1){
 			throw new Exception("spawned enemy is not within a enemy group area!");
 		}

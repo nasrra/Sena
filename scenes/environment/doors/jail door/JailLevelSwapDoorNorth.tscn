@@ -18,7 +18,7 @@ transparency = 1
 no_depth_test = true
 albedo_texture = ExtResource("11_go4h5")
 emission_enabled = true
-emission = Color(1, 0.784314, 0, 1)
+emission = Color(1, 0.729412, 0.262745, 1)
 disable_receive_shadows = true
 
 [node name="JailLevelSwapDoorNorth" node_paths=PackedStringArray("collider") instance=ExtResource("1_7fji0")]
@@ -36,8 +36,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.25)
 collision_layer = 1
 
 [node name="LanternSprite" type="Sprite3D" parent="." index="2"]
-transform = Transform3D(0.2, 0, 0, 0, 0.225, 0, 0, 0, 0.2, 1.21653, 1.51128, 0.281812)
+transform = Transform3D(0.2, 0, 0, 0, 0.225, 0, 0, 0, 0.2, 1.21653, 1.30452, 0.281812)
 shaded = true
+no_depth_test = true
 alpha_cut = 2
 texture = ExtResource("4_johqt")
 
@@ -57,7 +58,7 @@ closedSprite = ExtResource("3_71i57")
 script = ExtResource("7_71i57")
 
 [node name="OmniLight3D" parent="." index="5" instance=ExtResource("10_irjbk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 1.5, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16364, 1.19958, 0.25)
 light_color = Color(1, 0.882353, 0.686275, 1)
 light_energy = 0.358
 omni_range = 0.75
@@ -79,11 +80,11 @@ billboard = 1
 
 [node name="SpotLight3D4" parent="." index="9" instance=ExtResource("2_qglcw")]
 transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 1.90735e-06, 2.25, -1.55)
-light_color = Color(1, 0.784314, 0, 1)
+light_color = Color(1, 0.729412, 0.262745, 1)
 spot_angle = 17.721
 
 [node name="door" type="Sprite3D" parent="." index="10"]
-transform = Transform3D(0.375, 0, 0, 0, 0.445, 0, 0, 0, 0.4, 0.45, 1.088, 0.1)
+transform = Transform3D(0.375, 0, 0, 0, 0.469, 0, 0, 0, 0.4, 0.45, 1.13634, 0.1)
 shaded = true
 alpha_cut = 2
 texture = ExtResource("3_71i57")
@@ -109,7 +110,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
 script = ExtResource("5_johqt")
 sprite = NodePath("../backlight")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="." index="14"]
+[node name="SpriteSorter5" type="Node3D" parent="." index="14" node_paths=PackedStringArray("sprite")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.709869)
+script = ExtResource("5_johqt")
+sprite = NodePath("../LanternSprite")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." index="15"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.076, 0.008)
 cast_shadow = 3
 size = Vector3(1.325, 0.14, 0.077)

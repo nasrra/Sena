@@ -10,7 +10,7 @@ transparency = 1
 no_depth_test = true
 albedo_texture = ExtResource("2_xlqvw")
 emission_enabled = true
-emission = Color(1, 0.784314, 0, 1)
+emission = Color(1, 0.729412, 0.262745, 1)
 disable_receive_shadows = true
 
 [node name="JailWindowNorth" type="Node3D"]
@@ -43,7 +43,7 @@ sprite = NodePath("../Sprite3D2")
 
 [node name="SpotLight3D2" parent="." instance=ExtResource("4_0x6tf")]
 transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 2.25, -1.25)
-light_color = Color(1, 0.784314, 0, 1)
+light_color = Color(1, 0.729412, 0.262745, 1)
 light_energy = 1.67
 spot_angle = 21.5065
 
