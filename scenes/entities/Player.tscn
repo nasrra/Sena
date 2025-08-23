@@ -158,13 +158,6 @@ script = ExtResource("15_vty87")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.164096, 0)
 shape = SubResource("SphereShape3D_37p5y")
 
-[node name="OmniLight3D2" parent="." instance=ExtResource("14_vty87")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.225)
-light_color = Color(0.658824, 1, 1, 1)
-light_energy = 0.167
-omni_range = 10.0
-omni_attenuation = 1.222
-
 [node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.525, 0, 0, 0, 1, 0, 0.000468969, 0)
 cast_shadow = 0
@@ -207,3 +200,14 @@ ObstructionLayer = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Interactor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_deer0")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+spring_length = 0.2
+
+[node name="OmniLight3D2" parent="SpringArm3D" instance=ExtResource("14_vty87")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.225)
+light_color = Color(0.658824, 1, 1, 1)
+light_energy = 0.167
+omni_range = 10.0
+omni_attenuation = 1.222

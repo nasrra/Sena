@@ -31,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/storage/Wheelbarrow.tscn" id="30_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindowNorth.tscn" id="32_srkvl"]
 
-[sub_resource type="Resource" id="Resource_k446q"]
+[sub_resource type="Resource" id="Resource_mpqju"]
 script = ExtResource("11_bspq0")
 amount = 20
 enabled = true
@@ -40,7 +40,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_f87wi"]
+[sub_resource type="Resource" id="Resource_k446q"]
 script = ExtResource("12_dqba7")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -51,7 +51,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_m6o6u"]
+[sub_resource type="Resource" id="Resource_f87wi"]
 script = ExtResource("13_usw5k")
 iterations = 3
 offset_step = 0.2
@@ -63,7 +63,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_smuev"]
+[sub_resource type="Resource" id="Resource_m6o6u"]
 script = ExtResource("14_jsker")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -79,9 +79,9 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_inwfo"]
+[sub_resource type="Resource" id="Resource_smuev"]
 script = ExtResource("9_j7nyf")
-stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_k446q"), SubResource("Resource_f87wi"), SubResource("Resource_m6o6u"), SubResource("Resource_smuev")])
+stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_mpqju"), SubResource("Resource_k446q"), SubResource("Resource_f87wi"), SubResource("Resource_m6o6u")])
 
 [sub_resource type="Resource" id="Resource_g8bsm"]
 script = ExtResource("21_smuev")
@@ -141,7 +141,7 @@ camera = NodePath("../Camera")
 [node name="BushesScatter" type="Node3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.48259, -0.17877, 4.66433)
 script = ExtResource("12_k446q")
-modifier_stack = SubResource("Resource_inwfo")
+modifier_stack = SubResource("Resource_smuev")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://c36kadp7c060h"

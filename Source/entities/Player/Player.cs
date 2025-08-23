@@ -344,8 +344,8 @@ public partial class Player : CharacterBody3D{
 
 		audioPlayer.PlaySound("PlayerAttack");
 
-		InputManager.Singleton.BlockMovementInput(time: 0.2f);
-		InputManager.Singleton.BlockAttackInput(time: 0.255f);
+		InputManager.Singleton.BlockMovementInput(time: 0.225f);
+		InputManager.Singleton.BlockAttackInput(time: 0.333f);
 	}
 
 	private void OnMovementInputCallback(Vector2 input){

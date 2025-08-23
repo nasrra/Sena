@@ -83,6 +83,6 @@ Strength = 0.25
 [node name="OmniLight3D2" parent="." index="15" instance=ExtResource("7_pwn86")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0.225)
 light_color = Color(0.658824, 1, 1, 1)
-light_energy = 0.167
-omni_range = 10.0
+light_energy = 0.145
+omni_range = 3.33
 omni_attenuation = 1.222
