@@ -4,9 +4,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmoap"]
 
-[node name="EnvironmentDoor" type="Node3D" node_paths=PackedStringArray("segments", "collider")]
+[node name="EnvironmentDoor" type="Node3D" node_paths=PackedStringArray("collider")]
 script = ExtResource("1_baynp")
-segments = []
 collider = NodePath("Container/Collider")
 
 [node name="Container" type="Node3D" parent="."]

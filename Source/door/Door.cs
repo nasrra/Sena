@@ -4,7 +4,7 @@ using System;
 
 // // seperate into scene transition and environmental doors.
 
-public abstract partial class Door : Node{
+public abstract partial class Door : Node3D{
     [ExportGroup("Door")]
     [Export] private CollisionObject3D collider;
     [Export] public bool IsLocked {get;private set;} = false;

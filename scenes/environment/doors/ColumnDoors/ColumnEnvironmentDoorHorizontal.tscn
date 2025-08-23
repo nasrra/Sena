@@ -1,10 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbg38fvcw887l"]
+[gd_scene load_steps=4 format=3 uid="uid://bbg38fvcw887l"]
 
 [ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/environment/doors/templates/EnvironmentDoor.tscn" id="1_0gw5q"]
 [ext_resource type="PackedScene" uid="uid://byue2js8ldn7i" path="res://scenes/environment/doors/ColumnDoors/ColumnSegmentDoorPiece.tscn" id="2_pxu68"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="3_jvm22"]
 
-[node name="EnvironmentDoorHorizontal" node_paths=PackedStringArray("segments") instance=ExtResource("1_0gw5q")]
+[node name="ColumnDoorHorizontal" node_paths=PackedStringArray("audioPlayer", "segments") instance=ExtResource("1_0gw5q")]
+audioPlayer = NodePath("AudioPlayer")
 segments = [NodePath("ColumnSegmentDoorPiece1"), NodePath("ColumnSegmentDoorPiece2"), NodePath("ColumnSegmentDoorPiece3"), NodePath("ColumnSegmentDoorPiece4")]
+transitionSound = "StoneShifting"
 segmentAsyncTime = 0.2
 
 [node name="ColumnSegmentDoorPiece1" parent="." index="0" instance=ExtResource("2_pxu68")]
@@ -21,3 +24,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 
 [node name="Collider" parent="Container" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="AudioPlayer" type="Node3D" parent="." index="5"]
+script = ExtResource("3_jvm22")

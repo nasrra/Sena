@@ -21,7 +21,7 @@ bankName = "Test"
 [node name="DoorManager" parent="Managers" index="3" node_paths=PackedStringArray("levelSwapDoors", "environmentDoors")]
 levelSwapDoors = [NodePath("../../JailLevelSwapDoorNorth"), NodePath("../../JailLevelSwapDoorNorth4")]
 environmentDoors = [NodePath("../../EnvironmentDoorHorizontal1"), NodePath("../../EnvironmentDoorHorizontal2"), NodePath("../../EnvironmentDoorHorizontal3"), NodePath("../../EnvironmentDoorHorizontal4"), NodePath("../../EnvironmentDoorVertical1"), NodePath("../../EnvironmentDoorVertical2"), NodePath("../../EnvironmentDoorVertical3"), NodePath("../../EnvironmentDoorVertical4")]
-tempLockAreas = Array[Array]([[NodePath("DoorTempLockArea"), NodePath("DoorTempLockArea3"), NodePath("DoorTempLockArea2")]])
+tempLockAreas = Array[Array]([[NodePath("DoorTempLockArea"), NodePath("DoorTempLockArea3"), NodePath("DoorTempLockArea2")], [NodePath("DoorTempLockArea4"), NodePath("DoorTempLockArea5"), NodePath("DoorTempLockArea6")], [NodePath("DoorTempLockArea7"), NodePath("DoorTempLockArea8"), NodePath("DoorTempLockArea9")], [NodePath("DoorTempLockArea10"), NodePath("DoorTempLockArea11"), NodePath("DoorTempLockArea12")]])
 
 [node name="DoorTempLockArea" type="Area3D" parent="Managers/DoorManager" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 16, 0.5, 6)
@@ -47,9 +47,81 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea2" index="0"]
 shape = SubResource("BoxShape3D_ssggm")
 
+[node name="DoorTempLockArea4" type="Area3D" parent="Managers/DoorManager" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 40, 0.5, 6)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea4" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea5" type="Area3D" parent="Managers/DoorManager" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 28, 0.5, 6)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea5" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea6" type="Area3D" parent="Managers/DoorManager" index="5"]
+transform = Transform3D(-4.37114e-08, 0, -4, 0, 1, 0, 1, 0, -1.74846e-07, 34, 0.5, 12)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea6" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea7" type="Area3D" parent="Managers/DoorManager" index="6"]
+transform = Transform3D(-1, 0, -3.49691e-07, 0, 1, 0, 8.74228e-08, 0, -4, 28, 0.5, 30)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea7" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea8" type="Area3D" parent="Managers/DoorManager" index="7"]
+transform = Transform3D(-1, 0, -3.49691e-07, 0, 1, 0, 8.74228e-08, 0, -4, 40, 0.5, 30)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea8" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea9" type="Area3D" parent="Managers/DoorManager" index="8"]
+transform = Transform3D(-4.37114e-08, 0, 4, 0, 1, 0, -1, 0, -1.74845e-07, 34, 0.5, 24)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea9" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea10" type="Area3D" parent="Managers/DoorManager" index="9"]
+transform = Transform3D(-1, 0, -3.49691e-07, 0, 1, 0, 8.74228e-08, 0, -4, 4, 0.5, 30)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea10" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea11" type="Area3D" parent="Managers/DoorManager" index="10"]
+transform = Transform3D(-1, 0, -3.49691e-07, 0, 1, 0, 8.74228e-08, 0, -4, 16, 0.5, 30)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea11" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
+[node name="DoorTempLockArea12" type="Area3D" parent="Managers/DoorManager" index="11"]
+transform = Transform3D(-4.37114e-08, 0, 4, 0, 1, 0, -1, 0, -1.74845e-07, 10, 0.5, 24)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea12" index="0"]
+shape = SubResource("BoxShape3D_ssggm")
+
 [node name="EnemyManager" parent="GridMaps" index="0"]
 data = {
-"cells": PackedInt32Array(4, 0, 0, 4, 1, 0, 4, 2, 0, 4, 3, 0, 4, 4, 0, 4, 5, 0, 4, 6, 0, 4, 7, 0, 4, 8, 0, 4, 9, 0, 4, 10, 0, 4, 11, 0, 5, 11, 0, 6, 11, 0, 7, 11, 0, 8, 11, 0, 9, 11, 0, 10, 11, 0, 11, 11, 0, 12, 11, 0, 13, 11, 0, 14, 11, 0, 15, 11, 0, 15, 10, 0, 14, 10, 0, 13, 10, 0, 12, 10, 0, 11, 10, 0, 10, 10, 0, 9, 10, 0, 8, 10, 0, 7, 10, 0, 6, 10, 0, 5, 10, 0, 5, 9, 0, 6, 9, 0, 7, 9, 0, 8, 9, 0, 9, 9, 0, 10, 9, 0, 11, 9, 0, 12, 9, 0, 13, 9, 0, 14, 9, 0, 15, 9, 0, 15, 8, 0, 14, 8, 0, 13, 8, 0, 12, 8, 0, 11, 8, 0, 10, 8, 0, 9, 8, 0, 8, 8, 0, 7, 8, 0, 6, 8, 0, 5, 8, 0, 5, 7, 0, 6, 7, 0, 7, 7, 0, 8, 7, 0, 9, 7, 0, 10, 7, 0, 11, 7, 0, 12, 7, 0, 13, 7, 0, 14, 7, 0, 15, 7, 0, 16, 7, 0, 17, 7, 0, 18, 7, 0, 18, 6, 0, 18, 5, 0, 18, 4, 0, 17, 4, 0, 16, 4, 0, 16, 5, 0, 16, 6, 0, 17, 6, 0, 17, 5, 0, 15, 6, 0, 15, 5, 0, 15, 4, 0, 15, 3, 0, 15, 2, 0, 15, 1, 0, 15, 0, 0, 14, 0, 0, 13, 0, 0, 12, 0, 0, 11, 0, 0, 10, 0, 0, 9, 0, 0, 8, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 5, 5, 0, 5, 6, 0, 5, 4, 0, 5, 3, 0, 5, 2, 0, 5, 1, 0, 6, 1, 0, 6, 2, 0, 6, 3, 0, 6, 4, 0, 6, 6, 0, 6, 5, 0, 7, 2, 0, 7, 1, 0, 7, 3, 0, 7, 4, 0, 7, 5, 0, 7, 6, 0, 8, 1, 0, 8, 2, 0, 8, 3, 0, 8, 4, 0, 8, 5, 0, 8, 6, 0, 9, 2, 0, 9, 1, 0, 9, 3, 0, 9, 4, 0, 9, 5, 0, 9, 6, 0, 10, 3, 0, 10, 2, 0, 10, 1, 0, 10, 4, 0, 10, 5, 0, 10, 6, 0, 11, 2, 0, 11, 1, 0, 11, 3, 0, 11, 4, 0, 11, 5, 0, 11, 6, 0, 12, 3, 0, 12, 2, 0, 12, 1, 0, 12, 4, 0, 12, 5, 0, 12, 6, 0, 13, 3, 0, 13, 2, 0, 13, 1, 0, 13, 4, 0, 13, 5, 0, 13, 6, 0, 14, 2, 0, 14, 1, 0, 14, 3, 0, 14, 4, 0, 14, 5, 0, 14, 6, 0, 3, 3, 0, 3, 4, 0, 2, 4, 0, 1, 4, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 1, 7, 0, 2, 7, 0, 3, 7, 0, 3, 6, 0, 2, 6, 0, 1, 6, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 8, 12, 0, 8, 13, 0, 8, 14, 0, 9, 14, 0, 10, 14, 0, 10, 13, 0, 9, 13, 0, 9, 12, 0, 10, 12, 0, 11, 13, 0, 11, 14, 0, 11, 12, 0)
+"cells": PackedInt32Array(4, 0, 0, 4, 1, 0, 4, 2, 0, 4, 3, 0, 4, 4, 0, 4, 5, 0, 4, 6, 0, 4, 7, 0, 4, 8, 0, 4, 9, 0, 4, 10, 0, 4, 11, 0, 5, 11, 0, 6, 11, 0, 7, 11, 0, 8, 11, 0, 9, 11, 0, 10, 11, 0, 11, 11, 0, 12, 11, 0, 13, 11, 0, 14, 11, 0, 15, 11, 0, 15, 10, 0, 14, 10, 0, 13, 10, 0, 12, 10, 0, 11, 10, 0, 10, 10, 0, 9, 10, 0, 8, 10, 0, 7, 10, 0, 6, 10, 0, 5, 10, 0, 5, 9, 0, 6, 9, 0, 7, 9, 0, 8, 9, 0, 9, 9, 0, 10, 9, 0, 11, 9, 0, 12, 9, 0, 13, 9, 0, 14, 9, 0, 15, 9, 0, 15, 8, 0, 14, 8, 0, 13, 8, 0, 12, 8, 0, 11, 8, 0, 10, 8, 0, 9, 8, 0, 8, 8, 0, 7, 8, 0, 6, 8, 0, 5, 8, 0, 5, 7, 0, 6, 7, 0, 7, 7, 0, 8, 7, 0, 9, 7, 0, 10, 7, 0, 11, 7, 0, 12, 7, 0, 13, 7, 0, 14, 7, 0, 15, 7, 0, 16, 7, 0, 17, 7, 0, 18, 7, 0, 18, 6, 0, 18, 5, 0, 18, 4, 0, 17, 4, 0, 16, 4, 0, 16, 5, 0, 16, 6, 0, 17, 6, 0, 17, 5, 0, 15, 6, 0, 15, 5, 0, 15, 4, 0, 15, 3, 0, 15, 2, 0, 15, 1, 0, 15, 0, 0, 14, 0, 0, 13, 0, 0, 12, 0, 0, 11, 0, 0, 10, 0, 0, 9, 0, 0, 8, 0, 0, 7, 0, 0, 6, 0, 0, 5, 0, 0, 5, 5, 0, 5, 6, 0, 5, 4, 0, 5, 3, 0, 5, 2, 0, 5, 1, 0, 6, 1, 0, 6, 2, 0, 6, 3, 0, 6, 4, 0, 6, 6, 0, 6, 5, 0, 7, 2, 0, 7, 1, 0, 7, 3, 0, 7, 4, 0, 7, 5, 0, 7, 6, 0, 8, 1, 0, 8, 2, 0, 8, 3, 0, 8, 4, 0, 8, 5, 0, 8, 6, 0, 9, 2, 0, 9, 1, 0, 9, 3, 0, 9, 4, 0, 9, 5, 0, 9, 6, 0, 10, 3, 0, 10, 2, 0, 10, 1, 0, 10, 4, 0, 10, 5, 0, 10, 6, 0, 11, 2, 0, 11, 1, 0, 11, 3, 0, 11, 4, 0, 11, 5, 0, 11, 6, 0, 12, 3, 0, 12, 2, 0, 12, 1, 0, 12, 4, 0, 12, 5, 0, 12, 6, 0, 13, 3, 0, 13, 2, 0, 13, 1, 0, 13, 4, 0, 13, 5, 0, 13, 6, 0, 14, 2, 0, 14, 1, 0, 14, 3, 0, 14, 4, 0, 14, 5, 0, 14, 6, 0, 3, 3, 0, 3, 4, 0, 2, 4, 0, 1, 4, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 1, 7, 0, 2, 7, 0, 3, 7, 0, 3, 6, 0, 2, 6, 0, 1, 6, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 8, 12, 0, 8, 13, 0, 8, 14, 0, 9, 14, 0, 10, 14, 0, 10, 13, 0, 9, 13, 0, 9, 12, 0, 10, 12, 0, 11, 13, 0, 11, 14, 0, 11, 12, 0, 25, 4, 1, 25, 5, 1, 25, 6, 1, 25, 7, 1, 26, 7, 1, 26, 6, 1, 26, 5, 1, 26, 4, 1, 27, 4, 1, 27, 5, 1, 27, 6, 1, 27, 7, 1, 28, 6, 1, 28, 5, 1, 28, 0, 1, 28, 1, 1, 28, 2, 1, 28, 3, 1, 28, 4, 1, 28, 7, 1, 28, 8, 1, 28, 9, 1, 28, 10, 1, 28, 11, 1, 29, 11, 1, 30, 11, 1, 31, 11, 1, 32, 11, 1, 33, 11, 1, 34, 11, 1, 35, 11, 1, 36, 11, 1, 37, 11, 1, 38, 11, 1, 39, 11, 1, 39, 10, 1, 38, 10, 1, 37, 10, 1, 36, 10, 1, 35, 10, 1, 34, 10, 1, 33, 10, 1, 32, 10, 1, 31, 10, 1, 30, 10, 1, 29, 10, 1, 29, 9, 1, 30, 9, 1, 31, 9, 1, 32, 9, 1, 33, 9, 1, 34, 9, 1, 35, 9, 1, 36, 9, 1, 37, 9, 1, 38, 9, 1, 39, 9, 1, 39, 8, 1, 38, 8, 1, 37, 8, 1, 37, 7, 1, 36, 7, 1, 36, 8, 1, 35, 8, 1, 34, 8, 1, 33, 8, 1, 32, 8, 1, 31, 8, 1, 30, 8, 1, 29, 8, 1, 29, 7, 1, 30, 7, 1, 31, 7, 1, 32, 7, 1, 33, 7, 1, 34, 7, 1, 35, 7, 1, 38, 7, 1, 39, 7, 1, 40, 7, 1, 41, 7, 1, 42, 7, 1, 43, 7, 1, 43, 6, 1, 42, 6, 1, 41, 6, 1, 40, 6, 1, 39, 6, 1, 38, 6, 1, 37, 6, 1, 36, 6, 1, 35, 6, 1, 34, 6, 1, 33, 6, 1, 32, 6, 1, 31, 6, 1, 30, 6, 1, 29, 6, 1, 29, 5, 1, 30, 5, 1, 31, 5, 1, 32, 5, 1, 33, 5, 1, 34, 5, 1, 35, 5, 1, 36, 5, 1, 37, 5, 1, 38, 5, 1, 39, 5, 1, 40, 5, 1, 41, 5, 1, 42, 5, 1, 43, 5, 1, 43, 4, 1, 42, 4, 1, 41, 4, 1, 40, 4, 1, 39, 4, 1, 38, 4, 1, 37, 4, 1, 36, 4, 1, 35, 4, 1, 34, 4, 1, 33, 4, 1, 32, 4, 1, 31, 4, 1, 30, 4, 1, 30, 3, 1, 29, 3, 1, 29, 2, 1, 29, 1, 1, 29, 4, 1, 29, 0, 1, 30, 0, 1, 30, 1, 1, 30, 2, 1, 31, 1, 1, 31, 0, 1, 31, 2, 1, 31, 3, 1, 32, 2, 1, 32, 1, 1, 32, 0, 1, 32, 3, 1, 33, 3, 1, 33, 2, 1, 33, 1, 1, 34, 2, 1, 34, 1, 1, 34, 0, 1, 34, 3, 1, 35, 2, 1, 35, 1, 1, 35, 0, 1, 36, 0, 1, 36, 1, 1, 36, 2, 1, 36, 3, 1, 37, 0, 1, 37, 1, 1, 38, 2, 1, 38, 3, 1, 38, 1, 1, 39, 1, 1, 39, 2, 1, 39, 3, 1, 39, 0, 1, 38, 0, 1, 37, 2, 1, 37, 3, 1, 35, 3, 1, 33, 0, 1, 32, 12, 1, 32, 13, 1, 32, 14, 1, 33, 14, 1, 33, 13, 1, 33, 12, 1, 34, 12, 1, 34, 13, 1, 34, 14, 1, 35, 13, 1, 35, 12, 1, 35, 14, 1, 25, 28, 2, 25, 29, 2, 25, 30, 2, 25, 31, 2, 26, 31, 2, 26, 30, 2, 26, 29, 2, 26, 28, 2, 27, 30, 2, 27, 31, 2, 27, 29, 2, 27, 28, 2, 28, 24, 2, 28, 25, 2, 28, 26, 2, 28, 27, 2, 28, 28, 2, 28, 29, 2, 28, 30, 2, 28, 31, 2, 28, 32, 2, 28, 33, 2, 28, 34, 2, 28, 35, 2, 29, 35, 2, 30, 35, 2, 31, 35, 2, 32, 35, 2, 33, 35, 2, 34, 35, 2, 35, 35, 2, 36, 35, 2, 37, 35, 2, 38, 35, 2, 39, 35, 2, 39, 34, 2, 38, 34, 2, 37, 34, 2, 36, 34, 2, 35, 34, 2, 34, 34, 2, 33, 34, 2, 32, 34, 2, 31, 34, 2, 30, 34, 2, 29, 34, 2, 29, 33, 2, 30, 33, 2, 31, 33, 2, 32, 33, 2, 33, 33, 2, 34, 33, 2, 35, 33, 2, 36, 33, 2, 37, 33, 2, 38, 33, 2, 39, 33, 2, 39, 32, 2, 38, 32, 2, 37, 32, 2, 36, 32, 2, 35, 32, 2, 34, 32, 2, 33, 32, 2, 32, 32, 2, 31, 32, 2, 30, 32, 2, 29, 32, 2, 29, 31, 2, 30, 31, 2, 31, 31, 2, 32, 31, 2, 33, 31, 2, 34, 31, 2, 35, 31, 2, 36, 31, 2, 37, 31, 2, 38, 31, 2, 39, 31, 2, 40, 31, 2, 41, 31, 2, 42, 31, 2, 42, 30, 2, 43, 30, 2, 43, 29, 2, 43, 28, 2, 43, 31, 2, 42, 28, 2, 41, 28, 2, 40, 28, 2, 40, 29, 2, 40, 30, 2, 41, 30, 2, 41, 29, 2, 42, 29, 2, 39, 30, 2, 38, 30, 2, 37, 30, 2, 36, 30, 2, 35, 30, 2, 34, 30, 2, 33, 30, 2, 32, 30, 2, 31, 30, 2, 30, 30, 2, 29, 30, 2, 29, 29, 2, 30, 29, 2, 31, 29, 2, 32, 29, 2, 33, 29, 2, 34, 29, 2, 35, 29, 2, 36, 29, 2, 37, 29, 2, 38, 29, 2, 39, 29, 2, 39, 28, 2, 38, 28, 2, 37, 28, 2, 36, 28, 2, 35, 28, 2, 34, 28, 2, 33, 28, 2, 32, 28, 2, 31, 28, 2, 30, 28, 2, 29, 28, 2, 29, 27, 2, 30, 27, 2, 31, 27, 2, 32, 27, 2, 33, 27, 2, 34, 27, 2, 35, 27, 2, 36, 27, 2, 37, 27, 2, 38, 27, 2, 39, 27, 2, 39, 26, 2, 39, 25, 2, 39, 24, 2, 38, 24, 2, 37, 24, 2, 36, 24, 2, 35, 24, 2, 34, 24, 2, 33, 24, 2, 32, 24, 2, 31, 24, 2, 30, 24, 2, 29, 24, 2, 29, 25, 2, 29, 26, 2, 30, 26, 2, 30, 25, 2, 31, 25, 2, 31, 26, 2, 32, 26, 2, 32, 25, 2, 33, 25, 2, 33, 26, 2, 34, 26, 2, 35, 26, 2, 35, 25, 2, 36, 25, 2, 36, 26, 2, 37, 26, 2, 38, 26, 2, 38, 25, 2, 37, 25, 2, 34, 25, 2, 32, 21, 2, 32, 22, 2, 32, 23, 2, 33, 23, 2, 33, 22, 2, 33, 21, 2, 34, 21, 2, 34, 22, 2, 34, 23, 2, 35, 21, 2, 35, 22, 2, 35, 23, 2, 0, 28, 3, 0, 29, 3, 0, 30, 3, 0, 31, 3, 1, 31, 3, 1, 30, 3, 1, 29, 3, 1, 28, 3, 2, 28, 3, 2, 29, 3, 2, 30, 3, 2, 31, 3, 3, 28, 3, 3, 29, 3, 3, 30, 3, 3, 31, 3, 4, 31, 3, 4, 30, 3, 4, 24, 3, 4, 25, 3, 4, 26, 3, 4, 27, 3, 4, 28, 3, 4, 29, 3, 4, 32, 3, 4, 33, 3, 4, 34, 3, 4, 35, 3, 5, 35, 3, 6, 35, 3, 7, 35, 3, 8, 35, 3, 9, 35, 3, 10, 35, 3, 11, 35, 3, 12, 35, 3, 13, 35, 3, 14, 35, 3, 15, 35, 3, 15, 34, 3, 14, 34, 3, 13, 34, 3, 12, 34, 3, 11, 34, 3, 10, 34, 3, 9, 34, 3, 8, 34, 3, 7, 34, 3, 6, 34, 3, 5, 34, 3, 5, 33, 3, 6, 33, 3, 7, 33, 3, 8, 33, 3, 9, 33, 3, 10, 33, 3, 11, 33, 3, 12, 33, 3, 13, 33, 3, 14, 33, 3, 15, 33, 3, 15, 32, 3, 14, 32, 3, 13, 32, 3, 12, 32, 3, 11, 32, 3, 10, 32, 3, 9, 32, 3, 8, 32, 3, 7, 32, 3, 6, 32, 3, 5, 32, 3, 5, 31, 3, 6, 31, 3, 7, 31, 3, 8, 31, 3, 9, 31, 3, 10, 31, 3, 11, 31, 3, 12, 31, 3, 13, 31, 3, 14, 31, 3, 15, 31, 3, 16, 31, 3, 17, 31, 3, 18, 31, 3, 18, 30, 3, 17, 30, 3, 16, 30, 3, 15, 30, 3, 14, 30, 3, 13, 30, 3, 12, 30, 3, 11, 30, 3, 10, 30, 3, 9, 30, 3, 8, 30, 3, 7, 30, 3, 6, 30, 3, 5, 30, 3, 5, 29, 3, 6, 29, 3, 7, 29, 3, 8, 29, 3, 9, 29, 3, 10, 29, 3, 11, 29, 3, 12, 29, 3, 13, 29, 3, 14, 29, 3, 15, 29, 3, 16, 29, 3, 17, 29, 3, 18, 29, 3, 18, 28, 3, 17, 28, 3, 16, 28, 3, 15, 28, 3, 14, 28, 3, 13, 28, 3, 12, 28, 3, 11, 28, 3, 10, 28, 3, 9, 28, 3, 8, 28, 3, 7, 28, 3, 6, 28, 3, 5, 28, 3, 5, 26, 3, 6, 26, 3, 6, 27, 3, 7, 27, 3, 5, 27, 3, 8, 27, 3, 9, 27, 3, 10, 27, 3, 11, 27, 3, 12, 27, 3, 13, 27, 3, 14, 27, 3, 15, 27, 3, 15, 26, 3, 14, 26, 3, 13, 26, 3, 12, 26, 3, 11, 26, 3, 10, 26, 3, 9, 26, 3, 8, 26, 3, 7, 26, 3, 5, 25, 3, 6, 25, 3, 7, 25, 3, 8, 25, 3, 9, 25, 3, 10, 25, 3, 11, 25, 3, 12, 25, 3, 13, 25, 3, 14, 25, 3, 15, 25, 3, 15, 24, 3, 14, 24, 3, 13, 24, 3, 12, 24, 3, 11, 24, 3, 10, 24, 3, 9, 24, 3, 8, 24, 3, 7, 24, 3, 6, 24, 3, 5, 24, 3, 8, 21, 3, 8, 22, 3, 8, 23, 3, 9, 23, 3, 9, 22, 3, 9, 21, 3, 10, 23, 3, 10, 22, 3, 10, 21, 3, 11, 22, 3, 11, 21, 3, 11, 23, 3)
 }
 
 [node name="WayfindingGridMap" parent="GridMaps" index="1"]
@@ -128,4 +200,37 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 44, 0,
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 44, 0, 30)
 
 [node name="Worker" parent="." index="17" instance=ExtResource("9_ssggm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.75, 0, 5.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.75, 0, 5.25)
+
+[node name="Worker2" parent="." index="18" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 5.25)
+
+[node name="Worker3" parent="." index="19" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 29.75)
+
+[node name="Worker4" parent="." index="20" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 29.75)
+
+[node name="Worker5" parent="." index="21" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 29.75)
+
+[node name="Worker6" parent="." index="22" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 29.75)
+
+[node name="Worker7" parent="." index="23" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 6.25)
+
+[node name="Worker8" parent="." index="24" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 6.25)
+
+[node name="Worker9" parent="." index="25" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, 6.25)
+
+[node name="Worker10" parent="." index="26" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.75, 0, 6.25)
+
+[node name="Worker11" parent="." index="27" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.75, 0, 27)
+
+[node name="Worker12" parent="." index="28" instance=ExtResource("9_ssggm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.25, 0, 27)

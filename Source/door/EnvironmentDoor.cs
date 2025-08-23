@@ -4,10 +4,13 @@ using Godot;
 
 public partial class EnvironmentDoor : Door{
     [ExportGroup(nameof(EnvironmentDoor))]
+    [Export] private AudioPlayer audioPlayer;
     [Export] private Godot.Collections.Array<SegmentedDoorPiece> segments = new Godot.Collections.Array<SegmentedDoorPiece>();
-    [Export] private float segmentLiftSpeed = 1.0f;
-    [Export] private float segmentLowerSpeed = 1.0f;
-    [Export] private float segmentAsyncTime = 0.165f;
+    [Export] private string transitionSound;
+    [Export] private float segmentLiftSpeed     = 1.0f;
+    [Export] private float segmentLowerSpeed    = 1.0f;
+    [Export] private float segmentAsyncTime     = 0.165f;
+    [Export] private bool transitionSoundOneShot;
 
     public override void _Ready(){
         LinkEvents();
@@ -24,6 +27,7 @@ public partial class EnvironmentDoor : Door{
         for(int i = 0; i < segments.Count; i++){
             segments[i].Opened();
         }
+        audioPlayer.StopSound(transitionSound, false);
         base.Opened();
     }
 
@@ -31,6 +35,7 @@ public partial class EnvironmentDoor : Door{
         for(int i = 0; i < segments.Count; i++){
             segments[i].Closed();
         }
+        audioPlayer.StopSound(transitionSound, false);
         base.Closed();
     }
 
@@ -38,6 +43,8 @@ public partial class EnvironmentDoor : Door{
         for(int i = 0; i < segments.Count; i++){
             segments[i].Open((segments.Count-i)*segmentAsyncTime);
         }
+        audioPlayer.StopSound(transitionSound, false);
+        audioPlayer.PlaySound(transitionSound, GlobalPosition, transitionSoundOneShot);
     }
 
     public override void Close(){
@@ -47,6 +54,8 @@ public partial class EnvironmentDoor : Door{
         for(int i = 1; i < segments.Count; i++){
             segments[i].Close(i*segmentAsyncTime);
         }
+        audioPlayer.StopSound(transitionSound, false);
+        audioPlayer.PlaySound(transitionSound, GlobalPosition, transitionSoundOneShot);
     }
 
     public override void Lock(){
@@ -58,12 +67,12 @@ public partial class EnvironmentDoor : Door{
     }
 
     private void LinkEvents(){
-        segments[0].OnOpenCompleted      += Opened;
-        segments[segments.Count-1].OnCloseCompleted                    += Closed;
+        segments[0].OnOpenCompleted                 += Opened;
+        segments[segments.Count-1].OnCloseCompleted += Closed;
     }
 
     private void UnlinkEvents(){
-        segments[0].OnOpenCompleted      -= Opened;
-        segments[segments.Count-1].OnCloseCompleted                    -= Closed;
+        segments[0].OnOpenCompleted                 -= Opened;
+        segments[segments.Count-1].OnCloseCompleted -= Closed;
     }
 }
