@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
-[ext_resource type="Script" uid="uid://iyp1pucgywm8" path="res://source/Wayfinding3D/WayfindingAgent3D.cs" id="5_rehrb"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
+[ext_resource type="PackedScene" uid="uid://c04c7nwgcmuqe" path="res://scenes/gridmaps/wayfinding 3D/WayfindingAgent3d.tscn" id="6_mmbpr"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="7_ny84t"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="8_kq21a"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="9_mmbpr"]
@@ -55,9 +55,7 @@ cast_shadow = 3
 radius = 0.2
 height = 1.0
 
-[node name="WayfindingAgent3D" type="Node3D" parent="."]
-script = ExtResource("5_rehrb")
-floorLayer = 1
+[node name="WayfindingAgent3D" parent="." instance=ExtResource("6_mmbpr")]
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1.2, 0, 0, 0, 1, 0, 0, 0)

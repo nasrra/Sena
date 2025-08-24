@@ -52,6 +52,7 @@ mesh_library = ExtResource("8_0a04b")
 cell_size = Vector3(1, 1, 1)
 
 [node name="WayfindingGridMap" parent="GridMaps" instance=ExtResource("4_h5lis")]
+NavigationLayers = Array[int]([8, 12])
 
 [node name="CollisionsGridMap" type="GridMap" parent="GridMaps"]
 mesh_library = ExtResource("7_u4xlj")

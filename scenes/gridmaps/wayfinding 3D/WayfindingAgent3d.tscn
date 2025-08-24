@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c04c7nwgcmuqe"]
+
+[ext_resource type="Script" uid="uid://iyp1pucgywm8" path="res://source/Wayfinding3D/WayfindingAgent3D.cs" id="1_d3p5h"]
+
+[node name="WayfindingAgent3D" type="Node3D" node_paths=PackedStringArray("target", "refreshPathTimer")]
+script = ExtResource("1_d3p5h")
+target = NodePath("Target")
+refreshPathTimer = NodePath("Timer")
+floorLayer = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.16
+
+[node name="Target" type="Node3D" parent="."]

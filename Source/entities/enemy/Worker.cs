@@ -47,8 +47,6 @@ public partial class Worker : Enemy{
 			upAttacks: 		[PunchAttack]
 		);
 
-		navAgent.target = Target;
-
 		// GameplayGui.Singleton.BossHealthBarHud.LinkToHealth(health);
 		// GameplayGui.Singleton.BossHealthBarHud.EnableBar();
 		// GameplayGui.Singleton.BossHealthBarHud.SetNameTag("Worker");

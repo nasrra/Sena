@@ -9,7 +9,14 @@ public partial class WayfindingGrid3D : GridMap{
 
 	public const byte MaxAgentSize = 8;
 
+
 	public static WayfindingGrid3D Singleton {get;private set;}
+	
+	
+	///
+	/// Grid Data.
+	/// 
+
 
 	/// 
 	/// links the mesh index of a grid maps mesh library to a NavigationType.
@@ -18,52 +25,44 @@ public partial class WayfindingGrid3D : GridMap{
 	[Export] Godot.Collections.Array<NavigationType> meshIndexToNavigationType = new Godot.Collections.Array<NavigationType>();
 
 	/// 
-	/// clearnace layers:
+	/// NavigationLayers:
 	/// 	The index of the array is the clearance layer index.
 	/// 	The navigation type associated defines what navigation cell types are used as 
 	/// 	"clear" cells to calculate clearance.
 	/// 
 
-	[Export] Godot.Collections.Array<NavigationType> clearanceLayers = new Godot.Collections.Array<NavigationType>();
+	[Export] public Godot.Collections.Array<NavigationType> NavigationLayers {get;private set;} = new Godot.Collections.Array<NavigationType>();
 
 	/// 
 	/// clearance:
-	/// 	x - clearanceLayerId.
+	/// 	x - NavigationLayerId.
 	/// 	y - cell index x.
 	/// 	z - cell index y.
 	/// 	w - cell index z.
 	/// 
 
 	private byte[,,,] clearance;
-
 	private PathCell3D[,,] paths;
 	private bool[,,] locked;
 	private NavigationType[,,] navigationType;
-
-	[Export] private Font debugFont;
-	private Color debugBlockedColour        = new Color(1,0,0,1f);
-	private Color debugPassThroughColour    = new Color(0.5f,0.5f,0,1f);
-	private Color debugOpenColour           = new Color(1f,1f,1f,1f);
-	private Color debugNoneColour           = new Color(0.5f,0.5f,0.5f,1f);
 	public Vector3I GridSize {get => gridSize;}
 	private Vector3I gridSize 				= Vector3I.Zero;	
 
+
+	/// 
+	/// Debug Data.
+	/// 
+
+
+	[Export] private Font debugFont;
+	private static Color debugBlockedColour        = new Color(1,0,0,1f);
+	private static Color debugPassThroughColour    = new Color(0.5f,0.5f,0,1f);
+	private static Color debugOpenColour           = new Color(1f,1f,1f,1f);
+	private static Color debugNoneColour           = new Color(0.5f,0.5f,0.5f,1f);
 	private bool drawDebug = false;
-
-	// orthogonal (Manhattan)
-
-	// private Vector2I[] directions = new Vector2I[]{
-	//     new Vector2I(1, 0),     // left 
-	//     new Vector2I(-1, 0),    // right
-	//     new Vector2I(0, 1),     // up
-	//     new Vector2I(0, -1)     // down
-	// };
-
-	// diagonal (Ocitile)
 
 	public override void _Ready(){
 		base._Ready();
-		Visible=false;
 		Singleton=this;
 		Initialise();
 	}
@@ -79,7 +78,6 @@ public partial class WayfindingGrid3D : GridMap{
 		AllocateArrayData();
 		SetCellNavigationFromGrid();
 		InitialiseGridClearance();
-		// CallDeferred("Test");
 	}
 
 	private void Test(){
@@ -104,7 +102,7 @@ public partial class WayfindingGrid3D : GridMap{
 	}
 
 	private void AllocateArrayData(){
-		clearance 		= new byte[clearanceLayers.Count, gridSize.X, gridSize.Y, gridSize.Z];
+		clearance 		= new byte[NavigationLayers.Count, gridSize.X, gridSize.Y, gridSize.Z];
 		locked          = new bool[gridSize.X, gridSize.Y, gridSize.Z];
 		paths 			= new PathCell3D[gridSize.X, gridSize.Y, gridSize.Z];
 		navigationType  = new NavigationType[gridSize.X, gridSize.Y, gridSize.Z];
@@ -140,11 +138,11 @@ public partial class WayfindingGrid3D : GridMap{
 	}
 
 	private void InitialiseGridClearance(){
-		for(int i = 0; i < clearanceLayers.Count; i++){
+		for(int i = 0; i < NavigationLayers.Count; i++){
 		for(int x = 0; x < gridSize.X; x++){
 		for(int y = 0; y < gridSize.Y; y++){
 		for(int z = 0; z < gridSize.Z; z++){
-			clearance[i,x,y,z] = CalculateClearance(x,y,z,clearanceLayers[i]);
+			clearance[i,x,y,z] = CalculateClearance(x,y,z,NavigationLayers[i]);
 		
 		}}}}
 	}
@@ -354,6 +352,10 @@ public partial class WayfindingGrid3D : GridMap{
 		return (byte)(minDistanceReached + 1);
 	}
 
+	public bool CellHasClearance(Vector3I cell, int navigationLayer, byte agentClearance){
+		return clearance[navigationLayer, cell.X, cell.Y, cell.Z] >= agentClearance;
+	}
+
 	private bool IsCellSliceNavigable(Vector3I startCell, NavigationType capability, out Vector3I navigableCell, out Vector3I aboveCell, out Vector3I belowCell){
 		aboveCell 		= startCell + Vector3I.Up;
 		belowCell 		= startCell + Vector3I.Down;
@@ -392,7 +394,7 @@ public partial class WayfindingGrid3D : GridMap{
 		aboveCell.Item2 = IsCellValid(aboveCell.Item1) && clearance[clearanceLayer, aboveCell.Item1.X, aboveCell.Item1.Y, aboveCell.Item1.Z] >= agentSize && IsCellNavigable(aboveCell.Item1, capability);
 	}
 
-	private bool IsCellNavigable(Vector3I cell, NavigationType capability){
+	public bool IsCellNavigable(Vector3I cell, NavigationType capability){
 		return IsCellNavigable(cell.X, cell.Y, cell.Z, capability);
 	}
 
@@ -416,8 +418,8 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <returns></returns>
 
 	public Stack<Vector3> GetPath(Vector3 startGlobalPosition, Vector3 endGlobalPosition, NavigationType agentType, byte agentSize, byte tolerance = 0){
-		int clearanceLayer = GetClearanceLayer(agentType);
-		return GetPath(LocalToMap(startGlobalPosition), LocalToMap(endGlobalPosition), clearanceLayer, agentType, agentSize, tolerance);		
+		int navigationLayer = GetNavigationLayer(agentType);
+		return GetPath(LocalToMap(startGlobalPosition), LocalToMap(endGlobalPosition), navigationLayer, agentType, agentSize, tolerance);		
 	}  
 
 	// /// <summary>
@@ -429,7 +431,7 @@ public partial class WayfindingGrid3D : GridMap{
 	// /// <param name="tolerance">the amount of leeway given for the end point check.</param>
 	// /// <returns></returns>
 
-	private Stack<Vector3> GetPath(Vector3I startIndex, Vector3I endIndex, int clearanceLayer, NavigationType capability, byte agentSize, byte tolerance = 0){
+	private Stack<Vector3> GetPath(Vector3I startIndex, Vector3I endIndex, int navigationLayer, NavigationType capability, byte agentSize, byte tolerance = 0){
 		if(IsCellValid(startIndex) == false 
 		|| IsCellValid(endIndex) == false 
 		|| IsCellNavigable(startIndex, capability) == false  
@@ -481,7 +483,7 @@ public partial class WayfindingGrid3D : GridMap{
 
 			// front 
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward, capability, clearanceLayer, agentSize, out (Vector3I, bool) frontBelowCell, out (Vector3I, bool) frontStartCell, out (Vector3I, bool) frontAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward, capability, navigationLayer, agentSize, out (Vector3I, bool) frontBelowCell, out (Vector3I, bool) frontStartCell, out (Vector3I, bool) frontAboveCell);
 			if(frontBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontBelowCell.Item1, endIndex, current.Total, capability);
 			if(frontAboveCell.Item2==true)
@@ -491,7 +493,7 @@ public partial class WayfindingGrid3D : GridMap{
 
 			// back
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back, capability, clearanceLayer, agentSize, out (Vector3I, bool) backBelowCell, out (Vector3I, bool) backStartCell, out (Vector3I, bool) backAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back, capability, navigationLayer, agentSize, out (Vector3I, bool) backBelowCell, out (Vector3I, bool) backStartCell, out (Vector3I, bool) backAboveCell);
 			if(backBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backBelowCell.Item1, endIndex, current.Total, capability);
 			if(backAboveCell.Item2==true)
@@ -501,7 +503,7 @@ public partial class WayfindingGrid3D : GridMap{
 
 			// left.
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Left, capability, clearanceLayer, agentSize, out (Vector3I, bool) leftBelowCell, out (Vector3I, bool) leftStartCell, out (Vector3I, bool) leftAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Left, capability, navigationLayer, agentSize, out (Vector3I, bool) leftBelowCell, out (Vector3I, bool) leftStartCell, out (Vector3I, bool) leftAboveCell);
 			if(leftBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, leftBelowCell.Item1, endIndex, current.Total, capability);
 			if(leftAboveCell.Item2==true)
@@ -511,7 +513,7 @@ public partial class WayfindingGrid3D : GridMap{
 
 			// right.
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Right, capability, clearanceLayer, agentSize, out (Vector3I, bool) rightBelowCell, out (Vector3I, bool) rightStartCell, out (Vector3I, bool) rightAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Right, capability, navigationLayer, agentSize, out (Vector3I, bool) rightBelowCell, out (Vector3I, bool) rightStartCell, out (Vector3I, bool) rightAboveCell);
 			if(rightBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, rightBelowCell.Item1, endIndex, current.Total, capability);
 			if(rightAboveCell.Item2==true)
@@ -520,7 +522,7 @@ public partial class WayfindingGrid3D : GridMap{
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, rightStartCell.Item1, endIndex, current.Total, capability);
 		
 			// front left.
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Left, capability, clearanceLayer, agentSize, out (Vector3I, bool) frontLeftBelowCell, out (Vector3I, bool) frontLeftStartCell, out (Vector3I, bool) frontLeftAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Left, capability, navigationLayer, agentSize, out (Vector3I, bool) frontLeftBelowCell, out (Vector3I, bool) frontLeftStartCell, out (Vector3I, bool) frontLeftAboveCell);
 			if(frontBelowCell.Item2 == true && leftBelowCell.Item2==true && frontLeftBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontLeftBelowCell.Item1, endIndex, current.Total, capability);
 			if(frontAboveCell.Item2 == true && leftAboveCell.Item2==true && frontLeftAboveCell.Item2==true)
@@ -530,7 +532,7 @@ public partial class WayfindingGrid3D : GridMap{
 
 			// front right.
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Right, capability, clearanceLayer, agentSize, out (Vector3I, bool) frontRightBelowCell, out (Vector3I, bool) frontRightStartCell, out (Vector3I, bool) frontRightAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Forward + Vector3I.Right, capability, navigationLayer, agentSize, out (Vector3I, bool) frontRightBelowCell, out (Vector3I, bool) frontRightStartCell, out (Vector3I, bool) frontRightAboveCell);
 			if(frontBelowCell.Item2 == true && rightBelowCell.Item2==true && frontRightBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, frontRightBelowCell.Item1, endIndex, current.Total, capability);
 			if(frontAboveCell.Item2 == true && rightAboveCell.Item2==true && frontRightAboveCell.Item2==true)
@@ -540,7 +542,7 @@ public partial class WayfindingGrid3D : GridMap{
 		
 			// back right.
 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Right, capability, clearanceLayer, agentSize, out (Vector3I, bool) backRightBelowCell, out (Vector3I, bool) backRightStartCell, out (Vector3I, bool) backRightAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Right, capability, navigationLayer, agentSize, out (Vector3I, bool) backRightBelowCell, out (Vector3I, bool) backRightStartCell, out (Vector3I, bool) backRightAboveCell);
 			if(backBelowCell.Item2 == true && rightBelowCell.Item2==true && backRightBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backRightBelowCell.Item1, endIndex, current.Total, capability);
 			if(backAboveCell.Item2 == true && rightAboveCell.Item2==true && backRightAboveCell.Item2==true)
@@ -549,7 +551,7 @@ public partial class WayfindingGrid3D : GridMap{
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backRightStartCell.Item1, endIndex, current.Total, capability);		
 
 			// back left 
-			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Left, capability, clearanceLayer, agentSize, out (Vector3I, bool) backLeftBelowCell, out (Vector3I, bool) backLeftStartCell, out (Vector3I, bool) backLeftAboveCell);
+			GetDetailedCellSliceNavigability(currentIndex + Vector3I.Back + Vector3I.Left, capability, navigationLayer, agentSize, out (Vector3I, bool) backLeftBelowCell, out (Vector3I, bool) backLeftStartCell, out (Vector3I, bool) backLeftAboveCell);
 			if(backBelowCell.Item2 == true && leftBelowCell.Item2==true && backLeftBelowCell.Item2==true)
 				HandleFoundPathCellNeighbour(openList, closedSet, currentIndex, backLeftBelowCell.Item1, endIndex, current.Total, capability);
 			if(backAboveCell.Item2 == true && leftAboveCell.Item2==true && backLeftAboveCell.Item2==true)
@@ -976,9 +978,9 @@ public partial class WayfindingGrid3D : GridMap{
 		&& 	cell.Z < gridSize.Z;
 	}	
 
-	private int GetClearanceLayer(NavigationType navigationType){
-		for(int i = 0; i < clearanceLayers.Count; i++){
-			if(navigationType == clearanceLayers[i]){
+	public int GetNavigationLayer(NavigationType navigationType){
+		for(int i = 0; i < NavigationLayers.Count; i++){
+			if(navigationType == NavigationLayers[i]){
 				return i;
 			}
 		}

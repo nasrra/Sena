@@ -192,19 +192,15 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		CalculateRelationshipToTarget();
 		attackHandler.ResumeState();
 	}
+
 	protected void ChaseStatePhysicsProcess(double delta){
-		// throw new NotImplementedException("method is not implemented");
 		if(IsInstanceValid(Target) == false || Target == null){
 			return;
 		}
 		
 		CalculateRelationshipToTarget();
 
-		if(chaseStateIntention == ChaseStateIntention.ApproachTarget){
-			navAgent.SetTargetPosition(Target.Position);
-		}
-
-		MoveAlongPath();
+		characterMovement.Move(navAgent.DirectionToNextPathPoint);
 	
 		Vector3 velocity = characterMovement.Velocity;
 		if(velocity == Vector3.Zero){
@@ -219,6 +215,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void ApproachIntentionChaseState(){
 		avoidanceIntentionChaseStateTimer.Start();
 		chaseStateIntention = ChaseStateIntention.ApproachTarget;
+		navAgent.StartFollowingTarget(Target);
 	}
 
 	protected void AvoidanceIntentionChaseState(){
@@ -302,17 +299,10 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	/// Shared Functions
 	/// 
 
-	protected void MoveAlongPath(){
-		if(navAgent.CalculateNewPath()==true){
-			navAgent.UpdateCurrentPathToTarget();
-			// avoidanceAgent.CalculatAvoidanceDirection();
-			// characterMovement.Move((navAgent.NextPathPoint - GlobalPosition).Lerp(avoidanceAgent.AvoidanceDirection, avoidanceAgent.ProximityStrength));
-			characterMovement.Move(navAgent.NextPathPoint - GlobalPosition);
-		}
-		else{
-			IdleState();
-		}
-	}
+	
+	// check capabilty path to target.
+	// check capability path to last valid cell position.
+	// check all capability path to last valid cell position.
 
 	protected void CalculateRelationshipToTarget(){		
 		if(IsInstanceValid(Target)==false || Target == null){
