@@ -34,17 +34,16 @@ public partial class WayfindingAgent3D : Node3D{
     public override void _ExitTree(){
         base._ExitTree();
         UnlinkEvents();
+        target.QueueFree();
     }
 
 
     public override void _PhysicsProcess(double delta){
-        // if(path!=null){
-        //     GD.Print(1);
-        //     foreach(Vector3 point in path){
-        //         GD.Print(point);
-        //         DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.01f, new Color(1, 1, 0), true, 0.0167f);
-        //     }
-        // }
+        if(path!=null){
+            foreach(Vector3 point in path){
+                DebugDraw3D.DrawBox(point, Quaternion.Identity, Vector3.One * 0.01f, new Color(1, 1, 0), true, 0.0167f);
+            }
+        }
         
         if(paused== true){
             return;
@@ -90,12 +89,11 @@ public partial class WayfindingAgent3D : Node3D{
 
 
     public void StartFollowingTarget(Node3D target){
-        if(this.target.GetParent() != target){
-            this.target.GetParent().RemoveChild(this.target);
-            target.AddChild(this.target);
-            LinkToTargetParent();
-            targetIsLinked = true;
-        }
+        this.target.GetParent().RemoveChild(this.target);
+        this.target.Position = Vector3.Zero;
+        target.AddChild(this.target);
+        LinkToTargetParent();
+        targetIsLinked = true;
 
         VerifyTargetPosition();
         VerifyCellPosition();
@@ -172,7 +170,6 @@ public partial class WayfindingAgent3D : Node3D{
                 path = new Stack<Vector3>();
                 path.Push(lastValidNavigationCell);
                 SetNextPathPoint();
-                GD.Print("return");
                 return false;
         }
     }
@@ -217,39 +214,28 @@ public partial class WayfindingAgent3D : Node3D{
         nextPathPoint = position;
     }
 
-    // public bool SetTargetPosition(Vector3 targetGlobalPosition, Vector3I randomStartOffset, Vector3I randomEndOffset, uint obstructionLayers){
+    public bool StartFollowingTarget(Vector3 targetPosition, Vector3 areaMin, Vector3 areaMax, uint obstructionLayers){
+        List<Vector3> cellsAroundTarget = WayfindingGrid3D.Singleton.GetNavigableCellsInArea(targetPosition + areaMin, targetPosition + areaMax, navigationLayer, Capability, size);				
+        
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 
-    //     List<Vector3I> cellsAroundTarget = WayfindingGrid3D.Singleton.GetCellsInArea(targetGlobalPosition, randomStartOffset, randomEndOffset);		
-	// 	cellsAroundTarget = WayfindingGrid3D.Singleton.GetGroundClearanceCells(cellsAroundTarget, 2);
-		
-    //     PhysicsDirectSpaceState2D spaceState = GetWorld2D().DirectSpaceState;
-
-    //     for(int i = 0; i < 6; i++){
-    //         if(spaceState.IntersectRay(new PhysicsRayQueryParameters2D{
-    //             From                = GlobalPosition,
-    //             To                  = targetGlobalPosition,
-    //             CollideWithAreas    = true,
-    //             CollideWithBodies   = true,
-    //             CollisionMask       = obstructionLayers,
-    //         }).Count==0){
-    //             // debug draw. 
-    //             // GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-    //             for(int j = 0; j < cellsAroundTarget.Count; j++){			
-    //                 Vector2 cellPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[j]);
-    //                 // GodotObject debugDraw = GetNode<GodotObject>("/root/DebugDraw2D");
-    //                 // debugDraw.Call("rect",cellPosition, Vector2.One, new Color(0,0.5f,1f), 8f, 1f);
-    //             }
-
-    //             TargetPosition = WayfindingGrid2D.Singleton.IdToGlobalPosition(cellsAroundTarget[GD.RandRange(0, cellsAroundTarget.Count-1)]);
-    //             // debugDraw.Call("rect",TargetPosition, Vector2.One, new Color(1,0,0), 8f, 1f);
-    //             return true;
-    //         }
-    //     }
-
-    //     TargetPosition = targetGlobalPosition;
-
-    //     return false;
-    // }
+        for(int i = 0; i < 6; i++){
+            Vector3 chosenPosition = cellsAroundTarget[GD.RandRange(0,cellsAroundTarget.Count-1)];
+            if(spaceState.IntersectRay(new PhysicsRayQueryParameters3D{
+                From                = chosenPosition,
+                To                  = targetPosition,
+                CollideWithAreas    = true,
+                CollideWithBodies   = true,
+                CollisionMask       = obstructionLayers,
+            }).Count==0){
+                DebugDraw3D.DrawBox(chosenPosition, Quaternion.Identity, Vector3.One * 0.1f, new Color(1,1,0,1), true, 1);
+                StartFollowingTarget(chosenPosition);
+                UnlinkFromTargetParent();
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /// 

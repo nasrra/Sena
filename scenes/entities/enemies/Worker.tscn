@@ -61,6 +61,7 @@ sprite_frames = ExtResource("3_83uge")
 animation = &"AttackBackward"
 
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="10"]
+wait_time = 2.0
 
 [node name="HitBoxHandler" parent="." index="13" node_paths=PackedStringArray("hitBoxes")]
 hitBoxes = [NodePath("HitboxBackward"), NodePath("HitboxLeft"), NodePath("HitboxRight"), NodePath("HitboxForward")]

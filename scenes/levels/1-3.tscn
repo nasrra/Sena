@@ -237,50 +237,62 @@ omni_range = 9.333
 [node name="Worker4" parent="Node" index="0" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 32.5)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker5" parent="Node" index="1" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 32.5)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker6" parent="Node" index="2" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 32.5)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker7" parent="Node" index="3" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 8)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker8" parent="Node" index="4" instance=ExtResource("9_ssggm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.25, 0, 8)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker13" parent="Node" index="5" instance=ExtResource("9_ssggm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 8.75)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker2" parent="Node" index="6" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 8.25)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker9" parent="Node" index="7" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5, 0, 8.75)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker10" parent="Node" index="8" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.75, 0, 8.75)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker11" parent="Node" index="9" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.75, 0, 27)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker3" parent="Node" index="10" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 32.5)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="Worker12" parent="Node" index="11" instance=ExtResource("9_ssggm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.25, 0, 27)
 collision_mask = 15
+floor_snap_length = 0.1
 
 [node name="SoulFlameExtractor" parent="." index="22" instance=ExtResource("11_p27lc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.25, 0, 6.75)

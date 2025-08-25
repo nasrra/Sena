@@ -356,6 +356,47 @@ public partial class WayfindingGrid3D : GridMap{
 		return clearance[navigationLayer, cell.X, cell.Y, cell.Z] >= agentClearance;
 	}
 
+	private List<Vector3I> GetNavigableCellsInArea(Vector3I startCell, Vector3I endCell, int navigationLayer,  NavigationType capability, byte agentSize){
+		List<Vector3I> cells = new List<Vector3I>();
+		for(int y = startCell.Y; y < endCell.Y; y++){
+			if(y < 0 || y >= gridSize.Y){
+				continue;
+			}
+			
+			for(int x = startCell.X; x < endCell.X; x++){
+				if(x < 0 || x >= gridSize.X){
+					continue;
+				}
+
+				for(int z = startCell.Z; z < endCell.Z; z++){
+					if(z < 0 || z >= gridSize.Z){
+						continue;
+					}
+
+					Vector3I cell = new Vector3I(x,y,z);
+
+					if(IsCellNavigable(cell, capability)==true
+					&& CellHasClearance(cell, navigationLayer, agentSize) == true){
+						cells.Add(cell);
+					}
+				}
+			}
+		}
+
+		return cells;
+	}
+
+	public List<Vector3> GetNavigableCellsInArea(Vector3 startGlobalPosition, Vector3 endGlobalPosition, int navigationLayer,  NavigationType capability, byte agentSize){
+		Vector3I startCell = LocalToMap(startGlobalPosition);
+		Vector3I endCell = LocalToMap(endGlobalPosition);
+		List<Vector3I> cells = GetNavigableCellsInArea(startCell, endCell, navigationLayer, capability, agentSize);
+		List<Vector3> globalPositions = new List<Vector3>();
+		for(int i = 0; i < cells.Count; i++){
+			globalPositions.Add(MapToLocal(cells[i]));
+		}
+		return globalPositions;
+	}
+
 	private bool IsCellSliceNavigable(Vector3I startCell, NavigationType capability, out Vector3I navigableCell, out Vector3I aboveCell, out Vector3I belowCell){
 		aboveCell 		= startCell + Vector3I.Up;
 		belowCell 		= startCell + Vector3I.Down;
@@ -729,7 +770,6 @@ public partial class WayfindingGrid3D : GridMap{
 			err2 = dz2 - dx;
 
 			while (x0 != x1) {
-				GD.Print("1");
 				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
 					return false;
 
@@ -752,7 +792,6 @@ public partial class WayfindingGrid3D : GridMap{
 			err2 = dz2 - dy;
 
 			while (y0 != y1) {
-				GD.Print("2");
 				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
 					return false;
 
@@ -775,7 +814,6 @@ public partial class WayfindingGrid3D : GridMap{
 			err2 = dy2 - dz;
 
 			while (z0 != z1) {
-				GD.Print("3");
 				if (IsCellValid(x0, y0, z0) == false || IsCellNavigable(x0, y0, z0, capability) == false)
 					return false;
 
@@ -793,8 +831,6 @@ public partial class WayfindingGrid3D : GridMap{
 				z0 += sz;
 			}
 		}
-
-		GD.Print("end");
 
 		// Final cell check (destination)
 		if (IsCellValid(x1, y1, z1) == false || IsCellNavigable(x1, y1, z1, capability) == false)

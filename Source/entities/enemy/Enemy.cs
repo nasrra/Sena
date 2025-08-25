@@ -224,23 +224,25 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void ApproachIntentionChaseState(){
 		avoidanceIntentionChaseStateTimer.Start();
 		chaseStateIntention = ChaseStateIntention.ApproachTarget;
+		GD.Print(chaseStateIntention);
 		navAgent.StartFollowingTarget(Target);
 	}
 
 	protected void AvoidanceIntentionChaseState(){
-		throw new NotImplementedException("method is not implemented");
-		// if(GD.RandRange(0,2)==0){
-		// 	return;
-		// }
+		if(GD.RandRange(0,2)==0){
+			return;
+		}
 
-		// avoidanceIntentionChaseStateTimer.Stop();
+		avoidanceIntentionChaseStateTimer.Stop();
 
-		// if(navAgent.SetTargetPosition(Target.Position, new Vector2I(-6,-6), new Vector2I(6,6), avoidanceChaseStateLineOfSightObstructions)){
-		// 	chaseStateIntention = ChaseStateIntention.AvoidTarget;
-		// }
-		// else{
-		// 	chaseStateIntention = ChaseStateIntention.ApproachTarget;
-		// }
+		if(navAgent.StartFollowingTarget(Target.Position, new Vector3(-3,-3, -1), new Vector3(3,3,1), avoidanceChaseStateLineOfSightObstructions) == true){
+			chaseStateIntention = ChaseStateIntention.AvoidTarget;
+			GD.Print(chaseStateIntention);
+		}
+		else{
+			chaseStateIntention = ChaseStateIntention.ApproachTarget;
+			GD.Print(chaseStateIntention);
+		}
 	}
 
 
@@ -493,7 +495,6 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 	
 	public virtual void Kill(){
-		GD.Print("kill");
 		QueueFree();
 	}
 
@@ -566,12 +567,12 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 	protected virtual void LinkTimers(){
 		stunTimer.Timeout 							+= EvaluateState;
-		// avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
+		avoidanceIntentionChaseStateTimer.Timeout 	+= AvoidanceIntentionChaseState;
 	}
 
 	protected virtual void UnlinkTimers(){
 		stunTimer.Timeout 							-= EvaluateState;
-		// avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
+		avoidanceIntentionChaseStateTimer.Timeout 	-= AvoidanceIntentionChaseState;
 	}
 
 

@@ -23,7 +23,7 @@ public partial class EnemyManager : Node{
 	public void AddEnemy(Enemy enemy){
 		int enemyGroup = GetEnemyGroup(enemy.GlobalPosition);
 		enemies[enemyGroup].Add(enemy);
-		GD.Print($"enemy added to group [{enemyGroup}]");
+		// GD.Print($"enemy added to group [{enemyGroup}]");
 	}
 
 	public void RemoveEnemy(Enemy enemy){
@@ -31,7 +31,7 @@ public partial class EnemyManager : Node{
 		enemies[enemyGroup].Remove(enemy);
 		if(enemies[enemyGroup].Count == 0){
 			OnEnemyGroupKilled?.Invoke(enemyGroup);
-			GD.Print($"enemy group [{enemyGroup}] killed");
+			// GD.Print($"enemy group [{enemyGroup}] killed");
 		}
 	}
 
