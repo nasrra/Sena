@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cmut154n8dal8"]
+
+[ext_resource type="Texture2D" uid="uid://bxqhiwnm2gwqf" path="res://assets/tilemaps/FloorTilemap1.png" id="1_c64a2"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_c64a2")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_offset = Vector3(0.625, 0, 0)

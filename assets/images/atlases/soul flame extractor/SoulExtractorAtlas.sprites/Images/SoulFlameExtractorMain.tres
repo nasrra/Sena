@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bdfo6q11wjmky"]
+
+[ext_resource type="Texture2D" uid="uid://cjtn7penulr86" path="res://assets/images/atlases/soul flame extractor/SoulExtractorAtlas.png" id="1_8gf8a"]
+
+[resource]
+atlas = ExtResource("1_8gf8a")
+region = Rect2(0, 959, 1992, 1697)

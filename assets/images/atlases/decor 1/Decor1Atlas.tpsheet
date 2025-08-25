@@ -1,0 +1,93 @@
+{
+	"textures": [
+		{
+			"image": "Decor1Atlas.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "Images/shovel.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 142,
+						"h": 560
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/apron.png",
+					"region": {
+						"x": 142,
+						"y": 0,
+						"w": 231,
+						"h": 500
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/broom.png",
+					"region": {
+						"x": 373,
+						"y": 0,
+						"w": 219,
+						"h": 488
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/stood.png",
+					"region": {
+						"x": 0,
+						"y": 560,
+						"w": 200,
+						"h": 251
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/bucket.png",
+					"region": {
+						"x": 200,
+						"y": 500,
+						"w": 243,
+						"h": 226
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dumn464tj00si"]
+[gd_scene load_steps=6 format=3 uid="uid://dumn464tj00si"]
 
-[ext_resource type="Texture2D" uid="uid://cglh4jwgmsyox" path="res://assets/images/sprites/soul extractor/soul extractor 1.png" id="1_srjcl"]
+[ext_resource type="Texture2D" uid="uid://b531mjs10it41" path="res://assets/images/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorSub.tres" id="1_6wxma"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="2_8rvxn"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="3_7tw4m"]
-[ext_resource type="Texture2D" uid="uid://b012lhhw21nu5" path="res://assets/images/sprites/soul extractor/soul extractor 2.png" id="4_fbxer"]
+[ext_resource type="Texture2D" uid="uid://bdfo6q11wjmky" path="res://assets/images/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorMain.tres" id="4_dgibv"]
+[ext_resource type="Texture2D" uid="uid://g46rcote6ubg" path="res://assets/images/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorShadow.tres" id="5_n0vwp"]
 
 [node name="SoulFlameExtractor" type="Node3D"]
 
@@ -11,14 +12,14 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045, 0, -0.5)
 
 [node name="Sprite3D" type="Sprite3D" parent="Back"]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -3.25, 2.75013, -1.5)
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -3.25, 1.50013, -1.75)
 layers = 2
 shaded = true
 no_depth_test = true
-texture = ExtResource("1_srjcl")
+texture = ExtResource("1_6wxma")
 
 [node name="SpriteSorter1" type="Node3D" parent="Back" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 0, -5.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 0, -3.75)
 script = ExtResource("2_8rvxn")
 sprite = NodePath("../Sprite3D")
 
@@ -72,15 +73,15 @@ omni_range = 1.67
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045, 0, 0)
 
 [node name="Sprite3D2" type="Sprite3D" parent="Front"]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -0.25, 3.20337, 0)
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -1.11538, 2.45337, -0.25)
 cast_shadow = 0
 shaded = true
 double_sided = false
 no_depth_test = true
-texture = ExtResource("4_fbxer")
+texture = ExtResource("4_dgibv")
 
 [node name="SpriteSorter2" type="Node3D" parent="Front" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
 script = ExtResource("2_8rvxn")
 sprite = NodePath("../Sprite3D2")
 
@@ -140,3 +141,10 @@ transparency = 1.0
 cast_shadow = 0
 use_collision = true
 size = Vector3(2.75, 1, 1)
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.35, 0, 0, 0, -1.57361e-08, 0.4, 0, -0.36, -1.74846e-08, -1.45, 0, -1.2)
+shaded = true
+no_depth_test = true
+render_priority = -1
+texture = ExtResource("5_n0vwp")

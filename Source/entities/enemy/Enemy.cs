@@ -193,22 +193,31 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		attackHandler.ResumeState();
 	}
 
+	Vector3 cummulativeVelocity = Vector3.Zero;
+	int counter = 0;
+
 	protected void ChaseStatePhysicsProcess(double delta){
 		if(IsInstanceValid(Target) == false || Target == null){
 			return;
 		}
 		
 		CalculateRelationshipToTarget();
-
-		characterMovement.Move(navAgent.DirectionToNextPathPoint);
-	
-		Vector3 velocity = characterMovement.Velocity;
-		if(velocity == Vector3.Zero){
-			PlayAnimation(IdleAnimationName, facingDirection);
+		characterMovement.Move(navAgent.DirectionToNextPathPoint + new Vector3(avoidanceAgent.AvoidanceDirection.X, 0, avoidanceAgent.AvoidanceDirection.Z));
+		if(counter >= 4){
+			cummulativeVelocity /= 4;
+			if(cummulativeVelocity == Vector3.Zero){
+				PlayAnimation(IdleAnimationName, facingDirection);
+			}
+			else{
+				CalculateFacingDirection(cummulativeVelocity, out facingDirection);
+				PlayAnimation(ChaseMoveAnimationName, facingDirection);
+			}
+			cummulativeVelocity = Vector3.Zero;
+			counter = 0;
 		}
 		else{
-			CalculateFacingDirection(velocity, out facingDirection);
-			PlayAnimation(ChaseMoveAnimationName, facingDirection);
+			counter++;
+			cummulativeVelocity+=characterMovement.Velocity;
 		}
 	}
 

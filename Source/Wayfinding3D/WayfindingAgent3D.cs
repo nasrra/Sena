@@ -22,6 +22,7 @@ public partial class WayfindingAgent3D : Node3D{
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
     [Export] public NavigationType Capability {get;private set;}
+    private bool targetIsLinked = false;
 
 
     public override void _Ready(){
@@ -89,11 +90,15 @@ public partial class WayfindingAgent3D : Node3D{
 
 
     public void StartFollowingTarget(Node3D target){
-        this.target.GetParent().RemoveChild(this.target);
-        target.AddChild(this.target);
+        if(this.target.GetParent() != target){
+            this.target.GetParent().RemoveChild(this.target);
+            target.AddChild(this.target);
+            LinkToTargetParent();
+            targetIsLinked = true;
+        }
+
         VerifyTargetPosition();
         VerifyCellPosition();
-
         CalculateNewPath();
         refreshPathTimer.Start();
         PhysicsProcess = FollowingPhysicsProcess;
@@ -105,6 +110,7 @@ public partial class WayfindingAgent3D : Node3D{
         target.GlobalPosition = targetPosition;
         VerifyTargetPosition();
         VerifyCellPosition();
+        targetIsLinked = false;
 
         CalculateNewPath();
         refreshPathTimer.Start();
@@ -118,6 +124,7 @@ public partial class WayfindingAgent3D : Node3D{
     public void StopFollowingTarget(){
         refreshPathTimer.Stop();
         PhysicsProcess = null;
+        targetIsLinked = false;
     }
 
     private void LinkToTargetParent(){
@@ -127,8 +134,9 @@ public partial class WayfindingAgent3D : Node3D{
     private void UnlinkFromTargetParent(){
 
         // go to last known position before the node is freed.
-
-        StartFollowingTarget(target.GlobalPosition);
+        if(targetIsLinked == false){
+            return;
+        }        
         target.GetParent().TreeExiting -= UnlinkFromTargetParent;
     }
 

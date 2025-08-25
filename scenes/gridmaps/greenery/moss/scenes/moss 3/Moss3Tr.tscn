@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://plp6hhwc8x3x"]
-
-[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/templates/FloorTileTemplate.tscn" id="1_0ppx2"]
-[ext_resource type="Material" uid="uid://dpe62lqw36qsd" path="res://scenes/gridmaps/greenery/moss/materials/moss 3/Moss3Tr.tres" id="2_0ppx2"]
-
-[node name="Moss3Tr" instance=ExtResource("1_0ppx2")]
-surface_material_override/0 = ExtResource("2_0ppx2")

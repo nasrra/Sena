@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://q2x5bahglovi"]
+
+[ext_resource type="Material" uid="uid://c8rknx1s5nn01" path="res://scenes/gridmaps/data/collisions/materials/CollisionNodePassThrough.tres" id="1_bgrjh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rcrr1"]
+material = ExtResource("1_bgrjh")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_22mk4"]
+
+[node name="CollisionNodePassThrough" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_rcrr1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 32
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_22mk4")

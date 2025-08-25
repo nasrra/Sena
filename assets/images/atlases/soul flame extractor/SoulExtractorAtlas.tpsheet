@@ -1,0 +1,63 @@
+{
+	"textures": [
+		{
+			"image": "SoulExtractorAtlas.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "Images/SoulFlameExtractorShadow.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 2286,
+						"h": 959
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/SoulFlameExtractorMain.png",
+					"region": {
+						"x": 0,
+						"y": 959,
+						"w": 1992,
+						"h": 1697
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/SoulFlameExtractorSub.png",
+					"region": {
+						"x": 2286,
+						"y": 0,
+						"w": 1482,
+						"h": 1044
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

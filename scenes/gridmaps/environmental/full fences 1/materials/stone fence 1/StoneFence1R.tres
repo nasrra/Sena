@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bpl415nv1ewbk"]
+
+[ext_resource type="Texture2D" uid="uid://bns3daqsdikud" path="res://assets/tilemaps/FullFenceTilemap1.png" id="1_k5amy"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_k5amy")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_offset = Vector3(0.125, 0, 0)

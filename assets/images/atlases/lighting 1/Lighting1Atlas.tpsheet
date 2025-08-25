@@ -1,0 +1,63 @@
+{
+	"textures": [
+		{
+			"image": "Lighting1Atlas.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "Images/StoneLantern.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 256,
+						"h": 768
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/PumpkinLantern.png",
+					"region": {
+						"x": 256,
+						"y": 0,
+						"w": 256,
+						"h": 512
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/candle in pottery.png",
+					"region": {
+						"x": 512,
+						"y": 0,
+						"w": 242,
+						"h": 367
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

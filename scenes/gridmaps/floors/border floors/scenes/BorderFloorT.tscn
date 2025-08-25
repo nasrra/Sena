@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm8cj5cl70bwx"]
-
-[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/templates/FloorTileTemplate.tscn" id="1_s8sxs"]
-[ext_resource type="Material" uid="uid://cc827qb8qqgcv" path="res://scenes/gridmaps/level 1/floors/border floors/materials/BorderFloorT.tres" id="2_s8sxs"]
-
-[node name="BorderFloorT" instance=ExtResource("1_s8sxs")]
-surface_material_override/0 = ExtResource("2_s8sxs")

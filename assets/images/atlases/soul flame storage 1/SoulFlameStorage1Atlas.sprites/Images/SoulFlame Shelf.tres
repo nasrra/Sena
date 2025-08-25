@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bxlsuslul5w6a"]
+
+[ext_resource type="Texture2D" uid="uid://g8td3jytskmj" path="res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.png" id="1_w4ofs"]
+
+[resource]
+atlas = ExtResource("1_w4ofs")
+region = Rect2(0, 0, 413, 1543)

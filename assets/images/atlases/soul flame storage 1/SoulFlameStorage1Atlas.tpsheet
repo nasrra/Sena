@@ -1,0 +1,48 @@
+{
+	"textures": [
+		{
+			"image": "SoulFlameStorage1Atlas.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "Images/SoulFlame Shelf.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 413,
+						"h": 1543
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/SoulFlame Rod.png",
+					"region": {
+						"x": 413,
+						"y": 0,
+						"w": 187,
+						"h": 578
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

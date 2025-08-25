@@ -210,6 +210,7 @@ DebugCameraZoom={
 2d_physics/layer_6="Player"
 3d_physics/layer_6="PassThroughEnvironment"
 2d_physics/layer_7="Projectile"
+3d_physics/layer_7="AvoidancePoint"
 2d_physics/layer_8="Pitfall"
 2d_physics/layer_9="PassThroughEnvironment"
 2d_physics/layer_10="AvoidancePoint"

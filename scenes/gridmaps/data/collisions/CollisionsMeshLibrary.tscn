@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxk11ga6po76x"]
+
+[ext_resource type="PackedScene" uid="uid://q2x5bahglovi" path="res://scenes/gridmaps/data/collisions/scenes/CollisionNodePassThrough.tscn" id="1_iialb"]
+[ext_resource type="PackedScene" uid="uid://bew0ib51e0cd8" path="res://scenes/gridmaps/data/collisions/scenes/CollisionNodeSolidBox.tscn" id="2_m3dql"]
+[ext_resource type="PackedScene" uid="uid://baoeupvyk4hxx" path="res://scenes/gridmaps/data/collisions/scenes/CollisionNodeSolidSlope.tscn" id="3_joavj"]
+
+[node name="CollisionsMeshLibrary" type="Node3D"]
+
+[node name="CollisionNodeSolidSlope" parent="." instance=ExtResource("3_joavj")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="CollisionNodePassThrough" parent="." instance=ExtResource("1_iialb")]
+
+[node name="CollisionNodeSolidBox" parent="." instance=ExtResource("2_m3dql")]

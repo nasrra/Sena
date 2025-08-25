@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cupm00ihxt17y"]
+
+[ext_resource type="PackedScene" uid="uid://b6el5j8ufqphw" path="res://scenes/gridmaps/templates/FloorTileTemplate.tscn" id="1_hy5dh"]
+[ext_resource type="Material" uid="uid://cpbhcxmpnuidr" path="res://scenes/gridmaps/environmental/floors 1/materials/stone bridge 1/StoneBridge1MrMaterial.tres" id="2_hy5dh"]
+
+[node name="StoneBridge1Mr" instance=ExtResource("1_hy5dh")]
+surface_material_override/0 = ExtResource("2_hy5dh")

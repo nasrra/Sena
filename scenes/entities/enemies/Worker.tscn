@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://jdjh2imli3fo" path="res://source/shaders/foliage/GrassDeformer.cs" id="6_82jcj"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="7_pwn86"]
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "spriteSorter") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent", "spriteSorter") instance=ExtResource("1_45jq6")]
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
 avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
@@ -21,6 +21,7 @@ hitFlash = NodePath("HitFlashShaderController")
 animator = NodePath("AnimatedSprite3D")
 audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
+avoidanceAgent = NodePath("AvoidanceAgent")
 spriteSorter = NodePath("SpriteSorter")
 
 [node name="CharacterMovement" parent="." index="0" node_paths=PackedStringArray("character")]
@@ -86,3 +87,11 @@ light_color = Color(0.658824, 1, 1, 1)
 light_energy = 0.145
 omni_range = 3.33
 omni_attenuation = 1.222
+
+[node name="AvoidanceAgent" parent="." index="16"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+smoothFactor = 2.0
+
+[node name="AvoidancePoint" parent="." index="17"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+Strength = 0.22

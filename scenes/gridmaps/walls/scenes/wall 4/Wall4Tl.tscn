@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bnr1tw166dirl"]
-
-[ext_resource type="PackedScene" uid="uid://usw02gtnbc16" path="res://scenes/gridmaps/templates/WallTileTemplate.tscn" id="1_wg2vo"]
-[ext_resource type="Material" uid="uid://dvemlyqci2ym5" path="res://scenes/gridmaps/level 1/walls/materials/wall 4/Wall4Tl.tres" id="2_aa3st"]
-
-[node name="Wall4Tl" instance=ExtResource("1_wg2vo")]
-surface_material_override/0 = ExtResource("2_aa3st")

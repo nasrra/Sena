@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://cypn2u45d2biw"]
+
+[ext_resource type="PackedScene" uid="uid://usw02gtnbc16" path="res://scenes/gridmaps/templates/WallTileTemplate.tscn" id="1_jvo85"]
+[ext_resource type="Material" uid="uid://bpl415nv1ewbk" path="res://scenes/gridmaps/environmental/full fences 1/materials/stone fence 1/StoneFence1R.tres" id="2_jvo85"]
+
+[node name="StoneFence1R" instance=ExtResource("1_jvo85")]
+surface_material_override/0 = ExtResource("2_jvo85")

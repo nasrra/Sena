@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://dd5huw73wbc5t"
+path="res://.godot/imported/Lighting1Atlas.tpsheet-700bde1a9eeaf34e70f83bcea782f6ac.res"
+
+[deps]
+
+files=["res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/StoneLantern.tres", "res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/PumpkinLantern.tres", "res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/candle in pottery.tres"]
+
+source_file="res://assets/images/atlases/lighting 1/Lighting1Atlas.tpsheet"
+dest_files=["res://.godot/imported/Lighting1Atlas.tpsheet-700bde1a9eeaf34e70f83bcea782f6ac.res", "res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/StoneLantern.tres", "res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/PumpkinLantern.tres", "res://assets/images/atlases/lighting 1/Lighting1Atlas.sprites/Images/candle in pottery.tres"]
+
+[params]
+

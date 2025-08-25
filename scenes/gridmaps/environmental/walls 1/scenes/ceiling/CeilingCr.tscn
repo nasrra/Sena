@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnbf0ifmlymrn"]
+
+[ext_resource type="PackedScene" uid="uid://cjs2u7tvb1cj6" path="res://scenes/gridmaps/templates/CeilingTileTemplate.tscn" id="1_eaiut"]
+[ext_resource type="Material" uid="uid://jtcnb777pop3" path="res://scenes/gridmaps/environmental/walls 1/materials/ceiling/CeilingCr.tres" id="2_dt0fw"]
+
+[node name="CeilingCr" instance=ExtResource("1_eaiut")]
+surface_material_override/0 = ExtResource("2_dt0fw")

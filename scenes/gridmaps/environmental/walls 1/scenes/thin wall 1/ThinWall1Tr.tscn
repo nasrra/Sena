@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bufywo55fglv"]
+
+[ext_resource type="PackedScene" uid="uid://usw02gtnbc16" path="res://scenes/gridmaps/templates/WallTileTemplate.tscn" id="1_0b4g0"]
+[ext_resource type="Material" uid="uid://dtikme8mpdq8k" path="res://scenes/gridmaps/environmental/walls 1/materials/thin wall 1/ThinWall1Tr.tres" id="2_0b4g0"]
+
+[node name="ThinWall1Tr" instance=ExtResource("1_0b4g0")]
+surface_material_override/0 = ExtResource("2_0b4g0")

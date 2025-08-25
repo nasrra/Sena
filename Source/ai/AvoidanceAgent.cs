@@ -2,7 +2,7 @@ using Entropek.Collections;
 using Godot;
 using System;
 
-public partial class AvoidanceAgent : Area2D{
+public partial class AvoidanceAgent : Area3D{
 
     public const string NodeName = nameof(AvoidanceAgent);
 
@@ -12,10 +12,11 @@ public partial class AvoidanceAgent : Area2D{
 
 
     private SwapbackList<AvoidancePoint> avoidancePoints = new SwapbackList<AvoidancePoint>();
-    [Export] CollisionShape2D collisionShape;
-    public Vector2 AvoidanceDirection = Vector2.Zero;
-    public float ProximityStrength = 0.0f;
+    [Export] CollisionShape3D collisionShape;
+    public Vector3 AvoidanceDirection {get;private set;} = Vector3.Zero;
+    public float ProximityStrength {get;private set;} = 0.0f;
     private float radiusSqrd = 0.0f;
+    [Export] private float smoothFactor = 1;
 
 
     /// 
@@ -26,12 +27,11 @@ public partial class AvoidanceAgent : Area2D{
     public override void _EnterTree(){
         base._EnterTree();
         LinkEvents();
-        if(collisionShape.Shape is CircleShape2D shape){
+        if(collisionShape.Shape is SphereShape3D shape){
             radiusSqrd = collisionShape.Scale.X * collisionShape.Scale.Y;
         }
         else{
             throw new Exception($"{NodeName} must have a circle collision shape!");
-
         }
     }
 
@@ -40,67 +40,74 @@ public partial class AvoidanceAgent : Area2D{
         UnlinkEvents();
     }
 
+    public override void _PhysicsProcess(double delta){
+        AvoidanceDirection = AvoidanceDirection.MoveToward(CalculatAvoidanceDirection(), smoothFactor * (float)delta);
+    }
+
 
     /// 
     /// Functions.
     /// 
 
 
-    private void CollisionEntered(Node2D node){
+    private void CollisionEntered(Node3D node){
         avoidancePoints.Add(node as AvoidancePoint);
     }
 
-    private void CollisionExited(Node2D node){
+    private void CollisionExited(Node3D node){
         avoidancePoints.Remove(node as AvoidancePoint);
     }
 
-    public void CalculatAvoidanceDirection(){
-        
-        if(avoidancePoints.Count == 0){
-            AvoidanceDirection = Vector2.Zero;
+
+    private Vector3 CalculatAvoidanceDirection() {
+        if (avoidancePoints.Count == 0) {
             ProximityStrength = 0f;
-            return;
+            return Vector3.Zero;
         }
 
-        Vector2 total = Vector2.Zero;
-        float totalWeight = 0f;
-        float proximityTotal = 0f;
-        int countedPoints = 0;
+        Vector3 totalDir = Vector3.Zero;
+        float totalStrength = 0f;
 
-        foreach(AvoidancePoint point in avoidancePoints){
-            Vector2 offset = GlobalPosition - point.GlobalPosition;
-            float distSqrd = offset.LengthSquared();
+        foreach (AvoidancePoint point in avoidancePoints) {
+            if (point == null) continue;
 
-            // avoid divid by zero;
-            if(distSqrd < 0.0001f){
-                continue;
+            // Direction from point to agent
+            Vector3 dir = GlobalPosition - point.GlobalPosition;
+            float distanceSqrd = dir.LengthSquared();
+
+            if (distanceSqrd <= 0.0001f) {
+                // Avoid division by zero if exactly overlapping
+                dir = new Vector3(
+                    (float)(GD.Randf() * 2 - 1),
+                    (float)(GD.Randf() * 2 - 1),
+                    (float)(GD.Randf() * 2 - 1)
+                ).Normalized();
+                distanceSqrd = 0.0001f;
             }
 
-            // stronger + closer = more influence.
-            float weight = point.Strength / distSqrd;
-            total += offset * weight;
-            totalWeight += weight;
+            // Compute influence: fully inside radius = full strength, ramps up outside radius
+            float influence = 0f;
+            float radiusSq = point.Radius * point.Radius;
 
-            float proximity = 1f - Mathf.Clamp(distSqrd / radiusSqrd, 0f, 1f);
-            proximityTotal += proximity;
-            countedPoints++;
+            if (distanceSqrd < radiusSq) {
+                influence = point.Strength;
+            } else {
+                // ramp from 0 at distance = radius * 2, to full at distance = radius
+                float distance = MathF.Sqrt(distanceSqrd);
+                float ramp = Mathf.Clamp((point.Radius * 2 - distance) / point.Radius, 0f, 1f);
+                influence = ramp * point.Strength;
+            }
+
+            totalDir += dir.Normalized() * influence;
+            totalStrength += influence;
         }
 
-        if(countedPoints > 0){
-            ProximityStrength = proximityTotal / countedPoints;
-        }
-        else{
-            ProximityStrength = 0f;
-        }
+        ProximityStrength = totalStrength;
 
-        if(totalWeight == 0f){
-            AvoidanceDirection = Vector2.Zero;
-            return;
-        }
+        if (totalDir == Vector3.Zero) return Vector3.Zero;
 
-        // already blended and directionally biased.
-
-        AvoidanceDirection = total / totalWeight; 
+        // Optional smoothing
+        return totalDir.Normalized() * ProximityStrength;
     }
 
 

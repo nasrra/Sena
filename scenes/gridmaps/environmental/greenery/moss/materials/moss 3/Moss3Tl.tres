@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b5a54ro4sjdx5"]
+
+[ext_resource type="Texture2D" uid="uid://dvaptieby6tk3" path="res://assets/tilemaps/MossTIlemap.png" id="1_qd4bh"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_qd4bh")
+uv1_scale = Vector3(0.125, 0.125, 0.125)
+uv1_offset = Vector3(0, 0.25, 0)

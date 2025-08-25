@@ -23,6 +23,8 @@
 size = Vector3(2, 1, 2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_37p5y"]
+custom_solver_bias = 0.1
+margin = 0.1
 radius = 0.33
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_deer0"]
@@ -30,6 +32,7 @@ size = Vector3(2, 1, 2)
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer", "spriteSorter")]
 collision_layer = 2
+floor_max_angle = 1.0472
 script = ExtResource("1_kne1u")
 emberDecayRate = NodePath("EmberDecayRate")
 evaluateStateTimer = NodePath("EvaluateStateTimer")

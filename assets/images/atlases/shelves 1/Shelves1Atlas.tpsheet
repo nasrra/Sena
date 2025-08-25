@@ -1,0 +1,48 @@
+{
+	"textures": [
+		{
+			"image": "Shelves1Atlas.png",
+			"size": {
+				"w": 4096,
+				"h": 4096
+			},
+			"sprites": [
+				{
+					"filename": "Images/PotteryShelfSide.png",
+					"region": {
+						"x": 0,
+						"y": 0,
+						"w": 194,
+						"h": 934
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				},
+				{
+					"filename": "Images/PotteryShelfFront.png",
+					"region": {
+						"x": 194,
+						"y": 0,
+						"w": 515,
+						"h": 613
+					},
+					"margin": {
+						"x": 0,
+						"y": 0,
+						"w": 0,
+						"h": 0
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7",
+		"format": "RGBA8888",
+	}
+}

@@ -1,13 +1,14 @@
-[gd_scene load_steps=37 format=3 uid="uid://4k5x34mphdqf"]
+[gd_scene load_steps=38 format=3 uid="uid://4k5x34mphdqf"]
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_1pwbc"]
-[ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/EnvironmentalGridMap.tscn" id="2_x4si1"]
-[ext_resource type="MeshLibrary" uid="uid://cumsglylffol6" path="res://scenes/gridmaps/Level1MeshLibrary.tres" id="3_fh0io"]
+[ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/environmental/EnvironmentalGridMap.tscn" id="2_x4si1"]
 [ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="4_fh0io"]
-[ext_resource type="MeshLibrary" uid="uid://bfeswl2517v65" path="res://scenes/gridmaps/greenery/moss/MossMeshLibrary.tres" id="4_m00rq"]
+[ext_resource type="MeshLibrary" uid="uid://bfeswl2517v65" path="res://scenes/gridmaps/environmental/greenery/moss/MossMeshLibrary.tres" id="4_m00rq"]
 [ext_resource type="PackedScene" uid="uid://dvvjfmok32sw2" path="res://scenes/environment/Birdcage.tscn" id="5_76cw8"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="7_m00rq"]
+[ext_resource type="MeshLibrary" uid="uid://cvpvhbyf1y8fw" path="res://scenes/gridmaps/environmental/floors 1/Floors1MeshLibrary.tres" id="7_mpqju"]
 [ext_resource type="Script" uid="uid://csde2gofdtawx" path="res://addons/proton_scatter/src/stack/modifier_stack.gd" id="9_j7nyf"]
+[ext_resource type="MeshLibrary" uid="uid://befdjgcdr1uxb" path="res://scenes/gridmaps/environmental/walls 1/Walls1MeshLibrary.tres" id="9_k446q"]
 [ext_resource type="Script" uid="uid://x5mnpak0fr3b" path="res://addons/proton_scatter/src/modifiers/base_modifier.gd" id="10_xbvxr"]
 [ext_resource type="Script" uid="uid://c5dqhovtmfkke" path="res://addons/proton_scatter/src/modifiers/create_inside_random.gd" id="11_bspq0"]
 [ext_resource type="Script" uid="uid://dcmcvyhynhe4u" path="res://addons/proton_scatter/src/modifiers/randomize_transforms.gd" id="12_dqba7"]
@@ -21,17 +22,17 @@
 [ext_resource type="Material" uid="uid://bymoti8hpjarg" path="res://scenes/environment/foliage/bushes/materials/Bush3.tres" id="21_dqba7"]
 [ext_resource type="Script" uid="uid://fwernmtfuu6e" path="res://addons/proton_scatter/src/shapes/sphere_shape.gd" id="21_smuev"]
 [ext_resource type="Material" uid="uid://f1mwyfmplm8u" path="res://scenes/environment/foliage/bushes/materials/BlueberryBush.tres" id="22_usw5k"]
-[ext_resource type="PackedScene" uid="uid://15dktlrwdf1p" path="res://scenes/environment/storage/IronBox2.tscn" id="23_pgakm"]
-[ext_resource type="PackedScene" uid="uid://coma2jhi4uguk" path="res://scenes/environment/storage/IronBox1.tscn" id="25_pgakm"]
-[ext_resource type="PackedScene" uid="uid://bkqyyrfwojuc1" path="res://scenes/environment/storage/IronBox3.tscn" id="26_pgakm"]
-[ext_resource type="PackedScene" uid="uid://fkr5rvlevs5s" path="res://scenes/environment/storage/StorageSide.tscn" id="27_pgakm"]
+[ext_resource type="PackedScene" uid="uid://15dktlrwdf1p" path="res://scenes/environment/raw material storage 1/IronBox2.tscn" id="23_pgakm"]
+[ext_resource type="PackedScene" uid="uid://coma2jhi4uguk" path="res://scenes/environment/raw material storage 1/IronBox1.tscn" id="25_pgakm"]
+[ext_resource type="PackedScene" uid="uid://bkqyyrfwojuc1" path="res://scenes/environment/raw material storage 1/IronBox3.tscn" id="26_pgakm"]
+[ext_resource type="PackedScene" uid="uid://fkr5rvlevs5s" path="res://scenes/environment/shelves/PotteryShelfSide.tscn" id="27_pgakm"]
 [ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="27_t2wor"]
-[ext_resource type="PackedScene" uid="uid://c2ogug1kjay38" path="res://scenes/environment/storage/StorageFront.tscn" id="28_rw0oh"]
+[ext_resource type="PackedScene" uid="uid://c2ogug1kjay38" path="res://scenes/environment/shelves/PotteryShelfFront.tscn" id="28_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="29_86um8"]
-[ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/storage/Wheelbarrow.tscn" id="30_rw0oh"]
+[ext_resource type="PackedScene" uid="uid://q1g2xsani1lr" path="res://scenes/environment/raw material storage 1/Wheelbarrow.tscn" id="30_rw0oh"]
 [ext_resource type="PackedScene" uid="uid://4w8sr35sqav5" path="res://scenes/environment/windows/JailWindowNorth.tscn" id="32_srkvl"]
 
-[sub_resource type="Resource" id="Resource_mpqju"]
+[sub_resource type="Resource" id="Resource_k446q"]
 script = ExtResource("11_bspq0")
 amount = 20
 enabled = true
@@ -40,7 +41,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_k446q"]
+[sub_resource type="Resource" id="Resource_f87wi"]
 script = ExtResource("12_dqba7")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 0, 0)
@@ -51,7 +52,7 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_f87wi"]
+[sub_resource type="Resource" id="Resource_m6o6u"]
 script = ExtResource("13_usw5k")
 iterations = 3
 offset_step = 0.2
@@ -63,7 +64,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_m6o6u"]
+[sub_resource type="Resource" id="Resource_smuev"]
 script = ExtResource("14_jsker")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -79,9 +80,9 @@ custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_smuev"]
+[sub_resource type="Resource" id="Resource_inwfo"]
 script = ExtResource("9_j7nyf")
-stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_mpqju"), SubResource("Resource_k446q"), SubResource("Resource_f87wi"), SubResource("Resource_m6o6u")])
+stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_k446q"), SubResource("Resource_f87wi"), SubResource("Resource_m6o6u"), SubResource("Resource_smuev")])
 
 [sub_resource type="Resource" id="Resource_g8bsm"]
 script = ExtResource("21_smuev")
@@ -102,26 +103,32 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="EnvironmentalGridMap" parent="GridMaps" index="2" instance=ExtResource("2_x4si1")]
-mesh_library = ExtResource("3_fh0io")
+[node name="CollisionsGridMap" parent="GridMaps" index="2"]
+visible = false
 data = {
-"cells": PackedInt32Array(-65536, 0, 15, -65535, 0, 16, -65536, 1, 13, -65535, 1, 14, -65534, 1, 17, -65533, 1, 18, -65534, 0, 19, -65533, 0, 20, -65536, 3, 21, -65535, 3, 22, -65536, 2, 23, -65535, 2, 24, -65534, 3, 25, -65533, 3, 26, -65534, 2, 27, -65533, 2, 28, -65532, 0, 15, -65532, 1, 13, -65532, 2, 23, -65532, 3, 21, -65531, 0, 16, -65531, 1, 14, -65531, 2, 24, -65531, 3, 22, -65530, 0, 19, -65530, 1, 17, -65530, 2, 27, -65530, 3, 25, -65529, 0, 20, -65529, 1, 18, -65529, 2, 28, -65529, 3, 26, -65528, 0, 15, -65528, 1, 13, -65528, 2, 23, -65528, 3, 21, -65527, 0, 16, -65527, 1, 14, -65527, 2, 24, -65527, 3, 22, -65526, 0, 19, -65526, 1, 17, -65526, 2, 27, -65526, 3, 25, -65525, 0, 20, -65525, 1, 18, -65525, 2, 28, -65525, 3, 26, -65536, 4, 15, -65536, 5, 13, -65536, 6, 23, -65536, 7, 21, -65535, 4, 16, -65535, 5, 14, -65535, 6, 24, -65535, 7, 22, -65534, 4, 19, -65534, 5, 17, -65534, 6, 27, -65534, 7, 25, -65533, 4, 20, -65533, 5, 18, -65533, 6, 28, -65533, 7, 26, -65532, 4, 15, -65532, 5, 13, -65532, 6, 23, -65532, 7, 21, -65531, 4, 16, -65531, 5, 14, -65531, 6, 24, -65531, 7, 22, -65530, 4, 19, -65530, 5, 17, -65530, 6, 27, -65530, 7, 25, -65529, 4, 20, -65529, 5, 18, -65529, 6, 28, -65529, 7, 26, -65528, 4, 15, -65528, 5, 13, -65528, 6, 23, -65528, 7, 21, -65527, 4, 16, -65527, 5, 14, -65527, 6, 24, -65527, 7, 22, -65526, 4, 19, -65526, 5, 17, -65526, 6, 27, -65526, 7, 25, -65525, 4, 20, -65525, 5, 18, -65525, 6, 28, -65525, 7, 26, 0, 0, 29, 1, 0, 30, 2, 0, 35, 3, 0, 36, 4, 0, 41, 5, 0, 42, 6, 0, 47, 7, 0, 48, 8, 0, 29, 9, 0, 30, 10, 0, 35, 11, 0, 36, 65536, 0, 31, 65537, 0, 32, 65538, 0, 37, 65539, 0, 38, 65540, 0, 43, 65541, 0, 44, 65542, 0, 49, 65543, 0, 50, 65544, 0, 31, 65545, 0, 32, 65546, 0, 37, 65547, 0, 38, 131072, 0, 33, 131073, 0, 34, 131074, 0, 39, 131075, 0, 40, 131076, 0, 45, 131077, 0, 46, 131078, 0, 51, 131079, 0, 52, 131080, 0, 33, 131081, 0, 34, 131082, 0, 39, 131083, 0, 40, 196608, 65535, 1441793, 196609, 65535, 1441794, 196610, 65535, 1441793, 196611, 65535, 1441794, 196612, 65535, 1441793, 196613, 65535, 1441794, 196614, 65535, 1441793, 196615, 65535, 1441794, 196616, 65535, 1441793, 196617, 65535, 1441794, 196618, 65535, 1441793, 196619, 65535, 1441794, 262143, 0, 2, 262143, 1, 1, 262143, 2, 2, 262143, 3, 1, 262143, 4, 2, 262143, 5, 1, 262143, 6, 2, 262143, 7, 1, 196620, 1, 655362, 196620, 0, 655361, 196620, 2, 655361, 196620, 3, 655362, 196620, 4, 655361, 196620, 5, 655362, 196620, 6, 655361, 196620, 7, 655362, 262143, 65535, 1441792, 196620, 65535, 1441792, 196607, 8, 45, 131084, 8, 46, 131071, 8, 43, 65548, 8, 44, 12, 8, 42, 65535, 8, 41, 0, 65535, 917533, 131074, 65535, 39)
+"cells": PackedInt32Array(-65536, 0, 1376258, -65536, 1, 1376258, -65536, 2, 1376258, -65536, 3, 1376258, -65536, 4, 1376258, -65536, 5, 1376258, -65536, 6, 1376258, -65535, 6, 1376258, -65534, 6, 1376258, -65533, 6, 1376258, -65532, 6, 1376258, -65531, 6, 1376258, -65530, 6, 1376258, -65529, 6, 1376258, -65528, 6, 1376258, -65527, 6, 1376258, -65526, 6, 1376258, -65525, 6, 1376258, -65525, 5, 1376258, -65526, 5, 1376258, -65527, 5, 1376258, -65528, 5, 1376258, -65529, 5, 1376258, -65530, 5, 1376258, -65531, 5, 1376258, -65532, 5, 1376258, -65533, 5, 1376258, -65534, 5, 1376258, -65535, 5, 1376258, -65535, 4, 1376258, -65534, 4, 1376258, -65533, 4, 1376258, -65532, 4, 1376258, -65531, 4, 1376258, -65530, 4, 1376258, -65529, 4, 1376258, -65528, 4, 1376258, -65527, 4, 1376258, -65526, 4, 1376258, -65525, 4, 1376258, -65525, 3, 1376258, -65526, 3, 1376258, -65527, 3, 1376258, -65528, 3, 1376258, -65529, 3, 1376258, -65530, 3, 1376258, -65531, 3, 1376258, -65532, 3, 1376258, -65533, 3, 1376258, -65534, 3, 1376258, -65535, 3, 1376258, -65536, 7, 1376258, -65535, 7, 1376258, -65534, 7, 1376258, -65533, 7, 1376258, -65532, 7, 1376258, -65531, 7, 1376258, -65530, 7, 1376258, -65529, 7, 1376258, -65528, 7, 1376258, -65527, 7, 1376258, -65526, 7, 1376258, -65525, 7, 1376258, -65525, 2, 1376258, -65525, 1, 1376258, -65525, 0, 1376258, -65526, 1, 1376258, -65526, 2, 1376258, -65526, 0, 1376258, -65527, 0, 1376258, -65528, 0, 1376258, -65528, 1, 1376258, -65529, 1, 1376258, -65529, 2, 1376258, -65530, 2, 1376258, -65531, 2, 1376258, -65532, 2, 1376258, -65533, 1, 1376258, -65534, 1, 1376258, -65534, 0, 1376258, -65535, 0, 1376258, -65535, 1, 1376258, -65535, 2, 1376258, -65534, 2, 1376258, -65532, 1, 1376258, -65531, 1, 1376258, -65532, 0, 1376258, -65533, 0, 1376258, -65533, 2, 1376258, -65530, 1, 1376258, -65529, 0, 1376258, -65530, 0, 1376258, -65531, 0, 1376258, -65527, 1, 1376258, -65527, 2, 1376258, -65528, 2, 1376258, 65535, 65535, 1376258, 0, 65535, 1376258, 1, 65535, 1376258, 2, 65535, 1376258, 3, 65535, 1376258, 4, 65535, 1376258, 5, 65535, 1376258, 6, 65535, 1376258, 7, 65535, 1376258, 8, 65535, 1376258, 9, 65535, 1376258, 10, 65535, 1376258, 11, 65535, 1376258, 12, 65535, 1376258, 12, 0, 1376258, 12, 1, 1376258, 12, 2, 1376258, 12, 3, 1376258, 12, 4, 1376258, 12, 5, 1376258, 12, 6, 1376258, 12, 7, 1376258, 12, 8, 1376258, 11, 8, 1376258, 10, 8, 1376258, 9, 8, 1376258, 8, 8, 1376258, 7, 8, 1376258, 6, 8, 1376258, 5, 8, 1376258, 4, 8, 1376258, 3, 8, 1376258, 2, 8, 1376258, 1, 8, 1376258, 0, 8, 1376258, 65535, 8, 1376258, 65535, 7, 1376258, 65535, 6, 1376258, 65535, 5, 1376258, 65535, 4, 1376258, 65535, 3, 1376258, 65535, 2, 1376258, 65535, 1, 1376258, 65535, 0, 1376258)
 }
-metadata/_editor_floor_ = Vector3(0, 2, 0)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="EnvironmentalGridMap2" parent="GridMaps" index="3" instance=ExtResource("2_x4si1")]
+[node name="MossGridMap" parent="GridMaps" index="3" instance=ExtResource("2_x4si1")]
 mesh_library = ExtResource("4_m00rq")
 data = {
 "cells": PackedInt32Array(5, 5, 5, 6, 5, 6, 5, 4, 7, 6, 4, 8)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="CollisionsGridMap" parent="GridMaps" index="4"]
-visible = false
+[node name="FloorsGridMap" parent="GridMaps" index="4" instance=ExtResource("2_x4si1")]
+mesh_library = ExtResource("7_mpqju")
 data = {
-"cells": PackedInt32Array(-65536, 0, 1376258, -65536, 1, 1376258, -65536, 2, 1376258, -65536, 3, 1376258, -65536, 4, 1376258, -65536, 5, 1376258, -65536, 6, 1376258, -65535, 6, 1376258, -65534, 6, 1376258, -65533, 6, 1376258, -65532, 6, 1376258, -65531, 6, 1376258, -65530, 6, 1376258, -65529, 6, 1376258, -65528, 6, 1376258, -65527, 6, 1376258, -65526, 6, 1376258, -65525, 6, 1376258, -65525, 5, 1376258, -65526, 5, 1376258, -65527, 5, 1376258, -65528, 5, 1376258, -65529, 5, 1376258, -65530, 5, 1376258, -65531, 5, 1376258, -65532, 5, 1376258, -65533, 5, 1376258, -65534, 5, 1376258, -65535, 5, 1376258, -65535, 4, 1376258, -65534, 4, 1376258, -65533, 4, 1376258, -65532, 4, 1376258, -65531, 4, 1376258, -65530, 4, 1376258, -65529, 4, 1376258, -65528, 4, 1376258, -65527, 4, 1376258, -65526, 4, 1376258, -65525, 4, 1376258, -65525, 3, 1376258, -65526, 3, 1376258, -65527, 3, 1376258, -65528, 3, 1376258, -65529, 3, 1376258, -65530, 3, 1376258, -65531, 3, 1376258, -65532, 3, 1376258, -65533, 3, 1376258, -65534, 3, 1376258, -65535, 3, 1376258, -65536, 7, 1376258, -65535, 7, 1376258, -65534, 7, 1376258, -65533, 7, 1376258, -65532, 7, 1376258, -65531, 7, 1376258, -65530, 7, 1376258, -65529, 7, 1376258, -65528, 7, 1376258, -65527, 7, 1376258, -65526, 7, 1376258, -65525, 7, 1376258, -65525, 2, 1376258, -65525, 1, 1376258, -65525, 0, 1376258, -65526, 1, 1376258, -65526, 2, 1376258, -65526, 0, 1376258, -65527, 0, 1376258, -65528, 0, 1376258, -65528, 1, 1376258, -65529, 1, 1376258, -65529, 2, 1376258, -65530, 2, 1376258, -65531, 2, 1376258, -65532, 2, 1376258, -65533, 1, 1376258, -65534, 1, 1376258, -65534, 0, 1376258, -65535, 0, 1376258, -65535, 1, 1376258, -65535, 2, 1376258, -65534, 2, 1376258, -65532, 1, 1376258, -65531, 1, 1376258, -65532, 0, 1376258, -65533, 0, 1376258, -65533, 2, 1376258, -65530, 1, 1376258, -65529, 0, 1376258, -65530, 0, 1376258, -65531, 0, 1376258, -65527, 1, 1376258, -65527, 2, 1376258, -65528, 2, 1376258, 65535, 65535, 1376258, 0, 65535, 1376258, 1, 65535, 1376258, 2, 65535, 1376258, 3, 65535, 1376258, 4, 65535, 1376258, 5, 65535, 1376258, 6, 65535, 1376258, 7, 65535, 1376258, 8, 65535, 1376258, 9, 65535, 1376258, 10, 65535, 1376258, 11, 65535, 1376258, 12, 65535, 1376258, 12, 0, 1376258, 12, 1, 1376258, 12, 2, 1376258, 12, 3, 1376258, 12, 4, 1376258, 12, 5, 1376258, 12, 6, 1376258, 12, 7, 1376258, 12, 8, 1376258, 11, 8, 1376258, 10, 8, 1376258, 9, 8, 1376258, 8, 8, 1376258, 7, 8, 1376258, 6, 8, 1376258, 5, 8, 1376258, 4, 8, 1376258, 3, 8, 1376258, 2, 8, 1376258, 1, 8, 1376258, 0, 8, 1376258, 65535, 8, 1376258, 65535, 7, 1376258, 65535, 6, 1376258, 65535, 5, 1376258, 65535, 4, 1376258, 65535, 3, 1376258, 65535, 2, 1376258, 65535, 1, 1376258, 65535, 0, 1376258)
+"cells": PackedInt32Array(-65536, 1, 12, -65535, 1, 13, -65536, 0, 14, -65535, 0, 15, -65534, 1, 16, -65533, 1, 17, -65534, 0, 18, -65533, 0, 19, -65536, 3, 20, -65535, 3, 21, -65536, 2, 22, -65535, 2, 23, -65534, 3, 24, -65533, 3, 25, -65534, 2, 26, -65533, 2, 27, -65532, 0, 14, -65532, 1, 12, -65532, 2, 22, -65532, 3, 20, -65531, 0, 15, -65531, 1, 13, -65531, 2, 23, -65531, 3, 21, -65530, 0, 18, -65530, 1, 16, -65530, 2, 26, -65530, 3, 24, -65529, 0, 19, -65529, 1, 17, -65529, 2, 27, -65529, 3, 25, -65528, 0, 14, -65528, 1, 12, -65528, 2, 22, -65528, 3, 20, -65527, 0, 15, -65527, 1, 13, -65527, 2, 23, -65527, 3, 21, -65526, 0, 18, -65526, 1, 16, -65526, 2, 26, -65526, 3, 24, -65525, 0, 19, -65525, 1, 17, -65525, 2, 27, -65525, 3, 25, -65536, 4, 14, -65536, 5, 12, -65536, 6, 22, -65536, 7, 20, -65535, 4, 15, -65535, 5, 13, -65535, 6, 23, -65535, 7, 21, -65534, 4, 18, -65534, 5, 16, -65534, 6, 26, -65534, 7, 24, -65533, 4, 19, -65533, 5, 17, -65533, 6, 27, -65533, 7, 25, -65532, 4, 14, -65532, 5, 12, -65532, 6, 22, -65532, 7, 20, -65531, 4, 15, -65531, 5, 13, -65531, 6, 23, -65531, 7, 21, -65530, 4, 18, -65530, 5, 16, -65530, 6, 26, -65530, 7, 24, -65529, 4, 19, -65529, 5, 17, -65529, 6, 27, -65529, 7, 25, -65528, 4, 14, -65528, 5, 12, -65528, 6, 22, -65528, 7, 20, -65527, 4, 15, -65527, 5, 13, -65527, 6, 23, -65527, 7, 21, -65526, 4, 18, -65526, 5, 16, -65526, 6, 26, -65526, 7, 24, -65525, 4, 19, -65525, 5, 17, -65525, 6, 27, -65525, 7, 25)
 }
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="WallsGridMap" parent="GridMaps" index="5" instance=ExtResource("2_x4si1")]
+mesh_library = ExtResource("9_k446q")
+data = {
+"cells": PackedInt32Array(0, 0, 7, 1, 0, 8, 2, 0, 13, 3, 0, 14, 4, 0, 19, 5, 0, 20, 6, 0, 25, 7, 0, 26, 8, 0, 7, 9, 0, 8, 10, 0, 13, 11, 0, 14, 65535, 8, 25, 12, 8, 26, 65536, 0, 9, 65537, 0, 10, 65538, 0, 15, 65539, 0, 16, 65540, 0, 21, 65541, 0, 22, 65542, 0, 27, 65543, 0, 28, 65544, 0, 9, 65545, 0, 10, 65546, 0, 15, 65547, 0, 16, 131071, 8, 27, 65548, 8, 28, 131072, 0, 11, 131073, 0, 12, 131074, 0, 17, 131075, 0, 18, 131076, 0, 23, 131077, 0, 24, 131078, 0, 29, 131079, 0, 30, 131080, 0, 11, 131081, 0, 12, 131082, 0, 17, 131083, 0, 18, 196607, 8, 29, 131084, 8, 30, 262143, 65535, 3, 196620, 65535, 4, 196608, 65535, 5, 196609, 65535, 6, 196610, 65535, 5, 196611, 65535, 6, 196612, 65535, 5, 196613, 65535, 6, 196614, 65535, 5, 196615, 65535, 6, 196616, 65535, 5, 196617, 65535, 6, 196618, 65535, 5, 196619, 65535, 6, 262143, 0, 1048578, 262143, 1, 1048577, 262143, 2, 1048578, 262143, 3, 1048577, 262143, 4, 1048578, 262143, 5, 1048577, 262143, 6, 1048578, 262143, 7, 655364, 196620, 7, 655363, 196620, 6, 1441793, 196620, 5, 1441794, 196620, 4, 1441793, 196620, 3, 1441794, 196620, 2, 1441793, 196620, 1, 1441794, 196620, 0, 1441793)
+}
+metadata/_editor_floor_ = Vector3(0, 3, 0)
 
 [node name="WorldEnvironment" parent="." index="2"]
 environment = ExtResource("4_fh0io")
@@ -141,7 +148,7 @@ camera = NodePath("../Camera")
 [node name="BushesScatter" type="Node3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.48259, -0.17877, 4.66433)
 script = ExtResource("12_k446q")
-modifier_stack = SubResource("Resource_smuev")
+modifier_stack = SubResource("Resource_inwfo")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://c36kadp7c060h"

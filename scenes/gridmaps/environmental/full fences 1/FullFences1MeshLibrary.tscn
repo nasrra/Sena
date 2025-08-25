@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm07bbdyqhbty"]
+
+[ext_resource type="PackedScene" uid="uid://bybxpei46iwkn" path="res://scenes/gridmaps/environmental/full fences 1/scenes/stone fence 1/StoneFence1L.tscn" id="1_gifum"]
+[ext_resource type="PackedScene" uid="uid://cv2yalw6mi8yp" path="res://scenes/gridmaps/environmental/full fences 1/scenes/stone fence 1/StoneFence1M.tscn" id="2_k24k8"]
+[ext_resource type="PackedScene" uid="uid://cypn2u45d2biw" path="res://scenes/gridmaps/environmental/full fences 1/scenes/stone fence 1/StoneFence1R.tscn" id="3_llpep"]
+
+[node name="FullFences1MeshLibrary" type="Node3D"]
+
+[node name="StoneFence1L" parent="." instance=ExtResource("1_gifum")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneFence1M" parent="." instance=ExtResource("2_k24k8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneFence1R" parent="." instance=ExtResource("3_llpep")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)

@@ -1,0 +1,28 @@
+[gd_scene load_steps=9 format=3 uid="uid://dtg6a2ej52tp6"]
+
+[ext_resource type="PackedScene" uid="uid://bu1s1bs460vpm" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup1.tscn" id="1_342r0"]
+[ext_resource type="PackedScene" uid="uid://hx2huryk3wyi" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup3.tscn" id="2_ao7yj"]
+[ext_resource type="PackedScene" uid="uid://hx2huryk3wyi" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup3.tscn" id="3_x561t"]
+[ext_resource type="PackedScene" uid="uid://tja2au1vjx0t" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup4.tscn" id="4_t154b"]
+[ext_resource type="PackedScene" uid="uid://cpyiq55ceqsq" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup5.tscn" id="5_rl7t0"]
+[ext_resource type="PackedScene" uid="uid://bkg34bkh2ixrg" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup6.tscn" id="6_sj3kb"]
+[ext_resource type="PackedScene" uid="uid://cv7ty880ewq1r" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup7.tscn" id="7_e4oub"]
+[ext_resource type="PackedScene" uid="uid://ckukxoi3e0dpw" path="res://scenes/gridmaps/data/enemy groups/scenes/EnemyGroup8.tscn" id="8_kyfoa"]
+
+[node name="EnemyGroupsMeshLibrary" type="Node3D"]
+
+[node name="EnemyGroup1" parent="." instance=ExtResource("1_342r0")]
+
+[node name="EnemyGroup2" parent="." instance=ExtResource("2_ao7yj")]
+
+[node name="EnemyGroup3" parent="." instance=ExtResource("3_x561t")]
+
+[node name="EnemyGroup4" parent="." instance=ExtResource("4_t154b")]
+
+[node name="EnemyGroup5" parent="." instance=ExtResource("5_rl7t0")]
+
+[node name="EnemyGroup7" parent="." instance=ExtResource("6_sj3kb")]
+
+[node name="EnemyGroup8" parent="." instance=ExtResource("7_e4oub")]
+
+[node name="EnemyGroup9" parent="." instance=ExtResource("8_kyfoa")]

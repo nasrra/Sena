@@ -1,0 +1,116 @@
+[gd_scene load_steps=29 format=3 uid="uid://dlaxmxjwbhaf4"]
+
+[ext_resource type="PackedScene" uid="uid://cyj2rxepfr0ix" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Bl.tscn" id="1_p8ipn"]
+[ext_resource type="PackedScene" uid="uid://cvqshxx1ipm8f" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Br.tscn" id="2_xokwh"]
+[ext_resource type="PackedScene" uid="uid://bu57bu62yti45" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Ml.tscn" id="3_k087y"]
+[ext_resource type="PackedScene" uid="uid://cupm00ihxt17y" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Mr.tscn" id="4_c6crn"]
+[ext_resource type="PackedScene" uid="uid://c2poc6kgt8hcf" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Tl.tscn" id="5_s6no1"]
+[ext_resource type="PackedScene" uid="uid://hrdj3fm0po5" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 1/StoneBridge1Tr.tscn" id="6_6apsn"]
+[ext_resource type="PackedScene" uid="uid://devm8drj37jnj" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Bl.tscn" id="7_d8no7"]
+[ext_resource type="PackedScene" uid="uid://cggdet0nuk56u" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Br.tscn" id="8_yan7s"]
+[ext_resource type="PackedScene" uid="uid://la6mgj7biagr" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Ml.tscn" id="9_iujqg"]
+[ext_resource type="PackedScene" uid="uid://b4nafdpxitmls" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Mr.tscn" id="10_l06uh"]
+[ext_resource type="PackedScene" uid="uid://chv0pppy7uhf8" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Tl.tscn" id="11_y1ivu"]
+[ext_resource type="PackedScene" uid="uid://b0rrq55xnlktm" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone bridge 2/StoneBridge2Tr.tscn" id="12_akuhd"]
+[ext_resource type="PackedScene" uid="uid://crf4wknwrdg54" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 1/StoneFloor1BL.tscn" id="13_y1ivu"]
+[ext_resource type="PackedScene" uid="uid://c6lyuortblxtp" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 1/StoneFloor1Br.tscn" id="14_akuhd"]
+[ext_resource type="PackedScene" uid="uid://jyjoqwggj7l7" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 1/StoneFloor1Tl.tscn" id="15_1sb2k"]
+[ext_resource type="PackedScene" uid="uid://be46til5mk5nb" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 1/StoneFloor1Tr.tscn" id="16_f54h5"]
+[ext_resource type="PackedScene" uid="uid://c5vt5iw78ke8x" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 2/StoneFloor2BL.tscn" id="17_3ffyt"]
+[ext_resource type="PackedScene" uid="uid://cwyhnudbih8p5" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 2/StoneFloor2Br.tscn" id="18_mt16e"]
+[ext_resource type="PackedScene" uid="uid://y2r366hysjjw" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 2/StoneFloor2Tl.tscn" id="19_mlofh"]
+[ext_resource type="PackedScene" uid="uid://c3bdecxn8n4m0" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 2/StoneFloor2Tr.tscn" id="20_yt6ke"]
+[ext_resource type="PackedScene" uid="uid://dcxswow5h6rt2" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 3/StoneFloor3Bl.tscn" id="21_fgftu"]
+[ext_resource type="PackedScene" uid="uid://cl78yvb618sch" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 3/StoneFloor3Br.tscn" id="22_h4b4f"]
+[ext_resource type="PackedScene" uid="uid://c4lwqc3lbelf3" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 3/StoneFloor3Tl.tscn" id="23_pq6jx"]
+[ext_resource type="PackedScene" uid="uid://dxc8di3tgeinf" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 3/StoneFloor3Tr.tscn" id="24_p5f3q"]
+[ext_resource type="PackedScene" uid="uid://cfqx78wwhk5s4" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 4/StoneFloor4Bl.tscn" id="25_mhelv"]
+[ext_resource type="PackedScene" uid="uid://b1026o65hkrht" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 4/StoneFloor4Br.tscn" id="26_s0180"]
+[ext_resource type="PackedScene" uid="uid://dgtec1xfpd2f5" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 4/StoneFloor4Tl.tscn" id="27_aobss"]
+[ext_resource type="PackedScene" uid="uid://0r5anrnv2t1w" path="res://scenes/gridmaps/environmental/floors 1/scenes/stone floor 4/StoneFloor4Tr.tscn" id="28_if47i"]
+
+[node name="Floors1MeshLibrary" type="Node3D"]
+
+[node name="StoneBridge1Bl" parent="." instance=ExtResource("1_p8ipn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneBridge1Br" parent="." instance=ExtResource("2_xokwh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneBridge1Ml" parent="." instance=ExtResource("3_k087y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge1Mr" parent="." instance=ExtResource("4_c6crn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge1Tl" parent="." instance=ExtResource("5_s6no1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge1Tr" parent="." instance=ExtResource("6_6apsn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge2Bl" parent="." instance=ExtResource("7_d8no7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneBridge2Br" parent="." instance=ExtResource("8_yan7s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+
+[node name="StoneBridge2Ml" parent="." instance=ExtResource("9_iujqg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge2Mr" parent="." instance=ExtResource("10_l06uh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge2Tl" parent="." instance=ExtResource("11_y1ivu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneBridge2Tr" parent="." instance=ExtResource("12_akuhd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Bl" parent="." instance=ExtResource("13_y1ivu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Br" parent="." instance=ExtResource("14_akuhd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Tl" parent="." instance=ExtResource("15_1sb2k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor1Tr" parent="." instance=ExtResource("16_f54h5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Bl" parent="." instance=ExtResource("17_3ffyt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Br" parent="." instance=ExtResource("18_mt16e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Tl" parent="." instance=ExtResource("19_mlofh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor2Tr" parent="." instance=ExtResource("20_yt6ke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Bl" parent="." instance=ExtResource("21_fgftu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Br" parent="." instance=ExtResource("22_h4b4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Tl" parent="." instance=ExtResource("23_pq6jx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor3Tr" parent="." instance=ExtResource("24_p5f3q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Bl" parent="." instance=ExtResource("25_mhelv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Br" parent="." instance=ExtResource("26_s0180")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Tl" parent="." instance=ExtResource("27_aobss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="StoneFloor4Tr" parent="." instance=ExtResource("28_if47i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

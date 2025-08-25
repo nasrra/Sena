@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://bf2ui6pwnuymm"
+path="res://.godot/imported/Decor1Atlas.tpsheet-056899fdd39086ed52c7ad9e2c2bbc02.res"
+
+[deps]
+
+files=["res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/shovel.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/apron.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/broom.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/stood.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/bucket.tres"]
+
+source_file="res://assets/images/atlases/decor 1/Decor1Atlas.tpsheet"
+dest_files=["res://.godot/imported/Decor1Atlas.tpsheet-056899fdd39086ed52c7ad9e2c2bbc02.res", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/shovel.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/apron.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/broom.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/stood.tres", "res://assets/images/atlases/decor 1/Decor1Atlas.sprites/Images/bucket.tres"]
+
+[params]
+

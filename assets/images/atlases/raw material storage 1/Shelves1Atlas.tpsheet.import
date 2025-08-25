@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://iewa8lp6bs3s"
+path="res://.godot/imported/Shelves1Atlas.tpsheet-19a742ae45fed71a3d374af7093377f6.res"
+
+[deps]
+
+files=["res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/CoalPile1.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/Wheelbarrow.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox1.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox2.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox3.tres"]
+
+source_file="res://assets/images/atlases/raw material storage 1/Shelves1Atlas.tpsheet"
+dest_files=["res://.godot/imported/Shelves1Atlas.tpsheet-19a742ae45fed71a3d374af7093377f6.res", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/CoalPile1.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/Wheelbarrow.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox1.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox2.tres", "res://assets/images/atlases/raw material storage 1/Shelves1Atlas.sprites/Images/IronBox3.tres"]
+
+[params]
+

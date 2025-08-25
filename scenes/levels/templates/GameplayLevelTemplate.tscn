@@ -5,12 +5,12 @@
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="2_7cl8v"]
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="3_lh374"]
 [ext_resource type="Script" uid="uid://bwdba7s04nkhe" path="res://source/shaders/foliage/GrassDeformerManager.cs" id="4_fei8l"]
-[ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/WayfindingGridMap.tscn" id="4_h5lis"]
+[ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/data/WayfindingGridMap.tscn" id="4_h5lis"]
 [ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://source/managers/DoorManager.cs" id="5_mkam8"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="6_kse60"]
-[ext_resource type="MeshLibrary" uid="uid://xhgpauq17ro4" path="res://scenes/gridmaps/collisions/CollisionsMeshLibrary.tres" id="7_u4xlj"]
+[ext_resource type="MeshLibrary" uid="uid://xhgpauq17ro4" path="res://scenes/gridmaps/data/collisions/CollisionsMeshLibrary.tres" id="7_u4xlj"]
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="7_wyi0w"]
-[ext_resource type="MeshLibrary" uid="uid://bfwfn7g8e2tmj" path="res://scenes/gridmaps/enemy groups/EnemyGroupsMeshLibrary.tres" id="8_0a04b"]
+[ext_resource type="MeshLibrary" uid="uid://bfwfn7g8e2tmj" path="res://scenes/gridmaps/data/enemy groups/EnemyGroupsMeshLibrary.tres" id="8_0a04b"]
 
 [node name="GameplayLevelTemplate" type="Node3D" node_paths=PackedStringArray("enemyManager", "doors")]
 script = ExtResource("1_c4ag4")

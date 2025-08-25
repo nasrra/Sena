@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://caminiqv57tgd"
+path="res://.godot/imported/SoulFlameStorage1Atlas.tpsheet-988e3defb7bc64347100fab53d93c347.res"
+
+[deps]
+
+files=["res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.sprites/Images/SoulFlame Shelf.tres", "res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.sprites/Images/SoulFlame Rod.tres"]
+
+source_file="res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.tpsheet"
+dest_files=["res://.godot/imported/SoulFlameStorage1Atlas.tpsheet-988e3defb7bc64347100fab53d93c347.res", "res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.sprites/Images/SoulFlame Shelf.tres", "res://assets/images/atlases/soul flame storage 1/SoulFlameStorage1Atlas.sprites/Images/SoulFlame Rod.tres"]
+
+[params]
+

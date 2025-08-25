@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://cnmwj8dlikh2o"]
+[gd_scene load_steps=16 format=3 uid="uid://cnmwj8dlikh2o"]
 
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
-[ext_resource type="PackedScene" uid="uid://c04c7nwgcmuqe" path="res://scenes/gridmaps/wayfinding 3D/WayfindingAgent3d.tscn" id="6_mmbpr"]
+[ext_resource type="PackedScene" uid="uid://c04c7nwgcmuqe" path="res://scenes/gridmaps/data/wayfinding 3D/WayfindingAgent3d.tscn" id="6_mmbpr"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="7_ny84t"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="8_kq21a"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="9_mmbpr"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
+[ext_resource type="Script" uid="uid://d26s26ecv0l7c" path="res://source/ai/AvoidanceAgent.cs" id="10_etlsf"]
+[ext_resource type="Script" uid="uid://dd5n1wkwu5do8" path="res://source/ai/AvoidancePoint.cs" id="11_rehrb"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="12_v8ssa"]
 
@@ -16,9 +18,15 @@ radius = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_mp6r4"]
 radius = 0.33
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_etlsf"]
+radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rehrb"]
+radius = 1.0
+
 [node name="EnemyTemplate" type="CharacterBody3D"]
 collision_layer = 4
-collision_mask = 15
+collision_mask = 3
 
 [node name="CharacterMovement" type="Node" parent="."]
 script = ExtResource("5_306ko")
@@ -74,3 +82,22 @@ script = ExtResource("8_kq21a")
 [node name="HitBoxHandler" type="Node3D" parent="." node_paths=PackedStringArray("hitBoxes")]
 script = ExtResource("9_mmbpr")
 hitBoxes = []
+
+[node name="AvoidanceAgent" type="Area3D" parent="." node_paths=PackedStringArray("collisionShape")]
+collision_layer = 0
+collision_mask = 64
+script = ExtResource("10_etlsf")
+collisionShape = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AvoidanceAgent"]
+shape = SubResource("SphereShape3D_etlsf")
+
+[node name="AvoidancePoint" type="Area3D" parent="." node_paths=PackedStringArray("collisionShape")]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("11_rehrb")
+Strength = 1.0
+collisionShape = NodePath("CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AvoidancePoint"]
+shape = SubResource("SphereShape3D_rehrb")
