@@ -15,7 +15,7 @@ public partial class Player : CharacterBody3D{
 	[Export] private Timer evaluateStateTimer;
 	
 	[Export] private CameraController camera;
-	[Export] private Area2D hurtBox;
+	[Export] private Area3D hurtBox;
 	[Export] private AnimatedSprite3D animator;
 	[Export] public CharacterMovement movement {get; private set;}
 	[Export] public PlayerAimCursour aimCursour {get; private set;}
@@ -71,6 +71,7 @@ public partial class Player : CharacterBody3D{
 		EnablePlayerAction(PlayerActions.FireFeather);
 		
 		LinkEvents();
+		GD.Print("player");
 	}
 
 	public override void _Ready(){
@@ -272,7 +273,7 @@ public partial class Player : CharacterBody3D{
 		evaluateStateTimer.Timeout += EvaluateState;
 		LinkHitbox();        
 		LinkInput();
-		// LinkHurtBox();
+		LinkHurtBox();
 		LinkEmberStorage();
 		LinkHealth();
 		LinkGui();
@@ -283,7 +284,7 @@ public partial class Player : CharacterBody3D{
 		evaluateStateTimer.Timeout -= EvaluateState;
 		UnlinkHitBox();        
 		UnlinkInput();
-		// UnlinkHurtBox();
+		UnlinkHurtBox();
 		UnlinkEmberStorage();
 		UnlinkHealth();
 		UnlinkGui();
@@ -342,7 +343,7 @@ public partial class Player : CharacterBody3D{
 		movement.ZeroVelocity();
 		movement.Impulse(aimCursour.AimDirection * AttackLungeForce);
 
-		audioPlayer.PlaySound("PlayerAttack");
+		audioPlayer.PlayManagedEvent("PlayerAttack");
 
 		InputManager.Singleton.BlockMovementInput(time: 0.225f);
 		InputManager.Singleton.BlockAttackInput(time: 0.333f);
@@ -409,9 +410,9 @@ public partial class Player : CharacterBody3D{
 		hurtBox.AreaEntered -= HandleHurtBoxCollision;
 	}
 
-	private void HandleHurtBoxCollision(Node2D node){
+	private void HandleHurtBoxCollision(Node3D node){
 		
-		switch(PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject2D).CollisionLayer)){
+		switch(PhysicsManager.Singleton.GetPhysics3DLayerName((node as CollisionObject3D).CollisionLayer)){
 			case "Enemy":
 				Health.Damage(1);
 			break;
@@ -473,7 +474,7 @@ public partial class Player : CharacterBody3D{
 		camera.Vignette.Update(0.33f,1f,0.01f);
 		camera.Vignette.QueueUpdate(0,0,0.005f,1f);
 		Health.SetInvincible(time:1f);
-		AudioManager.Singleton.PlayEvent("PlayerDamaged");
+		AudioManager.Singleton.PlayManagedEvent("PlayerDamaged");
 		EntityManager.Singleton.PauseEntityProcesses(time:0.25f);
 	}
 

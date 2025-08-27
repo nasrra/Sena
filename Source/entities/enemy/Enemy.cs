@@ -28,8 +28,8 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	[Export] protected double maxPathTime;
 	[Export] protected double minIdleTime;
 	[Export] protected double maxIdleTime;
-	[Export] protected Vector2 maxDirection = new Vector2(1,1);
-	[Export] protected Vector2 minDirection = new Vector2(-1,-1);
+	[Export] protected Vector3 maxDirection = new Vector3(1,1,1);
+	[Export] protected Vector3 minDirection = new Vector3(-1,-1,-1);
 
 	protected event Action<double> Process = null;
 	protected event Action<double> PhysicsProcess = null;
@@ -101,9 +101,9 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 
 	public override void _ExitTree(){
-		base._ExitTree();
 		EnemyManager.Singleton.RemoveEnemy(this);
 		UnlinkEvents();
+		base._ExitTree();
 	}
 
 	private void InvokeProcess(double delta){
@@ -124,7 +124,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void EvaluateState(){
 
 		// TODO: do some recovery state code when needed.
-		if(Target == null){
+		if(IsInstanceValid(Target)==false || Target == null){
 			IdleState();
 		}
 		else if(attackHandler.IsAttacking == false){
@@ -224,8 +224,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	protected void ApproachIntentionChaseState(){
 		avoidanceIntentionChaseStateTimer.Start();
 		chaseStateIntention = ChaseStateIntention.ApproachTarget;
-		GD.Print(chaseStateIntention);
-		navAgent.StartFollowingTarget(Target);
+		navAgent.GotoGlobalPositionAttatched(Target);
 	}
 
 	protected void AvoidanceIntentionChaseState(){
@@ -235,13 +234,11 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 
 		avoidanceIntentionChaseStateTimer.Stop();
 
-		if(navAgent.StartFollowingTarget(Target.Position, new Vector3(-3,-3, -1), new Vector3(3,3,1), avoidanceChaseStateLineOfSightObstructions) == true){
+		if(IsInstanceValid(Target)==true && navAgent.GotoGlobalPosition(Target.GlobalPosition, new Vector3(-3,-3, -1), new Vector3(3,3,1), avoidanceChaseStateLineOfSightObstructions) == true){
 			chaseStateIntention = ChaseStateIntention.AvoidTarget;
-			GD.Print(chaseStateIntention);
 		}
 		else{
 			chaseStateIntention = ChaseStateIntention.ApproachTarget;
-			GD.Print(chaseStateIntention);
 		}
 	}
 
@@ -412,7 +409,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		LinkHitBoxHandler();
 		LinkTimers();
 		LinkAgressionZone();
-		// LinkAiWander();
+		LinkAiWander();
 		LinkWayfindingAgent();
 	}
 
@@ -424,7 +421,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		UnlinkHitBoxHandler();
 		UnlinkTimers();
 		UnlinkAgressionZone();
-		// UnlinkAiWander();
+		UnlinkAiWander();
 		UnlinkWayfindingAgent();
 	}
 
@@ -495,6 +492,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 	
 	public virtual void Kill(){
+		UnlinkEvents();
 		QueueFree();
 	}
 
@@ -520,6 +518,9 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 
 	private void HandleAttackChosen(byte attackId){
+		if(IsInstanceValid(Target) == false || Target == null){
+			return;
+		}
 		if(agressionZone.IsInSight(Target)==true){
 			attackHandler.StartAttacking();
 		}

@@ -44,7 +44,7 @@ public partial class EnvironmentDoor : Door{
             segments[i].Open((segments.Count-i)*segmentAsyncTime);
         }
         audioPlayer.StopSound(transitionSound, false);
-        audioPlayer.PlaySound(transitionSound, GlobalPosition, transitionSoundOneShot);
+        audioPlayer.PlayUnmanagedEvent(transitionSound, GlobalPosition);
     }
 
     public override void Close(){
@@ -55,7 +55,7 @@ public partial class EnvironmentDoor : Door{
             segments[i].Close(i*segmentAsyncTime);
         }
         audioPlayer.StopSound(transitionSound, false);
-        audioPlayer.PlaySound(transitionSound, GlobalPosition, transitionSoundOneShot);
+        audioPlayer.PlayUnmanagedEvent(transitionSound, GlobalPosition);
     }
 
     public override void Lock(){

@@ -17,6 +17,7 @@ public partial class EnemyManager : Node{
 	}
 
 	public override void _ExitTree(){
+		Singleton = null;
 		base._ExitTree();
 	}
 

@@ -61,11 +61,23 @@ public partial class WayfindingGrid3D : GridMap{
 	private static Color debugNoneColour           = new Color(0.5f,0.5f,0.5f,1f);
 	private bool drawDebug = false;
 
+    public override void _EnterTree(){
+        base._EnterTree();
+		GD.Print("wayfinding grid");
+    }
+
+
 	public override void _Ready(){
 		base._Ready();
 		Singleton=this;
 		Initialise();
 	}
+
+    public override void _ExitTree(){
+        base._ExitTree();
+		Singleton = null;
+    }
+
 
 
 	/// 

@@ -155,20 +155,20 @@ public partial class CameraController : Camera3D{
 
 
 	private void LinkEvents(){
-		shakeTimer.Timeout += StopShake;
-		fadeTimer.Timeout += StopFadeTransition;
-		SceneManager.Instance.OnScene3DLoaded += LevelEnterTransition;
-		SceneManager.Instance.OnScene3DDelayedLoadSet += LevelExitTransition;
-		InputManager.Singleton.OnZoomInInput 	+= OnZoomInCallback;
-		InputManager.Singleton.OnZoomOutInput 	+= OnZoomOutCallback;
+		shakeTimer.Timeout 	+= StopShake;
+		fadeTimer.Timeout 	+= StopFadeTransition;
+		SceneManager.Singleton.On3DLoaded 			+= LevelEnterTransition;
+		SceneManager.Singleton.On3DDelayedUnload 	+= LevelExitTransition;
+		InputManager.Singleton.OnZoomInInput 		+= OnZoomInCallback;
+		InputManager.Singleton.OnZoomOutInput 		+= OnZoomOutCallback;
 	}
 
 	private void UnlinkEvents(){
 		shakeTimer.Timeout -= StopShake;
 		fadeTimer.Timeout -= StopFadeTransition;
-		SceneManager.Instance.OnScene3DLoaded -= LevelEnterTransition;
-		SceneManager.Instance.OnScene3DDelayedLoadSet -= LevelExitTransition;
-		InputManager.Singleton.OnZoomInInput 	-= OnZoomInCallback;
-		InputManager.Singleton.OnZoomOutInput 	-= OnZoomOutCallback;
+		SceneManager.Singleton.On3DLoaded 			-= LevelEnterTransition;
+		SceneManager.Singleton.On3DDelayedUnload 	-= LevelExitTransition;
+		InputManager.Singleton.OnZoomInInput 		-= OnZoomInCallback;
+		InputManager.Singleton.OnZoomOutInput 		-= OnZoomOutCallback;
 	}
 }

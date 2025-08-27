@@ -88,7 +88,7 @@ stack = Array[ExtResource("10_xbvxr")]([SubResource("Resource_k446q"), SubResour
 script = ExtResource("21_smuev")
 radius = 0.841311
 
-[node name="GameplayLevelTemplate" instance=ExtResource("1_1pwbc")]
+[node name="1-1" instance=ExtResource("1_1pwbc")]
 
 [node name="AudioBankLoader" parent="Managers" index="0"]
 bankName = "Test"

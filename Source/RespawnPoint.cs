@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 public partial class RespawnPoint : Node3D{
-    public static string RespawnScene {get;private set;} = "TestLevel";
+    public static string RespawnScene {get;private set;} = "1-1";
     public static RespawnPoint Instance {get;private set;} = null;
 
     [Export] private Interactable interactable;
@@ -33,7 +33,7 @@ public partial class RespawnPoint : Node3D{
 
     public static void Respawn(){
         GD.Print("Respawn At: "+RespawnScene);
-        SceneManager.Instance.LoadScene2D(RespawnScene, SceneLoadType.Delete, 0.5f);
+        SceneManager.Singleton.Swap3D(RespawnScene, 0.5f);
     }
 
 
@@ -51,7 +51,7 @@ public partial class RespawnPoint : Node3D{
     }
 
     private void OnInteract(Interactor interactor){
-        RespawnScene = SceneManager.Instance.Current2DSceneName;
+        RespawnScene = SceneManager.Singleton.Current3D.Name;
         
         Health health = interactor.GetParent().GetNode<Health>(Health.NodeName);
         if(health != null){
@@ -59,7 +59,7 @@ public partial class RespawnPoint : Node3D{
         }
         
         EntityManager.Singleton.PauseEntityProcesses(0.33f);
-        AudioManager.Singleton.PlayEvent("RespawnPointUsed");
+        AudioManager.Singleton.PlayManagedEvent("RespawnPointUsed");
         GD.Print("respawn point set: "+RespawnScene);
     }
 

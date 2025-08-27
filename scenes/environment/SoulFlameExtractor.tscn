@@ -143,7 +143,8 @@ use_collision = true
 size = Vector3(2.75, 1, 1)
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(0.35, 0, 0, 0, -1.57361e-08, 0.4, 0, -0.36, -1.74846e-08, -1.45, 0, -1.2)
+transform = Transform3D(0.349987, 0.00314155, 1.5258e-10, 0, -1.57361e-08, 0.4, 0.00305429, -0.359986, -1.74839e-08, -1.45, 0, -1.19)
+modulate = Color(1, 1, 1, 0.498039)
 shaded = true
 no_depth_test = true
 render_priority = -1

@@ -12,8 +12,8 @@ public partial class AiWander : Node3D{
     [Export] private double maxPathTime;
     [Export] private double minIdleTime;
     [Export] private double maxIdleTime;
-    [Export] private Vector2 maxDirection = new Vector2(1,1);
-    [Export] private Vector2 minDirection = new Vector2(-1,-1);
+    [Export] private Vector3 maxDirection = new Vector3(1,1,1);
+    [Export] private Vector3 minDirection = new Vector3(-1,-1,-1);
     private State previousState = State.Idle;
     private State currentState = State.Return;
 
@@ -28,8 +28,8 @@ public partial class AiWander : Node3D{
         double maxPathTime,
         double minIdleTime,
         double maxIdleTime,
-        Vector2 maxDirection,
-        Vector2 minDirection
+        Vector3 maxDirection,
+        Vector3 minDirection
     ){
 
         this.minPathTime = minPathTime;
@@ -91,8 +91,8 @@ public partial class AiWander : Node3D{
         previousPathTime = timer.TimeLeft;
         OnDirectionChosen?.Invoke(new Vector3(
             (float)GD.RandRange((double)minDirection.X, (double)maxDirection.X), 
-            (float)GD.RandRange((double)minDirection.X, (double)maxDirection.X),
-            0
+            (float)GD.RandRange((double)minDirection.Y, (double)maxDirection.Y),
+            (float)GD.RandRange((double)minDirection.Z, (double)maxDirection.Z)
         ));
     }
 

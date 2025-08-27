@@ -8,23 +8,40 @@ public partial class AudioPlayer : Node{
     private SwapbackList<FMOD.Studio.EVENT_CALLBACK> callbacks = new SwapbackList<FMOD.Studio.EVENT_CALLBACK>();
 
     public override void _ExitTree(){
-        base._ExitTree();
         foreach (var audioInstance in audioInstances) {
             audioInstance.EventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            audioInstance.EventInstance.release();
+            if(audioInstance.Managed==false){
+                audioInstance.EventInstance.release();
+            }
         }
 
         audioInstances.Clear();
         callbacks.Clear();
+        base._ExitTree();
     }
 
-
-    public void PlaySound(string eventName, bool oneshot = true){
-        TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, oneshot));
+    public void PlayManagedEvent(string eventName){
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayManagedEvent(eventName));
     }
 
-    public void PlaySound(string eventName, Vector3 globalPosition, bool oneshot = true){
-        TrackEventInstanceLifetime(AudioManager.Singleton.PlayEvent(eventName, globalPosition, oneshot));
+    public void PlayManagedEvent(string eventName, Vector2 globalPosition){
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayManagedEvent(eventName, globalPosition));
+    }
+
+    public void PlayManagedEvent(string eventName, Vector3 globalPosition){
+        AudioManager.Singleton.PlayManagedEvent(eventName, globalPosition);
+    } 
+
+    public void PlayUnmanagedEvent(string eventName){
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayUnmanagedEvent(eventName));
+    }
+
+    public void PlayUnmanagedEvent(string eventName, Vector2 globalPosition){
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayUnmanagedEvent(eventName, globalPosition));
+    }
+
+    public void PlayUnmanagedEvent(string eventName, Vector3 globalPosition){
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayUnmanagedEvent(eventName, globalPosition));
     }
 
     public void PauseState(){
@@ -40,7 +57,7 @@ public partial class AudioPlayer : Node{
     }
 
     public bool StopSound(string eventName, bool immediate = false){
-        for(int i = audioInstances.Count-1; i >=     0; i--){
+        for(int i = audioInstances.Count-1; i >= 0; i--){
             if(audioInstances[i].Name == eventName){
                 audioInstances[i].EventInstance.stop(immediate == false? FMOD.Studio.STOP_MODE.ALLOWFADEOUT : FMOD.Studio.STOP_MODE.IMMEDIATE);
                 return true;

@@ -14,7 +14,6 @@ public partial class Interactable : Area3D{
         Entropek.Util.Node.VerifyName(this, NodeName);
         #endif
         DisableInteractableIcon();
-        GD.Print(1);
     }
 
     public override void _PhysicsProcess(double delta){

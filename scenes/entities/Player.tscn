@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://doy8tr4xqoi1p"]
+[gd_scene load_steps=23 format=3 uid="uid://doy8tr4xqoi1p"]
 
 [ext_resource type="Script" uid="uid://dxukubkvrdb1s" path="res://source/entities/Player/Player.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://cqmcv7p28v6ks" path="res://icon.svg" id="1_xhfnw"]
@@ -30,12 +30,17 @@ radius = 0.33
 [sub_resource type="BoxShape3D" id="BoxShape3D_deer0"]
 size = Vector3(2, 1, 2)
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer", "spriteSorter")]
+[sub_resource type="SphereShape3D" id="SphereShape3D_gpcb7"]
+radius = 0.2
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("emberDecayRate", "evaluateStateTimer", "hurtBox", "animator", "movement", "aimCursour", "hitBoxes", "hitFlash", "Health", "EmberStorage", "Interactor", "audioPlayer", "spriteSorter")]
 collision_layer = 2
 floor_max_angle = 1.0472
+floor_snap_length = 0.5
 script = ExtResource("1_kne1u")
 emberDecayRate = NodePath("EmberDecayRate")
 evaluateStateTimer = NodePath("EvaluateStateTimer")
+hurtBox = NodePath("Hurtbox")
 animator = NodePath("AnimatedSprite3D2")
 movement = NodePath("CharacterMovement")
 aimCursour = NodePath("PlayerAimCursour")
@@ -214,3 +219,11 @@ light_color = Color(0.658824, 1, 1, 1)
 light_energy = 0.167
 omni_range = 10.0
 omni_attenuation = 1.222
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("SphereShape3D_gpcb7")

@@ -82,8 +82,8 @@ public partial class AiAttackHandler : Node{
     }
 
     public override void _ExitTree(){
-        base._ExitTree();
         UnlinkEvents();
+        base._ExitTree();
     }
 
 

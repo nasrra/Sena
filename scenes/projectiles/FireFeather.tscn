@@ -12,11 +12,11 @@ height = 26.0
 collision_layer = 64
 collision_mask = 10
 script = ExtResource("1_ort3v")
+knockback = 150.0
+damage = 2
 Movement = NodePath("CharacterMovement")
 sprite = NodePath("Sprite2D")
 collider = NodePath("Area2D")
-knockback = 150.0
-damage = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -2.42252

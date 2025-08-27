@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using FMOD;
 using Godot;
 
 public partial class AudioManager : Node{
@@ -33,40 +32,16 @@ public partial class AudioManager : Node{
 
     public static AudioManager Singleton {get;private set;}
 
-    /// <summary>
-    /// Creates a new AudioManager instance.
-    /// </summary>
-    /// <param name="fileDirectory">The file directory path, relative to the executable, where all audio files are located.</param>
+
+    /// 
+    /// base.
+    /// 
+
+
     public override void _EnterTree(){
         base._EnterTree();
-
-        // load Masters.
-
         CreateFmodSystems();
-
-        // Use Stereo Audio.
-        
-        HandleResult(CoreSystem.setSoftwareFormat(
-            48000,
-            FMOD.SPEAKERMODE.STEREO,
-            0 // <-- should never change.
-        ));
-
-        // initialise with all defined settings as it cannot be changed afterwards.
-
-        HandleResult(StudioSystem.initialize(
-            128, // how many simultaneous audio channels (voices) FMOD can mix and play at the same time.
-            FMOD.Studio.INITFLAGS.NORMAL,
-            FMOD.INITFLAGS.NORMAL,
-            0
-        ));
-
-        // load master banks.
-        
-        LoadBank("Master");
-        LoadBank("Master.strings");
-        LoadBusHandle("Master");
-        SetBusVolume("Master", 1.0f);
+        LoadMasters();
 
         // load other buses.
 
@@ -78,40 +53,9 @@ public partial class AudioManager : Node{
         Singleton = this;
     }
 
-
-    /// <summary>
-    /// Prints the result of an FMOD function call.
-    /// </summary>
-    /// <param name="result"></param>
-    private void PrintResult(FMOD.RESULT result){
-        GD.Print($"[AUDIOMANAGR]: {result}");
-    }
-
-    /// <summary>
-    /// Prints the result of an FMOD function call, if it is not RESULT.OK.
-    /// </summary>
-    /// <param name="result"></param>
-    private void HandleResult(FMOD.RESULT result){
-        if(result != FMOD.RESULT.OK){
-            PrintResult(result);
-        }
-    }
-
-    /// <summary>
-    /// Creates instances for FMOD Studio and Core System.
-    /// </summary>
-    private void CreateFmodSystems(){
-        HandleResult(FMOD.Studio.System.create(
-            out FMOD.Studio.System system
-        ));
-
-        HandleResult(system.getCoreSystem(
-            out FMOD.System coreSystem)
-        );
-
-        StudioSystem = system;
-        CoreSystem = coreSystem; 
-
+    public override void _Process(double delta){
+        base._Process(delta);
+        StudioSystem.update();
     }
 
     /// <summary>
@@ -133,10 +77,56 @@ public partial class AudioManager : Node{
         HandleResult(StudioSystem.release());
     }
 
+
     /// <summary>
-    /// Loads a bank instance into the FMOD Studio System to play sounds from.
+    /// Initialisation.
     /// </summary>
-    /// <param name="bankName">The name of a bank to load, without the ".bank" extension.</param>
+
+
+    private void CreateFmodSystems(){
+        HandleResult(FMOD.Studio.System.create(
+            out FMOD.Studio.System system
+        ));
+
+        HandleResult(system.getCoreSystem(
+            out FMOD.System coreSystem)
+        );
+
+        StudioSystem = system;
+        CoreSystem = coreSystem; 
+
+
+        // Use Stereo Audio.
+        
+        HandleResult(CoreSystem.setSoftwareFormat(
+            48000,
+            FMOD.SPEAKERMODE.STEREO,
+            0 // <-- should never change.
+        ));
+
+        // initialise with all defined settings as it cannot be changed afterwards.
+
+        HandleResult(StudioSystem.initialize(
+            128, // how many simultaneous audio channels (voices) FMOD can mix and play at the same time.
+            FMOD.Studio.INITFLAGS.NORMAL,
+            FMOD.INITFLAGS.NORMAL,
+            0
+        ));
+    }
+
+    private void LoadMasters(){
+        LoadBank("Master");
+        LoadBank("Master.strings");
+        LoadBusHandle("Master");
+        SetBusVolume("Master", 1.0f);
+    }
+
+
+    /// 
+    /// Audio Bank Hanlding.
+    /// 
+
+
     public void LoadBank(string bankName){
         
         // Load the bank from FMOD studio.
@@ -156,10 +146,6 @@ public partial class AudioManager : Node{
         }
     }
 
-    /// <summary>
-    /// Unloads a bank instance from the FMOD Studio System.
-    /// </summary>
-    /// <param name="bankName">The name of a bank to load, without the ".bank" extension.</param>
     public void UnloadBank(string bankName){
 
         // Get loaded bank.
@@ -181,103 +167,6 @@ public partial class AudioManager : Node{
         _loadedBanks.Remove(bankName);
     }
 
-    /// <summary>
-    /// Loads the handle to access a bus within the FMOD Studio System.
-    /// </summary>
-    /// <param name="busName">The name of a bus handle to load, without the "bus:/" prefix.</param>
-    public void LoadBusHandle(string busName){
-        
-        // Get the bus.
-
-        StudioSystem.getBus("bus:/"+(busName == "Master"? "" : busName), out FMOD.Studio.Bus bus);
-        ref FMOD.Studio.Bus b = ref bus;
-        _busHandles.Add(busName == ""? "Master" : busName, bus);
-    }
-
-    /// <summary>
-    /// Sets the volume of a bus, via a bus handle that has been loaded.
-    /// </summary>
-    /// <param name="busHandleName">The name of the loaded bus handle to use when accessing a bus in the FMOD Studio System.</param>
-    /// <param name="volume">The specified volume to change to.</param>
-    public void SetBusVolume(string busHandleName, float volume){
-        _busHandles[busHandleName].setVolume(volume);
-    }
-
-    /// <summary>
-    /// Gets the volume of a bus, via a bus handle that has been loaded.
-    /// </summary>
-    /// <param name="busHandleName">The name of the loaded bus handle to use when accessing a bus in the FMOD Studio System.</param>
-    /// <returns></returns>
-    public float GetBusVolume(string busHandleName){
-        _busHandles[busHandleName].getVolume(out float volume);
-        return volume;
-    }
-
-
-    /// 
-    /// Event Handling.
-    /// 
-
-
-    public AudioInstance PlayEvent(string eventName, bool release = true){
-        
-        // Get the loaded event description.
-
-        FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
-        
-        // Create and play an instance of the description.
-
-        desc.createInstance(out FMOD.Studio.EventInstance inst);
-        inst.start();
-        
-        if(release == true){
-            // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
-
-            inst.release();
-        }
-
-        // update the audio system to play the sound.
-        StudioSystem.update();
-        
-        return new AudioInstance(inst, eventName);
-    }
-
-    private AudioInstance PlayEvent(string eventName, VECTOR globalPosition, bool release = true){
-        FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
-        desc.createInstance(out FMOD.Studio.EventInstance inst);
-
-        ATTRIBUTES_3D attributes = new ATTRIBUTES_3D{
-            position = globalPosition,
-            velocity = new FMOD.VECTOR { x = 0, y = 0, z = 0 },
-            forward = new FMOD.VECTOR { x = 0, y = 0, z = 1 },
-            up = new FMOD.VECTOR { x = 0, y = 1, z = 0 }
-        };
-        inst.set3DAttributes(attributes);
-
-        inst.start();
-        if(release == true){
-            inst.release(); // Immediately release it, so when the sound has finished, FMOD Studio can garbage collect it.
-        }
-
-        StudioSystem.update();
-
-        return new AudioInstance(inst, eventName);        
-    }
-
-    public AudioInstance PlayEvent(string eventName, Vector2 globalPosition, bool release = true){
-        return PlayEvent(eventName, GodotToFmodPosition(globalPosition), release);
-    }
-
-    public AudioInstance PlayEvent(string eventName, Vector3 globalPosition, bool release = true){
-        return PlayEvent(eventName, GodotToFmodPosition(globalPosition), release);
-    }
-
-    public string GetEventName(FMOD.Studio.EventDescription eventDescription){
-        eventDescription.getPath(out string path);
-        return System.IO.Path.GetFileNameWithoutExtension(path);
-    }
-
-
     public bool IsBankLoaded(string bankName){
         return _loadedBanks.ContainsKey(bankName);
     }
@@ -291,9 +180,109 @@ public partial class AudioManager : Node{
         // Use Godot's project settings to convert from "res://" to actual file path
         string godotPath = $"res://Exports/Audio/Desktop/{bankName}.bank";
         string absolutePath = ProjectSettings.GlobalizePath(godotPath);
-
-        GD.Print($"Bank path: {absolutePath}");
         return absolutePath;
+    }
+
+
+
+    /// 
+    /// Audio Bus Handling.
+    /// 
+
+
+    public void LoadBusHandle(string busName){
+        StudioSystem.getBus("bus:/"+(busName == "Master"? "" : busName), out FMOD.Studio.Bus bus);
+        ref FMOD.Studio.Bus b = ref bus;
+        _busHandles.Add(busName == ""? "Master" : busName, bus);
+    }
+
+    public void SetBusVolume(string busHandleName, float volume){
+        _busHandles[busHandleName].setVolume(volume);
+    }
+
+    public float GetBusVolume(string busHandleName){
+        _busHandles[busHandleName].getVolume(out float volume);
+        return volume;
+    }
+
+
+    /// 
+    /// Event Handling.
+    /// 
+
+    public string GetEventName(FMOD.Studio.EventDescription eventDescription){
+        eventDescription.getPath(out string path);
+        return System.IO.Path.GetFileNameWithoutExtension(path);
+    }
+
+    public AudioInstance PlayManagedEvent(string eventName){
+        AudioInstance instance = CreateAudioInstance(eventName, managed: true);
+        instance.EventInstance.start();
+        instance.EventInstance.release();
+        return instance;
+    }
+
+    public AudioInstance PlayManagedEvent(string eventName, Vector2 globalPosition){
+        AudioInstance instance = CreateAudioInstance(eventName, globalPosition, managed: true);
+        instance.EventInstance.start();
+        instance.EventInstance.release();
+        return instance;
+    }
+
+    public AudioInstance PlayManagedEvent(string eventName, Vector3 globalPosition){
+        AudioInstance instance = CreateAudioInstance(eventName, globalPosition, managed: true);
+        instance.EventInstance.start();
+        instance.EventInstance.release();
+        return instance;
+    }
+
+    public AudioInstance PlayUnmanagedEvent(string eventName, Vector2 globalPosition){
+        AudioInstance instance = CreateAudioInstance(eventName, globalPosition, managed: false);
+        instance.EventInstance.start();
+        return instance;
+    }
+
+    public AudioInstance PlayUnmanagedEvent(string eventName, Vector3 globalPosition){
+        AudioInstance instance = CreateAudioInstance(eventName, globalPosition, managed: false);
+        instance.EventInstance.start();
+        return instance;
+    }
+
+    public AudioInstance PlayUnmanagedEvent(string eventName){
+        AudioInstance instance = CreateAudioInstance(eventName, managed: false);
+        instance.EventInstance.start();
+        return instance;
+    }
+
+
+    /// 
+    /// Audio Instance Creation.
+    /// 
+
+    private AudioInstance CreateAudioInstance(string eventName, bool managed){
+        FMOD.Studio.EventDescription desc = _loadedEvents[eventName];
+        desc.createInstance(out FMOD.Studio.EventInstance inst);
+        return new AudioInstance(inst, eventName, managed);
+    }
+
+    private AudioInstance CreateAudioInstance(string eventName, Vector2 globalPosition, bool managed){
+        return CreateAudioInstance(eventName, GodotToFmodVector(globalPosition), managed);
+    }
+
+    private AudioInstance CreateAudioInstance(string eventName, Vector3 globalPosition, bool managed){
+        return CreateAudioInstance(eventName, GodotToFmodVector(globalPosition), managed);
+    }
+
+    private AudioInstance CreateAudioInstance(string eventName, FMOD.VECTOR globalPosition, bool managed){
+        AudioInstance inst = CreateAudioInstance(eventName, managed);
+        FMOD.ATTRIBUTES_3D attributes = new FMOD.ATTRIBUTES_3D{
+            position = globalPosition,
+            velocity = new FMOD.VECTOR { x = 0, y = 0, z = 0 },
+            forward = new FMOD.VECTOR { x = 0, y = 0, z = 1 },
+            up = new FMOD.VECTOR { x = 0, y = 1, z = 0 }
+        };
+        inst.EventInstance.set3DAttributes(attributes);
+        return inst;
     }
 
 
@@ -302,28 +291,28 @@ public partial class AudioManager : Node{
     /// 
 
 
-    public void SetListenerPosition(VECTOR globalPosition){
-        ATTRIBUTES_3D listenerAttributes = new ATTRIBUTES_3D{
+    public void SetListenerPosition(FMOD.VECTOR globalPosition){
+        FMOD.ATTRIBUTES_3D listenerAttributes = new FMOD.ATTRIBUTES_3D{
             position = globalPosition,
-            velocity = new VECTOR { x = 0, y = 0, z = 0 },
-            forward  = new VECTOR { x = 0, y = 0, z = 1 },
-            up       = new VECTOR { x = 0, y = 1, z = 0 }
+            velocity = new FMOD.VECTOR { x = 0, y = 0, z = 0 },
+            forward  = new FMOD.VECTOR { x = 0, y = 0, z = 1 },
+            up       = new FMOD.VECTOR { x = 0, y = 1, z = 0 }
         };
 
         // Assuming you have a valid FMOD.Studio.System instance called studioSystem
-        RESULT result = StudioSystem.setListenerAttributes(0, listenerAttributes);
-        if (result != RESULT.OK){
+        FMOD.RESULT result = StudioSystem.setListenerAttributes(0, listenerAttributes);
+        if (result != FMOD.RESULT.OK){
             GD.PrintErr($"Failed to set listener attributes: {result}");
         }
         StudioSystem.update();
     }
 
     public void SetListenerPosition(Vector2 globalPosition){
-        SetListenerPosition(GodotToFmodPosition(globalPosition));
+        SetListenerPosition(GodotToFmodVector(globalPosition));
     }
 
     public void SetListenerPosition(Vector3 globalPosition){
-        SetListenerPosition(GodotToFmodPosition(globalPosition));
+        SetListenerPosition(GodotToFmodVector(globalPosition));
     }
 
 
@@ -331,20 +320,38 @@ public partial class AudioManager : Node{
     /// Godot Conversions. 
     /// 
 
-    private VECTOR GodotToFmodPosition(Vector2 globalPosition){
-        return new VECTOR{
+    private FMOD.VECTOR GodotToFmodVector(Vector2 globalPosition){
+        return new FMOD.VECTOR{
             x = globalPosition.X,
             y = 0,
             z = -globalPosition.Y
         };
     }
 
-    private VECTOR GodotToFmodPosition(Vector3 globalPosition){
-        return new VECTOR{
+    private FMOD.VECTOR GodotToFmodVector(Vector3 globalPosition){
+        return new FMOD.VECTOR{
             x = globalPosition.X,
             y = globalPosition.Y,
             z = globalPosition.Z
         };
+    }
+
+    /// <summary>
+    /// Prints the result of an FMOD function call.
+    /// </summary>
+    /// <param name="result"></param>
+    private void PrintResult(FMOD.RESULT result){
+        GD.Print($"[AUDIOMANAGR]: {result}");
+    }
+
+    /// <summary>
+    /// Prints the result of an FMOD function call, if it is not RESULT.OK.
+    /// </summary>
+    /// <param name="result"></param>
+    private void HandleResult(FMOD.RESULT result){
+        if(result != FMOD.RESULT.OK){
+            PrintResult(result);
+        }
     }
 
 }

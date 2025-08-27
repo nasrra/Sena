@@ -114,7 +114,7 @@ public partial class Worker : Enemy{
     private void AttackAnimationFrameEvent(int frame){
 		switch(frame){
 			case 0:
-				audioPlayer.PlaySound("WorkerAttack", GlobalPosition);
+				audioPlayer.PlayManagedEvent("WorkerAttack", GlobalPosition);
 			break;
 		}
 	}
@@ -123,7 +123,7 @@ public partial class Worker : Enemy{
 		switch(frame){
 			case 2:
 			case 6:
-				audioPlayer.PlaySound("StoneFootstep", GlobalPosition);
+				audioPlayer.PlayManagedEvent("StoneFootstep", GlobalPosition);
 			break;
 		}
 	}
@@ -161,11 +161,11 @@ public partial class Worker : Enemy{
         base.OnDamagedCallback();
 		float stunTime = 0.33f;
 		StunState(stunTime);
-		audioPlayer.PlaySound("MeleeHit", GlobalPosition);
+		audioPlayer.PlayManagedEvent("MeleeHit", GlobalPosition);
     }
 
     public override void Kill(){
-		AudioManager.Singleton.PlayEvent("EnemyDeath", GlobalPosition, true);
+		AudioManager.Singleton.PlayManagedEvent("EnemyDeath", GlobalPosition);
 		// GameplayGui.Singleton.BossHealthBarHud.DisableBar();
         base.Kill();
     }

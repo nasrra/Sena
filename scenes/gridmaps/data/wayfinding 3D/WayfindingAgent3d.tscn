@@ -2,9 +2,8 @@
 
 [ext_resource type="Script" uid="uid://iyp1pucgywm8" path="res://source/Wayfinding3D/WayfindingAgent3D.cs" id="1_d3p5h"]
 
-[node name="WayfindingAgent3D" type="Node3D" node_paths=PackedStringArray("target", "refreshPathTimer")]
+[node name="WayfindingAgent3D" type="Node3D" node_paths=PackedStringArray("refreshPathTimer")]
 script = ExtResource("1_d3p5h")
-target = NodePath("Target")
 refreshPathTimer = NodePath("Timer")
 floorLayer = 1
 

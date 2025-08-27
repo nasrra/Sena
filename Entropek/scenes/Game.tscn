@@ -32,27 +32,46 @@ render_target_update_mode = 4
 
 [node name="World3D" type="Node3D" parent="SubViewportContainer/SubViewport"]
 
-[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "world3D", "gui", "loadScene2DDelayTimer", "loadScene3DDelayTimer", "loadGuiDelayTimer")]
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="WorldGui" type="Control" parent="GUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SceneManager" type="Node" parent="." node_paths=PackedStringArray("world2D", "world3D", "worldGui", "gui", "load2DDelayTimer", "unload2DDelayTimer", "load3DDelayTimer", "unload3DDelayTimer", "loadGuiDelayTimer", "unloadGuiDelayTimer")]
 script = ExtResource("1_3ypkp")
 world2D = NodePath("../World2D")
 world3D = NodePath("../SubViewportContainer/SubViewport/World3D")
+worldGui = NodePath("../GUI/WorldGui")
 gui = NodePath("../GUI")
-loadScene2DDelayTimer = NodePath("LoadScene2DDelayTimer")
-loadScene3DDelayTimer = NodePath("LoadScene3DDelayTimer")
+load2DDelayTimer = NodePath("Load2DDelayTimer")
+unload2DDelayTimer = NodePath("Unload2DDelayTimer")
+load3DDelayTimer = NodePath("Load3DDelayTimer")
+unload3DDelayTimer = NodePath("Unload3DDelayTimer")
 loadGuiDelayTimer = NodePath("LoadGuiDelayTimer")
-scene3DStart = "1-3"
-guiStart = "GameplayGui"
+unloadGuiDelayTimer = NodePath("UnloadGuiDelayTimer")
+start3D = "1-3"
+startGui = "GameplayGui"
 
 [node name="LoadGuiDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
 
-[node name="LoadScene2DDelayTimer" type="Timer" parent="SceneManager"]
+[node name="UnloadGuiDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
 
-[node name="LoadScene3DDelayTimer" type="Timer" parent="SceneManager"]
+[node name="Load2DDelayTimer" type="Timer" parent="SceneManager"]
 one_shot = true
 
-[node name="GUI" type="CanvasLayer" parent="."]
+[node name="Unload2DDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true
+
+[node name="Load3DDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true
+
+[node name="Unload3DDelayTimer" type="Timer" parent="SceneManager"]
+one_shot = true
 
 [node name="InputManager" type="Node2D" parent="." node_paths=PackedStringArray("gameViewport", "blockAimInputTimer", "blockAttackInputTimer", "blockDashInputTimer", "blockHealInputTimer", "blockInteractInputTimer", "blockMovementInputTimer", "blockShootInputTimer")]
 script = ExtResource("3_3ypkp")

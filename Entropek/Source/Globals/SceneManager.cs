@@ -1,47 +1,103 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class SceneManager : Node{
 
 	private const string levelsResourcePath = "res://scenes/levels/";
 	private const string guiResourcePath = "res://scenes/gui/";
-	public static SceneManager Instance{get; private set;}
+	public static SceneManager Singleton{get; private set;}
 
-	private event Action loadGuiDelayed;
-	private event Action loadScene2DDelayed;
-	private event Action loadScene3DDelayed;
-	public event Action OnScene2DLoaded;
-	public event Action OnScene2DDelayedLoadSet;
-	public event Action OnScene3DLoaded;
-	public event Action OnScene3DDelayedLoadSet;
+
+	public event Action On2DLoaded;
+	public event Action On2DUnloaded;
+	public event Action On2DDelayedLoad;
+	public event Action On2DDelayedUnload;
+	
+	public event Action On3DLoaded;
+	public event Action On3DUnloaded;
+	public event Action On3DDelayedLoad;
+	public event Action On3DDelayedUnload;
+
+	public event Action OnGuiLoaded;
+	public event Action OnGuiUnloaded;
+	public event Action OnGuiDelayedLoad;
+	public event Action OnGuiDelayedUnload;
 
 	[Export] private Node2D world2D;
 	[Export] private Node3D world3D;
+	[Export] private Control worldGui;
 	[Export] private CanvasLayer gui;
 
-	[Export] private Timer loadScene2DDelayTimer;
-	[Export] private Timer loadScene3DDelayTimer;
+	[Export] private Timer load2DDelayTimer;
+	[Export] private Timer unload2DDelayTimer;
+	
+	[Export] private Timer load3DDelayTimer;
+	[Export] private Timer unload3DDelayTimer;
+	
 	[Export] private Timer loadGuiDelayTimer;
-	public Node2D Current2DScene 		{get; private set;}
-	public string Current2DSceneName 	{get;private set;}
-	public Node3D Current3DScene 		{get; private set;}
-	public string Current3DSceneName 	{get; private set;}
-	public Control CurrentGuiScene 		{get; private set;}
+	[Export] private Timer unloadGuiDelayTimer;
 
-	[Export] private string scene2DStart;
-	[Export] private string scene3DStart;
-	[Export] private string guiStart;
+	public Node2D Current2D{
+		get{
+			return (Node2D)world2D.GetChild(0); 
+		}
+		private set{
+			world2D.MoveChild(value, 0);
+		}
+	}
+
+	public Node3D Current3D{
+		get{
+			return (Node3D)world3D.GetChild(0); 
+		}
+		private set{
+			world3D.MoveChild(value, 0);
+		}
+	}
+	
+	public Control CurrentGui{
+		get{
+			return (Control)worldGui.GetChild(0); 
+		}
+		private set{
+			worldGui.MoveChild(value, 0);
+		}
+	}
+
+	[Export] private string start2D;
+	[Export] private string start3D;
+	[Export] private string startGui;
+
+	private bool is3DLoading 	= false;
+	private bool is2DLoading 	= false;
+	private bool isGuiLoading 		= false;
 
 	public override void _Ready(){
 		base._Ready();
-		if(guiStart != null){
-			LoadGui(guiStart, SceneLoadType.Delete);
+		if(startGui != null){
+			LoadScene(
+				worldGui, 
+				InvokeOnGuiLoaded, 
+				startGui, 
+				guiResourcePath
+			);
 		}
-		if(scene2DStart != null){
-			LoadScene2D(scene2DStart, SceneLoadType.Delete);
+		if(start2D != null){
+			LoadScene(
+				world2D, 
+				InvokeOn2DLoaded, 
+				start2D, 
+				levelsResourcePath
+			);		
 		}
-		if(scene3DStart != null){
-			LoadScene3D(scene3DStart, SceneLoadType.Delete);
+		if(start3D != null){
+			LoadScene(
+				world3D, 
+				InvokeOn3DLoaded, 
+				start3D, 
+				levelsResourcePath
+			);		
 		}
 	}
 
@@ -53,56 +109,71 @@ public partial class SceneManager : Node{
 
 	public override void _EnterTree(){
 		base._EnterTree();
-		Instance = this;
+		Singleton = this;
 	}
 
 	public override void _ExitTree(){
 		base._ExitTree();
-		Instance = null;
+		Singleton = null;
 	}
 
 
 	/// 
-	/// Functions.
+	/// Gui.
 	/// 
 
 
-	public void LoadGui(string sceneName, SceneLoadType loadType, float delayTime){
-		loadGuiDelayed = () => {
-			LoadGui(sceneName, loadType);
-			loadGuiDelayTimer.Timeout -= loadGuiDelayed;
-			loadGuiDelayed = null;
-		};
-
-		loadGuiDelayTimer.Timeout += loadGuiDelayed;
-		loadGuiDelayTimer.WaitTime = delayTime;
-		loadGuiDelayTimer.Start();
-	}
-
-	public async void LoadGui(string sceneName, SceneLoadType loadType){
-		
-		if(CurrentGuiScene != null){
-			switch(loadType){
-				case SceneLoadType.Delete:
-					// shift hard reference so it goes out of scope for GC.
-					Node sceneToDelete  = CurrentGuiScene;
-					CurrentGuiScene     = null;
-					sceneToDelete.QueueFree();
-					await ToSignal(sceneToDelete, "tree_exited");
-				break;
-				case SceneLoadType.Hide:
-					CurrentGuiScene.Visible = false;
-				break;
-				case SceneLoadType.Remove:
-					gui.RemoveChild(CurrentGuiScene);
-				break;
-			}
+	public void SwapGui(string sceneToLoad, float delayTime){
+		if(isGuiLoading==false){
+			isGuiLoading = true;
+			UnloadScene(
+				worldGui, 
+				OnGuiUnloaded, 
+				OnGuiDelayedUnload, 
+				delayedUnloadFinished: ()=>
+					LoadScene(
+						worldGui, 
+						OnGuiLoaded, 
+						OnGuiDelayedLoad, 
+						InvokeOnGuiLoaded, 
+						loadGuiDelayTimer, 
+						sceneToLoad, 
+						guiResourcePath, 
+						delayTime
+					),
+				unloadGuiDelayTimer, 
+				CurrentGui.Name, 
+				delayTime
+			);
 		}
+	}
 
-		PackedScene packedScene = GD.Load<PackedScene>(guiResourcePath+sceneName+".tscn");
-		Control newGui = (Control)packedScene.Instantiate();
-		gui.AddChild(newGui);
-		CurrentGuiScene = newGui;
+	public void SwapGui(string sceneToLoad){
+		if(isGuiLoading==false){
+			isGuiLoading = true;
+			UnloadScene(
+				worldGui, 
+				()=>{
+					OnGuiUnloaded?.Invoke();
+					LoadScene(
+						worldGui, 
+						InvokeOnGuiLoaded, 
+						sceneToLoad, 
+						guiResourcePath
+					);
+				},	
+				sceneToLoad
+			);
+		}
+	}
+
+	private void InvokeOnGuiUnloaded(){
+		OnGuiUnloaded?.Invoke();
+	}
+
+	private void InvokeOnGuiLoaded() {
+		isGuiLoading = false;
+		OnGuiLoaded?.Invoke();
 	}
 
 
@@ -111,121 +182,176 @@ public partial class SceneManager : Node{
 	/// </summary>
 
 
-	public void LoadScene2D(string sceneName, SceneLoadType loadType, float delayTime){
-		loadScene2DDelayed = () => {
-			LoadScene2D(sceneName, loadType);
-			loadScene2DDelayTimer.Timeout -= loadScene2DDelayed;
-			loadScene2DDelayed = null;
-		};
-		
-		loadScene2DDelayTimer.Timeout += loadScene2DDelayed;
-		loadScene2DDelayTimer.WaitTime = delayTime;
-		loadScene2DDelayTimer.Start();
-		OnScene2DDelayedLoadSet?.Invoke();
-	}
-
-	public async void LoadScene2D(string sceneName, SceneLoadType loadType){
-		if(Current2DScene != null){
-			switch(loadType){
-				case SceneLoadType.Delete:
-					// shift hard reference so it goes out of scope for GC.
-					Node sceneToDelete  = Current2DScene;
-					Current2DScene      = null;
-					sceneToDelete.QueueFree();
-					await ToSignal(sceneToDelete, "tree_exited");
-				break;
-				case SceneLoadType.Hide:
-					Current2DScene.Visible = false;
-				break;
-				case SceneLoadType.Remove:
-					world2D.RemoveChild(Current2DScene);
-				break;
-			}
+	public void Swap2D(string sceneToLoad, float delayTime){
+		if(is2DLoading==false){
+			is2DLoading = true;
+			UnloadScene(
+				world2D, 
+				On2DUnloaded, 
+				On2DDelayedUnload, 
+				delayedUnloadFinished: ()=>
+					LoadScene(
+						world2D, 
+						On2DLoaded, 
+						On2DDelayedLoad, 
+						InvokeOn2DLoaded, 
+						load2DDelayTimer, 
+						sceneToLoad, 
+						levelsResourcePath, 
+						delayTime
+					),
+				unload2DDelayTimer, 
+				Current2D.Name, 
+				delayTime
+			);
 		}
-		
-		PackedScene packedScene = GD.Load<PackedScene>(levelsResourcePath+sceneName+".tscn");
-		Node2D newWorld = (Node2D)packedScene.Instantiate();
-		// world2D.CallDeferred("add_child", newWorld);
-		world2D.AddChild(newWorld);
-		Current2DScene = newWorld;
-		Current2DSceneName = sceneName;
-
-		CallDeferred(nameof(InvokeScene2DLoaded));
 	}
 
-	public void ReloadScene2D(){
-		LoadScene2D(Current2DScene.Name, SceneLoadType.Delete);
+	public void Swap2D(string sceneToLoad){
+		if(is2DLoading==false){
+			is2DLoading = true;
+			UnloadScene(
+				world2D, 
+				()=>{
+					On2DUnloaded?.Invoke();
+					LoadScene(
+						world2D, 
+						InvokeOn2DLoaded, 
+						sceneToLoad, 
+						guiResourcePath
+					);
+				},	
+				sceneToLoad
+			);
+		}
 	}
-	
-	private void InvokeScene2DLoaded() {
-		OnScene2DLoaded?.Invoke();
+
+	private void InvokeOn2DLoaded() {
+		is2DLoading = false;
+		On2DLoaded?.Invoke();
+	}
+
+	/// 
+	/// Scene 3D.
+	/// 
+
+
+
+	public void Swap3D(string sceneToLoad, float delayTime){
+		if(is3DLoading==false){
+			is3DLoading = true;
+			UnloadScene(
+				world3D, 
+				On3DUnloaded, 
+				On3DDelayedUnload, 
+				delayedUnloadFinished: ()=>
+					LoadScene(
+						world3D, 
+						On3DLoaded, 
+						On3DDelayedLoad, 
+						InvokeOn3DLoaded, 
+						load3DDelayTimer, 
+						sceneToLoad, 
+						levelsResourcePath, 
+						delayTime
+					),
+				unload3DDelayTimer, 
+				Current3D.Name, 
+				delayTime
+			);
+		}
+	}
+
+	public void Swap3D(string sceneToLoad){
+		if(is3DLoading==false){
+			is3DLoading = true;
+			UnloadScene(
+				world3D, 
+				()=>{
+					On3DUnloaded?.Invoke();
+					LoadScene(
+						world3D, 
+						InvokeOn3DLoaded, 
+						sceneToLoad, 
+						guiResourcePath
+					);
+				},	
+				sceneToLoad
+			);
+		}
+	}
+
+	private void InvokeOn3DLoaded() {
+		is3DLoading = false;
+		On3DLoaded?.Invoke();
 	}
 
 
 	///
-	/// Scene 3D.
+	/// Generic.
 	/// 
 
-	public void LoadScene3D(string sceneName, SceneLoadType loadType, float delayTime){
-		loadScene3DDelayed = () => {
-			LoadScene3D(sceneName, loadType);
-			loadScene3DDelayTimer.Timeout -= loadScene3DDelayed;
-			loadScene3DDelayed = null;
-		};
-		
-		loadScene3DDelayTimer.Timeout += loadScene3DDelayed;
-		loadScene3DDelayTimer.WaitTime = delayTime;
-		loadScene3DDelayTimer.Start();
-		OnScene3DDelayedLoadSet?.Invoke();
+	private void UnloadScene<T>(T parentScene, Action unloadedCallback, string sceneToUnload) where T : Node{
+		Node sceneToDelete = parentScene.GetNode<T>(sceneToUnload);
+		parentScene.RemoveChild(sceneToDelete);
+		sceneToDelete.QueueFree(); // safely queued
+		CallDeferredCallback(unloadedCallback);
 	}
 
-	public async void LoadScene3D(string sceneName, SceneLoadType loadType){
-		if(Current3DScene != null){
-			switch(loadType){
-				case SceneLoadType.Delete:
-					// shift hard reference so it goes out of scope for GC.
-					Node sceneToDelete  = Current3DScene;
-					Current3DScene      = null;
-					sceneToDelete.QueueFree();
-					await ToSignal(sceneToDelete, "tree_exited");
-				break;
-				case SceneLoadType.Hide:
-					Current3DScene.Visible = false;
-				break;
-				case SceneLoadType.Remove:
-					world3D.RemoveChild(Current3DScene);
-				break;
-			}
+	private void UnloadScene<T>(T parentScene, Action unloadedCallback, Action delayedUnloadStarted, Action delayedUnloadFinished, Timer delayTimer, string sceneToUnload, float delayTime) where T : Node{
+		void TimeoutHandler(){
+			delayTimer.Timeout -= TimeoutHandler;
+			UnloadScene(parentScene,unloadedCallback, sceneToUnload);
+			delayedUnloadFinished?.Invoke();
 		}
+
+		delayTimer.Timeout += TimeoutHandler;
+		delayTimer.WaitTime = delayTime;
+		delayTimer.OneShot = true;
+		delayTimer.Start();
 		
-		PackedScene packedScene = GD.Load<PackedScene>(levelsResourcePath+sceneName+".tscn");
-		Node3D newWorld = (Node3D)packedScene.Instantiate();
-		// world2D.CallDeferred("add_child", newWorld);
-		world3D.AddChild(newWorld);
-		Current3DScene = newWorld;
-		Current3DSceneName = sceneName;
+		delayedUnloadStarted?.Invoke();
 
-		CallDeferred(nameof(InvokeScene3DLoaded));
 	}
 
-	public void ReloadScene3D(){
-		LoadScene3D(Current2DScene.Name, SceneLoadType.Delete);
+	private void LoadScene<T>(T parentScene, Action loadedCallback, string sceneName, string resourceFolderPath) where T : Node{
+		PackedScene packedScene = GD.Load<PackedScene>(resourceFolderPath + sceneName + ".tscn");
+		T newScene = (T)packedScene.Instantiate();
+		parentScene.AddChild(newScene);
+		CallDeferredCallback(loadedCallback);
+
+		if (typeof(T) == typeof(Node3D)) {
+			Current3D = newScene as Node3D;
+		} else if (typeof(T) == typeof(Control)) {
+			CurrentGui = newScene as Control;
+		}
+		else if(typeof(T) == typeof(Node2D)){
+			Current2D = newScene as Node2D;
+		}
+		else{
+			throw new Exception();
+		}
 	}
-	
-	private void InvokeScene3DLoaded() {
-		OnScene3DLoaded?.Invoke();
+
+	private void LoadScene<T>(T parentScene, Action loadedCallback, Action delayedLoadStarted, Action delayedLoadFinished, Timer delayTimer, string sceneToLoad, string resourceFolderPath, float delayTime) where T : Node{
+		void TimeoutHandler(){
+			delayTimer.Timeout -= TimeoutHandler;
+			LoadScene(parentScene, loadedCallback, sceneToLoad, resourceFolderPath);
+			delayedLoadFinished?.Invoke();
+		}
+
+		delayTimer.Timeout += TimeoutHandler;
+		delayTimer.WaitTime = delayTime;
+		delayTimer.OneShot = true;
+		delayTimer.Start();
+		
+		delayedLoadStarted?.Invoke();
+
 	}
 
-}
+	private async void CallDeferredCallback(Action callback){
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		callback?.Invoke();
+	}
 
-
-/// 
-/// Definitions.
-/// 
-
-
-public enum SceneLoadType{
-	Delete, // No memory or data.
-	Hide, // in memory and runs.
-	Remove // in memory but no longer updates.
 }

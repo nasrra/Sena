@@ -9,9 +9,10 @@ public partial class WayfindingAgent3D : Node3D{
 
     public event Action OnReachedTarget;
     private event Action<double> PhysicsProcess;
-    [Export] private Node3D target;
     [Export] private Timer refreshPathTimer;
+    private Node3D targetNode;
     private Stack<Vector3> path;
+    private Vector3 targetPosition;
     private Vector3 lastValidNavigationCell;
     private Vector3 targetLastValidNavigationCell;
     private Vector3 nextPathPoint;
@@ -22,8 +23,6 @@ public partial class WayfindingAgent3D : Node3D{
     [Export] byte size = 1;
     [Export] byte endPathPointTolerance = 0;
     [Export] public NavigationType Capability {get;private set;}
-    private bool targetIsLinked = false;
-
 
     public override void _Ready(){
         base._Ready();
@@ -32,10 +31,10 @@ public partial class WayfindingAgent3D : Node3D{
     }
 
     public override void _ExitTree(){
-        base._ExitTree();
         UnlinkEvents();
-        target.QueueFree();
+        base._ExitTree();
     }
+
 
 
     public override void _PhysicsProcess(double delta){
@@ -60,12 +59,12 @@ public partial class WayfindingAgent3D : Node3D{
 
 
     private (bool,bool) VerifyTargetPosition(){
-        Vector3I cellPosition = WayfindingGrid3D.Singleton.LocalToMap(target.GlobalPosition);
+        Vector3I cellPosition = WayfindingGrid3D.Singleton.LocalToMap(targetPosition);
         bool navigable = WayfindingGrid3D.Singleton.IsCellNavigable(cellPosition, Capability); 
         bool clearance = WayfindingGrid3D.Singleton.CellHasClearance(cellPosition, navigationLayer, size);
         bool isValid = clearance == true && navigable == true;
         if(isValid==true){
-            targetLastValidNavigationCell = target.GlobalPosition;
+            targetLastValidNavigationCell = targetPosition;
         }
         return (navigable,clearance);
     }
@@ -88,28 +87,15 @@ public partial class WayfindingAgent3D : Node3D{
     /// 
 
 
-    public void StartFollowingTarget(Node3D target){
-        this.target.GetParent().RemoveChild(this.target);
-        this.target.Position = Vector3.Zero;
-        target.AddChild(this.target);
-        LinkToTargetParent();
-        targetIsLinked = true;
-
-        VerifyTargetPosition();
-        VerifyCellPosition();
-        CalculateNewPath();
-        refreshPathTimer.Start();
-        PhysicsProcess = FollowingPhysicsProcess;
+    public void GotoGlobalPositionAttatched(Node3D target){
+        targetNode = target;
+        GotoGlobalPosition(target.GlobalPosition);
     }
 
-    public void StartFollowingTarget(Vector3 targetPosition){
-        this.target.GetParent().RemoveChild(this.target);
-        GetTree().Root.GetChild(0).AddChild(target);
-        target.GlobalPosition = targetPosition;
+    public void GotoGlobalPosition(Vector3 targetPosition){
+        this.targetPosition = targetPosition;
         VerifyTargetPosition();
         VerifyCellPosition();
-        targetIsLinked = false;
-
         CalculateNewPath();
         refreshPathTimer.Start();
         PhysicsProcess = FollowingPhysicsProcess;
@@ -119,27 +105,18 @@ public partial class WayfindingAgent3D : Node3D{
         UpdateCurrentPathToTarget();
     }
 
-    public void StopFollowingTarget(){
+    public void Halt(){
         refreshPathTimer.Stop();
         PhysicsProcess = null;
-        targetIsLinked = false;
-    }
-
-    private void LinkToTargetParent(){
-        target.GetParent().TreeExiting += UnlinkFromTargetParent;
-    }
-
-    private void UnlinkFromTargetParent(){
-
-        // go to last known position before the node is freed.
-        if(targetIsLinked == false){
-            return;
-        }        
-        target.GetParent().TreeExiting -= UnlinkFromTargetParent;
     }
 
     public bool CalculateNewPath(){
+        if(targetNode != null && IsInstanceValid(targetNode) == true){
+            targetPosition = targetNode.GlobalPosition;
+        }
+        
         VerifyTargetPosition();
+        
         (bool,bool) validity = VerifyCellPosition();
         
         switch(validity){
@@ -214,7 +191,7 @@ public partial class WayfindingAgent3D : Node3D{
         nextPathPoint = position;
     }
 
-    public bool StartFollowingTarget(Vector3 targetPosition, Vector3 areaMin, Vector3 areaMax, uint obstructionLayers){
+    public bool GotoGlobalPosition(Vector3 targetPosition, Vector3 areaMin, Vector3 areaMax, uint obstructionLayers){
         List<Vector3> cellsAroundTarget = WayfindingGrid3D.Singleton.GetNavigableCellsInArea(targetPosition + areaMin, targetPosition + areaMax, navigationLayer, Capability, size);				
         
         PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
@@ -229,8 +206,7 @@ public partial class WayfindingAgent3D : Node3D{
                 CollisionMask       = obstructionLayers,
             }).Count==0){
                 DebugDraw3D.DrawBox(chosenPosition, Quaternion.Identity, Vector3.One * 0.1f, new Color(1,1,0,1), true, 1);
-                StartFollowingTarget(chosenPosition);
-                UnlinkFromTargetParent();
+                GotoGlobalPosition(chosenPosition);
                 return true;
             }
         }
@@ -265,7 +241,6 @@ public partial class WayfindingAgent3D : Node3D{
 
     private void UnlinkEvents(){
         refreshPathTimer.Timeout -= RefreshPath;
-        UnlinkFromTargetParent();
     }
 
 

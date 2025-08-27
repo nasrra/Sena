@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://jdjh2imli3fo" path="res://source/shaders/foliage/GrassDeformer.cs" id="6_82jcj"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="7_pwn86"]
 
-[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent", "spriteSorter") instance=ExtResource("1_45jq6")]
+[node name="Worker" node_paths=PackedStringArray("stunTimer", "avoidanceIntentionChaseStateTimer", "health", "navAgent", "characterMovement", "attackHandler", "hitBoxHandler", "hitFlash", "animator", "audioPlayer", "agressionZone", "avoidanceAgent", "spriteSorter", "wanderer") instance=ExtResource("1_45jq6")]
 script = ExtResource("3_afjqp")
 stunTimer = NodePath("StunTimer")
 avoidanceIntentionChaseStateTimer = NodePath("AvoidanceIntentionChaseStateTimer")
@@ -23,6 +23,13 @@ audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
 avoidanceAgent = NodePath("AvoidanceAgent")
 spriteSorter = NodePath("SpriteSorter")
+wanderer = NodePath("AiWander")
+minPathTime = 1.0
+maxPathTime = 0.33
+minIdleTime = 1.0
+maxIdleTime = 2.0
+maxDirection = Vector3(1, 0, 1)
+minDirection = Vector3(-1, 0, -1)
 
 [node name="CharacterMovement" parent="." index="0" node_paths=PackedStringArray("character")]
 character = NodePath("..")
