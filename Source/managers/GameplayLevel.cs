@@ -17,7 +17,6 @@ public partial class GameplayLevel : Node3D{
 
 	public override void _EnterTree(){
 		base._EnterTree();
-		GD.Print("GameplayLevel entered");
 		LinkEvents();
 	}
 
@@ -36,7 +35,6 @@ public partial class GameplayLevel : Node3D{
 	public override void _ExitTree(){
 		base._ExitTree();
 		UnlinkEvents();
-		GD.Print("GameplayLevel exited");
 	}
 
 

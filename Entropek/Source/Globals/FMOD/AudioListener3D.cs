@@ -6,7 +6,6 @@ public partial class AudioListener3D : Node3D{
 
 	public override void _EnterTree(){
 		base._EnterTree();
-		GD.Print("audio listener entered");
 		if(Singleton != null){
 			QueueFree();
 			throw new Exception("There can only be one audio listener per scene.");
@@ -18,7 +17,6 @@ public partial class AudioListener3D : Node3D{
 
 	public override void _ExitTree(){
 		Singleton = null;
-		GD.Print("audio listener exited");
 		base._ExitTree();
 	}
 
