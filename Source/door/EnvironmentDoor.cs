@@ -2,25 +2,22 @@ using System;
 using Entropek.Ai;
 using Godot;
 
-public partial class EnvironmentDoor : Door{
+public abstract partial class EnvironmentDoor : Door{
     [ExportGroup(nameof(EnvironmentDoor))]
     [Export] private AudioPlayer audioPlayer;
     [Export] private Godot.Collections.Array<SegmentedDoorPiece> segments = new Godot.Collections.Array<SegmentedDoorPiece>();
     [Export] private string transitionSound;
-    [Export] private float segmentLiftSpeed     = 1.0f;
-    [Export] private float segmentLowerSpeed    = 1.0f;
     [Export] private float segmentAsyncTime     = 0.165f;
     [Export] private bool transitionSoundOneShot;
 
     public override void _Ready(){
-        LinkEvents();
         base._Ready();
-        // Open();
+        LinkEvents();
     }
 
     public override void _ExitTree(){
-        UnlinkEvents();
         base._ExitTree();
+        UnlinkEvents();
     }
 
     protected override void Opened(){
@@ -56,14 +53,6 @@ public partial class EnvironmentDoor : Door{
         }
         audioPlayer.StopSound(transitionSound, false);
         audioPlayer.PlayUnmanagedEvent(transitionSound, GlobalPosition);
-    }
-
-    public override void Lock(){
-        Locked();
-    }
-
-    public override void Unlock(){
-        Unlocked();
     }
 
     private void LinkEvents(){

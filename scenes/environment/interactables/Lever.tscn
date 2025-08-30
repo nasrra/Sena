@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5lgy3iiavwio"]
+
+[ext_resource type="Texture2D" uid="uid://dd048ffj2guvo" path="res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOff.tres" id="1_28itb"]
+[ext_resource type="Script" uid="uid://cjfqm7k5lvyo1" path="res://source/interactables/Lever.cs" id="1_wdisa"]
+[ext_resource type="Texture2D" uid="uid://c3so8hxj1ex0e" path="res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOn.tres" id="2_lgb17"]
+[ext_resource type="Texture2D" uid="uid://dbuipe15upg8q" path="res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOn.tres" id="2_v66lr"]
+[ext_resource type="Texture2D" uid="uid://bi1t5pamcpofd" path="res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOff.tres" id="3_ls2bw"]
+[ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="6_pv7k8"]
+[ext_resource type="PackedScene" uid="uid://bnepci8plftuw" path="res://scenes/ember signal emitter/EmberSignalEmitter.tscn" id="7_8iywy"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/SpriteSorter3D.tscn" id="8_vfata"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8iywy"]
+
+[node name="Lever" type="Node3D" node_paths=PackedStringArray("emberSignals", "interactable", "sprite")]
+script = ExtResource("1_wdisa")
+emberSignals = NodePath("EmberSignalEmitter")
+interactable = NodePath("Interactable")
+sprite = NodePath("Sprite3D")
+unlockedOnSprite = ExtResource("2_lgb17")
+unlockedOffSprite = ExtResource("3_ls2bw")
+lockedOnSprite = ExtResource("2_v66lr")
+lockedOffSprite = ExtResource("1_28itb")
+
+[node name="SpriteSorter3D" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("8_vfata")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8)
+sprite = NodePath("../Sprite3D")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.200111, 0.282843, 0, -0.200111, 0.282843, 0, 0.5, -0.25)
+sorting_use_aabb_center = false
+cast_shadow = 0
+shaded = true
+double_sided = false
+alpha_cut = 2
+texture = ExtResource("1_28itb")
+
+[node name="Interactable" parent="." instance=ExtResource("6_pv7k8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+collision_layer = 16
+
+[node name="EmberSignalEmitter" parent="." instance=ExtResource("7_8iywy")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EmberSignalEmitter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_8iywy")
+
+[node name="Shadow1" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.125, 0.0577989)
+transparency = 1.0
+flip_faces = true
+radius = 0.346
+height = 0.25
+sides = 16
+
+[node name="Shadow3" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.125, 0.0577989)
+transparency = 1.0
+cast_shadow = 0
+use_collision = true
+radius = 0.4
+height = 0.25
+sides = 16
+
+[node name="Shadow2" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, 0.125, 0.0577989)
+transparency = 1.0
+radius = 0.346
+height = 0.012
+sides = 16

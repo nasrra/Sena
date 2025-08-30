@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://chdihch6tt8o6"]
+
+[ext_resource type="PackedScene" uid="uid://bbg38fvcw887l" path="res://scenes/environment/doors/ColumnDoors/ColumnEnvironmentDoorHorizontalTemplate.tscn" id="1_wvdbg"]
+
+[node name="ColumnDoorRight" instance=ExtResource("1_wvdbg")]
+
+[node name="Lever" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1.875)

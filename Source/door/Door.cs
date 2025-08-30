@@ -7,9 +7,10 @@ using System;
 public abstract partial class Door : Node3D{
     [ExportGroup("Door")]
     [Export] private CollisionObject3D collider;
-    [Export] public bool IsLocked {get;private set;} = false;
     [Export] public bool IsOpened {get;private set;} = false;
+    [Export] public bool IsLocked {get;private set;} = false;
 
+    public event Action OnOpenFailed;
     public event Action OnOpened;
     public event Action OnClosed;
     public event Action OnLocked;
@@ -40,6 +41,14 @@ public abstract partial class Door : Node3D{
     /// 
 
     public abstract void Open();
+
+    protected bool TryOpen(){
+        if(IsLocked==true){
+            OpenFailed();
+            OnOpenFailed?.Invoke();
+        }
+        return !IsLocked;
+    }
    
     protected virtual void Opened(){
         IsOpened = true;
@@ -55,18 +64,18 @@ public abstract partial class Door : Node3D{
         OnClosed?.Invoke();
     }
 
+    public abstract void Lock();
+
+    protected virtual void Locked(){
+        IsLocked = true;
+        OnLocked?.Invoke();
+    }
+
     public abstract void Unlock();
-    
+
     protected virtual void Unlocked(){
         IsLocked = false;
         OnUnlocked?.Invoke();
-    }
-
-    public abstract void Lock();
-    
-    public virtual void Locked(){
-        IsLocked = true;
-        OnLocked?.Invoke();
     }
 
     protected void EnableCollider(){
@@ -86,6 +95,7 @@ public abstract partial class Door : Node3D{
         else{
             Close();
         }
+
         if(locked==true){
             Lock();
         }
@@ -93,4 +103,6 @@ public abstract partial class Door : Node3D{
             Unlock();
         }
     }
+    
+    protected abstract void OpenFailed();
 }

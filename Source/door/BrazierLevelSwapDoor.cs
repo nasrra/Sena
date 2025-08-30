@@ -1,14 +1,15 @@
 using Godot;
 using System;
 
-public partial class BrazierDoor : Node{
-    [Export] private Door door;
+public partial class BrazierLevelSwapDoor : LevelSwapDoor{
+    
+    [ExportGroup(nameof(BrazierLevelSwapDoor))]
     [Export] private Sprite3D doorSprite;
     [Export] private Sprite3D flameSprite;
     [Export] private Light3D flameLight;
     [Export] private Interactable hitInteractable;
     [Export] private Interactable interactable;
-    [Export] private EmberHolder embers;
+    [Export] private EmberSignalEmitter emberSignals;
     [Export] private Texture2D openSprite;
     [Export] private Texture2D closedSprite;
 
@@ -19,22 +20,14 @@ public partial class BrazierDoor : Node{
 
 
     public override void _EnterTree(){
-        base._EnterTree();
-        // if(door.IsLocked==false){
-        //     LitState();
-        //     embers.LitState();
-        // }
-        // else{
-        //     embers.UnlitState();
-        //     UnlitState();
-        // }
-        // if(door.IsOpened==true){
-        //     OnOpenCallback();
-        // }
-        // else{
-        //     OnCloseCallback();
-        // }
         LinkEvents();
+        base._EnterTree();
+        if(IsLocked==false){
+            Unlocked();
+        }
+        else{
+            Locked();
+        }
     }
 
     public override void _ExitTree(){
@@ -43,8 +36,8 @@ public partial class BrazierDoor : Node{
     }
 
     private void HitInteracted(Interactor interactor){
-        if(door.IsOpened == false && door.IsLocked == false){
-            door.Open();
+        if(IsOpened == false && IsLocked == false){
+            Open();
         }
     }
 
@@ -53,29 +46,27 @@ public partial class BrazierDoor : Node{
         if(interactorEmbers != null){
             if(interactorEmbers.NotchAmount >= 1){
                 interactorEmbers.Remove(EmberStorage.NotchMaxEmberValue);
-                embers.LitState();
             }
         }
-        else{
-            door.Unlock();
-        }
+        Unlocked();
     }   
 
-    private void OpenedState(){
+    protected override void Opened(){
+        base.Opened();
         doorSprite.Texture = openSprite;
     }
 
-    private void ClosedState(){
+    protected override void Closed(){
         doorSprite.Texture = closedSprite;
     }
 
-    private void UnlockedState(){
+    protected override void Unlocked(){
         flameSprite.Visible = true;
         flameLight.Visible = true;
         interactable.DisableInteraction();
     }
 
-    private void LockedState(){
+    protected override void Locked(){
         flameSprite.Visible = false;
         flameLight.Visible = false;
         interactable.EnableInteraction();
@@ -90,23 +81,37 @@ public partial class BrazierDoor : Node{
     private void LinkEvents(){
         interactable.OnInteract         += Interacted; 
         hitInteractable.OnInteract      += HitInteracted;
-        embers.OnLit                    += door.Unlock;
-        embers.OnUnlit                  += door.Lock;
-        door.OnOpened                   += OpenedState;
-        door.OnClosed                   += ClosedState;
-        door.OnLocked                   += LockedState;
-        door.OnUnlocked                 += UnlockedState;
+        emberSignals.OnActivate         += Unlocked;
+        emberSignals.OnDeactivate       += Locked;
     }
 
     private void UnlinkEvents(){
         interactable.OnInteract         -= Interacted; 
         hitInteractable.OnInteract      -= HitInteracted;
-        embers.OnLit                    -= door.Unlock;
-        embers.OnUnlit                  -= door.Lock;
-        door.OnOpened                   -= OpenedState;
-        door.OnClosed                   -= ClosedState;
-        door.OnLocked                   -= LockedState;
-        door.OnUnlocked                 -= UnlockedState;
+        emberSignals.OnActivate         -= Unlocked;
+        emberSignals.OnDeactivate       -= Locked;
     }
 
+    protected override void OpenFailed(){
+
+    }
+
+    public override void Open(){
+        if(TryOpen()==false){
+            return;
+        }
+        Opened();
+    }
+
+    public override void Close(){
+        Closed();
+    }
+
+    public override void Lock(){
+        Locked();
+    }
+
+    public override void Unlock(){
+        Unlocked();
+    }
 }

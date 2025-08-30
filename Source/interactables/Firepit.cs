@@ -7,7 +7,7 @@ public partial class Firepit : Node{
 	[Export] private Texture2D litSprite;
 	[Export] private Texture2D unlitSprite;
 	[Export] private Sprite2D sprite;
-	[Export] private EmberHolder embers;
+	[Export] private EmberSignalEmitter emberSignals;
 
 	public override void _EnterTree(){
 		base._EnterTree();
@@ -51,14 +51,14 @@ public partial class Firepit : Node{
 	}
 
 	private void LinkEvents(){
-		interactable.OnInteract += Interacted;
-		embers.OnLit      		+= LitState;
-		embers.OnUnlit        	+= UnlitState;
+		interactable.OnInteract		+= Interacted;
+		emberSignals.OnActivate		+= LitState;
+		emberSignals.OnDeactivate   += UnlitState;
 	}
 
 	private void UnlinkEvents(){
-		interactable.OnInteract -= Interacted;
-		embers.OnLit      		-= LitState;
-		embers.OnUnlit        	-= UnlitState;
+		interactable.OnInteract   -= Interacted;
+		emberSignals.OnActivate   -= LitState;
+		emberSignals.OnDeactivate -= UnlitState;
 	}
 }

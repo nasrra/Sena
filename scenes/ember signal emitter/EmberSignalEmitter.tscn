@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnepci8plftuw"]
+
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberSignalEmitter.cs" id="1_fj6by"]
+
+[node name="EmberSignalEmitter" type="Area3D"]
+collision_layer = 0
+collision_mask = 256
+script = ExtResource("1_fj6by")

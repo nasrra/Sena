@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbg38fvcw887l"]
+
+[ext_resource type="PackedScene" uid="uid://cdjr0hb5iq5lr" path="res://scenes/environment/doors/templates/EnvironmentDoor.tscn" id="1_755ls"]
+[ext_resource type="Script" uid="uid://0wjnpph3liqk" path="res://source/door/LeverOperatedEnvironmentDoor.cs" id="2_a37sa"]
+[ext_resource type="PackedScene" uid="uid://byue2js8ldn7i" path="res://scenes/environment/doors/ColumnDoors/ColumnSegmentDoorPiece.tscn" id="3_h4skb"]
+[ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="4_cxc5f"]
+[ext_resource type="PackedScene" uid="uid://b5lgy3iiavwio" path="res://scenes/environment/interactables/Lever.tscn" id="5_xly0o"]
+
+[node name="ColumnDoorHorizontalTemplate" node_paths=PackedStringArray("lever", "audioPlayer", "segments", "collider") instance=ExtResource("1_755ls")]
+script = ExtResource("2_a37sa")
+lever = NodePath("Lever")
+audioPlayer = NodePath("AudioPlayer")
+segments = [NodePath("ColumnSegmentDoorPiece1"), NodePath("ColumnSegmentDoorPiece2"), NodePath("ColumnSegmentDoorPiece3"), NodePath("ColumnSegmentDoorPiece4")]
+transitionSound = "StoneShifting"
+collider = NodePath("Container/Collider")
+
+[node name="ColumnSegmentDoorPiece1" parent="." index="0" instance=ExtResource("3_h4skb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+
+[node name="ColumnSegmentDoorPiece2" parent="." index="1" instance=ExtResource("3_h4skb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="ColumnSegmentDoorPiece3" parent="." index="2" instance=ExtResource("3_h4skb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="ColumnSegmentDoorPiece4" parent="." index="3" instance=ExtResource("3_h4skb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="Collider" parent="Container" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="AudioPlayer" type="Node3D" parent="." index="5"]
+script = ExtResource("4_cxc5f")
+
+[node name="Lever" parent="." index="6" instance=ExtResource("5_xly0o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)

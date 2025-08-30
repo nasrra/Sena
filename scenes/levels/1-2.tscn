@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_dp3ri"]
 [ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="2_5eual"]
 [ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/environmental/EnvironmentalGridMap.tscn" id="2_kqkvu"]
-[ext_resource type="PackedScene" uid="uid://bbg38fvcw887l" path="res://scenes/environment/doors/ColumnDoors/ColumnEnvironmentDoorHorizontal.tscn" id="4_pig6i"]
+[ext_resource type="PackedScene" uid="uid://bbg38fvcw887l" path="res://scenes/environment/doors/ColumnDoors/ColumnEnvironmentDoorHorizontalTemplate.tscn" id="4_pig6i"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="5_220im"]
 [ext_resource type="MeshLibrary" uid="uid://cvpvhbyf1y8fw" path="res://scenes/gridmaps/environmental/floors 1/Floors1MeshLibrary.tres" id="6_pig6i"]
 [ext_resource type="MeshLibrary" uid="uid://befdjgcdr1uxb" path="res://scenes/gridmaps/environmental/walls 1/Walls1MeshLibrary.tres" id="7_0rdyb"]

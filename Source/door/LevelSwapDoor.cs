@@ -1,9 +1,8 @@
 using Godot;
 using System;
 
-public partial class LevelSwapDoor : Door{
-
-    [ExportGroup("LevelSwapDoor")]
+public abstract partial class LevelSwapDoor : Door{
+    [ExportGroup(nameof(LevelSwapDoor))]
     [Export] private Area3D enterZone;
     [Export] public Node3D ExitPoint {get; private set;}
     [Export] private string levelToLoad;
@@ -45,25 +44,6 @@ public partial class LevelSwapDoor : Door{
     protected override void Closed(){
         base.Closed();
         DisableEnterZone();
-    }
-
-
-    public override void Open(){
-        EnableEnterZone();
-        Opened();
-    }
-
-    public override void Close(){
-        DisableEnterZone();
-        Closed();
-    }
-
-    public override void Unlock(){
-        Unlocked();
-    }
-
-    public override void Lock(){
-        Locked();
     }
 
     private void EnableEnterZone(){

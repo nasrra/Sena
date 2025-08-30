@@ -2,17 +2,12 @@ using Godot;
 using System;
 
 public partial class SpriteSorter3D : Node3D{
-    [Export] private SpriteBase3D sprite;
+    [Export] private VisualInstance3D sprite;
 
     public override void _Ready(){
         base._Ready();
         UpdateSortingOffset();
     }
-
-    public override void _PhysicsProcess(double delta){
-        base._PhysicsProcess(delta);
-    }
-
 
     public void UpdateSortingOffset(){
         sprite.SortingOffset = GlobalPosition.Z;

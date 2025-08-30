@@ -1,6 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dokaqxml1glsl"]
-
-[ext_resource type="Script" uid="uid://crqfl14w8sd88" path="res://source/door/LevelSwapDoor.cs" id="1_2blwh"]
+[gd_scene load_steps=3 format=3 uid="uid://dokaqxml1glsl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rfjl5"]
 size = Vector3(1, 1.75, 0.5)
@@ -8,10 +6,7 @@ size = Vector3(1, 1.75, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_p5b02"]
 size = Vector3(1, 1.75, 0.5)
 
-[node name="LevelSwapDoorTemplate" type="Node3D" node_paths=PackedStringArray("enterZone", "ExitPoint")]
-script = ExtResource("1_2blwh")
-enterZone = NodePath("Container/EnterZone")
-ExitPoint = NodePath("Container/ExitPoint")
+[node name="LevelSwapDoorTemplate" type="Node3D"]
 
 [node name="Container" type="Node3D" parent="."]
 

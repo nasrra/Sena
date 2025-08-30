@@ -1,12 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdjr0hb5iq5lr"]
-
-[ext_resource type="Script" uid="uid://cbdppbywqv20a" path="res://source/door/EnvironmentDoor.cs" id="1_baynp"]
+[gd_scene load_steps=2 format=3 uid="uid://cdjr0hb5iq5lr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmoap"]
 
-[node name="EnvironmentDoor" type="Node3D" node_paths=PackedStringArray("collider")]
-script = ExtResource("1_baynp")
-collider = NodePath("Container/Collider")
+[node name="EnvironmentDoor" type="Node3D"]
 
 [node name="Container" type="Node3D" parent="."]
 

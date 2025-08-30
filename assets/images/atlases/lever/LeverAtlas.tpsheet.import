@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://vhveakx6ojqs"
+path="res://.godot/imported/LeverAtlas.tpsheet-2d30d44937bd7b3222135b497f4fd958.res"
+
+[deps]
+
+files=["res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOff.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOn.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOff.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOn.tres"]
+
+source_file="res://assets/images/atlases/lever/LeverAtlas.tpsheet"
+dest_files=["res://.godot/imported/LeverAtlas.tpsheet-2d30d44937bd7b3222135b497f4fd958.res", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOff.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverLitOn.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOff.tres", "res://assets/images/atlases/lever/LeverAtlas.sprites/Images/LeverUnlitOn.tres"]
+
+[params]
+

@@ -13,8 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="10_rafx0"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="11_boxie"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="14_vty87"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/SpriteSorter3D.tscn" id="15_gpcb7"]
 [ext_resource type="Script" uid="uid://bn5g5x8duv4dq" path="res://Entropek/source/globals/fmod/AudioListener3D.cs" id="15_vty87"]
-[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="16_deer0"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="16_vty87"]
 [ext_resource type="Script" uid="uid://jdjh2imli3fo" path="res://source/shaders/foliage/GrassDeformer.cs" id="17_deer0"]
 [ext_resource type="Script" uid="uid://db3iao5ymhrou" path="res://Entropek/source/nodes/interaction/Interactor.cs" id="18_gpcb7"]
@@ -172,12 +172,10 @@ cast_shadow = 0
 offset = Vector2(0, 106.28)
 shaded = true
 double_sided = false
-alpha_cut = 2
 sprite_frames = ExtResource("9_jh8vs")
 animation = &"IdleBackward"
 
-[node name="SpriteSorter3D" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
-script = ExtResource("16_deer0")
+[node name="SpriteSorter3D" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("15_gpcb7")]
 sprite = NodePath("../AnimatedSprite3D2")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]

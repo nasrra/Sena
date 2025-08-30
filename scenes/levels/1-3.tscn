@@ -1,18 +1,32 @@
-[gd_scene load_steps=13 format=3 uid="uid://dok6n858adclw"]
+[gd_scene load_steps=21 format=3 uid="uid://dok6n858adclw"]
 
 [ext_resource type="PackedScene" uid="uid://cpmdc8rfjol6m" path="res://scenes/levels/templates/GameplayLevelTemplate.tscn" id="1_26ngv"]
 [ext_resource type="PackedScene" uid="uid://bgld15c7p5u3y" path="res://scenes/gridmaps/environmental/EnvironmentalGridMap.tscn" id="2_pf8fc"]
+[ext_resource type="PackedScene" uid="uid://bf42autliwr6o" path="res://scenes/environment/doors/ColumnDoors/ColumnDoorLeft.tscn" id="2_toe30"]
+[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="2_vw5bb"]
 [ext_resource type="Environment" uid="uid://t6evrvm00ivs" path="res://resources/world environments/Level1WorldEnvironment.tres" id="2_y5qlr"]
 [ext_resource type="MeshLibrary" uid="uid://befdjgcdr1uxb" path="res://scenes/gridmaps/environmental/walls 1/Walls1MeshLibrary.tres" id="3_7fucu"]
+[ext_resource type="PackedScene" uid="uid://chdihch6tt8o6" path="res://scenes/environment/doors/ColumnDoors/ColumnDoorRight.tscn" id="3_dv4xc"]
 [ext_resource type="MeshLibrary" uid="uid://cvpvhbyf1y8fw" path="res://scenes/gridmaps/environmental/floors 1/Floors1MeshLibrary.tres" id="3_p27lc"]
+[ext_resource type="PackedScene" uid="uid://cpjdg04xrrnju" path="res://scenes/environment/doors/ColumnDoors/ColumnDoorUp.tscn" id="4_7fucu"]
 [ext_resource type="PackedScene" uid="uid://doy8tr4xqoi1p" path="res://scenes/entities/Player.tscn" id="5_5l143"]
-[ext_resource type="PackedScene" uid="uid://bbg38fvcw887l" path="res://scenes/environment/doors/ColumnDoors/ColumnEnvironmentDoorHorizontal.tscn" id="6_py30h"]
-[ext_resource type="PackedScene" uid="uid://7346cbxpbyh2" path="res://scenes/environment/doors/ColumnDoors/ColumnEnvironmentDoorVertical.tscn" id="7_2u2iw"]
-[ext_resource type="PackedScene" uid="uid://cfumhvxhqinlc" path="res://scenes/environment/doors/jail door/JailLevelSwapDoorNorth.tscn" id="8_a0mug"]
+[ext_resource type="PackedScene" uid="uid://c33v5c1lswcg6" path="res://scenes/environment/doors/ColumnDoors/ColumnDoorDown.tscn" id="5_dv4xc"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="10_toe30"]
 [ext_resource type="PackedScene" uid="uid://dumn464tj00si" path="res://scenes/environment/SoulFlameExtractor.tscn" id="11_p27lc"]
+[ext_resource type="PackedScene" uid="uid://b5lgy3iiavwio" path="res://scenes/environment/interactables/Lever.tscn" id="12_7fucu"]
+[ext_resource type="PackedScene" uid="uid://c1fp7wi1kjw4u" path="res://scenes/entities/enemies/Worker.tscn" id="15_puyrc"]
+[ext_resource type="PackedScene" uid="uid://diocu8kdpdjv" path="res://scenes/gridmaps/environmental/walls 1/scenes/ceiling/CeilingBl.tscn" id="16_ir2w7"]
+[ext_resource type="PackedScene" uid="uid://ddc04rp8n4ke4" path="res://scenes/gridmaps/environmental/walls 1/scenes/wall 1/Wall1Bl.tscn" id="16_u6frk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssggm"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_u6frk"]
+resource_local_to_scene = true
+center_offset = Vector3(0.5, 0.5, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ir2w7"]
+resource_local_to_scene = true
+center_offset = Vector3(0.5, 0.5, 0)
 
 [node name="1-3" instance=ExtResource("1_26ngv")]
 state = 0
@@ -22,7 +36,7 @@ bankName = "Test"
 
 [node name="DoorManager" parent="Managers" index="3" node_paths=PackedStringArray("levelSwapDoors", "environmentDoors")]
 levelSwapDoors = [NodePath("LevelSwapDoors/JailLevelSwapDoorNorth"), NodePath("LevelSwapDoors/JailLevelSwapDoorNorth4")]
-environmentDoors = [NodePath("EnvironmentDoors/EnvironmentDoorHorizontal1"), NodePath("EnvironmentDoors/EnvironmentDoorHorizontal2"), NodePath("EnvironmentDoors/EnvironmentDoorHorizontal3"), NodePath("EnvironmentDoors/EnvironmentDoorHorizontal4"), NodePath("EnvironmentDoors/EnvironmentDoorVertical1"), NodePath("EnvironmentDoors/EnvironmentDoorVertical2"), NodePath("EnvironmentDoors/EnvironmentDoorVertical3"), NodePath("EnvironmentDoors/EnvironmentDoorVertical4")]
+environmentDoors = [NodePath("EnvironmentDoors/ColumnDoorRight"), NodePath("EnvironmentDoors/ColumnDoorLeft"), NodePath("EnvironmentDoors/ColumnDoorRight2"), NodePath("EnvironmentDoors/ColumnDoorLeft2"), NodePath("EnvironmentDoors/ColumnDoorUp"), NodePath("EnvironmentDoors/ColumnDoorDown"), NodePath("EnvironmentDoors/ColumnDoorUp2"), NodePath("EnvironmentDoors/ColumnDoorDown2")]
 tempLockAreas = Array[Array]([[NodePath("DoorTempLockArea"), NodePath("DoorTempLockArea3"), NodePath("DoorTempLockArea2")], [NodePath("DoorTempLockArea4"), NodePath("DoorTempLockArea5"), NodePath("DoorTempLockArea6")], [NodePath("DoorTempLockArea7"), NodePath("DoorTempLockArea8"), NodePath("DoorTempLockArea9")], [NodePath("DoorTempLockArea10"), NodePath("DoorTempLockArea11"), NodePath("DoorTempLockArea12")]])
 
 [node name="DoorTempLockArea" type="Area3D" parent="Managers/DoorManager" index="0"]
@@ -121,55 +135,48 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Managers/DoorManager/DoorTempLockArea12" index="0"]
 shape = SubResource("BoxShape3D_ssggm")
 
-[node name="JailLevelSwapDoorNorth" parent="Managers/DoorManager/LevelSwapDoors" index="0" instance=ExtResource("8_a0mug")]
+[node name="JailLevelSwapDoorNorth" parent="Managers/DoorManager/LevelSwapDoors" index="0" instance=ExtResource("2_vw5bb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 6)
 levelToLoad = "1-2"
 doorToLoadTo = 1
-IsOpened = true
 
-[node name="JailLevelSwapDoorNorth2" parent="Managers/DoorManager/LevelSwapDoors" index="1" instance=ExtResource("8_a0mug")]
+[node name="JailLevelSwapDoorNorth2" parent="Managers/DoorManager/LevelSwapDoors" index="1" instance=ExtResource("2_vw5bb")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 30)
 IsLocked = true
 
-[node name="JailLevelSwapDoorNorth3" parent="Managers/DoorManager/LevelSwapDoors" index="2" instance=ExtResource("8_a0mug")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 44, 0, 6)
-levelToLoad = "1-1"
-
-[node name="JailLevelSwapDoorNorth4" parent="Managers/DoorManager/LevelSwapDoors" index="3" instance=ExtResource("8_a0mug")]
+[node name="JailLevelSwapDoorNorth3" parent="Managers/DoorManager/LevelSwapDoors" index="2" instance=ExtResource("2_vw5bb")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 44, 0, 30)
 IsLocked = true
 
-[node name="EnvironmentDoorHorizontal1" parent="Managers/DoorManager/EnvironmentDoors" index="0" instance=ExtResource("6_py30h")]
+[node name="JailLevelSwapDoorNorth4" parent="Managers/DoorManager/LevelSwapDoors" index="3" instance=ExtResource("2_vw5bb")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 44, 0, 6)
+levelToLoad = "1-1"
+
+[node name="ColumnDoorRight" parent="Managers/DoorManager/EnvironmentDoors" index="0" instance=ExtResource("3_dv4xc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 6)
 IsOpened = true
 
-[node name="EnvironmentDoorHorizontal2" parent="Managers/DoorManager/EnvironmentDoors" index="1" instance=ExtResource("6_py30h")]
+[node name="ColumnDoorLeft" parent="Managers/DoorManager/EnvironmentDoors" index="1" instance=ExtResource("2_toe30")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 0, 6)
-IsOpened = true
 
-[node name="EnvironmentDoorHorizontal3" parent="Managers/DoorManager/EnvironmentDoors" index="2" instance=ExtResource("6_py30h")]
+[node name="ColumnDoorRight2" parent="Managers/DoorManager/EnvironmentDoors" index="2" instance=ExtResource("3_dv4xc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 30)
 IsOpened = true
 
-[node name="EnvironmentDoorHorizontal4" parent="Managers/DoorManager/EnvironmentDoors" index="3" instance=ExtResource("6_py30h")]
+[node name="ColumnDoorLeft2" parent="Managers/DoorManager/EnvironmentDoors" index="3" instance=ExtResource("2_toe30")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 0, 30)
-IsOpened = true
 
-[node name="EnvironmentDoorVertical1" parent="Managers/DoorManager/EnvironmentDoors" index="4" instance=ExtResource("7_2u2iw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15.5)
-IsOpened = true
-
-[node name="EnvironmentDoorVertical2" parent="Managers/DoorManager/EnvironmentDoors" index="5" instance=ExtResource("7_2u2iw")]
+[node name="ColumnDoorUp" parent="Managers/DoorManager/EnvironmentDoors" index="4" instance=ExtResource("4_7fucu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 20.5)
-IsOpened = true
 
-[node name="EnvironmentDoorVertical3" parent="Managers/DoorManager/EnvironmentDoors" index="6" instance=ExtResource("7_2u2iw")]
+[node name="ColumnDoorDown" parent="Managers/DoorManager/EnvironmentDoors" index="5" instance=ExtResource("5_dv4xc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15.5)
+
+[node name="ColumnDoorUp2" parent="Managers/DoorManager/EnvironmentDoors" index="6" instance=ExtResource("4_7fucu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 20.5)
-IsOpened = true
 
-[node name="EnvironmentDoorVertical4" parent="Managers/DoorManager/EnvironmentDoors" index="7" instance=ExtResource("7_2u2iw")]
+[node name="ColumnDoorDown2" parent="Managers/DoorManager/EnvironmentDoors" index="7" instance=ExtResource("5_dv4xc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 15.5)
-IsOpened = true
 
 [node name="EnemyGroupGridMap" parent="GridMaps" index="0"]
 visible = false
@@ -210,7 +217,7 @@ environment = ExtResource("2_y5qlr")
 Target = NodePath("../Player")
 
 [node name="Player" parent="." index="4" node_paths=PackedStringArray("camera") instance=ExtResource("5_5l143")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.932365, 0, 6.71609)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.709999, 0, 7.03781)
 camera = NodePath("../Camera")
 
 [node name="OmniLight3D2" parent="." index="5" instance=ExtResource("10_toe30")]
@@ -248,3 +255,51 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.25, 0, 30.75)
 
 [node name="SoulFlameExtractor4" parent="." index="12" instance=ExtResource("11_p27lc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.25, 0, 30.75)
+
+[node name="Worker4" parent="." index="13" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 34.25)
+
+[node name="Worker5" parent="." index="14" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 34.25)
+
+[node name="Worker6" parent="." index="15" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.75, 0, 34.25)
+
+[node name="Worker7" parent="." index="16" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.75, 0, 34.25)
+
+[node name="Worker8" parent="." index="17" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 34.25)
+
+[node name="Worker9" parent="." index="18" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5, 0, 34.25)
+
+[node name="Worker10" parent="." index="19" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.75, 0, 10)
+
+[node name="Worker11" parent="." index="20" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 0, 10)
+
+[node name="Worker12" parent="." index="21" instance=ExtResource("15_puyrc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5, 0, 10)
+
+[node name="Walls" type="Node3D" parent="." index="22"]
+
+[node name="Wall1Bl" parent="Walls" index="0" instance=ExtResource("16_u6frk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 6)
+mesh = SubResource("QuadMesh_u6frk")
+skeleton = NodePath("../..")
+
+[node name="Wall1Bl2" parent="Walls" index="1" instance=ExtResource("16_u6frk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
+mesh = SubResource("QuadMesh_ir2w7")
+skeleton = NodePath("../..")
+
+[node name="CeilingBl" parent="Walls" index="2" instance=ExtResource("16_ir2w7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 6)
+
+[node name="CeilingBl2" parent="Walls" index="3" instance=ExtResource("16_ir2w7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 6)
+
+[node name="Lever" parent="." index="23" instance=ExtResource("12_7fucu")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 0, 5.6)

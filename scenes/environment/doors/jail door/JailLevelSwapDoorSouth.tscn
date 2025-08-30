@@ -5,14 +5,25 @@
 [ext_resource type="Texture2D" uid="uid://b77lcbdsmg7om" path="res://assets/images/sprites/lanterns/PumpkinLantern.png" id="3_3s172"]
 [ext_resource type="Texture2D" uid="uid://jj46p0wr0hb4" path="res://assets/images/sprites/doors/Jail Doorclosed.png" id="4_ebine"]
 [ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="6_lc10n"]
-[ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierDoor.cs" id="7_uodu2"]
+[ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierLevelSwapDoor.cs" id="7_uodu2"]
 [ext_resource type="Texture2D" uid="uid://7ovwle4vt6n1" path="res://assets/images/sprites/doors/Jail Dooropen.png" id="8_neq1p"]
-[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberHolder.cs" id="9_b7rux"]
+[ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberSignalEmitter.cs" id="9_b7rux"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="10_dgnlv"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="11_f4vlh"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="12_yya78"]
 
-[node name="JailLevelSwapDoorNorth" node_paths=PackedStringArray("collider") instance=ExtResource("1_olibw")]
+[node name="JailLevelSwapDoorNorth" node_paths=PackedStringArray("doorSprite", "flameSprite", "flameLight", "hitInteractable", "interactable", "emberSignals", "enterZone", "ExitPoint", "collider") instance=ExtResource("1_olibw")]
+script = ExtResource("7_uodu2")
+doorSprite = NodePath("Sprite3D")
+flameSprite = NodePath("LanternSprite")
+flameLight = NodePath("OmniLight3D")
+hitInteractable = NodePath("HitInteractable/Interactable")
+interactable = NodePath("Interactable")
+emberSignals = NodePath("EmberHolder")
+openSprite = ExtResource("8_neq1p")
+closedSprite = ExtResource("4_ebine")
+enterZone = NodePath("Container/EnterZone")
+ExitPoint = NodePath("Container/ExitPoint")
 collider = NodePath("Container/Collider")
 
 [node name="ExitPoint" parent="Container" index="0"]
@@ -37,19 +48,17 @@ shaded = true
 alpha_cut = 2
 texture = ExtResource("3_3s172")
 
-[node name="BrazierDoor" type="Node3D" parent="." index="3" node_paths=PackedStringArray("door", "doorSprite", "flameSprite", "flameLight", "hitInteractable", "interactable", "embers")]
+[node name="BrazierDoor" type="Node3D" parent="." index="3" node_paths=PackedStringArray("doorSprite", "flameSprite", "flameLight", "hitInteractable", "interactable")]
 script = ExtResource("7_uodu2")
-door = NodePath("..")
 doorSprite = NodePath("../Sprite3D")
 flameSprite = NodePath("../LanternSprite")
 flameLight = NodePath("../OmniLight3D")
 hitInteractable = NodePath("../HitInteractable/Interactable")
 interactable = NodePath("../Interactable")
-embers = NodePath("../EmberHolder")
 openSprite = ExtResource("8_neq1p")
 closedSprite = ExtResource("4_ebine")
 
-[node name="EmberHolder" type="Node" parent="." index="4"]
+[node name="EmberHolder" type="Area3D" parent="." index="4"]
 script = ExtResource("9_b7rux")
 
 [node name="OmniLight3D" parent="." index="5" instance=ExtResource("10_dgnlv")]
