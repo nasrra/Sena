@@ -1,7 +1,0 @@
-[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dbuipe15upg8q"]
-
-[ext_resource type="Texture2D" uid="uid://b0x7ruuyhxyrp" path="res://assets/images/atlases/lever/LeverAtlas.png" id="1_s54ml"]
-
-[resource]
-atlas = ExtResource("1_s54ml")
-region = Rect2(512, 512, 512, 512)

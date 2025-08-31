@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5poph1yau2lj"]
+
+[ext_resource type="Texture2D" uid="uid://bewg04sqopmio" path="res://assets/test/PlaceHolderSprite.png" id="1_erbpe"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="2_kfn1y"]
+
+[node name="CeilingTileTemplate" type="Sprite3D"]
+transform = Transform3D(-1.7113e-06, 39.15, 1.7113e-06, 0, -1.7113e-06, 39.15, 39.15, 1.7113e-06, 7.48033e-14, 0, 0, 0)
+offset = Vector2(-128, 128)
+pixel_size = 0.0001
+shaded = true
+texture = ExtResource("1_erbpe")
+
+[node name="ZSorter3D" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("2_kfn1y")]
+visualInstance = NodePath("..")
+zOffset = 0.7

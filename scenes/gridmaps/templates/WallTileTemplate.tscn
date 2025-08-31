@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://usw02gtnbc16"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_ateww"]
-resource_local_to_scene = true
-center_offset = Vector3(0.5, 0.5, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D"]
-cast_shadow = 0
-mesh = SubResource("QuadMesh_ateww")

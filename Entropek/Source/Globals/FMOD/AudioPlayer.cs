@@ -29,7 +29,7 @@ public partial class AudioPlayer : Node{
     }
 
     public void PlayManagedEvent(string eventName, Vector3 globalPosition){
-        AudioManager.Singleton.PlayManagedEvent(eventName, globalPosition);
+        TrackEventInstanceLifetime(AudioManager.Singleton.PlayManagedEvent(eventName, globalPosition));
     } 
 
     public void PlayUnmanagedEvent(string eventName){

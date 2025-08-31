@@ -193,7 +193,9 @@ DebugCameraZoom={
 
 2d_render/layer_1="CeilingFront"
 2d_render/layer_2="CeilingBack"
+3d_render/layer_2="Windows"
 2d_render/layer_3="WallFront"
+3d_render/layer_3="Entities"
 2d_render/layer_4="MIddleBack"
 2d_render/layer_5="F"
 2d_navigation/layer_1="Open"

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://b18fgr85smcw7"]
+
+[ext_resource type="PackedScene" uid="uid://b8rx1at6e0red" path="res://assets/atlases/environment/floors/FloorTileTemplate.tscn" id="1_t5cxn"]
+[ext_resource type="Texture2D" uid="uid://pnnhthb7g3ga" path="res://assets/atlases/environment/floors/floors 1/Floors1Atlas.sprites/Images/StoneFloor1Br.tres" id="2_hi5v6"]
+
+[node name="StoneFloor1Br" instance=ExtResource("1_t5cxn")]
+texture = ExtResource("2_hi5v6")

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkwi6pvw7q3n1"]
+
+[ext_resource type="PackedScene" uid="uid://bfy6texjxpuus" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 3/StoneFloor3Bl.tscn" id="1_qtts3"]
+[ext_resource type="PackedScene" uid="uid://cksh1i8v77lw0" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 3/StoneFloor3Br.tscn" id="2_crvye"]
+[ext_resource type="PackedScene" uid="uid://ckuxy1mjlxi1x" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 3/StoneFloor3Tl.tscn" id="3_afj0r"]
+[ext_resource type="PackedScene" uid="uid://c8jegjecl5ou5" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 3/StoneFloor3Tr.tscn" id="4_s5oe0"]
+
+[node name="StoneFloor3" type="Node3D"]
+
+[node name="StoneFloor3Bl" parent="." instance=ExtResource("1_qtts3")]
+
+[node name="StoneFloor3Br" parent="." instance=ExtResource("2_crvye")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 1, 0, 0)
+
+[node name="StoneFloor3Tl" parent="." instance=ExtResource("3_afj0r")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 0, 0, -1)
+
+[node name="StoneFloor3Tr" parent="." instance=ExtResource("4_s5oe0")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 1, 0, -1)

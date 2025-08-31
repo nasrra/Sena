@@ -1,17 +1,17 @@
 [gd_scene load_steps=14 format=3 uid="uid://cfumhvxhqinlc"]
 
 [ext_resource type="PackedScene" uid="uid://dokaqxml1glsl" path="res://scenes/environment/doors/templates/LevelSwapDoor.tscn" id="1_7fji0"]
-[ext_resource type="PackedScene" uid="uid://de6ln8sk1l1yd" path="res://scenes/lighting/SpotLight3d2.tscn" id="2_qglcw"]
-[ext_resource type="Texture2D" uid="uid://jj46p0wr0hb4" path="res://assets/images/sprites/doors/Jail Doorclosed.png" id="3_71i57"]
-[ext_resource type="Texture2D" uid="uid://b77lcbdsmg7om" path="res://assets/images/sprites/lanterns/PumpkinLantern.png" id="4_johqt"]
-[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="5_johqt"]
+[ext_resource type="Texture2D" uid="uid://jj46p0wr0hb4" path="res://assets/sprites/doors/Jail Doorclosed.png" id="3_71i57"]
+[ext_resource type="Texture2D" uid="uid://b77lcbdsmg7om" path="res://assets/sprites/lanterns/PumpkinLantern.png" id="4_johqt"]
 [ext_resource type="Script" uid="uid://dpto6mh34skpo" path="res://source/door/BrazierLevelSwapDoor.cs" id="6_qglcw"]
 [ext_resource type="Script" uid="uid://begag85m5v5l3" path="res://source/door/EmberSignalEmitter.cs" id="7_71i57"]
-[ext_resource type="Texture2D" uid="uid://7ovwle4vt6n1" path="res://assets/images/sprites/doors/Jail Dooropen.png" id="7_x7obg"]
+[ext_resource type="Texture2D" uid="uid://7ovwle4vt6n1" path="res://assets/sprites/doors/Jail Dooropen.png" id="7_x7obg"]
 [ext_resource type="PackedScene" uid="uid://3d1847luxo2c" path="res://scenes/lighting/OmniLight3d.tscn" id="10_irjbk"]
-[ext_resource type="Texture2D" uid="uid://sqim6j2i51xi" path="res://assets/images/sprites/doors/JailDoorBackSprite.png" id="11_go4h5"]
+[ext_resource type="Texture2D" uid="uid://sqim6j2i51xi" path="res://assets/sprites/doors/JailDoorBackSprite.png" id="11_go4h5"]
 [ext_resource type="PackedScene" uid="uid://cvhjgg3tpsy7j" path="res://Entropek/scenes/Interactable.tscn" id="11_ikrfp"]
+[ext_resource type="PackedScene" uid="uid://cobg5w06hoout" path="res://scenes/lighting/WindowLight.tscn" id="12_261ps"]
 [ext_resource type="PackedScene" uid="uid://cvss82y3uasd5" path="res://scenes/InputActionLabel3D.tscn" id="12_g8qwl"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="12_go4h5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_go4h5"]
 transparency = 1
@@ -40,57 +40,65 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.75)
 
 [node name="EnterZone" parent="Container" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.2)
-collision_mask = 2
 
 [node name="Collider" parent="Container" index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.25)
-collision_layer = 1
 
-[node name="LanternSprite" type="Sprite3D" parent="." index="2"]
+[node name="EmberSignalEmitter" type="Area3D" parent="." index="2"]
+script = ExtResource("7_71i57")
+
+[node name="OmniLight3D" parent="." index="3" instance=ExtResource("10_irjbk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16364, 1.19958, 0.25)
+light_color = Color(1, 0.882353, 0.686275, 1)
+light_energy = 0.358
+omni_range = 0.75
+
+[node name="Interactable" parent="." index="4" node_paths=PackedStringArray("interactIcon") instance=ExtResource("11_ikrfp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0.5, 0)
+interactIcon = NodePath("../InputActionLabel")
+
+[node name="HitInteractable" type="Node3D" parent="." index="5"]
+
+[node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("11_ikrfp")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
+collision_layer = 16
+
+[node name="InputActionLabel" parent="." index="6" instance=ExtResource("12_g8qwl")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 1.25, 2, 0.25)
+visible = false
+billboard = 1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.076, 0.008)
+cast_shadow = 3
+size = Vector3(1.325, 0.14, 0.077)
+
+[node name="LanternSprite" type="Sprite3D" parent="." index="8"]
 transform = Transform3D(0.2, 0, 0, 0, 0.225, 0, 0, 0, 0.2, 1.21653, 1.30452, 0.281812)
 shaded = true
 no_depth_test = true
 alpha_cut = 2
 texture = ExtResource("4_johqt")
 
-[node name="EmberSignalEmitter" type="Area3D" parent="." index="3"]
-script = ExtResource("7_71i57")
-
-[node name="OmniLight3D" parent="." index="4" instance=ExtResource("10_irjbk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16364, 1.19958, 0.25)
-light_color = Color(1, 0.882353, 0.686275, 1)
-light_energy = 0.358
-omni_range = 0.75
-
-[node name="Interactable" parent="." index="5" node_paths=PackedStringArray("interactIcon") instance=ExtResource("11_ikrfp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0.5, 0)
-interactIcon = NodePath("../InputActionLabel")
-
-[node name="HitInteractable" type="Node3D" parent="." index="6"]
-
-[node name="Interactable" parent="HitInteractable" index="0" instance=ExtResource("11_ikrfp")]
-transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.5, 0)
-collision_layer = 16
-
-[node name="InputActionLabel" parent="." index="7" instance=ExtResource("12_g8qwl")]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 1.25, 2, 0.25)
-visible = false
-billboard = 1
-
-[node name="SpotLight3D4" parent="." index="8" instance=ExtResource("2_qglcw")]
-transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 1.90735e-06, 2.25, -1.55)
-light_color = Color(1, 0.729412, 0.262745, 1)
-spot_angle = 17.721
+[node name="ZSorter3D" parent="LanternSprite" index="0" node_paths=PackedStringArray("visualInstance") instance=ExtResource("12_go4h5")]
+visualInstance = NodePath("..")
+zOffset = -0.7
 
 [node name="door" type="Sprite3D" parent="." index="9"]
-transform = Transform3D(0.375, 0, 0, 0, 0.469, 0, 0, 0, 0.4, 0.45, 1.13634, 0.1)
+transform = Transform3D(0.375, 0, 0, 0, 0.469, 0, 0, 0, 0.4, 0.45, 1.13634, 0.0515146)
+layers = 2
+cast_shadow = 2
 shaded = true
 alpha_cut = 2
 texture = ExtResource("3_71i57")
 metadata/_edit_group_ = true
 
+[node name="ZSorter3D2" parent="door" index="0" node_paths=PackedStringArray("visualInstance") instance=ExtResource("12_go4h5")]
+visualInstance = NodePath("..")
+zOffset = -0.7
+
 [node name="backlight" type="Sprite3D" parent="." index="10"]
-transform = Transform3D(0.375, 0, 0, 0, 0.475, 0, 0, 0, 0.435, -0.005, 1.008, 0.05)
+transform = Transform3D(0.375, 0, 0, 0, 0.485, 0, 0, 0, 0.435, 0.0348254, 1.0915, 0.0951471)
 material_override = SubResource("StandardMaterial3D_go4h5")
 shaded = true
 double_sided = false
@@ -99,22 +107,11 @@ alpha_cut = 2
 texture = ExtResource("11_go4h5")
 metadata/_edit_group_ = true
 
-[node name="SpriteSorter3" type="Node3D" parent="." index="11" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
-script = ExtResource("5_johqt")
-sprite = NodePath("../door")
+[node name="ZSorter3D3" parent="backlight" index="0" node_paths=PackedStringArray("visualInstance") instance=ExtResource("12_go4h5")]
+visualInstance = NodePath("..")
+zOffset = -0.7
 
-[node name="SpriteSorter4" type="Node3D" parent="." index="12" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.75)
-script = ExtResource("5_johqt")
-sprite = NodePath("../backlight")
-
-[node name="SpriteSorter5" type="Node3D" parent="." index="13" node_paths=PackedStringArray("sprite")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.709869)
-script = ExtResource("5_johqt")
-sprite = NodePath("../LanternSprite")
-
-[node name="CSGBox3D" type="CSGBox3D" parent="." index="14"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.076, 0.008)
-cast_shadow = 3
-size = Vector3(1.325, 0.14, 0.077)
+[node name="WindowLight" parent="." index="11" instance=ExtResource("12_261ps")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0.0711426, 2.5, -1.35355)
+light_energy = 1.2
+spot_angle = 16.1764

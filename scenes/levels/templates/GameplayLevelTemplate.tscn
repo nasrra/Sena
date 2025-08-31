@@ -1,26 +1,37 @@
-[gd_scene load_steps=12 format=3 uid="uid://cpmdc8rfjol6m"]
+[gd_scene load_steps=11 format=3 uid="uid://cpmdc8rfjol6m"]
 
 [ext_resource type="Script" uid="uid://ct7qugnshjte" path="res://source/managers/GameplayLevel.cs" id="1_c4ag4"]
 [ext_resource type="Script" uid="uid://6ufn0uo6ekth" path="res://Entropek/source/globals/fmod/AudioBankLoader.cs" id="1_khrgp"]
 [ext_resource type="Script" uid="uid://bguqc5ovvq17v" path="res://source/managers/EnemyManager.cs" id="2_7cl8v"]
 [ext_resource type="Script" uid="uid://cfetq4fllsx4j" path="res://source/managers/EntityManager.cs" id="3_lh374"]
 [ext_resource type="Script" uid="uid://bwdba7s04nkhe" path="res://source/shaders/foliage/GrassDeformerManager.cs" id="4_fei8l"]
-[ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/data/WayfindingGridMap.tscn" id="4_h5lis"]
+[ext_resource type="PackedScene" uid="uid://cmp0ugxxeq27a" path="res://scenes/gridmaps/WayfindingGridMap.tscn" id="4_h5lis"]
 [ext_resource type="Script" uid="uid://bhemtrcfbx13i" path="res://source/managers/DoorManager.cs" id="5_mkam8"]
 [ext_resource type="PackedScene" uid="uid://r2rfoy8wkomk" path="res://scenes/entities/Camera.tscn" id="6_kse60"]
-[ext_resource type="MeshLibrary" uid="uid://xhgpauq17ro4" path="res://scenes/gridmaps/data/collisions/CollisionsMeshLibrary.tres" id="7_u4xlj"]
 [ext_resource type="CameraAttributesPractical" uid="uid://cs0g23gkf3mdk" path="res://resources/camera/CameraAttributes.tres" id="7_wyi0w"]
-[ext_resource type="MeshLibrary" uid="uid://bfwfn7g8e2tmj" path="res://scenes/gridmaps/data/enemy groups/EnemyGroupsMeshLibrary.tres" id="8_0a04b"]
+[ext_resource type="MeshLibrary" uid="uid://bfwfn7g8e2tmj" path="res://scenes/gridmaps/enemy groups/EnemyGroupsMeshLibrary.tres" id="8_0a04b"]
 
 [node name="GameplayLevelTemplate" type="Node3D" node_paths=PackedStringArray("enemyManager", "doors")]
 script = ExtResource("1_c4ag4")
 enemyManager = NodePath("Managers/EnemyManager")
 doors = NodePath("Managers/DoorManager")
 
-[node name="Managers" type="Node3D" parent="."]
+[node name="Managers" type="Node" parent="."]
 
 [node name="AudioBankLoader" type="Node" parent="Managers"]
 script = ExtResource("1_khrgp")
+
+[node name="DoorManager" type="Node" parent="Managers" node_paths=PackedStringArray("levelSwapDoors", "environmentDoors", "levelSwapDoorHolder", "environmentDoorHolder", "tempLockAreaHolder")]
+script = ExtResource("5_mkam8")
+levelSwapDoors = []
+environmentDoors = []
+levelSwapDoorHolder = NodePath("../../Doors/LevelSwapDoors")
+environmentDoorHolder = NodePath("../../Doors/EnvironmentDoors")
+tempLockAreaHolder = NodePath("../../Doors/TempLockAreas")
+
+[node name="EnemyManager" type="Node" parent="Managers" node_paths=PackedStringArray("enemyGroups")]
+script = ExtResource("2_7cl8v")
+enemyGroups = NodePath("../../GridMaps/EnemyGroupGridMap")
 
 [node name="EntityManager" type="Node" parent="Managers" node_paths=PackedStringArray("pausedTimer")]
 script = ExtResource("3_lh374")
@@ -32,19 +43,6 @@ one_shot = true
 [node name="GrassDeformerManager" type="Node" parent="Managers"]
 script = ExtResource("4_fei8l")
 
-[node name="DoorManager" type="Node" parent="Managers" node_paths=PackedStringArray("levelSwapDoors", "environmentDoors")]
-script = ExtResource("5_mkam8")
-levelSwapDoors = []
-environmentDoors = []
-
-[node name="LevelSwapDoors" type="Node" parent="Managers/DoorManager"]
-
-[node name="EnvironmentDoors" type="Node" parent="Managers/DoorManager"]
-
-[node name="EnemyManager" type="Node" parent="Managers" node_paths=PackedStringArray("enemyGroups")]
-script = ExtResource("2_7cl8v")
-enemyGroups = NodePath("../../GridMaps/EnemyGroupGridMap")
-
 [node name="GridMaps" type="Node3D" parent="."]
 
 [node name="EnemyGroupGridMap" type="GridMap" parent="GridMaps"]
@@ -54,10 +52,6 @@ cell_size = Vector3(1, 1, 1)
 [node name="WayfindingGridMap" parent="GridMaps" instance=ExtResource("4_h5lis")]
 NavigationLayers = Array[int]([8, 12])
 
-[node name="CollisionsGridMap" type="GridMap" parent="GridMaps"]
-mesh_library = ExtResource("7_u4xlj")
-cell_size = Vector3(1, 1, 1)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 [node name="Camera" parent="." instance=ExtResource("6_kse60")]
@@ -65,3 +59,33 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 attributes = ExtResource("7_wyi0w")
 fov = 24.0
 FollowOffset = Vector3(0, 12, 10)
+
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="LevelSwapDoors" type="Node3D" parent="Doors"]
+
+[node name="EnvironmentDoors" type="Node3D" parent="Doors"]
+
+[node name="TempLockAreas" type="Node3D" parent="Doors"]
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="Front" type="Node3D" parent="Walls"]
+
+[node name="Left" type="Node3D" parent="Walls"]
+
+[node name="Right" type="Node3D" parent="Walls"]
+
+[node name="Invisible" type="Node3D" parent="Walls"]
+
+[node name="Front" type="Node3D" parent="Walls/Invisible"]
+
+[node name="Side" type="Node3D" parent="Walls/Invisible"]
+
+[node name="Floors" type="Node3D" parent="."]
+
+[node name="Decor" type="Node3D" parent="."]
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Entities" type="Node3D" parent="."]

@@ -15,6 +15,9 @@ public partial class DoorManager : Node{
     [Export] private Array<LevelSwapDoor> levelSwapDoors;
     [Export] private Array<EnvironmentDoor> environmentDoors;
     [Export] private Array<Array<NodePath>> tempLockAreas = new Array<Array<NodePath>>();
+    [Export] private Node3D levelSwapDoorHolder;
+    [Export] private Node3D environmentDoorHolder;
+    [Export] private Node3D tempLockAreaHolder;
     private (bool,bool)[] environmentDoorStatesCache;
     private (bool,bool)[] levelSwapDoorStatesCache;
     private State state = State.Normal;
@@ -165,7 +168,7 @@ public partial class DoorManager : Node{
     private void LinkTempLockAreas(){
         for(int i = 0; i < tempLockAreas.Count; i++){
         for(int j = 0; j < tempLockAreas[i].Count; j++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[i][j]);
             area.BodyEntered += OnTempLockAreaEnteredCallback;
             area.AreaEntered += OnTempLockAreaEnteredCallback;
         }}
@@ -174,7 +177,7 @@ public partial class DoorManager : Node{
     private void UnlinkTempLockAreas(){
         for(int i = 0; i < tempLockAreas.Count; i++){
         for(int j = 0; j < tempLockAreas[i].Count; j++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[i][j]);
             area.BodyEntered -= OnTempLockAreaEnteredCallback;
             area.AreaEntered -= OnTempLockAreaEnteredCallback;
         }}
@@ -187,7 +190,7 @@ public partial class DoorManager : Node{
     public void DisableAllTemplockAreas(){
         for(int i = 0; i < tempLockAreas.Count; i++){
         for(int j = 0; j < tempLockAreas[i].Count; j++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[i][j]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
         }}
     }
@@ -195,7 +198,7 @@ public partial class DoorManager : Node{
     public void EnableAllTemplockAreas(){
         for(int i = 0; i < tempLockAreas.Count; i++){
         for(int j = 0; j < tempLockAreas[i].Count; j++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[i][j]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[i][j]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
         }}
     }
@@ -206,7 +209,7 @@ public partial class DoorManager : Node{
         }
 
         for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[areaGroup][i]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = true;
         }
     }
@@ -217,7 +220,7 @@ public partial class DoorManager : Node{
         }
         
         for(int i = 0; i < tempLockAreas[areaGroup].Count; i++){
-            Area3D area = GetNode<Area3D>(tempLockAreas[areaGroup][i]);
+            Area3D area = tempLockAreaHolder.GetNode<Area3D>(tempLockAreas[areaGroup][i]);
             area.GetNode<CollisionShape3D>("CollisionShape3D").Disabled = false;
         }
     }

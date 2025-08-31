@@ -22,7 +22,7 @@ animator = NodePath("AnimatedSprite3D")
 audioPlayer = NodePath("AudioPlayer")
 agressionZone = NodePath("AgressionZone")
 avoidanceAgent = NodePath("AvoidanceAgent")
-spriteSorter = NodePath("SpriteSorter")
+spriteSorter = NodePath("ZSorter3D")
 wanderer = NodePath("AiWander")
 minPathTime = 1.0
 maxPathTime = 0.33
@@ -70,7 +70,7 @@ animation = &"AttackBackward"
 [node name="AvoidanceIntentionChaseStateTimer" type="Timer" parent="." index="10"]
 wait_time = 2.0
 
-[node name="HitBoxHandler" parent="." index="13" node_paths=PackedStringArray("hitBoxes")]
+[node name="HitBoxHandler" parent="." index="12" node_paths=PackedStringArray("hitBoxes")]
 hitBoxes = [NodePath("HitboxBackward"), NodePath("HitboxLeft"), NodePath("HitboxRight"), NodePath("HitboxForward")]
 
 [node name="HitboxBackward" parent="HitBoxHandler" index="0" instance=ExtResource("5_afjqp")]
@@ -85,6 +85,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.5, 0)
 [node name="HitboxLeft" parent="HitBoxHandler" index="3" instance=ExtResource("5_afjqp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.5, 0)
 
+[node name="AvoidanceAgent" parent="." index="13"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+smoothFactor = 2.0
+
 [node name="GrassDeformer" type="Node3D" parent="." index="14"]
 script = ExtResource("6_82jcj")
 Strength = 0.25
@@ -96,10 +100,6 @@ light_energy = 0.145
 omni_range = 3.33
 omni_attenuation = 1.222
 
-[node name="AvoidanceAgent" parent="." index="16"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
-smoothFactor = 2.0
-
-[node name="AvoidancePoint" parent="." index="17"]
+[node name="AvoidancePoint" parent="." index="16"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 Strength = 0.22

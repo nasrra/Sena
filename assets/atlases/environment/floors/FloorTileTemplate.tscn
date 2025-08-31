@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8rx1at6e0red"]
+
+[ext_resource type="Texture2D" uid="uid://bewg04sqopmio" path="res://assets/test/PlaceHolderSprite.png" id="1_gh0mh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fqb3j"]
+size = Vector3(0.0262024, 0.0260361, 0.001)
+
+[node name="FloorTileTemplate" type="Sprite3D"]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 0, 0, 0)
+sorting_use_aabb_center = false
+offset = Vector2(128, 128)
+pixel_size = 0.0001
+shaded = true
+alpha_cut = 2
+alpha_scissor_threshold = 1.0
+texture = ExtResource("1_gh0mh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 6.2137e-12, 0, -6.2137e-12, 1, 0.013, 0.013, -0.0005004)
+shape = SubResource("BoxShape3D_fqb3j")

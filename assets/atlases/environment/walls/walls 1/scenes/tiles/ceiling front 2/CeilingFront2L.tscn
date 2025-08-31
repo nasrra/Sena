@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://o3tq1xk48usl"]
+
+[ext_resource type="PackedScene" uid="uid://dgteaskaewac3" path="res://assets/atlases/environment/walls/templates/tiles/CeilingFrontTileTemplate.tscn" id="1_kjlbx"]
+[ext_resource type="Texture2D" uid="uid://5tt6tacn51i" path="res://assets/atlases/environment/walls/walls 1/Walls1Atlas.sprites/Images/CeilingFront2L.tres" id="2_kjlbx"]
+
+[node name="CeilingFront2L" instance=ExtResource("1_kjlbx")]
+texture = ExtResource("2_kjlbx")

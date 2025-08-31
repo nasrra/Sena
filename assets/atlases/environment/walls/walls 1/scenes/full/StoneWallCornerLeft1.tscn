@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://05cnwpwjyiaf"]
+
+[ext_resource type="PackedScene" uid="uid://be4lncrrxskfm" path="res://assets/atlases/environment/walls/templates/full/WallSideTemplate.tscn" id="1_bugat"]
+[ext_resource type="PackedScene" uid="uid://bas5b75ebnk3t" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling left 1/CelingLeft1L.tscn" id="2_7hsvy"]
+[ext_resource type="PackedScene" uid="uid://b18xbr5s1olrq" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling left 1/CelingLeft1R.tscn" id="3_x4gr6"]
+[ext_resource type="PackedScene" uid="uid://b6kfksoe0yg3v" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 1/Wall1Bl.tscn" id="4_3hpo5"]
+[ext_resource type="PackedScene" uid="uid://4fj3ne3q541k" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 1/Wall1Ml.tscn" id="5_r6l0l"]
+[ext_resource type="PackedScene" uid="uid://c8gsdwt20elss" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 1/Wall1Tl.tscn" id="6_p4ny8"]
+
+[node name="StoneWallCornerLeft1" instance=ExtResource("1_bugat")]
+
+[node name="CelingLeft1L" parent="." index="2" instance=ExtResource("2_7hsvy")]
+transform = Transform3D(-1.7113e-06, -39.15, -1.7113e-06, 0, -1.7113e-06, 39.15, -39.15, 1.7113e-06, 7.48033e-14, 0, 3, 0)
+
+[node name="CelingLeft1R" parent="." index="3" instance=ExtResource("3_x4gr6")]
+transform = Transform3D(-1.7113e-06, -39.15, -1.7113e-06, 0, -1.7113e-06, 39.15, -39.15, 1.7113e-06, 7.48033e-14, 0, 3, -1)
+
+[node name="Wall1Bl" parent="." index="4" instance=ExtResource("4_3hpo5")]
+
+[node name="Wall1Ml" parent="." index="5" instance=ExtResource("5_r6l0l")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 0, 1, 0)
+
+[node name="Wall1Tl" parent="." index="6" instance=ExtResource("6_p4ny8")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 0, 2, 0)

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4gevw21qkeab"]
+
+[ext_resource type="PackedScene" uid="uid://cplp1d7vj5mrn" path="res://assets/atlases/environment/walls/templates/shadows/WallShadowTemplate.tscn" id="1_5b5rv"]
+
+[node name="WallFrontShadow" instance=ExtResource("1_5b5rv")]

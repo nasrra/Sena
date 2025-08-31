@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://b18xbr5s1olrq"]
+
+[ext_resource type="PackedScene" uid="uid://b5v8pamd2am8j" path="res://assets/atlases/environment/walls/templates/tiles/CeilingLeftTileTemplate.tscn" id="1_tgu50"]
+[ext_resource type="Texture2D" uid="uid://2pcowt3gs6kq" path="res://assets/atlases/environment/walls/walls 1/Walls1Atlas.sprites/Images/CeilingSide1R.tres" id="2_jsk3y"]
+
+[node name="CelingLeft1R" instance=ExtResource("1_tgu50")]
+texture = ExtResource("2_jsk3y")

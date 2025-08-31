@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://byue2js8ldn7i"]
+[gd_scene load_steps=8 format=3 uid="uid://byue2js8ldn7i"]
 
-[ext_resource type="Texture2D" uid="uid://dmernymc26wun" path="res://assets/images/atlases/level 1/Level1DecorTilemap.sprites/Column2.tres" id="1_d2v2a"]
 [ext_resource type="Script" uid="uid://pbe163knvuj" path="res://source/door/SegmentedDoorPiece.cs" id="1_scy15"]
-[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="2_scy15"]
+[ext_resource type="Texture2D" uid="uid://ctpp7y8as7jdq" path="res://assets/atlases/columns 1/Colums1Atlas.sprites/Images/Column2.tres" id="2_d2v2a"]
 
 [sub_resource type="Animation" id="Animation_d2v2a"]
 resource_name = "Close"
@@ -91,7 +90,7 @@ offset = Vector2(0, -18.2)
 shaded = true
 double_sided = false
 alpha_cut = 2
-texture = ExtResource("1_d2v2a")
+texture = ExtResource("2_d2v2a")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Container"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00158691, 2.06914, 8.39233e-05)
@@ -108,10 +107,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992218, 0)
 cast_shadow = 3
 size = Vector3(0.75, 0.5, 0.75)
 
-[node name="SpriteSorter3D" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+[node name="SpriteSorter3D" type="Node3D" parent="."]
 transform = Transform3D(0.375, 0, 0, 0, 0.525, 0, 0, 0, 0.375, 0, 0, -1)
-script = ExtResource("2_scy15")
-sprite = NodePath("../Container/Sprite3D5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

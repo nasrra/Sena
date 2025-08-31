@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://2kkmvmq207yd"]
+
+[ext_resource type="PackedScene" uid="uid://be4lncrrxskfm" path="res://assets/atlases/environment/walls/templates/full/WallSideTemplate.tscn" id="1_e0ewa"]
+
+[node name="InvisibleWallSide" instance=ExtResource("1_e0ewa")]

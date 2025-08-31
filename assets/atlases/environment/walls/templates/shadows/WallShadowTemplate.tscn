@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cplp1d7vj5mrn"]
+
+[node name="WallShadowTemplate" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 1.55, -1)
+transparency = 1.0
+flip_faces = true
+size = Vector3(2, 2.9, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 0.05, -1)
+transparency = 1.0
+size = Vector3(2, 0.1, 1)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://2mjgoqaq23kd"]
+
+[ext_resource type="PackedScene" uid="uid://be4lncrrxskfm" path="res://assets/atlases/environment/walls/templates/full/WallSideTemplate.tscn" id="1_3nq8d"]
+[ext_resource type="PackedScene" uid="uid://bas5b75ebnk3t" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling left 1/CelingLeft1L.tscn" id="2_dfdtw"]
+[ext_resource type="PackedScene" uid="uid://b18xbr5s1olrq" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling left 1/CelingLeft1R.tscn" id="3_x8rss"]
+
+[node name="StoneWallLeft1" instance=ExtResource("1_3nq8d")]
+
+[node name="CelingLeft1L" parent="." index="2" instance=ExtResource("2_dfdtw")]
+transform = Transform3D(-1.7113e-06, -39.15, -1.7113e-06, 0, -1.7113e-06, 39.15, -39.15, 1.7113e-06, 7.48033e-14, 0, 3, 0)
+
+[node name="CelingLeft1R" parent="." index="3" instance=ExtResource("3_x8rss")]
+transform = Transform3D(-1.7113e-06, -39.15, -1.7113e-06, 0, -1.7113e-06, 39.15, -39.15, 1.7113e-06, 7.48033e-14, 0, 3, -1)

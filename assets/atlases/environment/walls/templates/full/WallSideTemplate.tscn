@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://be4lncrrxskfm"]
+
+[ext_resource type="PackedScene" uid="uid://b4gevw21qkeab" path="res://assets/atlases/environment/walls/templates/shadows/WallSideShadow.tscn" id="1_4bcrr"]
+[ext_resource type="PackedScene" uid="uid://dw7ns3mgpgo6s" path="res://assets/atlases/environment/walls/templates/colliders/WallSideCollider.tscn" id="2_brugf"]
+
+[node name="WallSideTemplate" type="Node3D"]
+
+[node name="WallFrontShadow" parent="." instance=ExtResource("1_4bcrr")]
+
+[node name="WallSideCollider" parent="." instance=ExtResource("2_brugf")]

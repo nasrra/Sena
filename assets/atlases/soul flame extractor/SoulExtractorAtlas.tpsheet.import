@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://dx7dpvl7lgy5f"
+path="res://.godot/imported/SoulExtractorAtlas.tpsheet-961a57c39d323392f3d1d5635cc99163.res"
+
+[deps]
+
+files=["res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorShadow.tres", "res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorMain.tres", "res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorSub.tres"]
+
+source_file="res://assets/atlases/soul flame extractor/SoulExtractorAtlas.tpsheet"
+dest_files=["res://.godot/imported/SoulExtractorAtlas.tpsheet-961a57c39d323392f3d1d5635cc99163.res", "res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorShadow.tres", "res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorMain.tres", "res://assets/atlases/soul flame extractor/SoulExtractorAtlas.sprites/Images/SoulFlameExtractorSub.tres"]
+
+[params]
+

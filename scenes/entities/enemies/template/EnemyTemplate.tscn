@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://codv2sgb45cwh" path="res://Entropek/source/characters/CharacterMovement.cs" id="5_306ko"]
 [ext_resource type="PackedScene" uid="uid://ch4eus05salg0" path="res://Entropek/source/ai/AiAttackHandler.tscn" id="6_mj3ic"]
-[ext_resource type="PackedScene" uid="uid://c04c7nwgcmuqe" path="res://scenes/gridmaps/data/wayfinding 3D/WayfindingAgent3d.tscn" id="6_mmbpr"]
-[ext_resource type="Script" uid="uid://w0nsmjalgq6k" path="res://source/SpriteSorter3D.cs" id="7_ny84t"]
+[ext_resource type="PackedScene" uid="uid://c04c7nwgcmuqe" path="res://scenes/gridmaps/wayfinding 3D/WayfindingAgent3d.tscn" id="6_mmbpr"]
 [ext_resource type="Script" uid="uid://dpovkk1kliuhh" path="res://Entropek/source/globals/fmod/AudioPlayer.cs" id="8_kq21a"]
 [ext_resource type="Script" uid="uid://b60iyr5pp14vr" path="res://source/hitbox/HitBoxHandler.cs" id="9_mmbpr"]
 [ext_resource type="PackedScene" uid="uid://qjsxrhg00wny" path="res://Entropek/scenes/Health.tscn" id="10_1jhey"]
@@ -12,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bda85676t7suo" path="res://Entropek/source/ai/AiWander.cs" id="12_mp6r4"]
 [ext_resource type="Script" uid="uid://dmkiut6slxefl" path="res://source/ai/AgressionZone.cs" id="12_qwpog"]
 [ext_resource type="PackedScene" uid="uid://fyw1l5ue26s8" path="res://source/shaders/hitflaash/HitFlashShaderhController.tscn" id="12_v8ssa"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="12_w4odj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iky5e"]
 radius = 1.0
@@ -74,10 +74,6 @@ shaded = true
 double_sided = false
 alpha_cut = 2
 
-[node name="SpriteSorter" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
-script = ExtResource("7_ny84t")
-sprite = NodePath("../AnimatedSprite3D")
-
 [node name="AudioPlayer" type="Node3D" parent="."]
 script = ExtResource("8_kq21a")
 
@@ -114,3 +110,6 @@ maxIdleTime = 2.0
 
 [node name="Timer" type="Timer" parent="AiWander"]
 one_shot = true
+
+[node name="ZSorter3D" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("12_w4odj")]
+visualInstance = NodePath("../AnimatedSprite3D")

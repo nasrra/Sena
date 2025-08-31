@@ -19,7 +19,7 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	[Export] protected AudioPlayer audioPlayer;
 	[Export] protected AgressionZone agressionZone;
 	[Export] protected AvoidanceAgent avoidanceAgent;
-	[Export] protected SpriteSorter3D spriteSorter;
+	[Export] protected ZSorter3D spriteSorter;
 	[Export] public Node3D Target;
 	
 	[ExportGroup("Wanderer")]
@@ -93,10 +93,6 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 		);
 		IdleState();
 		EnemyManager.Singleton.AddEnemy(this);
-	}
-
-	public override void _EnterTree(){
-		base._EnterTree();
 		LinkEvents();
 	}
 
@@ -492,7 +488,6 @@ public abstract partial class Enemy : CharacterBody3D{ // <-- make sure to inher
 	}
 	
 	public virtual void Kill(){
-		UnlinkEvents();
 		QueueFree();
 	}
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://dyec7e3db2w23" path="res://source/shaders/foliage/grass.gdshader" id="1_6h0fi"]
 [ext_resource type="Texture2D" uid="uid://dy8ydqs2slh5j" path="res://scenes/environment/foliage/bushes/materials/GrassDistanceCurve.tres" id="2_sas8b"]
-[ext_resource type="Texture2D" uid="uid://ctkwg28vf02vg" path="res://assets/images/sprites/bushes/bush 1.png" id="2_slp2j"]
+[ext_resource type="Texture2D" uid="uid://ctkwg28vf02vg" path="res://assets/sprites/bushes/bush 1.png" id="2_slp2j"]
 [ext_resource type="Texture2D" uid="uid://bc5dh0sjddjiu" path="res://scenes/environment/foliage/bushes/materials/GrassWindNoise.tres" id="3_5gfxb"]
 
 [resource]

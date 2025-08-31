@@ -15,13 +15,13 @@ public abstract partial class LevelSwapDoor : Door{
 
 
     public override void _EnterTree(){
-        base._EnterTree();
         LinkEvents();
+        base._EnterTree();
     }
 
     public override void _ExitTree(){
-        base._ExitTree();
         UnlinkEvents();
+        base._ExitTree();
     }
 
 
@@ -37,23 +37,25 @@ public abstract partial class LevelSwapDoor : Door{
     }
 
     protected override void Opened(){
-        base.Opened();
         EnableEnterZone();
+        base.Opened();
     }
 
     protected override void Closed(){
-        base.Closed();
         DisableEnterZone();
+        base.Closed();
     }
 
     private void EnableEnterZone(){
         CollisionShape3D shape = enterZone.GetNode<CollisionShape3D>("CollisionShape3D");
         shape.CallDeferred("set_disabled", false);
+        GD.Print("enable enter zone");
     }
 
     private void DisableEnterZone(){
         CollisionShape3D shape = enterZone.GetNode<CollisionShape3D>("CollisionShape3D");
         shape.CallDeferred("set_disabled", true);
+        GD.Print("disable enter zone");
     }
 
 

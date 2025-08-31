@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnpigqlowkn0y"]
+
+[ext_resource type="PackedScene" uid="uid://biluxas2gckjg" path="res://assets/atlases/environment/walls/templates/tiles/WallTileTemplate.tscn" id="1_g8qwm"]
+[ext_resource type="Texture2D" uid="uid://8tgp1ykg2dgf" path="res://assets/atlases/environment/walls/walls 1/Walls1Atlas.sprites/Images/Wall2Ml.tres" id="2_vaift"]
+
+[node name="Wall2Ml" instance=ExtResource("1_g8qwm")]
+texture = ExtResource("2_vaift")

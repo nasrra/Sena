@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://biluxas2gckjg"]
+
+[ext_resource type="Texture2D" uid="uid://bewg04sqopmio" path="res://assets/test/PlaceHolderSprite.png" id="1_g7o6g"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="2_c1yg4"]
+
+[node name="WallTile" type="Sprite3D"]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 0, 0, 0)
+sorting_use_aabb_center = false
+cast_shadow = 0
+offset = Vector2(128, 128)
+pixel_size = 0.0001
+shaded = true
+double_sided = false
+texture = ExtResource("1_g7o6g")
+
+[node name="ZSorter3D" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("2_c1yg4")]
+visualInstance = NodePath("..")
+zOffset = 0.2

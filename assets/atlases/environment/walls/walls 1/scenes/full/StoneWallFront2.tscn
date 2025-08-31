@@ -1,0 +1,36 @@
+[gd_scene load_steps=10 format=3 uid="uid://bkps6jx4kw546"]
+
+[ext_resource type="PackedScene" uid="uid://bui1ssvlu75om" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Bl.tscn" id="1_33q23"]
+[ext_resource type="PackedScene" uid="uid://bx8t0pr33lxya" path="res://assets/atlases/environment/walls/templates/full/WallFrontTemplate.tscn" id="1_lcce2"]
+[ext_resource type="PackedScene" uid="uid://b32vwy5ay5aom" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Br.tscn" id="2_vaw62"]
+[ext_resource type="PackedScene" uid="uid://dnpigqlowkn0y" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Ml.tscn" id="3_lcce2"]
+[ext_resource type="PackedScene" uid="uid://iop6j45rtu81" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Mr.tscn" id="4_q5hkd"]
+[ext_resource type="PackedScene" uid="uid://bpdcju4losmmg" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Tl.tscn" id="5_g1c07"]
+[ext_resource type="PackedScene" uid="uid://dn6e5lylf75lx" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/wall 2/Wall2Tr.tscn" id="6_g04cp"]
+[ext_resource type="PackedScene" uid="uid://o3tq1xk48usl" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling front 2/CeilingFront2L.tscn" id="8_g1c07"]
+[ext_resource type="PackedScene" uid="uid://546jgjddr8eb" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling front 2/CeilingFront2R.tscn" id="9_g04cp"]
+
+[node name="StoneWallFront2" instance=ExtResource("1_lcce2")]
+
+[node name="Wall2Bl" parent="." index="2" instance=ExtResource("1_33q23")]
+
+[node name="Wall2Br" parent="." index="3" instance=ExtResource("2_vaw62")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 1, 0, 0)
+
+[node name="Wall2Ml" parent="." index="4" instance=ExtResource("3_lcce2")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 0, 1, 0)
+
+[node name="Wall2Mr" parent="." index="5" instance=ExtResource("4_q5hkd")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 1, 1, 0)
+
+[node name="Wall2Tl" parent="." index="6" instance=ExtResource("5_g1c07")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 0, 2, 0)
+
+[node name="Wall2Tr" parent="." index="7" instance=ExtResource("6_g04cp")]
+transform = Transform3D(39.15, 0, 0, 0, 39.15, 0, 0, 0, 39.15, 1, 2, 0)
+
+[node name="CeilingFront2L" parent="." index="8" instance=ExtResource("8_g1c07")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 0, 3, 0)
+
+[node name="CeilingFront2R" parent="." index="9" instance=ExtResource("9_g04cp")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 1, 3, 0)

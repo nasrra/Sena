@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://c2bsrqbtmhy3f"
+path="res://.godot/imported/Shelves1Atlas.tpsheet-2b0d096bced074767cc27564310cc954.res"
+
+[deps]
+
+files=["res://assets/atlases/shelves 1/Shelves1Atlas.sprites/Images/PotteryShelfSide.tres", "res://assets/atlases/shelves 1/Shelves1Atlas.sprites/Images/PotteryShelfFront.tres"]
+
+source_file="res://assets/atlases/shelves 1/Shelves1Atlas.tpsheet"
+dest_files=["res://.godot/imported/Shelves1Atlas.tpsheet-2b0d096bced074767cc27564310cc954.res", "res://assets/atlases/shelves 1/Shelves1Atlas.sprites/Images/PotteryShelfSide.tres", "res://assets/atlases/shelves 1/Shelves1Atlas.sprites/Images/PotteryShelfFront.tres"]
+
+[params]
+

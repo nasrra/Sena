@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://yfvvarmosmxy"
+path="res://.godot/imported/RawMaterialStorage1Atlas.tpsheet-6477de557d57be92cee5234dfef56f8f.res"
+
+[deps]
+
+files=["res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/CoalPile1.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/Wheelbarrow.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox1.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox2.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox3.tres"]
+
+source_file="res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.tpsheet"
+dest_files=["res://.godot/imported/RawMaterialStorage1Atlas.tpsheet-6477de557d57be92cee5234dfef56f8f.res", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/CoalPile1.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/Wheelbarrow.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox1.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox2.tres", "res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/IronBox3.tres"]
+
+[params]
+

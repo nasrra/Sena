@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://q1g2xsani1lr"]
+
+[ext_resource type="Texture2D" uid="uid://cvyhaegegb7vm" path="res://assets/atlases/raw material storage 1/RawMaterialStorage1Atlas.sprites/Images/Wheelbarrow.tres" id="1_rniop"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="2_a7xk0"]
+
+[node name="Wheelbarrow" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.35, 0, 0, 0, 0.185969, 0.247487, 0, -0.185969, 0.247487, 0, 0.368228, -0.446994)
+shaded = true
+double_sided = false
+texture = ExtResource("1_rniop")
+
+[node name="Shadows" type="Node3D" parent="."]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Shadows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206, 0.401725, -0.75)
+cast_shadow = 3
+flip_faces = true
+height = 0.8
+sides = 16
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Shadows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.192698, -0.25)
+cast_shadow = 3
+flip_faces = true
+radius = 0.125
+height = 0.4
+sides = 16
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="Shadows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.206, 0.05, -0.75)
+cast_shadow = 3
+height = 0.1
+sides = 16
+
+[node name="CSGCylinder3D4" type="CSGCylinder3D" parent="Shadows"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.05, -0.25)
+cast_shadow = 3
+radius = 0.2
+height = 0.1
+sides = 16
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(0.741381, 0, 0.382271, 0, 0.885, 0, -0.4833, 0, 0.586403, -0.345, 0.5, -0.59703)
+transparency = 1.0
+cast_shadow = 0
+use_collision = true
+radius = 0.75
+height = 1.0
+sides = 16
+
+[node name="SpriteSorter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5)
+
+[node name="ZSorter3D" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("2_a7xk0")]
+visualInstance = NodePath("../Sprite3D")
+zOffset = -1.0

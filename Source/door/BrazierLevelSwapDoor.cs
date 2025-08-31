@@ -57,6 +57,7 @@ public partial class BrazierLevelSwapDoor : LevelSwapDoor{
     }
 
     protected override void Closed(){
+        base.Closed();
         doorSprite.Texture = closedSprite;
     }
 

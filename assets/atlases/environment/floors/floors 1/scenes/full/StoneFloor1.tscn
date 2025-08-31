@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://daaqtk0bbdmwu"]
+
+[ext_resource type="PackedScene" uid="uid://qqfe24dgiqd" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 1/StoneFloor1Bl.tscn" id="1_eaixd"]
+[ext_resource type="PackedScene" uid="uid://b18fgr85smcw7" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 1/StoneFloor1Br.tscn" id="2_7flht"]
+[ext_resource type="PackedScene" uid="uid://kty2wdoe4b2a" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 1/StoneFloor1Tl.tscn" id="3_ktdgh"]
+[ext_resource type="PackedScene" uid="uid://cdjdii8kvojnd" path="res://assets/atlases/environment/floors/floors 1/scenes/tiles/stone floor 1/StoneFloor1Tr.tscn" id="4_58ism"]
+
+[node name="StoneFloor1" type="Node3D"]
+
+[node name="StoneFloor1Bl" parent="." instance=ExtResource("1_eaixd")]
+sorting_use_aabb_center = true
+alpha_scissor_threshold = 0.5
+
+[node name="StoneFloor1Br" parent="." instance=ExtResource("2_7flht")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 1, 0, 0)
+sorting_use_aabb_center = true
+alpha_cut = 0
+alpha_scissor_threshold = 0.5
+
+[node name="StoneFloor1Tl" parent="." instance=ExtResource("3_ktdgh")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 0, 0, -1)
+sorting_use_aabb_center = true
+alpha_cut = 0
+alpha_scissor_threshold = 0.5
+
+[node name="StoneFloor1Tr" parent="." instance=ExtResource("4_58ism")]
+transform = Transform3D(39.15, 0, 0, 0, -1.7113e-06, 39.15, 0, -39.15, -1.7113e-06, 1, 0, -1)
+sorting_use_aabb_center = true
+alpha_cut = 0
+alpha_scissor_threshold = 0.5

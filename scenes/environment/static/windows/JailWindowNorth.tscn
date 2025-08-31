@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://4w8sr35sqav5"]
+
+[ext_resource type="Texture2D" uid="uid://juwni7pyt3po" path="res://assets/sprites/doors/JailWindow.png" id="1_vy4x2"]
+[ext_resource type="Texture2D" uid="uid://bo7p1ku02vbxr" path="res://assets/sprites/doors/WindowBackSprite.png" id="2_xlqvw"]
+[ext_resource type="PackedScene" uid="uid://cobg5w06hoout" path="res://scenes/lighting/WindowLight.tscn" id="4_f6io3"]
+[ext_resource type="PackedScene" uid="uid://cntb5riaufpxh" path="res://scenes/ZSorter3D.tscn" id="4_pdpms"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7ois"]
+transparency = 4
+albedo_texture = ExtResource("2_xlqvw")
+emission_enabled = true
+emission = Color(1, 0.729412, 0.262745, 1)
+disable_receive_shadows = true
+
+[node name="JailWindowNorth" type="Node3D"]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 0.4, 0, 1.35, 0.0195727)
+layers = 2
+cast_shadow = 2
+shaded = true
+alpha_cut = 2
+render_priority = 1
+texture = ExtResource("1_vy4x2")
+
+[node name="Sprite3D2" type="Sprite3D" parent="."]
+transform = Transform3D(0.375, 0, 0, 0, 0.375, 0, 0, 0, 1, 0.015, 1.31799, 0.00857574)
+material_override = SubResource("StandardMaterial3D_s7ois")
+cast_shadow = 0
+double_sided = false
+alpha_cut = 2
+render_priority = 1
+texture = ExtResource("2_xlqvw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0119629, 0.617973, -0.0708921)
+layers = 2
+cast_shadow = 3
+size = Vector3(1.356, 0.75, 0.1)
+
+[node name="ZSorter3D" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("4_pdpms")]
+visualInstance = NodePath("../Sprite3D")
+zOffset = -1.0
+
+[node name="ZSorter3D2" parent="." node_paths=PackedStringArray("visualInstance") instance=ExtResource("4_pdpms")]
+visualInstance = NodePath("../Sprite3D2")
+zOffset = -1.0
+
+[node name="WindowLight" parent="." instance=ExtResource("4_f6io3")]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 2.34807, -1)
+spot_angle = 25.6173

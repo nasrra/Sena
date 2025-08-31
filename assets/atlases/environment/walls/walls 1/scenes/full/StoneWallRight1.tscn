@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dy40vr3rdyyrr"]
+
+[ext_resource type="PackedScene" uid="uid://be4lncrrxskfm" path="res://assets/atlases/environment/walls/templates/full/WallSideTemplate.tscn" id="1_qravv"]
+[ext_resource type="PackedScene" uid="uid://3ssmeyyx57vb" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling right 1/CeilingRight1L.tscn" id="2_qravv"]
+[ext_resource type="PackedScene" uid="uid://c7axbrgfl0rqm" path="res://assets/atlases/environment/walls/walls 1/scenes/tiles/ceiling right 1/CeilingRight1R.tscn" id="3_lw70n"]
+
+[node name="StoneWallRight1" instance=ExtResource("1_qravv")]
+
+[node name="CeilingRight1L" parent="." index="2" instance=ExtResource("2_qravv")]
+transform = Transform3D(-1.7113e-06, 39.15, 1.7113e-06, 0, -1.7113e-06, 39.15, 39.15, 1.7113e-06, 7.48033e-14, 0, 3, -1)
+
+[node name="CeilingRight1R" parent="." index="3" instance=ExtResource("3_lw70n")]
+transform = Transform3D(-1.7113e-06, 39.15, 1.7113e-06, 0, -1.7113e-06, 39.15, 39.15, 1.7113e-06, 7.48033e-14, 0, 3, 0)

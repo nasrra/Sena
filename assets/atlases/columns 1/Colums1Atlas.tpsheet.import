@@ -1,0 +1,16 @@
+[remap]
+
+importer="codeandweb.texturepacker_import_spritesheet"
+type="Resource"
+uid="uid://bhrk3jnka70j2"
+path="res://.godot/imported/Colums1Atlas.tpsheet-15cfcdeec395af80c2e4781ee27f1c9d.res"
+
+[deps]
+
+files=["res://assets/atlases/columns 1/Colums1Atlas.sprites/Images/Column1.tres", "res://assets/atlases/columns 1/Colums1Atlas.sprites/Images/Column2.tres"]
+
+source_file="res://assets/atlases/columns 1/Colums1Atlas.tpsheet"
+dest_files=["res://.godot/imported/Colums1Atlas.tpsheet-15cfcdeec395af80c2e4781ee27f1c9d.res", "res://assets/atlases/columns 1/Colums1Atlas.sprites/Images/Column1.tres", "res://assets/atlases/columns 1/Colums1Atlas.sprites/Images/Column2.tres"]
+
+[params]
+
