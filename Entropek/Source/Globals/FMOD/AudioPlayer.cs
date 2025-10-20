@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 public partial class AudioPlayer : Node2D{
-    private SwapbackList<AudioInstance> audioInstances = new SwapbackList<AudioInstance>();
+    private List<AudioInstance> audioInstances = new();
     private SwapbackList<FMOD.Studio.EVENT_CALLBACK> callbacks = new SwapbackList<FMOD.Studio.EVENT_CALLBACK>();
 
     public override void _ExitTree(){
