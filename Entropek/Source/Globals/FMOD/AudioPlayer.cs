@@ -59,7 +59,7 @@ public partial class AudioPlayer : Node2D{
 
             if(type == FMOD.Studio.EVENT_CALLBACK_TYPE.STOPPED){
                 FMOD.Studio.EventInstance stoppedInstance = new FMOD.Studio.EventInstance(instancePtr);
-                stoppedInstance.getDescription(out FMOD.Studio.EventDescription description);
+                stoppedInstance.getDescription(out FMOD.Studio.EventDescription description); // WHY IS THIS HERE???? REMOVE IT.
                 audioInstances.Remove(audioInstance);
                 stoppedInstance.release();
                 callbacks.Remove(callback); 
